@@ -3,11 +3,14 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen.svg)]()
+[![Live Demo](https://img.shields.io/badge/Live_Demo-ignite--lemon--nu.vercel.app-blueviolet.svg?style=flat&logo=vercel)](https://ignite-lemon-nu.vercel.app)
 [![Version](https://img.shields.io/badge/Version-2.0.0-blue.svg)]()
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110.0-009688.svg?logo=fastapi)](https://fastapi.tiangolo.com)
 [![React](https://img.shields.io/badge/React-18.3.1-61DAFB.svg?logo=react)](https://reactjs.org)
 [![PostGIS](https://img.shields.io/badge/PostGIS-Spatial_ST_Intersects-336791.svg?logo=postgresql)](https://postgis.net)
 [![Coverage](https://img.shields.io/badge/Pan--India-28_States_%2B_8_UTs-orange.svg)]()
+
+🌐 **Live Application**: [https://ignite-lemon-nu.vercel.app](https://ignite-lemon-nu.vercel.app)
 
 ---
 
