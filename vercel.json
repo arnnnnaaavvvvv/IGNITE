@@ -27,7 +27,16 @@
       "dest": "api/index.py"
     },
     {
-      "handle": "filesystem"
+      "src": "/assets/(.*)",
+      "dest": "/apps/web/assets/$1"
+    },
+    {
+      "src": "/favicon.svg",
+      "dest": "/apps/web/favicon.svg"
+    },
+    {
+      "src": "/icons.svg",
+      "dest": "/apps/web/icons.svg"
     },
     {
       "src": "/(.*)",
