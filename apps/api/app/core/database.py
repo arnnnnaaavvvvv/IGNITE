@@ -49,7 +49,10 @@ class TripModel(Base):
     itinerary_json = Column(Text, nullable=True)
 
 # Engine & Session Factory
-engine = create_async_engine(settings.DATABASE_URL, echo=False)
+try:
+    engine = create_async_engine(settings.DATABASE_URL, echo=False)
+except Exception:
+    engine = create_async_engine("sqlite+aiosqlite:///:memory:", echo=False)
 async_session_factory = async_sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
 
 # Spatial Bounding Box Query Engine
