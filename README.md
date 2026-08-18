@@ -300,8 +300,6 @@ All configuration is managed via environment variables or a `.env` file:
 | `OPEN_METEO_URL` | `https://api.open-meteo.com/v1/forecast`| Meteorological API for live precipitation, wind, and alerts. |
 | `OVERPASS_API_URL`| `https://overpass-api.de/api/interpreter` | Overpass QL endpoint for hospital, police, and shelter discovery. |
 | `OSRM_ROUTING_URL`| `https://router.project-osrm.org` | OSRM routing gateway for topological road and walking geometries. |
-| `GEMINI_API_KEY` | `None` *(Optional)* | Google Gemini API key for structured natural-language safety briefings. |
-| `JWT_SECRET` | `safetrail-pan-india-super-secret-key` | Cryptographic secret for HMAC-SHA256 user authentication tokens. |
 | `DEFAULT_CURFEW_HOUR` | `18` | Default fallback sunset curfew hour (IST). |
 
 ---
