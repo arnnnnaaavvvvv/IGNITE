@@ -1,30 +1,75 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Calendar, Wallet, Activity, MapPin, Sparkles, Search } from 'lucide-react';
+import { Calendar, Wallet, Activity, MapPin, Sparkles, Search, Clock, Plus, Minus } from 'lucide-react';
 import type { DestinationSearchResult, RegionType } from '../../types';
 
 interface TripWizardProps {
   onGenerate: (params: {
     destination: string;
     duration_days: number;
+    start_date?: string;
+    end_date?: string;
     budget_tier: string;
     total_budget_inr: number;
     fitness_level: string;
   }) => void;
   isLoading: boolean;
   selectedDestinationName?: string;
+  onPreviewDestination?: (dest: { lat: number; lon: number; name: string } | null) => void;
 }
+
+// Date helpers
+const getTodayIso = () => {
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
+const addDaysIso = (isoDate: string, days: number) => {
+  const [y, m, d] = isoDate.split('-').map(Number);
+  const date = new Date(y, m - 1, d);
+  date.setDate(date.getDate() + days);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const dayStr = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${dayStr}`;
+};
+
+const calcDaysDiff = (startIso: string, endIso: string) => {
+  const [y1, m1, d1] = startIso.split('-').map(Number);
+  const [y2, m2, d2] = endIso.split('-').map(Number);
+  const date1 = new Date(y1, m1 - 1, d1);
+  const date2 = new Date(y2, m2 - 1, d2);
+  const diffTime = date2.getTime() - date1.getTime();
+  const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
+  return Math.max(1, diffDays + 1);
+};
+
+const formatReadableDate = (isoDate: string) => {
+  if (!isoDate) return '';
+  const [y, m, d] = isoDate.split('-').map(Number);
+  const date = new Date(y, m - 1, d);
+  return date.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' });
+};
 
 export const TripWizard: React.FC<TripWizardProps> = ({
   onGenerate,
   isLoading,
-  selectedDestinationName = 'Kedarnath',
+  selectedDestinationName = '',
+  onPreviewDestination,
 }) => {
-  const [searchQuery, setSearchQuery] = useState(selectedDestinationName);
+  const [searchQuery, setSearchQuery] = useState(selectedDestinationName || '');
   const [searchResults, setSearchResults] = useState<DestinationSearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
 
+  // Duration & Custom Dates State
+  const [durationMode, setDurationMode] = useState<'presets' | 'dates' | 'custom_days'>('presets');
+  const [startDate, setStartDate] = useState<string>(getTodayIso());
+  const [endDate, setEndDate] = useState<string>(addDaysIso(getTodayIso(), 1));
   const [durationDays, setDurationDays] = useState(2);
+
   const [budgetTier, setBudgetTier] = useState<'BUDGET' | 'STANDARD' | 'COMFORT'>('STANDARD');
   const [budgetAmount, setBudgetAmount] = useState(12000);
   const [fitnessLevel, setFitnessLevel] = useState<'BEGINNER' | 'MODERATE' | 'EXPERIENCED'>('MODERATE');
@@ -32,27 +77,42 @@ export const TripWizard: React.FC<TripWizardProps> = ({
 
   // Sync prop changes
   useEffect(() => {
-    if (selectedDestinationName) {
+    if (selectedDestinationName !== undefined) {
       setSearchQuery(selectedDestinationName);
     }
   }, [selectedDestinationName]);
 
-  // Live Place Autocomplete Search
+  // Live Place Autocomplete Search & Dynamic Zoom Trigger
   useEffect(() => {
+    if (!searchQuery.trim()) {
+      setSearchResults([]);
+      setIsSearching(false);
+      onPreviewDestination?.(null);
+      return;
+    }
+
     const timer = setTimeout(async () => {
-      if (searchQuery.trim().length > 0) {
-        setIsSearching(true);
-        try {
-          const res = await fetch(`/api/v1/destinations/search?q=${encodeURIComponent(searchQuery)}`);
-          const data = await res.json();
-          setSearchResults(data.results || []);
-        } catch (err) {
-          console.error('Destination search failed:', err);
-        } finally {
-          setIsSearching(false);
+      setIsSearching(true);
+      try {
+        const res = await fetch(`/api/v1/destinations/search?q=${encodeURIComponent(searchQuery)}`);
+        const data = await res.json();
+        const results: DestinationSearchResult[] = data.results || [];
+        setSearchResults(results);
+
+        // If results found with coordinates, zoom map smoothly to top match
+        if (results.length > 0 && results[0].lat && results[0].lon) {
+          onPreviewDestination?.({
+            lat: results[0].lat,
+            lon: results[0].lon,
+            name: results[0].canonical_name,
+          });
         }
+      } catch (err) {
+        console.error('Destination search failed:', err);
+      } finally {
+        setIsSearching(false);
       }
-    }, 250);
+    }, 280);
 
     return () => clearTimeout(timer);
   }, [searchQuery]);
@@ -71,11 +131,53 @@ export const TripWizard: React.FC<TripWizardProps> = ({
   const handleSelectDestination = (dest: DestinationSearchResult) => {
     setSearchQuery(dest.canonical_name);
     setShowDropdown(false);
+    if (dest.lat && dest.lon) {
+      onPreviewDestination?.({
+        lat: dest.lat,
+        lon: dest.lon,
+        name: dest.canonical_name,
+      });
+    }
   };
 
-  const handleQuickPick = (name: string) => {
+  const handleQuickPick = (name: string, lat?: number, lon?: number) => {
     setSearchQuery(name);
     setShowDropdown(false);
+    if (lat && lon) {
+      onPreviewDestination?.({
+        lat,
+        lon,
+        name,
+      });
+    }
+  };
+
+  const handleDurationChange = (days: number) => {
+    const safeDays = Math.max(1, Math.min(30, days));
+    setDurationDays(safeDays);
+    setEndDate(addDaysIso(startDate, safeDays - 1));
+  };
+
+  const handleStartDateChange = (newStart: string) => {
+    setStartDate(newStart);
+    if (newStart > endDate) {
+      const newEnd = addDaysIso(newStart, durationDays - 1);
+      setEndDate(newEnd);
+    } else {
+      const days = calcDaysDiff(newStart, endDate);
+      setDurationDays(days);
+    }
+  };
+
+  const handleEndDateChange = (newEnd: string) => {
+    if (newEnd < startDate) {
+      setEndDate(startDate);
+      setDurationDays(1);
+    } else {
+      setEndDate(newEnd);
+      const days = calcDaysDiff(startDate, newEnd);
+      setDurationDays(days);
+    }
   };
 
   const handleTierChange = (tier: 'BUDGET' | 'STANDARD' | 'COMFORT') => {
@@ -90,6 +192,8 @@ export const TripWizard: React.FC<TripWizardProps> = ({
     onGenerate({
       destination: searchQuery,
       duration_days: durationDays,
+      start_date: startDate,
+      end_date: endDate,
       budget_tier: budgetTier,
       total_budget_inr: budgetAmount,
       fitness_level: fitnessLevel,
@@ -110,6 +214,45 @@ export const TripWizard: React.FC<TripWizardProps> = ({
         return { label: '🏛️ Urban / Heritage', color: 'bg-purple-500/15 text-purple-300 border-purple-500/30' };
     }
   };
+
+  // Pacing status based on duration
+  const getPacingInsights = (days: number) => {
+    if (days === 1) {
+      return {
+        badge: '⚡ Ultra-Express Pacing',
+        color: 'text-amber-400 border-amber-500/40 bg-amber-500/10',
+        desc: 'Concentrated full-day load. Strict 07:00 IST start required to beat dusk curfews.',
+      };
+    }
+    if (days === 2) {
+      return {
+        badge: '🛡️ Standard Safe Pacing',
+        color: 'text-emerald-400 border-emerald-500/40 bg-emerald-500/10',
+        desc: 'Optimal baseline split with overnight recovery and safe elevation progression.',
+      };
+    }
+    if (days <= 4) {
+      return {
+        badge: '🌿 Acclimatized Safe Pacing',
+        color: 'text-cyan-400 border-cyan-500/40 bg-cyan-500/10',
+        desc: 'Gradual altitude & terrain adaptation. Lowest hypoxia & cardiovascular stress.',
+      };
+    }
+    if (days <= 7) {
+      return {
+        badge: '🏔️ Extended Exploration & Buffer',
+        color: 'text-indigo-400 border-indigo-500/40 bg-indigo-500/10',
+        desc: 'Comprehensive multi-sector circuit with scheduled weather buffers & rest intervals.',
+      };
+    }
+    return {
+      badge: '🚩 Grand Multi-Stage Expedition',
+      color: 'text-purple-400 border-purple-500/40 bg-purple-500/10',
+      desc: 'Deep regional traverse with dedicated acclimatization rest halts & supply logistics.',
+    };
+  };
+
+  const pacing = getPacingInsights(durationDays);
 
   return (
     <div className="glass-panel p-6 rounded-2xl border border-slate-800 shadow-xl relative overflow-visible">
@@ -192,61 +335,235 @@ export const TripWizard: React.FC<TripWizardProps> = ({
             <span className="text-slate-500 shrink-0">Popular:</span>
             <button
               type="button"
-              onClick={() => handleQuickPick('Kedarnath')}
+              onClick={() => handleQuickPick('Kedarnath Dham', 30.7352, 79.0669)}
               className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 shrink-0 cursor-pointer"
             >
               🏔️ Kedarnath (Himalayas)
             </button>
             <button
               type="button"
-              onClick={() => handleQuickPick('Puri & Golden Beach Corridor')}
+              onClick={() => handleQuickPick('Puri Beach', 19.8135, 85.8312)}
               className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 shrink-0 cursor-pointer"
             >
               🏖️ Puri Beach (Coastal)
             </button>
             <button
               type="button"
-              onClick={() => handleQuickPick('Kaziranga National Park')}
+              onClick={() => handleQuickPick('Kaziranga National Park', 26.5775, 93.1711)}
               className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 shrink-0 cursor-pointer"
             >
               🐅 Kaziranga (Forest)
             </button>
             <button
               type="button"
-              onClick={() => handleQuickPick('Jaisalmer & Sam Sand Dunes')}
+              onClick={() => handleQuickPick('Jaisalmer Sand Dunes', 26.9157, 70.9083)}
               className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 shrink-0 cursor-pointer"
             >
               🏜️ Jaisalmer (Desert)
             </button>
+            <button
+              type="button"
+              onClick={() => handleQuickPick('Varanasi Dashashwamedh Ghat', 25.3176, 82.9739)}
+              className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 shrink-0 cursor-pointer"
+            >
+              🏛️ Varanasi (Heritage)
+            </button>
           </div>
         </div>
 
-        {/* Duration Selector */}
-        <div>
-          <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5 mb-2">
-            <Calendar className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Trip Duration & Acclimatized Pacing</span>
-          </label>
-          <div className="grid grid-cols-3 gap-2">
-            {[
-              { days: 1, label: '1 Day', sub: 'Express Circuit' },
-              { days: 2, label: '2 Days', sub: 'Standard Safe' },
-              { days: 3, label: '3 Days', sub: 'Relaxed / Deep Explore' },
-            ].map((item) => (
+        {/* Enhanced Trip Duration & Acclimatized Pacing with Custom Dates & Days */}
+        <div className="bg-slate-900/40 border border-slate-800/80 p-3.5 rounded-xl space-y-3">
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+              <Calendar className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Trip Duration & Acclimatized Pacing</span>
+            </label>
+
+            {/* Mode Switcher Tabs */}
+            <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800 text-[10px]">
               <button
                 type="button"
-                key={item.days}
-                onClick={() => setDurationDays(item.days)}
-                className={`py-2 px-2 rounded-xl text-center border transition-all cursor-pointer ${
-                  durationDays === item.days
-                    ? 'bg-emerald-500/20 border-emerald-500/60 text-emerald-300 shadow-sm'
-                    : 'bg-slate-900 border-slate-800 text-slate-400 hover:border-slate-700'
+                onClick={() => setDurationMode('presets')}
+                className={`px-2 py-0.5 rounded-md font-semibold transition-all cursor-pointer ${
+                  durationMode === 'presets'
+                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                    : 'text-slate-400 hover:text-white'
                 }`}
               >
-                <div className="text-xs font-bold">{item.label}</div>
-                <div className="text-[10px] text-slate-400 truncate">{item.sub}</div>
+                Presets
               </button>
-            ))}
+              <button
+                type="button"
+                onClick={() => setDurationMode('dates')}
+                className={`px-2 py-0.5 rounded-md font-semibold transition-all cursor-pointer ${
+                  durationMode === 'dates'
+                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                📅 Custom Dates
+              </button>
+              <button
+                type="button"
+                onClick={() => setDurationMode('custom_days')}
+                className={`px-2 py-0.5 rounded-md font-semibold transition-all cursor-pointer ${
+                  durationMode === 'custom_days'
+                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                🔢 Exact Days
+              </button>
+            </div>
+          </div>
+
+          {/* Preset Buttons Mode */}
+          {durationMode === 'presets' && (
+            <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-7 gap-2">
+              {[
+                { days: 1, label: '1 Day', sub: 'Express' },
+                { days: 2, label: '2 Days', sub: 'Standard' },
+                { days: 3, label: '3 Days', sub: 'Relaxed' },
+                { days: 5, label: '5 Days', sub: 'Extended' },
+                { days: 7, label: '7 Days', sub: 'Full Circuit' },
+                { days: 14, label: '14 Days', sub: 'Expedition' },
+                { days: 30, label: '30 Days', sub: 'Grand Trek' },
+              ].map((item) => (
+                <button
+                  type="button"
+                  key={item.days}
+                  onClick={() => handleDurationChange(item.days)}
+                  className={`py-2 px-2 rounded-xl text-center border transition-all cursor-pointer ${
+                    durationDays === item.days
+                      ? 'bg-emerald-500/20 border-emerald-500/60 text-emerald-300 shadow-sm'
+                      : 'bg-slate-900 border-slate-800 text-slate-400 hover:border-slate-700'
+                  }`}
+                >
+                  <div className="text-xs font-bold">{item.label}</div>
+                  <div className="text-[9px] text-slate-400 truncate">{item.sub}</div>
+                </button>
+              ))}
+            </div>
+          )}
+
+          {/* Custom Date Range Picker Mode */}
+          {durationMode === 'dates' && (
+            <div className="space-y-2.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <div className="space-y-1">
+                  <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1">
+                    <Clock className="w-3 h-3 text-emerald-400" />
+                    <span>Departure Date</span>
+                  </label>
+                  <input
+                    type="date"
+                    value={startDate}
+                    min={getTodayIso()}
+                    onChange={(e) => handleStartDateChange(e.target.value)}
+                    className="w-full bg-slate-950 border border-slate-700/90 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 transition-all [color-scheme:dark]"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1">
+                    <Clock className="w-3 h-3 text-cyan-400" />
+                    <span>Return Date</span>
+                  </label>
+                  <input
+                    type="date"
+                    value={endDate}
+                    min={startDate}
+                    onChange={(e) => handleEndDateChange(e.target.value)}
+                    className="w-full bg-slate-950 border border-slate-700/90 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 transition-all [color-scheme:dark]"
+                  />
+                </div>
+              </div>
+
+              {/* Quick Date Duration Shifters */}
+              <div className="flex items-center gap-1.5 flex-wrap pt-1 text-[10px]">
+                <span className="text-slate-500">Quick adjust:</span>
+                {[1, 2, 3, 5, 7, 10, 14, 21, 30].map((d) => (
+                  <button
+                    type="button"
+                    key={d}
+                    onClick={() => handleDurationChange(d)}
+                    className={`px-2 py-0.5 rounded-md border text-[10px] font-medium transition-all cursor-pointer ${
+                      durationDays === d
+                        ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50 font-bold'
+                        : 'bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-700'
+                    }`}
+                  >
+                    {d} {d === 1 ? 'Day' : 'Days'}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Exact Days Stepper & Slider Mode */}
+          {durationMode === 'custom_days' && (
+            <div className="space-y-3">
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => handleDurationChange(durationDays - 1)}
+                    disabled={durationDays <= 1}
+                    className="w-8 h-8 rounded-lg bg-slate-950 border border-slate-800 hover:border-slate-700 text-slate-300 flex items-center justify-center disabled:opacity-30 cursor-pointer"
+                  >
+                    <Minus className="w-3.5 h-3.5" />
+                  </button>
+
+                  <div className="px-4 py-1.5 rounded-lg bg-slate-950 border border-emerald-500/40 text-center min-w-[100px]">
+                    <span className="text-sm font-mono font-black text-emerald-300">{durationDays}</span>
+                    <span className="text-xs text-slate-400 ml-1 font-semibold">{durationDays === 1 ? 'Day' : 'Days'}</span>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => handleDurationChange(durationDays + 1)}
+                    disabled={durationDays >= 30}
+                    className="w-8 h-8 rounded-lg bg-slate-950 border border-slate-800 hover:border-slate-700 text-slate-300 flex items-center justify-center disabled:opacity-30 cursor-pointer"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+
+                <div className="text-right text-[11px] text-slate-400 font-mono">
+                  Range: 1 to 30 Days
+                </div>
+              </div>
+
+              <input
+                type="range"
+                min={1}
+                max={30}
+                step={1}
+                value={durationDays}
+                onChange={(e) => handleDurationChange(Number(e.target.value))}
+                className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+              />
+              <div className="flex justify-between text-[10px] text-slate-500 font-mono">
+                <span>Min: 1 Day</span>
+                <span>Max: 30 Days</span>
+              </div>
+            </div>
+          )}
+
+          {/* Dynamic Acclimatization Pacing Status Card */}
+          <div className="p-3 rounded-xl bg-slate-950/90 border border-slate-800/90 space-y-2">
+            <div className="flex items-center justify-between gap-2 flex-wrap">
+              <span className={`text-[11px] px-2.5 py-1 rounded-lg font-bold border whitespace-nowrap shrink-0 flex items-center gap-1.5 ${pacing.color}`}>
+                {pacing.badge}
+              </span>
+              <span className="text-xs font-mono font-bold text-slate-200 whitespace-nowrap">
+                {formatReadableDate(startDate)} ➔ {formatReadableDate(endDate)} ({durationDays} {durationDays === 1 ? 'Day' : 'Days'})
+              </span>
+            </div>
+            <div className="text-[11px] text-slate-400 leading-relaxed border-t border-slate-800/80 pt-1.5 flex items-start gap-1.5">
+              <span className="text-slate-500 shrink-0">💡</span>
+              <span>{pacing.desc}</span>
+            </div>
           </div>
         </div>
 

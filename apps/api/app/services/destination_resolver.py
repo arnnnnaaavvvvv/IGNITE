@@ -60,7 +60,9 @@ class DestinationResolver:
                     "state_ut": d["state_ut"],
                     "region_type": d["region_type"],
                     "region_name": REGION_CONFIGS[d["region_type"]]["name"],
-                    "elevation_m": d["elevation_m"]
+                    "elevation_m": d["elevation_m"],
+                    "lat": d.get("lat", 20.5937),
+                    "lon": d.get("lon", 78.9629)
                 }
                 for d in PAN_INDIA_DESTINATIONS
             ]
@@ -77,7 +79,9 @@ class DestinationResolver:
                     "state_ut": d["state_ut"],
                     "region_type": d["region_type"],
                     "region_name": REGION_CONFIGS[d["region_type"]]["name"],
-                    "elevation_m": d["elevation_m"]
+                    "elevation_m": d["elevation_m"],
+                    "lat": d.get("lat", 20.5937),
+                    "lon": d.get("lon", 78.9629)
                 })
 
         # 2. Query live Nominatim API for dynamic place suggestions across India

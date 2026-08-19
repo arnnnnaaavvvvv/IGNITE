@@ -17,7 +17,7 @@ import type {
   ItineraryResponse,
   SimulationScenario,
 } from './types';
-import { Mountain, AlertTriangle, WifiOff, CheckCircle } from 'lucide-react';
+import { AlertTriangle, WifiOff, CheckCircle, MapPin } from 'lucide-react';
 
 export function App() {
   const [activeTab, setActiveTab] = useState<'map' | 'itinerary' | 'explainability' | 'simulation' | 'group'>('map');
@@ -29,7 +29,8 @@ export function App() {
   const [currentUser, setCurrentUser] = useState<any>(OfflineCacheService.getUserSession() || { name: 'Tourist Guest' });
 
   // Core Destination & Map Data States
-  const [currentDestinationName, setCurrentDestinationName] = useState('Kedarnath Dham');
+  const [currentDestinationName, setCurrentDestinationName] = useState('');
+  const [previewCoordinates, setPreviewCoordinates] = useState<{ lat: number; lon: number; name: string } | null>(null);
   const [checkpoints, setCheckpoints] = useState<Checkpoint[]>([]);
   const [hazardZones, setHazardZones] = useState<HazardZone[]>([]);
   const [shelters, setShelters] = useState<EmergencyShelter[]>([]);
@@ -52,43 +53,16 @@ export function App() {
 
   const wsClientRef = useRef<SafeTrailWebSocketClient | null>(null);
 
-  // Initialize WebSocket & Initial Trip Load
+  // Initialize WebSocket & Initial Scenarios Load
   useEffect(() => {
     async function loadInitialData() {
-      let cachedItinerary: ItineraryResponse | null = null;
-      try {
-        const cached = await OfflineCacheService.getCachedTrip();
-        if (cached.itinerary) {
-          cachedItinerary = cached.itinerary;
-          setItinerary(cached.itinerary);
-          setCurrentDestinationName(cached.itinerary.destination);
-          setMainTrail(cached.itinerary.trail_coords || []);
-          setBypassTrail(cached.itinerary.bypass_coords || []);
-          setHazardZones(cached.itinerary.hazard_zones || []);
-          setShelters(cached.itinerary.shelters || []);
-          setCachedTime(cached.cachedAt);
-        }
-      } catch (e) {
-        console.warn('Error reading from offline storage:', e);
-      }
-
       try {
         const scRes = await fetch('/api/v1/simulation/scenarios');
         const scData = await scRes.json();
         setScenarios(scData.scenarios || []);
-
-        if (!cachedItinerary) {
-          await generateItinerary({
-            destination: 'Kedarnath Dham',
-            duration_days: 2,
-            budget_tier: 'STANDARD',
-            total_budget_inr: 12000,
-            fitness_level: 'MODERATE',
-          });
-        }
       } catch (err) {
-        console.warn('Network offline or backend reconnecting. Utilizing offline cached itinerary.', err);
-        setIsOfflineMode(true);
+        console.warn('Backend scenarios notice:', err);
+        setCachedTime(new Date().toISOString());
       }
     }
     loadInitialData();
@@ -121,10 +95,15 @@ export function App() {
   const generateItinerary = async (params: {
     destination: string;
     duration_days: number;
+    start_date?: string;
+    end_date?: string;
     budget_tier: string;
     total_budget_inr: number;
     fitness_level: string;
   }) => {
+    if (!params.destination || !params.destination.trim()) {
+      return;
+    }
     setIsGenerating(true);
     try {
       const res = await fetch('/api/v1/itinerary/generate', {
@@ -139,6 +118,7 @@ export function App() {
       const data: ItineraryResponse = await res.json();
       setItinerary(data);
       setCurrentDestinationName(data.destination);
+      setPreviewCoordinates(null);
       setMainTrail(data.trail_coords || []);
       setBypassTrail(data.bypass_coords || []);
       setHazardZones(data.hazard_zones || []);
@@ -174,6 +154,17 @@ export function App() {
     } finally {
       setIsGenerating(false);
     }
+  };
+
+  const handleResetToIndia = () => {
+    setPreviewCoordinates(null);
+    setCurrentDestinationName('');
+    setMainTrail([]);
+    setBypassTrail([]);
+    setCheckpoints([]);
+    setHazardZones([]);
+    setShelters([]);
+    setItinerary(null);
   };
 
   // Live Scenario Injection Handler (Multi-Region Pan-India Demo)
@@ -279,6 +270,8 @@ export function App() {
                   isBypassActive={isBypassActive}
                   destinationName={currentDestinationName}
                   regionType={itinerary?.region_type}
+                  previewCoordinates={previewCoordinates}
+                  onResetToIndia={handleResetToIndia}
                   onSelectCheckpoint={(cp) => setSelectedCheckpoint(cp)}
                 />
               </div>
@@ -288,6 +281,10 @@ export function App() {
                   onGenerate={generateItinerary}
                   isLoading={isGenerating}
                   selectedDestinationName={currentDestinationName}
+                  onPreviewDestination={(dest) => {
+                    setPreviewCoordinates(dest);
+                    if (dest) setCurrentDestinationName(dest.name);
+                  }}
                 />
               </div>
             </div>
@@ -306,9 +303,22 @@ export function App() {
                 }}
               />
             ) : (
-              <div className="glass-panel p-12 rounded-2xl text-center text-slate-400">
-                <Mountain className="w-12 h-12 mx-auto mb-3 text-emerald-400 opacity-50" />
-                <p>Generating safe itinerary matrices...</p>
+              <div className="glass-panel p-12 rounded-2xl text-center text-slate-300 max-w-lg mx-auto space-y-4 my-8">
+                <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center mx-auto text-emerald-400">
+                  <MapPin className="w-7 h-7" />
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-white mb-1">No Active Itinerary Generated</h3>
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    Search any Indian destination in the Map & Planner tab and click <span className="text-emerald-400 font-semibold">&ldquo;Generate Safe Itinerary &amp; Risk Matrix&rdquo;</span> to synthesize a tailored schedule with verified safety protocols.
+                  </p>
+                </div>
+                <button
+                  onClick={() => setActiveTab('map')}
+                  className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all cursor-pointer shadow-lg shadow-emerald-600/30"
+                >
+                  Go to Map &amp; Planner
+                </button>
               </div>
             )}
           </div>

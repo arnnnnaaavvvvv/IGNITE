@@ -9,7 +9,9 @@ router = APIRouter(prefix="/itinerary", tags=["Itinerary & Budget Planner"])
 
 class ItineraryRequest(BaseModel):
     destination: str = Field(default="Kedarnath", description="Any target destination in India")
-    duration_days: int = Field(default=2, ge=1, le=3, description="Duration in days")
+    duration_days: int = Field(default=2, ge=1, le=30, description="Duration in days")
+    start_date: Optional[str] = Field(default=None, description="Start date in YYYY-MM-DD format")
+    end_date: Optional[str] = Field(default=None, description="End date in YYYY-MM-DD format")
     budget_tier: str = Field(default="STANDARD", description="BUDGET, STANDARD, or COMFORT")
     total_budget_inr: float = Field(default=12000.0, ge=1000.0, description="Total budget in INR")
     fitness_level: str = Field(default="MODERATE", description="BEGINNER, MODERATE, or EXPERIENCED")
@@ -20,11 +22,13 @@ class ItineraryRequest(BaseModel):
 async def generate_itinerary(req: ItineraryRequest):
     """
     Computes a risk-weighted, budget-allocated, and region-tailored itinerary for any destination in India.
-    Integrates live Overpass POIs, OSRM polylines, and structured LLM reasoning.
+    Integrates live Overpass POIs, OSRM polylines, custom dates, and structured LLM reasoning.
     """
     itinerary = await ItineraryService.generate_itinerary(
         destination_query=req.destination,
         duration_days=req.duration_days,
+        start_date=req.start_date,
+        end_date=req.end_date,
         budget_tier=req.budget_tier,
         total_budget_inr=req.total_budget_inr,
         fitness_level=req.fitness_level,

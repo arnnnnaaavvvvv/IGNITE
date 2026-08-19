@@ -69,6 +69,8 @@ export interface ItineraryItem {
 
 export interface DayPlan {
   day_number: number;
+  date?: string;
+  date_display?: string;
   title: string;
   title_hi?: string;
   distance_km: number;
@@ -96,6 +98,8 @@ export interface ItineraryResponse {
   region_name: string;
   emergency_agency: string;
   duration_days: number;
+  start_date?: string;
+  end_date?: string;
   fitness_level: string;
   overall_safety_score: number;
   overall_risk_category: 'LOW' | 'MODERATE' | 'HIGH' | 'CRITICAL';
@@ -124,6 +128,8 @@ export interface DestinationSearchResult {
   region_type: RegionType;
   region_name: string;
   elevation_m: number;
+  lat?: number;
+  lon?: number;
 }
 
 export interface SimulationScenario {

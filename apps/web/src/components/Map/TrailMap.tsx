@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import type { Checkpoint, HazardZone, EmergencyShelter } from '../../types';
-import { ShieldCheck, AlertOctagon, Compass } from 'lucide-react';
+import { ShieldCheck, AlertOctagon, Compass, MapPin, Globe } from 'lucide-react';
 
 interface TrailMapProps {
   checkpoints: Checkpoint[];
@@ -15,6 +15,8 @@ interface TrailMapProps {
   onSelectCheckpoint?: (cp: Checkpoint) => void;
   destinationName?: string;
   regionType?: string;
+  previewCoordinates?: { lat: number; lon: number; name?: string } | null;
+  onResetToIndia?: () => void;
 }
 
 export const TrailMap: React.FC<TrailMapProps> = ({
@@ -27,8 +29,10 @@ export const TrailMap: React.FC<TrailMapProps> = ({
   activeHazardId,
   isBypassActive = false,
   onSelectCheckpoint,
-  destinationName = 'Destination',
+  destinationName = '',
   regionType = 'HILL_MOUNTAIN',
+  previewCoordinates = null,
+  onResetToIndia,
 }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
@@ -39,15 +43,15 @@ export const TrailMap: React.FC<TrailMapProps> = ({
   const [showCheckpoints, setShowCheckpoints] = useState(true);
   const [selectedItem, setSelectedItem] = useState<any>(null);
 
-  // Initialize Leaflet Map
+  // Initialize Leaflet Map centered on India by default
   useEffect(() => {
     if (!mapContainerRef.current) return;
 
     if (!mapInstanceRef.current) {
       const map = L.map(mapContainerRef.current, {
-        center: [30.6400, 79.0700],
-        zoom: 12,
-        minZoom: 5,
+        center: [22.8000, 79.5000],
+        zoom: 4.8,
+        minZoom: 4,
         maxZoom: 18,
         zoomControl: false,
       });
@@ -65,6 +69,7 @@ export const TrailMap: React.FC<TrailMapProps> = ({
       layersRef.current.hazards = L.layerGroup().addTo(map);
       layersRef.current.shelters = L.layerGroup().addTo(map);
       layersRef.current.checkpoints = L.layerGroup().addTo(map);
+      layersRef.current.preview = L.layerGroup().addTo(map);
       layersRef.current.user = L.layerGroup().addTo(map);
 
       mapInstanceRef.current = map;
@@ -76,9 +81,12 @@ export const TrailMap: React.FC<TrailMapProps> = ({
     const map = mapInstanceRef.current;
     if (!map) return;
 
-    // 1. Draw Main Trail Polyline & Fit Bounds
+    // 1. Draw Main Trail Polyline & Fit Bounds if itinerary is active
     layersRef.current.trails.clearLayers();
     if (mainTrailCoords && mainTrailCoords.length > 0) {
+      // Clear any preview markers
+      layersRef.current.preview.clearLayers();
+
       const latlngs: L.LatLngExpression[] = mainTrailCoords.map((c) => [c[1], c[0]]);
       
       const trailPolyline = L.polyline(latlngs, {
@@ -115,10 +123,49 @@ export const TrailMap: React.FC<TrailMapProps> = ({
       // Smoothly re-center map bounds to active destination
       try {
         const bounds = L.latLngBounds(latlngs);
-        map.flyToBounds(bounds, { padding: [40, 40], maxZoom: 13, duration: 1.2 });
+        map.flyToBounds(bounds, { padding: [50, 50], maxZoom: 13, duration: 1.3 });
       } catch (err) {
         console.error('Failed to fit map bounds:', err);
       }
+    } else if (previewCoordinates && previewCoordinates.lat && previewCoordinates.lon) {
+      // 2. User typed / selected destination: Fly directly to place & drop pulsing target pin
+      layersRef.current.preview.clearLayers();
+      layersRef.current.hazards.clearLayers();
+      layersRef.current.shelters.clearLayers();
+      layersRef.current.checkpoints.clearLayers();
+
+      const previewIcon = L.divIcon({
+        className: 'custom-preview-icon',
+        html: `
+          <div style="position: relative; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;">
+            <div class="target-beacon-pulse" style="position: absolute; width: 36px; height: 36px; border-radius: 50%; background: rgba(16, 185, 129, 0.45);"></div>
+            <div style="position: relative; z-index: 10; width: 22px; height: 22px; border-radius: 50%; background: #10b981; border: 2.5px solid white; box-shadow: 0 0 15px rgba(16, 185, 129, 0.8); display: flex; align-items: center; justify-content: center;">
+              <div style="width: 6px; height: 6px; border-radius: 50%; background: white;"></div>
+            </div>
+          </div>
+        `,
+        iconSize: [36, 36],
+        iconAnchor: [18, 18],
+      });
+
+      const marker = L.marker([previewCoordinates.lat, previewCoordinates.lon], { icon: previewIcon });
+      marker.bindTooltip(`📍 ${previewCoordinates.name || 'Selected Destination'}`, {
+        permanent: true,
+        direction: 'top',
+        offset: [0, -14],
+        className: 'bg-slate-950 text-emerald-300 text-xs font-bold px-2.5 py-1 rounded-lg border border-emerald-500/60 shadow-xl',
+      });
+      layersRef.current.preview.addLayer(marker);
+
+      map.flyTo([previewCoordinates.lat, previewCoordinates.lon], 12, { duration: 1.5, easeLinearity: 0.25 });
+    } else {
+      // 3. No active itinerary and no preview -> smooth Pan-India overview
+      layersRef.current.preview.clearLayers();
+      layersRef.current.trails.clearLayers();
+      layersRef.current.hazards.clearLayers();
+      layersRef.current.shelters.clearLayers();
+      layersRef.current.checkpoints.clearLayers();
+      map.flyTo([22.8000, 79.5000], 4.8, { duration: 1.2 });
     }
 
     // 2. Draw Hazard Zones (PostGIS Polygons)
@@ -232,8 +279,12 @@ export const TrailMap: React.FC<TrailMapProps> = ({
     showCheckpoints,
     onSelectCheckpoint,
     destinationName,
-    regionType
+    regionType,
+    previewCoordinates,
   ]);
+
+  const hasActiveTrail = mainTrailCoords && mainTrailCoords.length > 0;
+  const isPreviewing = previewCoordinates && previewCoordinates.lat;
 
   return (
     <div className="relative w-full h-[620px] rounded-2xl overflow-hidden border border-slate-800 shadow-2xl glass-panel">
@@ -241,53 +292,94 @@ export const TrailMap: React.FC<TrailMapProps> = ({
 
       {/* Layer Toggle Controls Floating Bar */}
       <div className="absolute top-4 left-4 z-10 flex flex-wrap gap-2">
-        <button
-          onClick={() => setShowHazards(!showHazards)}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold backdrop-blur-md transition-all shadow-md cursor-pointer ${
-            showHazards
-              ? 'bg-orange-500/80 text-white border border-orange-400'
-              : 'bg-slate-900/80 text-slate-400 border border-slate-700'
-          }`}
-        >
-          <AlertOctagon className="w-3.5 h-3.5" />
-          <span>Regional Hazards ({hazardZones ? hazardZones.length : 0})</span>
-        </button>
+        {hasActiveTrail && (
+          <>
+            <button
+              onClick={() => setShowHazards(!showHazards)}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold backdrop-blur-md transition-all shadow-md cursor-pointer ${
+                showHazards
+                  ? 'bg-orange-500/80 text-white border border-orange-400'
+                  : 'bg-slate-900/80 text-slate-400 border border-slate-700'
+              }`}
+            >
+              <AlertOctagon className="w-3.5 h-3.5" />
+              <span>Regional Hazards ({hazardZones ? hazardZones.length : 0})</span>
+            </button>
 
-        <button
-          onClick={() => setShowShelters(!showShelters)}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold backdrop-blur-md transition-all shadow-md cursor-pointer ${
-            showShelters
-              ? 'bg-sky-600/80 text-white border border-sky-400'
-              : 'bg-slate-900/80 text-slate-400 border border-slate-700'
-          }`}
-        >
-          <ShieldCheck className="w-3.5 h-3.5" />
-          <span>Emergency Shelters</span>
-        </button>
+            <button
+              onClick={() => setShowShelters(!showShelters)}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold backdrop-blur-md transition-all shadow-md cursor-pointer ${
+                showShelters
+                  ? 'bg-sky-600/80 text-white border border-sky-400'
+                  : 'bg-slate-900/80 text-slate-400 border border-slate-700'
+              }`}
+            >
+              <ShieldCheck className="w-3.5 h-3.5" />
+              <span>Emergency Shelters</span>
+            </button>
 
-        <button
-          onClick={() => setShowCheckpoints(!showCheckpoints)}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold backdrop-blur-md transition-all shadow-md cursor-pointer ${
-            showCheckpoints
-              ? 'bg-emerald-600/80 text-white border border-emerald-400'
-              : 'bg-slate-900/80 text-slate-400 border border-slate-700'
-          }`}
-        >
-          <Compass className="w-3.5 h-3.5" />
-          <span>Checkpoints ({checkpoints ? checkpoints.length : 0})</span>
-        </button>
+            <button
+              onClick={() => setShowCheckpoints(!showCheckpoints)}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold backdrop-blur-md transition-all shadow-md cursor-pointer ${
+                showCheckpoints
+                  ? 'bg-emerald-600/80 text-white border border-emerald-400'
+                  : 'bg-slate-900/80 text-slate-400 border border-slate-700'
+              }`}
+            >
+              <Compass className="w-3.5 h-3.5" />
+              <span>Checkpoints ({checkpoints ? checkpoints.length : 0})</span>
+            </button>
+          </>
+        )}
+
+        {(hasActiveTrail || isPreviewing) && onResetToIndia && (
+          <button
+            type="button"
+            onClick={onResetToIndia}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-900/90 hover:bg-slate-800 text-slate-300 border border-slate-700 backdrop-blur-md transition-all shadow-md cursor-pointer"
+          >
+            <Globe className="w-3.5 h-3.5 text-emerald-400" />
+            <span>Pan-India Overview</span>
+          </button>
+        )}
       </div>
 
-      {/* Dynamic Status Banner */}
-      {isBypassActive && (
-        <div className="absolute top-4 right-4 z-10 max-w-sm glass-panel bg-red-950/80 border-red-500 text-red-200 px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-3 animate-pulse">
-          <AlertOctagon className="w-6 h-6 text-red-400 shrink-0" />
-          <div>
-            <div className="text-xs font-black tracking-wide text-red-300">DYNAMIC REROUTE ACTIVE</div>
-            <div className="text-[11px] text-slate-300">Regional hazard spike detected. Safe bypass corridor engaged.</div>
+      {/* Top Center Floating Status Pill */}
+      <div className="absolute top-4 right-4 z-10">
+        {isBypassActive ? (
+          <div className="max-w-sm glass-panel bg-red-950/85 border-red-500 text-red-200 px-3.5 py-2 rounded-xl shadow-2xl flex items-center gap-2.5 animate-pulse">
+            <AlertOctagon className="w-5 h-5 text-red-400 shrink-0" />
+            <div>
+              <div className="text-xs font-black tracking-wide text-red-300">DYNAMIC REROUTE ACTIVE</div>
+              <div className="text-[10px] text-slate-300">Hazard spike detected. Safe bypass engaged.</div>
+            </div>
           </div>
-        </div>
-      )}
+        ) : hasActiveTrail ? (
+          <div className="glass-panel bg-slate-950/85 border-emerald-500/40 text-emerald-300 px-3 py-1.5 rounded-xl shadow-xl flex items-center gap-2 text-xs font-medium backdrop-blur-md">
+            <MapPin className="w-3.5 h-3.5 text-emerald-400" />
+            <span>{destinationName} Corridor</span>
+            <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full font-mono font-bold">
+              ACTIVE ROUTE
+            </span>
+          </div>
+        ) : isPreviewing ? (
+          <div className="glass-panel bg-slate-950/90 border-cyan-500/40 text-cyan-200 px-3.5 py-2 rounded-xl shadow-xl flex items-center gap-2 text-xs font-medium backdrop-blur-md animate-pulse">
+            <MapPin className="w-4 h-4 text-cyan-400 shrink-0" />
+            <div>
+              <div className="font-bold text-white text-xs">{previewCoordinates?.name}</div>
+              <div className="text-[10px] text-slate-400">Target locked • Click &apos;Generate Safe Itinerary&apos;</div>
+            </div>
+          </div>
+        ) : (
+          <div className="glass-panel bg-slate-950/80 border-slate-700/80 text-slate-300 px-3 py-1.5 rounded-xl shadow-xl flex items-center gap-2 text-xs font-medium backdrop-blur-md">
+            <Globe className="w-3.5 h-3.5 text-emerald-400" />
+            <span>Pan-India Sovereign Safety Grid</span>
+            <span className="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full font-mono">
+              28 States & 8 UTs
+            </span>
+          </div>
+        )}
+      </div>
 
       {/* Selection Details Floating Modal Card */}
       {selectedItem && (

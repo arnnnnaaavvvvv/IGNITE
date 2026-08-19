@@ -55,6 +55,25 @@
   animation: radar-pulse 2s infinite cubic-bezier(0.45, 0, 0.55, 1);
 }
 
+@keyframes target-beacon {
+  0% {
+    transform: scale(0.8);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.8);
+  }
+  70% {
+    transform: scale(1.15);
+    box-shadow: 0 0 0 24px rgba(16, 185, 129, 0);
+  }
+  100% {
+    transform: scale(0.8);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+.target-beacon-pulse {
+  animation: target-beacon 1.8s infinite cubic-bezier(0.45, 0, 0.55, 1);
+}
+
 /* Custom styled scrollbars */
 ::-webkit-scrollbar {
   width: 6px;

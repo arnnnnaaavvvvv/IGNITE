@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta, date
 from typing import Dict, Any, List, Optional
 from app.services.destination_resolver import DestinationResolver
 from app.services.adaptive_risk_engine import AdaptiveRiskEngine
@@ -6,7 +7,7 @@ from app.core.region_rules import RegionRuleManager
 class ItineraryService:
     """
     Generalized Pan-India Itinerary & Logistics Optimization Service.
-    Generates multi-day safety plans for any destination in India.
+    Generates multi-day safety plans for any destination in India with custom dates and pacing.
     """
 
     @classmethod
@@ -14,6 +15,8 @@ class ItineraryService:
         cls,
         destination_query: str,
         duration_days: int = 2,
+        start_date: Optional[str] = None,
+        end_date: Optional[str] = None,
         budget_tier: str = "STANDARD",
         total_budget_inr: float = 12000.0,
         fitness_level: str = "MODERATE",
@@ -21,89 +24,137 @@ class ItineraryService:
         weather_override: Optional[Dict[str, Any]] = None
     ) -> Dict[str, Any]:
         """
-        Dynamically resolves place and generates safety-weighted itinerary.
+        Dynamically resolves place and generates safety-weighted itinerary with custom date ranges.
         """
         dest = await DestinationResolver.resolve(destination_query)
         region_type = dest.get("region_type", "HILL_MOUNTAIN")
         region_profile = RegionRuleManager.get_profile(region_type)
-        
-        days_count = max(1, min(3, duration_days))
+
+        # Parse and sanitize date range
+        dt_start = date.today()
+        if start_date:
+            try:
+                dt_start = datetime.strptime(start_date, "%Y-%m-%d").date()
+            except Exception:
+                dt_start = date.today()
+
+        days_count = max(1, min(30, duration_days))
+        if end_date:
+            try:
+                dt_end = datetime.strptime(end_date, "%Y-%m-%d").date()
+                calc_days = (dt_end - dt_start).days + 1
+                if calc_days >= 1:
+                    days_count = max(1, min(30, calc_days))
+            except Exception:
+                pass
+
+        dt_end = dt_start + timedelta(days=days_count - 1)
+        start_date_str = dt_start.strftime("%Y-%m-%d")
+        end_date_str = dt_end.strftime("%Y-%m-%d")
+
         checkpoints = dest.get("checkpoints", [])
         hazard_zones = dest.get("hazard_zones", [])
 
         # Budget Allocation with 15% emergency reserve
         budget_summary = cls._calculate_regional_budget(total_budget_inr, budget_tier, days_count, region_type)
 
-        # Build day-wise plan
+        # Build dynamic day-wise plan
         days_plan = []
         overall_scores = []
+        total_cps = len(checkpoints)
 
-        if days_count == 1:
-            day_cps = checkpoints
+        for day_idx in range(1, days_count + 1):
+            cur_date = dt_start + timedelta(days=day_idx - 1)
+            date_iso = cur_date.strftime("%Y-%m-%d")
+            date_display = cur_date.strftime("%a, %d %b %Y")
+            short_date = cur_date.strftime("%d %b")
+
+            # Partition checkpoints for this day
+            if days_count == 1:
+                day_cps = checkpoints
+                title = f"Day 1 ({short_date}): Full-Day Circuit across {dest['canonical_name']}"
+                dist_km = 14.0
+                elev_gain = 450 if region_type == "HILL_MOUNTAIN" else 50
+                pacing_note = f"Curfew: {region_profile['curfew_time']}. Strict departure before 07:30 IST required."
+            elif days_count == 2:
+                mid = max(1, total_cps // 2)
+                day_cps = checkpoints[:mid + 1] if day_idx == 1 else (checkpoints[mid:] if total_cps > mid else checkpoints)
+                if day_idx == 1:
+                    title = f"Day 1 ({short_date}): Arrival & Core Sector Transit ({dest['canonical_name']})"
+                    dist_km = 11.0
+                    elev_gain = 350 if region_type == "HILL_MOUNTAIN" else 30
+                    pacing_note = f"Safe pacing. Night halt strictly adhering to {region_profile['curfew_time']} curfew."
+                else:
+                    title = f"Day 2 ({short_date}): Landmark Circuit & Safe Departure"
+                    dist_km = 12.5
+                    elev_gain = 200 if region_type == "HILL_MOUNTAIN" else 20
+                    pacing_note = "Return transit along verified safe bypass corridors."
+            elif days_count == 3:
+                chunk = max(1, total_cps // 3)
+                if day_idx == 1:
+                    day_cps = checkpoints[:chunk + 1]
+                    title = f"Day 1 ({short_date}): Base Check-in & Acclimatization ({dest['canonical_name']})"
+                    dist_km = 6.0
+                    elev_gain = 200 if region_type == "HILL_MOUNTAIN" else 20
+                    pacing_note = "Low intensity acclimatization pacing. Monitor hydration."
+                elif day_idx == 2:
+                    day_cps = checkpoints[chunk: chunk * 2 + 1] if total_cps > chunk * 2 else checkpoints[:2]
+                    title = f"Day 2 ({short_date}): Prime Excursion & Regional Circuit"
+                    dist_km = 9.5
+                    elev_gain = 380 if region_type == "HILL_MOUNTAIN" else 40
+                    pacing_note = "Peak sector exploration with scheduled safety halts."
+                else:
+                    day_cps = checkpoints[chunk * 2:] if total_cps > chunk * 2 else checkpoints
+                    title = f"Day 3 ({short_date}): Scenic Overlook & Safe Return"
+                    dist_km = 8.0
+                    elev_gain = 120 if region_type == "HILL_MOUNTAIN" else 10
+                    pacing_note = "Controlled departure along designated egress trail."
+            else:
+                # Custom Extended Duration (4 - 30 days)
+                start_i = int(((day_idx - 1) / days_count) * total_cps)
+                end_i = max(start_i + 1, int((day_idx / days_count) * total_cps) + 1)
+                day_cps = checkpoints[start_i:end_i] if start_i < total_cps else checkpoints[-2:]
+                if not day_cps:
+                    day_cps = [checkpoints[0]] if checkpoints else []
+
+                if day_idx == 1:
+                    title = f"Day 1 ({short_date}): Base Arrival & Altitude Acclimatization"
+                    dist_km = 5.5
+                    elev_gain = 180 if region_type == "HILL_MOUNTAIN" else 20
+                    pacing_note = "Low physical load. Baseline health checks & environmental orientation."
+                elif day_idx == days_count:
+                    title = f"Day {day_idx} ({short_date}): Expedition Finale & Return Transit"
+                    dist_km = 7.0
+                    elev_gain = 90 if region_type == "HILL_MOUNTAIN" else 10
+                    pacing_note = "Safe descent / egress to nearest transport terminal."
+                elif day_idx % 3 == 0 and region_type == "HILL_MOUNTAIN":
+                    title = f"Day {day_idx} ({short_date}): Acclimatization Rest & Radial Exploration"
+                    dist_km = 4.0
+                    elev_gain = 150
+                    pacing_note = "Active rest interval. High fluid intake and altitude acclimatization buffer."
+                else:
+                    title = f"Day {day_idx} ({short_date}): Stage {day_idx} Sector Traverse & POI Exploration"
+                    dist_km = 8.5
+                    elev_gain = 280 if region_type == "HILL_MOUNTAIN" else 30
+                    pacing_note = f"Steady cadence adhering to {region_profile['curfew_time']} safety curfew."
+
             day_items = cls._evaluate_items(day_cps, region_type, hazard_zones, weather_override)
-            day_score = round(sum(i["total_risk_score"] for i in day_items) / max(1, len(day_items)), 1)
+            day_score = round(sum(i["total_risk_score"] for i in day_items) / max(1, len(day_items)), 1) if day_items else 20.0
+
             days_plan.append({
-                "day_number": 1,
-                "title": f"Day 1: Full-Day Circuit across {dest['canonical_name']}",
-                "distance_km": 14.0,
-                "elevation_gain_m": 450 if region_type == "HILL_MOUNTAIN" else 50,
-                "acclimatization_safety": f"Curfew: {region_profile['curfew_time']}. Ensure return before sunset.",
+                "day_number": day_idx,
+                "date": date_iso,
+                "date_display": date_display,
+                "title": title,
+                "distance_km": dist_km,
+                "elevation_gain_m": elev_gain,
+                "acclimatization_safety": pacing_note,
                 "checkpoints": day_items,
                 "day_risk_score": day_score
             })
             overall_scores.append(day_score)
 
-        elif days_count == 2:
-            mid = max(1, len(checkpoints) // 2)
-            d1_cps = checkpoints[:mid + 1]
-            d2_cps = checkpoints[mid:] if len(checkpoints) > mid else checkpoints
-
-            d1_items = cls._evaluate_items(d1_cps, region_type, hazard_zones, weather_override)
-            d2_items = cls._evaluate_items(d2_cps, region_type, hazard_zones, weather_override)
-
-            d1_score = round(sum(i["total_risk_score"] for i in d1_items) / max(1, len(d1_items)), 1)
-            d2_score = round(sum(i["total_risk_score"] for i in d2_items) / max(1, len(d2_items)), 1)
-
-            days_plan.append({
-                "day_number": 1,
-                "title": f"Day 1: Arrival & Core Sector Transit ({dest['canonical_name']})",
-                "distance_km": 11.0,
-                "elevation_gain_m": 350 if region_type == "HILL_MOUNTAIN" else 30,
-                "acclimatization_safety": f"Safe pacing. Night halt strictly adhering to {region_profile['curfew_time']} curfew.",
-                "checkpoints": d1_items,
-                "day_risk_score": d1_score
-            })
-            days_plan.append({
-                "day_number": 2,
-                "title": f"Day 2: Landmark Circuit & Safe Departure",
-                "distance_km": 12.5,
-                "elevation_gain_m": 200 if region_type == "HILL_MOUNTAIN" else 20,
-                "acclimatization_safety": "Return transit on approved bypass corridors.",
-                "checkpoints": d2_items,
-                "day_risk_score": d2_score
-            })
-            overall_scores.extend([d1_score, d2_score])
-
-        else: # 3-Day Plan
-            chunk = max(1, len(checkpoints) // 3)
-            d1_cps = checkpoints[:chunk + 1]
-            d2_cps = checkpoints[chunk: chunk * 2 + 1] if len(checkpoints) > chunk * 2 else checkpoints[:2]
-            d3_cps = checkpoints[chunk * 2:] if len(checkpoints) > chunk * 2 else checkpoints
-
-            d1_items = cls._evaluate_items(d1_cps, region_type, hazard_zones, weather_override)
-            d2_items = cls._evaluate_items(d2_cps, region_type, hazard_zones, weather_override)
-            d3_items = cls._evaluate_items(d3_cps, region_type, hazard_zones, weather_override)
-
-            d1_score = round(sum(i["total_risk_score"] for i in d1_items) / max(1, len(d1_items)), 1)
-            d2_score = round(sum(i["total_risk_score"] for i in d2_items) / max(1, len(d2_items)), 1)
-            d3_score = round(sum(i["total_risk_score"] for i in d3_items) / max(1, len(d3_items)), 1)
-
-            days_plan.append({"day_number": 1, "title": f"Day 1: Base Check-in & Orientation ({dest['canonical_name']})", "distance_km": 6.0, "elevation_gain_m": 200 if region_type == "HILL_MOUNTAIN" else 20, "acclimatization_safety": "Low intensity start.", "checkpoints": d1_items, "day_risk_score": d1_score})
-            days_plan.append({"day_number": 2, "title": f"Day 2: Prime Excursion & Regional Circuit", "distance_km": 8.5, "elevation_gain_m": 350 if region_type == "HILL_MOUNTAIN" else 40, "acclimatization_safety": "Peak sector activity with hydration stops.", "checkpoints": d2_items, "day_risk_score": d2_score})
-            days_plan.append({"day_number": 3, "title": f"Day 3: Scenic Overlook & Safe Return", "distance_km": 10.0, "elevation_gain_m": 100 if region_type == "HILL_MOUNTAIN" else 10, "acclimatization_safety": "Controlled departure along bypass route.", "checkpoints": d3_items, "day_risk_score": d3_score})
-            overall_scores.extend([d1_score, d2_score, d3_score])
-
-        overall_score = round(sum(overall_scores) / max(1, len(overall_scores)), 1)
+        overall_score = round(sum(overall_scores) / max(1, len(overall_scores)), 1) if overall_scores else 25.0
 
         return {
             "destination_id": dest["id"],
@@ -113,6 +164,8 @@ class ItineraryService:
             "region_name": region_profile["name"],
             "emergency_agency": region_profile["emergency_agency"],
             "duration_days": days_count,
+            "start_date": start_date_str,
+            "end_date": end_date_str,
             "fitness_level": fitness_level,
             "overall_safety_score": overall_score,
             "overall_risk_category": "LOW" if overall_score <= 35 else ("MODERATE" if overall_score <= 65 else "HIGH"),

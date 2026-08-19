@@ -25,12 +25,20 @@ export const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary, onSelec
       <div className="glass-panel p-6 rounded-2xl border border-slate-800 shadow-xl relative">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-4 border-b border-slate-800">
           <div>
-            <div className="flex items-center gap-2 mb-1">
+            <div className="flex items-center gap-2 mb-1 flex-wrap">
               <span className="text-xs font-mono font-bold uppercase tracking-wider text-emerald-400">
                 VERIFIED SAFE ITINERARY
               </span>
               <span className="text-slate-600">•</span>
               <span className="text-xs text-slate-400">{itinerary.destination} Corridor</span>
+              {itinerary.start_date && (
+                <>
+                  <span className="text-slate-600">•</span>
+                  <span className="text-xs font-mono px-2 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-emerald-300">
+                    📅 {itinerary.start_date} {itinerary.end_date ? `➔ ${itinerary.end_date}` : ''}
+                  </span>
+                </>
+              )}
             </div>
             <h1 className="text-xl font-black text-white">
               {itinerary.duration_days}-Day Acclimatized Route Plan ({itinerary.fitness_level} Pace)
@@ -83,7 +91,9 @@ export const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary, onSelec
               }`}
             >
               <div className="flex items-center justify-between mb-1">
-                <span className="text-xs font-bold text-slate-200">Day {day.day_number}</span>
+                <span className="text-xs font-bold text-slate-200">
+                  Day {day.day_number} {day.date_display ? `• ${day.date_display.split(',')[0]}` : ''}
+                </span>
                 <span className={`text-[10px] px-2 py-0.5 rounded-full font-mono font-bold border ${badge.bg}`}>
                   Score: {day.day_risk_score}
                 </span>
@@ -92,6 +102,7 @@ export const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary, onSelec
               <div className="flex items-center gap-3 text-[10px] text-slate-500 font-mono mt-2">
                 <span>{day.distance_km} km</span>
                 <span>+{day.elevation_gain_m}m ascent</span>
+                {day.date && <span className="text-slate-400">{day.date}</span>}
               </div>
             </button>
           );
@@ -103,7 +114,14 @@ export const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary, onSelec
         <div className="glass-panel p-6 rounded-2xl border border-slate-800 shadow-xl space-y-5">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 pb-3 border-b border-slate-800">
             <div>
-              <h2 className="text-base font-bold text-white">{activeDayPlan.title}</h2>
+              <div className="flex items-center gap-2">
+                <h2 className="text-base font-bold text-white">{activeDayPlan.title}</h2>
+                {activeDayPlan.date_display && (
+                  <span className="text-xs font-mono text-emerald-400 bg-slate-900 px-2 py-0.5 rounded-md border border-slate-800">
+                    {activeDayPlan.date_display}
+                  </span>
+                )}
+              </div>
               <div className="flex items-center gap-2 text-xs text-slate-400 mt-0.5">
                 <Activity className="w-3.5 h-3.5 text-emerald-400" />
                 <span>Acclimatization: {activeDayPlan.acclimatization_safety}</span>
