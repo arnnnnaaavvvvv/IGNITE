@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen.svg)]()
 [![Live Demo](https://img.shields.io/badge/Live_Demo-ignite--lemon--nu.vercel.app-blueviolet.svg?style=flat&logo=vercel)](https://ignite-lemon-nu.vercel.app)
-[![Version](https://img.shields.io/badge/Version-2.0.0-blue.svg)]()
+[![Version](https://img.shields.io/badge/Version-2.1.0-blue.svg)]()
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110.0-009688.svg?logo=fastapi)](https://fastapi.tiangolo.com)
 [![React](https://img.shields.io/badge/React-18.3.1-61DAFB.svg?logo=react)](https://reactjs.org)
 [![PostGIS](https://img.shields.io/badge/PostGIS-Spatial_ST_Intersects-336791.svg?logo=postgresql)](https://postgis.net)
@@ -16,7 +16,7 @@
 
 ## Overview
 
-**SafeTrail AI** is a destination-agnostic tourist safety and smart itinerary system engineered for India. Unlike conventional travel applications that act as static directories or rely on opaque black-box machine learning models, SafeTrail AI utilizes **deterministic, mathematical multi-factor risk engines** and real-time geospatial data (live weather, ground elevation, PostGIS hazard polygons, crowd bottlenecks, and emergency infrastructure proximity) to synthesize and adapt day-wise itineraries on the fly. The system operates universally across all 28 States and 8 Union Territories of India: whether a tourist searches a high-altitude Himalayan trail, a coastal marine beach, a dense wildlife reserve, an arid desert dune, or a dense urban pilgrimage corridor, SafeTrail AI automatically resolves coordinates, samples real ground altitude, classifies the environmental terrain profile, and enforces strict region-specific safety protocols with complete mathematical explainability.
+**SafeTrail AI** is a destination-agnostic tourist safety and smart itinerary system engineered for India. Unlike conventional travel applications that act as static directories or rely on opaque black-box machine learning models, SafeTrail AI utilizes **deterministic, mathematical multi-factor risk engines** and real-time geospatial data (live weather, ground elevation, PostGIS hazard polygons, crowd bottlenecks, and emergency infrastructure proximity) to synthesize and adapt day-wise itineraries on the fly. The system operates universally across all 28 States and 8 Union Territories of India: whether a tourist searches a high-altitude Himalayan trail, a coastal marine beach, a dense wildlife reserve, an arid desert dune, a dense riverine plains pilgrimage, or a modern urban heritage campus, SafeTrail AI automatically resolves coordinates, samples real ground altitude, classifies the environmental terrain profile, and enforces strict region-specific safety protocols with complete mathematical explainability.
 
 ---
 
@@ -25,7 +25,8 @@
 | Feature | Description |
 | :--- | :--- |
 | **Destination-Agnostic Resolver** | Converts arbitrary Indian place names or landmarks into GPS coordinates, bounding boxes, and ground elevation profiles via OSM Nominatim and Open-Meteo with sovereign Indian boundary enforcement (`6.0°N–37.6°N`, `68.0°E–97.5°E`). |
-| **5-Profile Regional Risk Engine** | Dynamically swaps mathematical weight vectors across five canonical environmental profiles (`HILL_MOUNTAIN`, `COASTAL_MARINE`, `FOREST_WILDLIFE`, `DESERT_ARID`, `URBAN_HERITAGE`) to calculate accurate 0–100 safety risk scores. |
+| **6-Profile Regional Risk Engine** | Dynamically swaps mathematical weight vectors across six canonical environmental profiles (`HILL_MOUNTAIN`, `COASTAL_MARINE`, `FOREST_WILDLIFE`, `DESERT_ARID`, `URBAN_HERITAGE`, `PLAINS_RIVERINE`) to calculate accurate 0–100 safety risk scores. |
+| **Curated National Pilgrimage Dataset** | Pre-seeded with 21 iconic pilgrimage sites across 4 major national circuits (Char Dham, Chota Char Dham, 12 Jyotirlingas, Prominent Shrines) with dynamic crowd-density, mobility exertion tiers, and festival surge multipliers. |
 | **Dynamic Re-Routing Engine** | Continuously evaluates live GPS position against active hazard zones and IMD alert levels; triggers immediate topological safe bypass routes and shelter diversion if risk score exceeds 65.0. |
 | **Emergency SOS & 2G GSM Gateway** | Dynamically queries nearest hospitals, police posts, and SDRF stations within 15km via Overpass QL and formats a 140-character compact SMS string for low-bandwidth 2G / GSM cell networks. |
 | **Spatial PostGIS Geo-Fencing** | Executes spatial polygon intersections (`ST_Intersects`) between user coordinates and geological debris slides, floodplains, tidal surges, and wildfire corridors. |
@@ -33,16 +34,17 @@
 | **Group Mesh Radar & Dispersion Alert** | Tracks group member positions relative to the tour leader and triggers automatic alerts if members straggle beyond a configurable separation threshold (default: 150m). |
 | **Multilingual Voice Explainability** | Translates mathematical risk scores into natural-language safety briefings with Web Speech API Text-to-Speech (TTS) support in English and Hindi. |
 | **Regulated Budget Optimizer** | Allocates realistic day-wise expenses across lodging, transit, permits, and food while strictly reserving a mandatory **15% emergency liquidity cushion**. |
-| **Explainability Matrix** | Breaks down the aggregate risk score into 5 sub-factor visual gauges with contextual operational details (e.g., rainfall rate, wind speed, elevation gain, nearest hospital transit distance). |
+| **Explainability Matrix** | Breaks down the aggregate risk score into sub-factor visual gauges with contextual operational details (e.g., rainfall rate, wind speed, elevation gain, nearest hospital transit distance). |
 
 ---
 
 ## What It Can Do Now
 
 - **Resolve Any Indian Destination**: Geocodes arbitrary free-text place queries across India and samples real elevation in meters without hardcoded place tables.
-- **Enforce Dynamic Curfews**: Applies regional curfew restrictions based on environmental classification (e.g., 17:00 IST for wildlife sanctuaries, 17:30 IST for alpine trails, 19:00 IST for marine beaches).
+- **National Pilgrimage Circuits Quick-Selector**: Instant 1-click filtering and interactive map zoom for Char Dham (Cardinal), Chota Char Dham (Himalayan), 12 Jyotirlingas, and Prominent Shrines (Ajmer Sharif, Shirdi, Palitana, Akshardham).
+- **Enforce Dynamic Curfews**: Applies regional curfew restrictions based on environmental classification (e.g., 17:00 IST for wildlife sanctuaries, 17:30 IST for alpine trails, 19:00 IST for marine beaches, 21:30 IST for riverine plains, 22:00 IST for urban centers).
 - **Calculate Live Road & Trail Polylines**: Retrieves topological footpaths and road geometries between waypoints via OSRM.
-- **Simulate Extreme Disaster Injections**: Injects multi-region disaster scenarios (Himalayan cloudbursts, Bay of Bengal cyclones, Brahmaputra floods, Thar heatwaves) via an interactive simulation bench to test dynamic rerouting.
+- **Simulate Extreme Disaster Injections**: Injects multi-region disaster scenarios (Himalayan cloudbursts, Bay of Bengal cyclones, Brahmaputra floods, Thar heatwaves, Plains crowd surges) via an interactive simulation bench to test dynamic rerouting.
 - **Broadcast Real-Time WebSocket Alerts**: Pushes telemetry updates and hazard breach notifications across client WebSocket channels (`/api/v1/ws/alerts/{trip_id}`).
 - **Protect Infrastructure with Rate Limiting**: Enforces a sliding-window gateway rate limiter (60 req/min per IP) to prevent downstream API exhaustion.
 - **Secure Guest & User Identity**: Employs HMAC-SHA256 cryptographically verified JWT sessions alongside zero-friction emergency guest authentication (`guest_*`).
@@ -55,8 +57,8 @@
 | :--- | :--- | :--- | :--- | :--- |
 | **Safety Data Used** | Traffic & distance only; blind to landslides, cloudbursts, and AMS hypoxia. | Broad state/district text bulletins; no waypoint-level GPS mapping. | Outdated blog posts, travel forums, and word-of-mouth. | **Live multi-source telemetry (IMD alerts, real elevation, Overpass emergency grid, PostGIS hazard polygons).** |
 | **Real-Time Adaptation** | Reroutes only for road congestion; ignores environmental hazard zones. | None; static PDF bulletins updated every 12–24 hours. | Zero automated response during active transit emergencies. | **Sub-second dynamic rerouting to safe topological bypass corridors and verified shelters over WebSockets.** |
-| **Explainability** | Opaque estimated travel time; no safety breakdown. | Generic warnings without actionable mathematical scoring. | Purely intuitive guesswork. | **Deterministic, weighted 5-factor scoring (0–100) with plain-language English/Hindi voice briefings.** |
-| **Destination Coverage** | Global road networks, but no specialized disaster risk modeling. | Limited to select high-profile state pilgrim routes. | User-limited knowledge. | **100% Pan-India coverage (All 28 States & 8 Union Territories) across 5 canonical environmental profiles.** |
+| **Explainability** | Opaque estimated travel time; no safety breakdown. | Generic warnings without actionable mathematical scoring. | Purely intuitive guesswork. | **Deterministic, weighted 4-5 factor scoring (0–100) with plain-language English/Hindi voice briefings.** |
+| **Destination Coverage** | Global road networks, but no specialized disaster risk modeling. | Limited to select high-profile state pilgrim routes. | User-limited knowledge. | **100% Pan-India coverage (All 28 States & 8 Union Territories) across 6 canonical environmental profiles.** |
 | **Offline Reliability** | Limited offline map caching; fails when server sync drops. | Web-only PDF portals; unusable in remote valleys. | Printed notes or memory. | **IndexedDB client-side storage + 140-character 2G GSM SMS payload for dead-zone emergency dispatch.** |
 | **Cost & Complexity** | Expensive proprietary routing APIs and heavy tracking SDKs. | Fragmented across disjoint state government websites. | High cognitive and planning burden on the traveler. | **Open-source stack (FastAPI, OSM Nominatim, Overpass QL, OSRM, Open-Meteo, Leaflet) with zero black-box ML overhead.** |
 
@@ -68,6 +70,7 @@
 +---------------------------------------------------------------------------------------------------+
 |                                       CLIENT LAYER (Web & Mobile)                                 |
 |   Next.js 14 / Vite React SPA  |  Leaflet.js Map Viewer  |  IndexedDB Offline Cache  |  WebSockets |
+|   Popular Pilgrimage Circuits Tray  |  Multilingual Voice (EN/HI)  |  Live Hazard Visualizer      |
 +---------------------------------------------------------------------------------------------------+
                                                   |  HTTPS / WSS
                                                   v
@@ -84,6 +87,7 @@
 | - Sovereign Boundary  |             | - 15km Overpass Query |             | - Haversine Distance  |
 | - Nominatim Geocode   |             | - Nearest Hosp/Police |             | - 150m Separation     |
 | - Open-Meteo Ground Z |             | - 140-Char 2G SMS     |             | - Scatter Alerts      |
+| - National Circuits   |             | - Emergency Helipads  |             | - Leader Sync Mesh    |
 +-----------------------+             +-----------------------+             +-----------------------+
         |                                         |                                         |
         +-----------------------------------------+-----------------------------------------+
@@ -93,15 +97,17 @@
 |                               DATA AGGREGATION & CACHING LAYER                                    |
 |   Redis Cache (15m Weather, 6h Amenities, 24h Geocodes)  |  Async In-Memory Mock Fallback         |
 |   - Open-Meteo API (Forecast & Elevation)               - OSM Overpass QL (Emergency Amenities)  |
-|   - OSRM Routing Engine (Topological Polylines)         - PostGIS / Shapely (Spatial Bounding Box)|
+|   - OSRM Routing Engine (Topological Polylines)         - PostGIS / Shapely (Spatial Polygons)   |
+|   - Pilgrimage Metadata (Crowd Risk, Peak Seasons, Mobility Tiers, Security Holding Delay)       |
 +---------------------------------------------------------------------------------------------------+
                                                   |
                                                   v
 +---------------------------------------------------------------------------------------------------+
 |                               ADAPTIVE RISK & RE-ROUTING ENGINE                                   |
-|   Swaps Mathematical Weight Formulations (Hill / Coastal / Forest / Desert / Urban)               |
+|   Swaps Mathematical Weight Formulations (Hill / Coastal / Forest / Desert / Urban / Plains)      |
 |   - Bounding Box Polygon Intersection  |  IMD Early Warning Multipliers (Yellow / Orange / Red)   |
 |   - Dynamic Safe Bypass Generation     |  15% Emergency Medical Reserve Allocation                |
+|   - Dynamic Crowd Factor Modulation (Peak Seasons, Stampede Risk, Staircase Exertion)            |
 +---------------------------------------------------------------------------------------------------+
                                                   |
                                                   v
@@ -129,6 +135,8 @@ $$\text{Risk}_{\text{Forest}} = 0.30 \cdot S_{\text{Wildlife}} + 0.25 \cdot S_{\
 $$\text{Risk}_{\text{Desert}} = 0.40 \cdot S_{\text{Dehydration}} + 0.25 \cdot S_{\text{Sandstorm}} + 0.25 \cdot S_{\text{WaterIso}} + 0.10 \cdot S_{\text{SandMobility}}$$
 
 $$\text{Risk}_{\text{Urban}} = 0.40 \cdot S_{\text{Stampede}} + 0.25 \cdot S_{\text{Waterlogging}} + 0.20 \cdot S_{\text{Ambulance}} + 0.15 \cdot S_{\text{AQI}}$$
+
+$$\text{Risk}_{\text{Plains}} = 0.35 \cdot S_{\text{Stampede}} + 0.25 \cdot S_{\text{RiverineFlood}} + 0.20 \cdot S_{\text{HeatStress}} + 0.20 \cdot S_{\text{EmergencyTransit}}$$
 
 ### 2. National Early Warning Alert Multipliers
 If the India Meteorological Department (IMD) or State Disaster Management Authority issues an alert for the sector, the raw risk score is scaled deterministically:
@@ -364,13 +372,14 @@ curl http://localhost:8000/health
 {
   "status": "healthy",
   "service": "SafeTrail AI — Pan-India Tourist Safety Engine",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "supported_region_types": [
     "HILL_MOUNTAIN",
     "COASTAL_MARINE",
     "FOREST_WILDLIFE",
     "DESERT_ARID",
-    "URBAN_HERITAGE"
+    "URBAN_HERITAGE",
+    "PLAINS_RIVERINE"
   ],
   "redis_caching": "ACTIVE (Async Redis / Fast InMemory Fallback)",
   "spatial_engine": "PostGIS / Shapely Polygon Intersection",
@@ -397,14 +406,17 @@ The API returns standard RFC-7807 compliant error payloads with descriptive stat
 
 ## Testing
 
-SafeTrail AI includes comprehensive end-to-end integration and parameterized security audit test suites:
+SafeTrail AI includes comprehensive end-to-end integration, pilgrimage seed verification, and parameterized security audit test suites:
 
 ```bash
-# Run End-to-End User Journey Tests (9 Scenarios)
-python apps/api/test_system_e2e.py
+# Run Pilgrimage Seed & Multi-Archetype Risk Engine Tests (29 Scenarios)
+python -m pytest apps/api/test_pilgrimage_seed_and_risk.py -v
 
-# Run Parameterized QA & Security Audit Suite (24 Tests covering all 5 regions)
-python apps/api/test_qa_security_audit.py
+# Run Parameterized QA & Security Audit Suite (24 Tests covering all 6 regions)
+python -m pytest apps/api/test_qa_security_audit.py -v
+
+# Run Complete Combined Test Suite (53 Tests)
+python -m pytest apps/api/test_qa_security_audit.py apps/api/test_system_e2e.py apps/api/test_pilgrimage_seed_and_risk.py -v
 
 # Run Frontend Type-Check & Production Build Validation
 cd apps/web && npm run build
@@ -414,34 +426,26 @@ cd apps/web && npm run build
 ```
 ============================= test session starts =============================
 platform win32 -- Python 3.14.6, pytest-9.1.1 -- rootdir: /safetrail-ai
-collected 24 items
+collected 53 items
 
-apps/api/test_qa_security_audit.py::test_region_classifier_generalization[Munnar] PASSED        [  4%]
-apps/api/test_qa_security_audit.py::test_region_classifier_generalization[Manali] PASSED        [  8%]
-apps/api/test_qa_security_audit.py::test_region_classifier_generalization[Kedarnath] PASSED     [ 12%]
-apps/api/test_qa_security_audit.py::test_region_classifier_generalization[Leh Ladakh] PASSED    [ 16%]
-apps/api/test_qa_security_audit.py::test_region_classifier_generalization[Puri Beach] PASSED    [ 20%]
-apps/api/test_qa_security_audit.py::test_region_classifier_generalization[Goa] PASSED           [ 25%]
-apps/api/test_qa_security_audit.py::test_region_classifier_generalization[Kovalam] PASSED       [ 29%]
-apps/api/test_qa_security_audit.py::test_region_classifier_generalization[Dhanushkodi] PASSED   [ 33%]
-apps/api/test_qa_security_audit.py::test_region_classifier_generalization[Kaziranga] PASSED     [ 37%]
-apps/api/test_qa_security_audit.py::test_region_classifier_generalization[Jim Corbett] PASSED   [ 41%]
-apps/api/test_qa_security_audit.py::test_region_classifier_generalization[Bandhavgarh] PASSED   [ 45%]
-apps/api/test_qa_security_audit.py::test_region_classifier_generalization[Periyar] PASSED       [ 50%]
-apps/api/test_qa_security_audit.py::test_region_classifier_generalization[Jaisalmer] PASSED     [ 54%]
-apps/api/test_qa_security_audit.py::test_region_classifier_generalization[Rann of Kutch] PASSED[ 58%]
-apps/api/test_qa_security_audit.py::test_region_classifier_generalization[Bikaner] PASSED       [ 62%]
-apps/api/test_qa_security_audit.py::test_region_classifier_generalization[Varanasi Ghat] PASSED [ 66%]
-apps/api/test_qa_security_audit.py::test_region_classifier_generalization[Tirupati] PASSED      [ 70%]
-apps/api/test_qa_security_audit.py::test_region_classifier_generalization[Jaipur] PASSED        [ 75%]
-apps/api/test_qa_security_audit.py::test_risk_engine_weight_formulations PASSED                 [ 79%]
-apps/api/test_qa_security_audit.py::test_sovereign_territory_validation PASSED                 [ 83%]
-apps/api/test_qa_security_audit.py::test_jwt_security_and_guest_tokens PASSED                  [ 87%]
-apps/api/test_qa_security_audit.py::test_sos_dispatch_and_sms_length PASSED                    [ 91%]
-apps/api/test_qa_security_audit.py::test_itinerary_15_percent_emergency_reserve PASSED         [ 95%]
-apps/api/test_qa_security_audit.py::test_spatial_geofencing_detection PASSED                   [100%]
+apps/api/test_qa_security_audit.py::test_region_classifier_generalization PASSED      [ 33%]
+apps/api/test_qa_security_audit.py::test_risk_engine_weight_formulations PASSED       [ 35%]
+apps/api/test_qa_security_audit.py::test_sovereign_territory_validation PASSED        [ 37%]
+apps/api/test_qa_security_audit.py::test_jwt_security_and_guest_tokens PASSED         [ 39%]
+apps/api/test_qa_security_audit.py::test_sos_dispatch_and_sms_length PASSED           [ 41%]
+apps/api/test_qa_security_audit.py::test_itinerary_15_percent_emergency_reserve PASSED[ 43%]
+apps/api/test_qa_security_audit.py::test_spatial_geofencing_detection PASSED          [ 45%]
+apps/api/test_pilgrimage_seed_and_risk.py::test_generic_destination_resolution PASSED [ 72%]
+apps/api/test_pilgrimage_seed_and_risk.py::test_pilgrimage_circuits_endpoint PASSED   [ 75%]
+apps/api/test_pilgrimage_seed_and_risk.py::test_destination_search_pilgrimage PASSED  [ 79%]
+apps/api/test_pilgrimage_seed_and_risk.py::test_risk_archetype_kedarnath PASSED       [ 82%]
+apps/api/test_pilgrimage_seed_and_risk.py::test_risk_archetype_rameswaram PASSED      [ 86%]
+apps/api/test_pilgrimage_seed_and_risk.py::test_risk_archetype_akshardham PASSED      [ 89%]
+apps/api/test_pilgrimage_seed_and_risk.py::test_risk_archetype_shirdi PASSED          [ 93%]
+apps/api/test_pilgrimage_seed_and_risk.py::test_hilltop_staircase_palitana PASSED     [ 96%]
+apps/api/test_pilgrimage_seed_and_risk.py::test_no_hardcoded_destination PASSED       [100%]
 
-======================= 24 passed in 12.61s (100% PASS RATE) =======================
+======================= 53 passed in 5.69s (100% PASS RATE) =======================
 ```
 
 ---

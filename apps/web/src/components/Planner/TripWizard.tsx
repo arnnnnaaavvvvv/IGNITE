@@ -214,19 +214,76 @@ export const TripWizard: React.FC<TripWizardProps> = ({
     });
   };
 
+  const [selectedCircuitTab, setSelectedCircuitTab] = useState<'CHAR_DHAM' | 'CHOTA_CHAR_DHAM' | 'JYOTIRLINGA' | 'SHRINES'>('CHAR_DHAM');
+
   const getRegionBadge = (type: RegionType) => {
     switch (type) {
       case 'HILL_MOUNTAIN':
         return { label: '🏔️ Hill / Mountain', color: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30' };
       case 'COASTAL_MARINE':
         return { label: '🏖️ Coastal / Beach', color: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30' };
+      case 'PLAINS_RIVERINE':
+        return { label: '🌊 Plains / Riverine', color: 'bg-blue-500/15 text-blue-300 border-blue-500/30' };
       case 'FOREST_WILDLIFE':
         return { label: '🐅 Forest / Wildlife', color: 'bg-amber-500/15 text-amber-300 border-amber-500/30' };
       case 'DESERT_ARID':
         return { label: '🏜️ Desert / Dunes', color: 'bg-orange-500/15 text-orange-300 border-orange-500/30' };
       case 'URBAN_HERITAGE':
         return { label: '🏛️ Urban / Heritage', color: 'bg-purple-500/15 text-purple-300 border-purple-500/30' };
+      default:
+        return { label: '📍 Pan-India', color: 'bg-slate-500/15 text-slate-300 border-slate-500/30' };
     }
+  };
+
+  const PILGRIMAGE_CIRCUITS_DATA = {
+    CHAR_DHAM: {
+      name: 'Char Dham (Cardinal)',
+      icon: '☸️',
+      items: [
+        { name: 'Badrinath Dham', state: 'Uttarakhand', lat: 30.7447, lon: 79.4912, icon: '🏔️' },
+        { name: 'Dwarkadhish Temple Dwarka', state: 'Gujarat', lat: 22.2442, lon: 68.9685, icon: '🏖️' },
+        { name: 'Puri Shri Jagannath Dham', state: 'Odisha', lat: 19.8135, lon: 85.8312, icon: '🏖️' },
+        { name: 'Ramanathaswamy Temple Rameswaram', state: 'Tamil Nadu', lat: 9.2881, lon: 79.3174, icon: '🏝️' },
+      ],
+    },
+    CHOTA_CHAR_DHAM: {
+      name: 'Chota Char Dham',
+      icon: '🏔️',
+      items: [
+        { name: 'Yamunotri Dham', state: 'Uttarakhand', lat: 31.0140, lon: 78.4600, icon: '🏔️' },
+        { name: 'Gangotri Dham', state: 'Uttarakhand', lat: 30.9947, lon: 78.9398, icon: '🏔️' },
+        { name: 'Kedarnath Dham', state: 'Uttarakhand', lat: 30.7352, lon: 79.0669, icon: '🏔️' },
+        { name: 'Badrinath Dham', state: 'Uttarakhand', lat: 30.7447, lon: 79.4912, icon: '🏔️' },
+      ],
+    },
+    JYOTIRLINGA: {
+      name: '12 Jyotirlingas',
+      icon: '🔱',
+      items: [
+        { name: 'Somnath Jyotirlinga Temple', state: 'Gujarat', lat: 20.8880, lon: 70.4012, icon: '🏖️' },
+        { name: 'Mallikarjuna Jyotirlinga Srisailam', state: 'Andhra Pradesh', lat: 16.0745, lon: 78.8687, icon: '🏔️' },
+        { name: 'Mahakaleshwar Jyotirlinga Ujjain', state: 'Madhya Pradesh', lat: 23.1827, lon: 75.7682, icon: '🌊' },
+        { name: 'Omkareshwar Jyotirlinga', state: 'Madhya Pradesh', lat: 22.2464, lon: 76.1517, icon: '🌊' },
+        { name: 'Kedarnath Dham', state: 'Uttarakhand', lat: 30.7352, lon: 79.0669, icon: '🏔️' },
+        { name: 'Bhimashankar Jyotirlinga', state: 'Maharashtra', lat: 19.0722, lon: 73.5354, icon: '🏔️' },
+        { name: 'Kashi Vishwanath Temple Varanasi', state: 'Uttar Pradesh', lat: 25.3109, lon: 83.0107, icon: '🏛️' },
+        { name: 'Trimbakeshwar Jyotirlinga', state: 'Maharashtra', lat: 19.9322, lon: 73.5308, icon: '🏔️' },
+        { name: 'Baidyanath Jyotirlinga Deoghar', state: 'Jharkhand', lat: 24.4925, lon: 86.7000, icon: '🌊' },
+        { name: 'Nageshwar Jyotirlinga', state: 'Gujarat', lat: 22.3353, lon: 69.0538, icon: '🏖️' },
+        { name: 'Ramanathaswamy Temple Rameswaram', state: 'Tamil Nadu', lat: 9.2881, lon: 79.3174, icon: '🏝️' },
+        { name: 'Grishneshwar Jyotirlinga Ellora', state: 'Maharashtra', lat: 20.0244, lon: 75.1722, icon: '🏛️' },
+      ],
+    },
+    SHRINES: {
+      name: 'Prominent Shrines',
+      icon: '🕉️',
+      items: [
+        { name: 'Ajmer Sharif Dargah', state: 'Rajasthan', lat: 26.4561, lon: 74.6282, icon: '🕌' },
+        { name: 'Shirdi Sai Baba Samadhi Mandir', state: 'Maharashtra', lat: 19.7667, lon: 74.4764, icon: '🕉️' },
+        { name: 'Palitana Shatrunjaya Temples', state: 'Gujarat', lat: 21.5033, lon: 71.7828, icon: '🏔️' },
+        { name: 'Swaminarayan Akshardham Temple Delhi', state: 'Delhi', lat: 28.6127, lon: 77.2773, icon: '🏛️' },
+      ],
+    },
   };
 
   // Pacing status based on duration
@@ -316,26 +373,43 @@ export const TripWizard: React.FC<TripWizardProps> = ({
 
           {/* Autocomplete Dropdown List */}
           {showDropdown && searchResults.length > 0 && (
-            <div className="absolute top-full left-0 right-0 z-50 mt-1.5 max-h-60 overflow-y-auto rounded-xl bg-slate-950/95 border border-slate-700 shadow-2xl p-1.5 space-y-1 backdrop-blur-xl">
+            <div className="absolute top-full left-0 right-0 z-50 mt-1.5 max-h-72 overflow-y-auto rounded-xl bg-slate-950/95 border border-slate-700 shadow-2xl p-1.5 space-y-1.5 backdrop-blur-xl">
               {searchResults.map((item) => {
                 const badge = getRegionBadge(item.region_type);
+                const isPilgrimage = item.category === 'pilgrimage' || !!item.pilgrimage_metadata;
+                const circuits = item.pilgrimage_metadata?.circuits || [];
+                const mobility = item.pilgrimage_metadata?.mobility_tier;
+
                 return (
                   <button
                     key={item.id}
                     type="button"
                     onClick={() => handleSelectDestination(item)}
-                    className="w-full p-2.5 rounded-lg text-left hover:bg-slate-800/80 transition-all flex items-center justify-between gap-2 cursor-pointer"
+                    className="w-full p-2.5 rounded-lg text-left hover:bg-slate-800/80 transition-all flex items-center justify-between gap-2 cursor-pointer border border-transparent hover:border-slate-700"
                   >
-                    <div>
-                      <div className="text-xs font-bold text-white flex items-center gap-1.5">
+                    <div className="space-y-0.5">
+                      <div className="text-xs font-bold text-white flex items-center gap-1.5 flex-wrap">
                         <span>{item.canonical_name}</span>
                         {item.name_hi && (
                           <span className="text-[10px] text-slate-400 font-sans font-normal">({item.name_hi})</span>
                         )}
+                        {isPilgrimage && (
+                          <span className="text-[9px] px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 font-semibold">
+                            🕉️ Pilgrimage
+                          </span>
+                        )}
                       </div>
-                      <div className="text-[10px] text-slate-400">{item.state_ut}</div>
+                      <div className="flex items-center gap-2 text-[10px] text-slate-400">
+                        <span>{item.state_ut}</span>
+                        {circuits.length > 0 && (
+                          <span className="text-emerald-400 font-medium">• {circuits.join(', ')}</span>
+                        )}
+                        {mobility && mobility !== 'PAVED_WALKWAY' && (
+                          <span className="text-amber-400/90 font-mono">• {mobility.replace(/_/g, ' ')}</span>
+                        )}
+                      </div>
                     </div>
-                    <span className={`text-[10px] px-2 py-0.5 rounded-full font-mono font-semibold border ${badge.color}`}>
+                    <span className={`text-[10px] px-2 py-0.5 rounded-full font-mono font-semibold border shrink-0 ${badge.color}`}>
                       {badge.label}
                     </span>
                   </button>
@@ -344,16 +418,58 @@ export const TripWizard: React.FC<TripWizardProps> = ({
             </div>
           )}
 
-          {/* Quick Category Pickers */}
+          {/* Popular Pilgrimage Circuits Quick-Selector Tray */}
+          <div className="mt-3 p-3 rounded-xl bg-slate-950/70 border border-amber-500/20 space-y-2.5">
+            <div className="flex items-center justify-between gap-2 flex-wrap">
+              <div className="flex items-center gap-1.5 text-xs font-bold text-amber-300">
+                <span>🕉️</span>
+                <span>Popular Pilgrimage Circuits</span>
+              </div>
+              <div className="flex items-center gap-1 bg-slate-900/90 p-0.5 rounded-lg border border-slate-800 text-[10px]">
+                {(['CHAR_DHAM', 'CHOTA_CHAR_DHAM', 'JYOTIRLINGA', 'SHRINES'] as const).map((tabKey) => {
+                  const circuit = PILGRIMAGE_CIRCUITS_DATA[tabKey];
+                  return (
+                    <button
+                      key={tabKey}
+                      type="button"
+                      onClick={() => setSelectedCircuitTab(tabKey)}
+                      className={`px-2 py-0.5 rounded-md font-medium transition-all cursor-pointer ${
+                        selectedCircuitTab === tabKey
+                          ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 font-semibold'
+                          : 'text-slate-400 hover:text-slate-200'
+                      }`}
+                    >
+                      {circuit.icon} {circuit.name.split(' ')[0]}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Circuit Shrines Pill Grid */}
+            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-[10px] font-medium text-slate-300 scrollbar-thin">
+              {PILGRIMAGE_CIRCUITS_DATA[selectedCircuitTab].items.map((shrine) => (
+                <button
+                  key={shrine.name}
+                  type="button"
+                  onClick={() => handleQuickPick(shrine.name, shrine.lat, shrine.lon)}
+                  className="px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-amber-500/10 hover:border-amber-500/40 border border-slate-800 shrink-0 cursor-pointer text-left transition-all group flex items-center gap-1.5"
+                >
+                  <span>{shrine.icon}</span>
+                  <div>
+                    <div className="font-semibold text-slate-200 group-hover:text-amber-300 transition-colors">
+                      {shrine.name.split(' ')[0]}
+                    </div>
+                    <div className="text-[9px] text-slate-400">{shrine.state}</div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Quick General Category Pickers */}
           <div className="flex items-center gap-1.5 overflow-x-auto pt-2 pb-1 text-[10px] font-medium text-slate-300">
-            <span className="text-slate-500 shrink-0">Popular:</span>
-            <button
-              type="button"
-              onClick={() => handleQuickPick('Kedarnath Dham', 30.7352, 79.0669)}
-              className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 shrink-0 cursor-pointer"
-            >
-              🏔️ Kedarnath (Himalayas)
-            </button>
+            <span className="text-slate-500 shrink-0">Other Hotspots:</span>
             <button
               type="button"
               onClick={() => handleQuickPick('Puri Beach', 19.8135, 85.8312)}
@@ -377,10 +493,10 @@ export const TripWizard: React.FC<TripWizardProps> = ({
             </button>
             <button
               type="button"
-              onClick={() => handleQuickPick('Varanasi Dashashwamedh Ghat', 25.3176, 82.9739)}
+              onClick={() => handleQuickPick('Manali & Solang Valley', 32.2432, 77.1892)}
               className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 shrink-0 cursor-pointer"
             >
-              🏛️ Varanasi (Heritage)
+              🏔️ Manali (Alpine)
             </button>
           </div>
         </div>

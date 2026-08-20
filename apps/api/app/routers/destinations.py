@@ -37,9 +37,44 @@ async def get_featured_destinations():
         "region_profiles": REGION_CONFIGS
     }
 
+@router.get("/circuits")
+async def get_pilgrimage_circuits():
+    """
+    Returns curated national pilgrimage circuits (Char Dham, Chota Char Dham, 12 Jyotirlingas, Prominent Shrines).
+    """
+    from app.data.pan_india_dataset import PILGRIMAGE_CIRCUITS, PAN_INDIA_DESTINATIONS
+    
+    # Enrich circuit items with destination details
+    dest_map = {d["id"]: d for d in PAN_INDIA_DESTINATIONS}
+    enriched_circuits = []
+    for c in PILGRIMAGE_CIRCUITS:
+        c_items = []
+        for dest_id in c["destinations"]:
+            if dest_id in dest_map:
+                d = dest_map[dest_id]
+                c_items.append({
+                    "id": d["id"],
+                    "canonical_name": d["canonical_name"],
+                    "name_hi": d.get("name_hi", d["canonical_name"]),
+                    "state_ut": d["state_ut"],
+                    "region_type": d["region_type"],
+                    "elevation_m": d["elevation_m"],
+                    "lat": d["lat"],
+                    "lon": d["lon"],
+                    "category": d.get("category", "pilgrimage"),
+                    "pilgrimage_metadata": d.get("pilgrimage_metadata")
+                })
+        enriched_circuits.append({
+            **c,
+            "destination_records": c_items
+        })
+
+    return {"circuits": enriched_circuits}
+
 @router.get("/region-config")
 async def get_region_configurations():
     """
-    Returns all 5 canonical region rules, weights, and curfews.
+    Returns canonical region rules, weights, and curfews.
     """
     return {"region_configs": RegionRuleManager.get_all_configs()}
+

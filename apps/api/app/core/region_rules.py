@@ -108,6 +108,31 @@ REGION_CONFIGS: Dict[str, Dict[str, Any]] = {
             "Seek shelter immediately upon visual detection of IMD dust storm fronts."
         ]
     },
+    "PLAINS_RIVERINE": {
+        "id": "PLAINS_RIVERINE",
+        "name": "Plains & Riverine Corridor",
+        "name_hi": "मैदानी एवं नदी घाटी क्षेत्र",
+        "primary_hazards": ["CROWD_SURGE", "RIVER_FLOOD", "HEATWAVE", "BOTTLENECK_STAMPEDE"],
+        "curfew_time": "21:30 IST",
+        "emergency_agency": "District Disaster Management Authority (DDMA) & NDRF",
+        "risk_thresholds": {
+            "low": 35.0,
+            "moderate": 65.0,
+            "high": 80.0,
+            "critical": 100.0
+        },
+        "weights": {
+            "crowd_stampede_chokepoint": 0.35,
+            "riverine_flood": 0.25,
+            "heat_stress": 0.20,
+            "emergency_transit_time": 0.20
+        },
+        "advisories": [
+            "Utilize barricaded one-way queue channels during religious festival surges.",
+            "Maintain hydration during extreme summer heatwaves (40°C+).",
+            "Avoid ghat riverfront steps during active monsoon discharge alerts."
+        ]
+    },
     "URBAN_HERITAGE": {
         "id": "URBAN_HERITAGE",
         "name": "Urban Pilgrimage & Heritage City",

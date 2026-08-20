@@ -6,7 +6,9 @@ class AdaptiveRiskEngine:
     """
     Pan-India Multi-Region Deterministic Risk Engine.
     Dynamically swaps mathematical formulations and weight vectors based on
-    the destination's environmental region type.
+    the destination's environmental region type and hazard profile.
+    Consumes modular pilgrimage metadata (crowd risk, peak seasons, mobility tiers)
+    directly through generic data-driven factors without hardcoded destination rules.
     """
 
     @classmethod
@@ -16,7 +18,8 @@ class AdaptiveRiskEngine:
         region_type: str = "HILL_MOUNTAIN",
         hazard_zones: List[Dict[str, Any]] = None,
         weather: Optional[Dict[str, Any]] = None,
-        daily_ascent_m: int = 400
+        daily_ascent_m: int = 400,
+        pilgrimage_metadata: Optional[Dict[str, Any]] = None
     ) -> Dict[str, Any]:
         """
         Evaluates checkpoint safety score (0-100) using the region-specific mathematical model.
@@ -45,13 +48,16 @@ class AdaptiveRiskEngine:
                 base_hazard_weight = hz.get("base_hazard_weight", 0.70)
                 break
 
+        # Check for embedded pilgrimage metadata in checkpoint if not explicitly passed
+        p_meta = pilgrimage_metadata or checkpoint.get("pilgrimage_metadata")
+
         # Retrieve modular weight configuration
         weights = RegionRuleManager.get_weights(region_type)
         sub_scores = {}
         final_score = 25.0
         
         if region_type == "COASTAL_MARINE":
-            sub_scores = cls._compute_coastal_sub_scores(checkpoint, weather, in_hazard, matched_hazard_name, base_hazard_weight)
+            sub_scores = cls._compute_coastal_sub_scores(checkpoint, weather, in_hazard, matched_hazard_name, base_hazard_weight, p_meta)
             w = weights or REGION_CONFIGS["COASTAL_MARINE"]["weights"]
             raw = (
                 sub_scores["marine_surge"]["score"] * w.get("marine_cyclone_tide", 0.35) +
@@ -62,8 +68,19 @@ class AdaptiveRiskEngine:
             )
             final_score = raw
 
+        elif region_type == "PLAINS_RIVERINE":
+            sub_scores = cls._compute_plains_sub_scores(checkpoint, weather, in_hazard, matched_hazard_name, base_hazard_weight, p_meta)
+            w = weights or REGION_CONFIGS["PLAINS_RIVERINE"]["weights"]
+            raw = (
+                sub_scores["crowd_stampede"]["score"] * w.get("crowd_stampede_chokepoint", 0.35) +
+                sub_scores["riverine_flood"]["score"] * w.get("riverine_flood", 0.25) +
+                sub_scores["heat_stress"]["score"] * w.get("heat_stress", 0.20) +
+                sub_scores["emergency_transit"]["score"] * w.get("emergency_transit_time", 0.20)
+            )
+            final_score = raw
+
         elif region_type == "FOREST_WILDLIFE":
-            sub_scores = cls._compute_forest_sub_scores(checkpoint, weather, in_hazard, matched_hazard_name, base_hazard_weight)
+            sub_scores = cls._compute_forest_sub_scores(checkpoint, weather, in_hazard, matched_hazard_name, base_hazard_weight, p_meta)
             w = weights or REGION_CONFIGS["FOREST_WILDLIFE"]["weights"]
             raw = (
                 sub_scores["wildlife_corridor"]["score"] * w.get("wildlife_corridor", 0.30) +
@@ -75,7 +92,7 @@ class AdaptiveRiskEngine:
             final_score = raw
 
         elif region_type == "DESERT_ARID":
-            sub_scores = cls._compute_desert_sub_scores(checkpoint, weather, in_hazard, matched_hazard_name, base_hazard_weight)
+            sub_scores = cls._compute_desert_sub_scores(checkpoint, weather, in_hazard, matched_hazard_name, base_hazard_weight, p_meta)
             w = weights or REGION_CONFIGS["DESERT_ARID"]["weights"]
             raw = (
                 sub_scores["heat_dehydration"]["score"] * w.get("heat_dehydration", 0.40) +
@@ -86,7 +103,7 @@ class AdaptiveRiskEngine:
             final_score = raw
 
         elif region_type == "URBAN_HERITAGE":
-            sub_scores = cls._compute_urban_sub_scores(checkpoint, weather, in_hazard, matched_hazard_name)
+            sub_scores = cls._compute_urban_sub_scores(checkpoint, weather, in_hazard, matched_hazard_name, base_hazard_weight, p_meta)
             w = weights or REGION_CONFIGS["URBAN_HERITAGE"]["weights"]
             raw = (
                 sub_scores["crowd_stampede"]["score"] * w.get("crowd_stampede_chokepoint", 0.40) +
@@ -97,7 +114,7 @@ class AdaptiveRiskEngine:
             final_score = raw
 
         else: # HILL_MOUNTAIN (Default)
-            sub_scores = cls._compute_hill_sub_scores(checkpoint, weather, in_hazard, matched_hazard_name, base_hazard_weight, daily_ascent_m)
+            sub_scores = cls._compute_hill_sub_scores(checkpoint, weather, in_hazard, matched_hazard_name, base_hazard_weight, daily_ascent_m, p_meta)
             w = weights or REGION_CONFIGS["HILL_MOUNTAIN"]["weights"]
             raw = (
                 sub_scores["terrain_landslide"]["score"] * w.get("terrain_landslide", 0.30) +
@@ -151,54 +168,117 @@ class AdaptiveRiskEngine:
             "reroute_needed": final_score > thresholds["moderate"]
         }
 
+    # -------------------------------------------------------------------------
     # Region-Specific Sub-Factor Calculations
+    # -------------------------------------------------------------------------
     @staticmethod
-    def _compute_hill_sub_scores(cp, weather, in_hazard, hazard_name, base_weight, daily_ascent):
+    def _compute_hill_sub_scores(cp, weather, in_hazard, hazard_name, base_weight, daily_ascent, p_meta=None):
         precip = weather.get("precipitation_mm_hr", 0.0)
         temp = weather.get("temperature_c", 15.0)
         alt = cp.get("altitude_m", 2000)
+        mobility_tier = p_meta.get("mobility_tier", "PAVED_WALKWAY") if p_meta else "PAVED_WALKWAY"
+        crowd_risk = p_meta.get("crowd_crush_risk_level", "LOW") if p_meta else "LOW"
 
-        # Terrain / Landslide (0-100)
-        t_score = min(100.0, (base_weight * 70.0) + (30.0 if alt > 2500 else 15.0))
+        # Terrain / Landslide / Steep Staircase Exertion (0-100)
+        if mobility_tier == "STEEP_TREK_STAIRS":
+            # For hilltop stair complexes (like Palitana 3500+ steps), slope exertion and stair congestion dominate
+            t_score = min(100.0, (base_weight * 50.0) + 35.0 + max(0, temp - 28) * 3.0)
+            terrain_label = "Hilltop Staircase & Slope Exertion"
+            terrain_details = f"Steep vertical staircase ({mobility_tier.replace('_', ' ').title()})"
+        else:
+            t_score = min(100.0, (base_weight * 70.0) + (30.0 if alt > 2500 else 15.0))
+            terrain_label = "Landslide & Slope"
+            terrain_details = f"{hazard_name} ({'Inside Hazard' if in_hazard else 'Stable'})"
+
         # Weather / Squall
         w_score = min(100.0, precip * 2.5 + weather.get("wind_speed_kmh", 10) * 0.8 + (max(0, 5 - temp) * 4))
-        # Altitude / AMS
-        a_score = 0.0 if alt < 2500 else min(100.0, ((alt - 2500) / 1500.0) * 50.0 + (daily_ascent / 10.0))
+
+        # Altitude / AMS Hypoxia
+        if alt < 2500:
+            a_score = 0.0
+            alt_details = f"Elevation: {alt}m (Below hypoxia threshold)"
+        else:
+            a_score = min(100.0, ((alt - 2500) / 1500.0) * 50.0 + (daily_ascent / 10.0))
+            alt_details = f"Elevation: {alt}m (+{daily_ascent}m ascent)"
+
         # Isolation
         i_score = min(100.0, (cp.get("nearest_hospital_dist_km", 2.0) / 12.0) * 100.0)
-        # Crowd
-        c_score = 20.0
+
+        # Crowd Density / Bottleneck Factor
+        crowd_base = 20.0
+        if crowd_risk == "SEVERE":
+            crowd_base = 65.0 if in_hazard else 45.0
+        elif crowd_risk == "HIGH":
+            crowd_base = 50.0 if in_hazard else 35.0
+        elif crowd_risk == "MODERATE":
+            crowd_base = 35.0 if in_hazard else 25.0
+        c_score = min(100.0, crowd_base + (20.0 if in_hazard else 0.0))
 
         return {
-            "terrain_landslide": {"score": round(t_score, 1), "label": "Landslide & Slope", "details": f"{hazard_name} ({'Inside Hazard' if in_hazard else 'Stable'})"},
+            "terrain_landslide": {"score": round(t_score, 1), "label": terrain_label, "details": terrain_details},
             "weather_squall": {"score": round(w_score, 1), "label": "Alpine Weather & Rain", "details": f"Rain: {precip}mm/h, Temp: {temp}°C"},
-            "altitude_hypoxia": {"score": round(a_score, 1), "label": "Altitude & Hypoxia (AMS)", "details": f"Elevation: {alt}m (+{daily_ascent}m ascent)"},
+            "altitude_hypoxia": {"score": round(a_score, 1), "label": "Altitude & Hypoxia (AMS)", "details": alt_details},
             "medical_isolation": {"score": round(i_score, 1), "label": "Emergency Hospital Distance", "details": f"Nearest post: {cp.get('nearest_hospital_dist_km', 1.0)}km"},
-            "crowd_slowdown": {"score": round(c_score, 1), "label": "Trail Chokepoint Transit", "details": "Normal trail flow"}
+            "crowd_slowdown": {"score": round(c_score, 1), "label": "Trail Chokepoint Transit", "details": f"Crowd rating: {crowd_risk} ({'Active surge' if in_hazard else 'Normal'})"}
         }
 
     @staticmethod
-    def _compute_coastal_sub_scores(cp, weather, in_hazard, hazard_name, base_weight):
+    def _compute_coastal_sub_scores(cp, weather, in_hazard, hazard_name, base_weight, p_meta=None):
         precip = weather.get("precipitation_mm_hr", 0.0)
         wind = weather.get("wind_speed_kmh", 15.0)
         temp = weather.get("temperature_c", 30.0)
+        crowd_risk = p_meta.get("crowd_crush_risk_level", "LOW") if p_meta else "LOW"
 
         m_score = min(100.0, (base_weight * 60.0) + (wind * 0.8))
         w_score = min(100.0, precip * 2.2 + wind * 0.7)
         r_score = min(100.0, (70.0 if in_hazard else 25.0) + (wind * 0.5))
         u_score = min(100.0, max(0, temp - 32) * 8.0)
-        c_score = 30.0
+
+        crowd_base = 30.0
+        if crowd_risk == "SEVERE":
+            crowd_base = 70.0 if in_hazard else 50.0
+        elif crowd_risk == "HIGH":
+            crowd_base = 55.0 if in_hazard else 40.0
+        elif crowd_risk == "MODERATE":
+            crowd_base = 40.0 if in_hazard else 30.0
+        c_score = min(100.0, crowd_base)
 
         return {
             "marine_surge": {"score": round(m_score, 1), "label": "Cyclone & Wave Surge (INCOIS)", "details": f"Tidal risk: {hazard_name}"},
             "weather_precip": {"score": round(w_score, 1), "label": "Coastal Rainfall & Gale", "details": f"Wind: {wind}km/h, Rain: {precip}mm/h"},
             "rip_current": {"score": round(r_score, 1), "label": "Beach Rip-Current Zone", "details": "Red-flagged rip currents near sandbars" if in_hazard else "Lifeguard monitored beach"},
             "heat_uv": {"score": round(u_score, 1), "label": "Tropical Heat & UV Index", "details": f"Temp: {temp}°C (High humidity)"},
-            "crowd": {"score": round(c_score, 1), "label": "Promenade & Beach Density", "details": "Moderate tourist flow"}
+            "crowd": {"score": round(c_score, 1), "label": "Promenade & Beach Density", "details": f"Crowd rating: {crowd_risk}"}
         }
 
     @staticmethod
-    def _compute_forest_sub_scores(cp, weather, in_hazard, hazard_name, base_weight):
+    def _compute_plains_sub_scores(cp, weather, in_hazard, hazard_name, base_weight, p_meta=None):
+        precip = weather.get("precipitation_mm_hr", 0.0)
+        temp = weather.get("temperature_c", 30.0)
+        crowd_risk = p_meta.get("crowd_crush_risk_level", "LOW") if p_meta else "LOW"
+
+        crw_base = 40.0
+        if crowd_risk == "SEVERE":
+            crw_base = 75.0 if in_hazard else 55.0
+        elif crowd_risk == "HIGH":
+            crw_base = 65.0 if in_hazard else 45.0
+        elif crowd_risk == "MODERATE":
+            crw_base = 50.0 if in_hazard else 35.0
+        crw_score = min(100.0, crw_base + (20.0 if in_hazard else 0.0))
+
+        fld_score = min(100.0, (precip * 3.2) + (25.0 if in_hazard else 0.0))
+        heat_score = min(100.0, max(0, temp - 30) * 5.5 + (15.0 if in_hazard else 0.0))
+        trs_score = min(100.0, (cp.get("nearest_hospital_dist_km", 2.0) / 10.0) * 60.0 + 20.0)
+
+        return {
+            "crowd_stampede": {"score": round(crw_score, 1), "label": "Crowd Density & Queue Bottleneck", "details": f"Rating: {crowd_risk} ({'Corridor surge' if in_hazard else 'Regulated flow'})"},
+            "riverine_flood": {"score": round(fld_score, 1), "label": "Riverine Flood & Waterlogging", "details": f"Precipitation: {precip}mm/h ({hazard_name})"},
+            "heat_stress": {"score": round(heat_score, 1), "label": "Plains Heat Index & Dehydration", "details": f"Ambient: {temp}°C (Extreme threshold >40°C)"},
+            "emergency_transit": {"score": round(trs_score, 1), "label": "Emergency Transit Access Time", "details": f"Hospital dist: {cp.get('nearest_hospital_dist_km', 1.5)}km"}
+        }
+
+    @staticmethod
+    def _compute_forest_sub_scores(cp, weather, in_hazard, hazard_name, base_weight, p_meta=None):
         precip = weather.get("precipitation_mm_hr", 0.0)
         temp = weather.get("temperature_c", 26.0)
 
@@ -217,7 +297,7 @@ class AdaptiveRiskEngine:
         }
 
     @staticmethod
-    def _compute_desert_sub_scores(cp, weather, in_hazard, hazard_name, base_weight):
+    def _compute_desert_sub_scores(cp, weather, in_hazard, hazard_name, base_weight, p_meta=None):
         temp = weather.get("temperature_c", 38.0)
         wind = weather.get("wind_speed_kmh", 20.0)
 
@@ -234,16 +314,29 @@ class AdaptiveRiskEngine:
         }
 
     @staticmethod
-    def _compute_urban_sub_scores(cp, weather, in_hazard, hazard_name):
+    def _compute_urban_sub_scores(cp, weather, in_hazard, hazard_name, base_weight=0.6, p_meta=None):
         precip = weather.get("precipitation_mm_hr", 0.0)
+        crowd_risk = p_meta.get("crowd_crush_risk_level", "LOW") if p_meta else "LOW"
+        screening = p_meta.get("security_screening_level", "STANDARD") if p_meta else "STANDARD"
 
-        crw_score = 65.0 if in_hazard else 35.0
+        crw_base = 35.0
+        if crowd_risk == "SEVERE":
+            crw_base = 70.0 if in_hazard else 50.0
+        elif crowd_risk == "HIGH":
+            crw_base = 60.0 if in_hazard else 40.0
+        elif crowd_risk == "MODERATE":
+            crw_base = 45.0 if in_hazard else 35.0
+
+        if screening == "BIOMETRIC_HOLDING":
+            crw_base += 10.0
+
+        crw_score = min(100.0, crw_base + (20.0 if in_hazard else 0.0))
         fld_score = min(100.0, precip * 3.5)
-        trs_score = 30.0
+        trs_score = min(100.0, (cp.get("nearest_hospital_dist_km", 2.0) / 8.0) * 70.0 + 15.0)
         aqi_score = 45.0
 
         return {
-            "crowd_stampede": {"score": round(crw_score, 1), "label": "Crowd Bottleneck & Surge", "details": "Dense ghat / temple queue formation"},
+            "crowd_stampede": {"score": round(crw_score, 1), "label": "Crowd Bottleneck & Security Holding", "details": f"Crowd rating: {crowd_risk} ({screening.replace('_', ' ').title()})"},
             "urban_flood": {"score": round(fld_score, 1), "label": "Municipal Waterlogging", "details": f"Rainfall: {precip}mm/h in drainage basin"},
             "emergency_transit": {"score": round(trs_score, 1), "label": "Ambulance Transit Time", "details": "Urban gridlock traffic index"},
             "aqi_pollution": {"score": round(aqi_score, 1), "label": "Air Quality (AQI)", "details": "Moderate particulate level"}

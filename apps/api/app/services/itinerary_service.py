@@ -138,7 +138,7 @@ class ItineraryService:
                     elev_gain = 280 if region_type == "HILL_MOUNTAIN" else 30
                     pacing_note = f"Steady cadence adhering to {region_profile['curfew_time']} safety curfew."
 
-            day_items = cls._evaluate_items(day_cps, region_type, hazard_zones, weather_override)
+            day_items = cls._evaluate_items(day_cps, region_type, hazard_zones, weather_override, dest.get("pilgrimage_metadata"))
             day_score = round(sum(i["total_risk_score"] for i in day_items) / max(1, len(day_items)), 1) if day_items else 20.0
 
             days_plan.append({
@@ -162,6 +162,7 @@ class ItineraryService:
             "state_ut": dest["state_ut"],
             "region_type": region_type,
             "region_name": region_profile["name"],
+            "category": dest.get("category", "general"),
             "emergency_agency": region_profile["emergency_agency"],
             "duration_days": days_count,
             "start_date": start_date_str,
@@ -175,18 +176,20 @@ class ItineraryService:
             "trail_coords": dest.get("trail_coords", []),
             "bypass_coords": dest.get("bypass_coords", []),
             "hazard_zones": dest.get("hazard_zones", []),
-            "shelters": dest.get("shelters", [])
+            "shelters": dest.get("shelters", []),
+            "pilgrimage_metadata": dest.get("pilgrimage_metadata")
         }
 
     @classmethod
-    def _evaluate_items(cls, checkpoints, region_type, hazard_zones, weather):
+    def _evaluate_items(cls, checkpoints, region_type, hazard_zones, weather, pilgrimage_metadata=None):
         items = []
         for idx, cp in enumerate(checkpoints):
             risk_eval = AdaptiveRiskEngine.evaluate_checkpoint_risk(
                 checkpoint=cp,
                 region_type=region_type,
                 hazard_zones=hazard_zones,
-                weather=weather
+                weather=weather,
+                pilgrimage_metadata=pilgrimage_metadata
             )
             items.append({
                 "sequence": idx + 1,

@@ -46,17 +46,16 @@ RATE_LIMIT_REQUESTS_PER_MINUTE=60
 
 ## 2. PostgreSQL + PostGIS Setup (Production Database)
 
-When deploying to a PostGIS-enabled database:
-```sql
--- Enable PostGIS spatial extensions
-CREATE EXTENSION IF NOT EXISTS postgis;
-CREATE EXTENSION IF NOT EXISTS postgis_topology;
+When deploying to a PostGIS-enabled database, run the initial schema and pilgrimage seed migrations:
+```bash
+# Apply initial schema & spatial indexing
+psql -U postgres -d safetraildb -f apps/api/app/data/migrations/001_initial_postgis_schema.sql
 
--- Spatial Indexing on Hazard Zones
-CREATE INDEX IF NOT EXISTS idx_hazard_zones_bbox ON hazard_zones USING GIST (
-    ST_MakeEnvelope(min_lon, min_lat, max_lon, max_lat, 4326)
-);
+# Apply 21-Destination Pilgrimage Dataset seed migration
+psql -U postgres -d safetraildb -f apps/api/app/data/migrations/002_seed_pilgrimage_dataset.sql
 ```
+
+The migration automatically creates `region_types`, `destinations`, `pilgrimage_metadata`, and `hazard_zones` with spatial `GIST` indexes.
 
 ---
 
@@ -156,7 +155,9 @@ CMD ["nginx", "-g", "daemon off;"]
 - [x] **Cryptographic Auth Validated**: `jwt.decode` enforces HMAC-SHA256 signature verification.
 - [x] **Sovereign Boundary Enforcement**: Requests outside India rejected with HTTP 400.
 - [x] **Dynamic Hazard Indexing**: Bounding-box queries index both pre-seeded catalog and dynamically geocoded hazards.
-- [x] **Multi-Region Formulas Validated**: All 5 canonical regions tested with summing weight vectors.
+- [x] **Multi-Region Formulas Validated**: All 6 canonical regions (Hill, Coastal, Forest, Desert, Urban, Plains) tested with summing weight vectors.
+- [x] **Pilgrimage Dataset & Circuits**: 21 destinations seeded across Char Dham, Chota Char Dham, 12 Jyotirlingas, and Prominent Shrines.
 - [x] **IndexedDB & 2G GSM Fallback**: 140-char SMS payload generated; IndexedDB persists offline itinerary.
-- [x] **Zero TypeScript Errors**: `npm run build` bundled successfully in <400ms.
-- [x] **Automated Test Suite**: 24/24 unit, security, and integration tests passing.
+- [x] **Zero TypeScript Errors**: `npm run build` bundled successfully in <450ms.
+- [x] **Automated Test Suite**: 53/53 unit, security, integration, and pilgrimage archetype tests passing.
+

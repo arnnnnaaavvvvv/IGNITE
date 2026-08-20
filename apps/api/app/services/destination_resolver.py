@@ -47,11 +47,12 @@ class DestinationResolver:
     @classmethod
     async def search(cls, query: str) -> List[Dict[str, Any]]:
         """
-        Instant search across indexed hotspots and live Nominatim suggestions.
+        Instant search across indexed hotspots, pilgrimage circuits, and live Nominatim suggestions.
         """
         q = query.strip().lower()
+        from app.data.pan_india_dataset import PAN_INDIA_DESTINATIONS
+        
         if not q:
-            from app.data.pan_india_dataset import PAN_INDIA_DESTINATIONS
             return [
                 {
                     "id": d["id"],
@@ -59,32 +60,45 @@ class DestinationResolver:
                     "name_hi": d.get("name_hi", d["canonical_name"]),
                     "state_ut": d["state_ut"],
                     "region_type": d["region_type"],
-                    "region_name": REGION_CONFIGS[d["region_type"]]["name"],
+                    "region_name": REGION_CONFIGS.get(d["region_type"], {}).get("name", d["region_type"]),
+                    "category": d.get("category", "general"),
                     "elevation_m": d["elevation_m"],
                     "lat": d.get("lat", 20.5937),
-                    "lon": d.get("lon", 78.9629)
+                    "lon": d.get("lon", 78.9629),
+                    "pilgrimage_metadata": d.get("pilgrimage_metadata")
                 }
                 for d in PAN_INDIA_DESTINATIONS
             ]
 
-        # 1. First check pre-seeded catalog
-        from app.data.pan_india_dataset import PAN_INDIA_DESTINATIONS
+        # 1. First check pre-seeded catalog (names, states, region types, categories, circuits)
         results = []
         for d in PAN_INDIA_DESTINATIONS:
-            if q in d["canonical_name"].lower() or q in d["state_ut"].lower() or q in d["region_type"].lower():
+            circuits = d.get("pilgrimage_metadata", {}).get("circuits", [])
+            circuits_str = " ".join(circuits).lower()
+            if (
+                q in d["canonical_name"].lower()
+                or q in d["state_ut"].lower()
+                or q in d["region_type"].lower()
+                or q in d.get("category", "").lower()
+                or q in circuits_str
+                or q in d.get("name_hi", "")
+                or d["id"].lower() == f"dest_{q}"
+            ):
                 results.append({
                     "id": d["id"],
                     "canonical_name": d["canonical_name"],
                     "name_hi": d.get("name_hi", d["canonical_name"]),
                     "state_ut": d["state_ut"],
                     "region_type": d["region_type"],
-                    "region_name": REGION_CONFIGS[d["region_type"]]["name"],
+                    "region_name": REGION_CONFIGS.get(d["region_type"], {}).get("name", d["region_type"]),
+                    "category": d.get("category", "general"),
                     "elevation_m": d["elevation_m"],
                     "lat": d.get("lat", 20.5937),
-                    "lon": d.get("lon", 78.9629)
+                    "lon": d.get("lon", 78.9629),
+                    "pilgrimage_metadata": d.get("pilgrimage_metadata")
                 })
 
-        # 2. Query live Nominatim API for dynamic place suggestions across India
+        # 2. Query live Nominatim API for dynamic place suggestions across India if few results
         if len(results) < 4:
             try:
                 url = "https://nominatim.openstreetmap.org/search"
@@ -119,7 +133,8 @@ class DestinationResolver:
                                     "name_hi": name,
                                     "state_ut": state,
                                     "region_type": reg_type,
-                                    "region_name": REGION_CONFIGS[reg_type]["name"],
+                                    "region_name": REGION_CONFIGS.get(reg_type, {}).get("name", reg_type),
+                                    "category": "general",
                                     "elevation_m": 150,
                                     "lat": lat,
                                     "lon": lon
@@ -160,10 +175,15 @@ class DestinationResolver:
         if cached:
             return cached
 
-        # 1. Match in known pre-seeded database
+        # 1. Match in known pre-seeded database (generic multi-pass lookup)
         from app.data.pan_india_dataset import PAN_INDIA_DESTINATIONS
+        
+        # Pass 1: Exact match on canonical_name, id, or Hindi name
         for d in PAN_INDIA_DESTINATIONS:
-            if q == d["canonical_name"].lower() or d["id"] == query or q == d["id"] or q == d["canonical_name"].lower().split()[0]:
+            d_name = d["canonical_name"].lower()
+            d_id = d["id"].lower()
+            d_hi = d.get("name_hi", "").lower()
+            if q == d_name or q == d_id or d["id"] == query or d_id == f"dest_{q}" or (d_hi and q == d_hi):
                 profile = RegionRuleManager.get_profile(d["region_type"])
                 res = {
                     **d,
@@ -172,6 +192,37 @@ class DestinationResolver:
                 }
                 await cache_manager.set_json(cache_key, res, ttl_seconds=86400)
                 return res
+
+        # Pass 2: Substring match on canonical_name or primary token
+        for d in PAN_INDIA_DESTINATIONS:
+            d_name = d["canonical_name"].lower()
+            d_id = d["id"].lower()
+            d_hi = d.get("name_hi", "").lower()
+            if q in d_name or d_name in q or (d_hi and q in d_hi):
+                profile = RegionRuleManager.get_profile(d["region_type"])
+                res = {
+                    **d,
+                    "region_profile": profile,
+                    "is_dynamically_geocoded": False
+                }
+                await cache_manager.set_json(cache_key, res, ttl_seconds=86400)
+                return res
+
+        # Pass 3: Distinct keyword token matching (ignoring generic stop words)
+        GENERIC_STOPWORDS = {"temple", "mandir", "dham", "jyotirlinga", "beach", "park", "national", "shri", "lake", "fort", "valley", "dunes", "the", "and", "near", "dargah", "sanctuary", "temples"}
+        q_tokens = [t for t in q.replace(",", " ").split() if len(t) > 2 and t not in GENERIC_STOPWORDS]
+        if q_tokens:
+            for d in PAN_INDIA_DESTINATIONS:
+                d_tokens = [t for t in d["canonical_name"].lower().replace(",", " ").split() if len(t) > 2 and t not in GENERIC_STOPWORDS]
+                if any(qt in d_tokens for qt in q_tokens) or any(dt in q_tokens for dt in d_tokens):
+                    profile = RegionRuleManager.get_profile(d["region_type"])
+                    res = {
+                        **d,
+                        "region_profile": profile,
+                        "is_dynamically_geocoded": False
+                    }
+                    await cache_manager.set_json(cache_key, res, ttl_seconds=86400)
+                    return res
 
         # 2. Dynamic Geocoding via Nominatim API + Open-Meteo Elevation + Overpass + OSRM
         geocoded = await cls._geocode_arbitrary_place(query)

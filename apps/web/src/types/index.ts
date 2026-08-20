@@ -1,4 +1,31 @@
-export type RegionType = 'HILL_MOUNTAIN' | 'COASTAL_MARINE' | 'FOREST_WILDLIFE' | 'DESERT_ARID' | 'URBAN_HERITAGE';
+export type RegionType = 'HILL_MOUNTAIN' | 'COASTAL_MARINE' | 'FOREST_WILDLIFE' | 'DESERT_ARID' | 'URBAN_HERITAGE' | 'PLAINS_RIVERINE';
+
+export interface PilgrimageMetadata {
+  circuits: string[];
+  peak_seasons: Array<{ name: string; crowd_multiplier: number }>;
+  crowd_crush_risk_level: 'LOW' | 'MODERATE' | 'HIGH' | 'SEVERE';
+  historical_crowd_crush_incidents?: string;
+  mobility_tier: 'PAVED_WALKWAY' | 'MODERATE_INCLINE' | 'STEEP_TREK_STAIRS' | 'HIGH_ALTITUDE_TREK';
+  physical_exertion_note?: string;
+  nearest_medical_infra?: {
+    hospital_name: string;
+    distance_km: number;
+    has_oxygen_bank?: boolean;
+    emergency_helipad?: string;
+  };
+  security_screening_level?: 'STANDARD' | 'ELEVATED' | 'BIOMETRIC_HOLDING';
+  connectivity_status?: string;
+}
+
+export interface PilgrimageCircuit {
+  id: string;
+  name: string;
+  name_hi?: string;
+  description: string;
+  icon: string;
+  destinations: string[];
+  destination_records?: DestinationSearchResult[];
+}
 
 export interface Checkpoint {
   id: string;
@@ -96,6 +123,7 @@ export interface ItineraryResponse {
   state_ut: string;
   region_type: RegionType;
   region_name: string;
+  category?: string;
   emergency_agency: string;
   duration_days: number;
   start_date?: string;
@@ -110,6 +138,7 @@ export interface ItineraryResponse {
   bypass_coords: [number, number, number?][];
   hazard_zones: HazardZone[];
   shelters: EmergencyShelter[];
+  pilgrimage_metadata?: PilgrimageMetadata;
   explainability: {
     summary_text: string;
     overall_score: number;
@@ -127,9 +156,11 @@ export interface DestinationSearchResult {
   state_ut: string;
   region_type: RegionType;
   region_name: string;
+  category?: string;
   elevation_m: number;
   lat?: number;
   lon?: number;
+  pilgrimage_metadata?: PilgrimageMetadata;
 }
 
 export interface SimulationScenario {

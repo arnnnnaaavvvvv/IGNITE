@@ -85,6 +85,12 @@ def test_risk_engine_weight_formulations():
     assert "crowd_stampede_chokepoint" in urban_weights
     assert urban_weights["crowd_stampede_chokepoint"] == 0.40
 
+    # Test 5: Crowd bottleneck and riverine flood in PLAINS_RIVERINE
+    plains_weights = RegionRuleManager.get_weights("PLAINS_RIVERINE")
+    assert "crowd_stampede_chokepoint" in plains_weights
+    assert plains_weights["crowd_stampede_chokepoint"] == 0.35
+    assert plains_weights["riverine_flood"] == 0.25
+
 
 # -----------------------------------------------------------------------------
 # 3. BOUNDARY ENFORCEMENT & AMBIGUOUS PLACE HANDLING
