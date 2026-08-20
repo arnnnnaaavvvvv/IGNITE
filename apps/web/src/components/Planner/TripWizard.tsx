@@ -1,5 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Calendar, Wallet, Activity, MapPin, Sparkles, Search, Clock, Plus, Minus } from 'lucide-react';
+import {
+  Calendar,
+  Wallet,
+  Activity,
+  MapPin,
+  Sparkles,
+  Search,
+  Clock,
+  Plus,
+  Minus,
+  SlidersHorizontal,
+  ArrowRight,
+  Info,
+  ShieldCheck,
+} from 'lucide-react';
 import type { DestinationSearchResult, RegionType } from '../../types';
 
 interface TripWizardProps {
@@ -64,8 +78,8 @@ export const TripWizard: React.FC<TripWizardProps> = ({
   const [isSearching, setIsSearching] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
 
-  // Duration & Custom Dates State
-  const [durationMode, setDurationMode] = useState<'presets' | 'dates' | 'custom_days'>('presets');
+  // Duration & Custom Dates State (Clean 2-mode system: Dates vs Exact Days)
+  const [durationMode, setDurationMode] = useState<'dates' | 'custom_days'>('dates');
   const [startDate, setStartDate] = useState<string>(getTodayIso());
   const [endDate, setEndDate] = useState<string>(addDaysIso(getTodayIso(), 1));
   const [durationDays, setDurationDays] = useState(2);
@@ -371,129 +385,111 @@ export const TripWizard: React.FC<TripWizardProps> = ({
           </div>
         </div>
 
-        {/* Enhanced Trip Duration & Acclimatized Pacing with Custom Dates & Days */}
-        <div className="bg-slate-900/40 border border-slate-800/80 p-3.5 rounded-xl space-y-3">
-          <div className="flex items-center justify-between">
-            <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
-              <Calendar className="w-3.5 h-3.5 text-emerald-400" />
+        {/* Enhanced Trip Duration & Acclimatized Pacing */}
+        <div className="bg-slate-900/50 border border-slate-800/90 p-4 rounded-2xl space-y-3.5 shadow-sm">
+          <div className="flex items-center justify-between gap-2 flex-wrap">
+            <label className="text-xs font-semibold text-slate-200 flex items-center gap-2">
+              <Calendar className="w-4 h-4 text-emerald-400" />
               <span>Trip Duration & Acclimatized Pacing</span>
             </label>
 
             {/* Mode Switcher Tabs */}
-            <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800 text-[10px]">
-              <button
-                type="button"
-                onClick={() => setDurationMode('presets')}
-                className={`px-2 py-0.5 rounded-md font-semibold transition-all cursor-pointer ${
-                  durationMode === 'presets'
-                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                    : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                Presets
-              </button>
+            <div className="flex items-center p-1 bg-slate-950/90 rounded-xl border border-slate-800/90 text-xs">
               <button
                 type="button"
                 onClick={() => setDurationMode('dates')}
-                className={`px-2 py-0.5 rounded-md font-semibold transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-medium transition-all cursor-pointer ${
                   durationMode === 'dates'
-                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                    : 'text-slate-400 hover:text-white'
+                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-sm font-semibold'
+                    : 'text-slate-400 hover:text-slate-200 border border-transparent'
                 }`}
               >
-                📅 Custom Dates
+                <Calendar className="w-3.5 h-3.5" />
+                <span>Custom Dates</span>
               </button>
               <button
                 type="button"
                 onClick={() => setDurationMode('custom_days')}
-                className={`px-2 py-0.5 rounded-md font-semibold transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-medium transition-all cursor-pointer ${
                   durationMode === 'custom_days'
-                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                    : 'text-slate-400 hover:text-white'
+                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-sm font-semibold'
+                    : 'text-slate-400 hover:text-slate-200 border border-transparent'
                 }`}
               >
-                🔢 Exact Days
+                <SlidersHorizontal className="w-3.5 h-3.5" />
+                <span>Exact Days</span>
               </button>
             </div>
           </div>
 
-          {/* Preset Buttons Mode */}
-          {durationMode === 'presets' && (
-            <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-7 gap-2">
-              {[
-                { days: 1, label: '1 Day', sub: 'Express' },
-                { days: 2, label: '2 Days', sub: 'Standard' },
-                { days: 3, label: '3 Days', sub: 'Relaxed' },
-                { days: 5, label: '5 Days', sub: 'Extended' },
-                { days: 7, label: '7 Days', sub: 'Full Circuit' },
-                { days: 14, label: '14 Days', sub: 'Expedition' },
-                { days: 30, label: '30 Days', sub: 'Grand Trek' },
-              ].map((item) => (
-                <button
-                  type="button"
-                  key={item.days}
-                  onClick={() => handleDurationChange(item.days)}
-                  className={`py-2 px-2 rounded-xl text-center border transition-all cursor-pointer ${
-                    durationDays === item.days
-                      ? 'bg-emerald-500/20 border-emerald-500/60 text-emerald-300 shadow-sm'
-                      : 'bg-slate-900 border-slate-800 text-slate-400 hover:border-slate-700'
-                  }`}
-                >
-                  <div className="text-xs font-bold">{item.label}</div>
-                  <div className="text-[9px] text-slate-400 truncate">{item.sub}</div>
-                </button>
-              ))}
-            </div>
-          )}
-
           {/* Custom Date Range Picker Mode */}
           {durationMode === 'dates' && (
-            <div className="space-y-2.5">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                <div className="space-y-1">
-                  <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1">
-                    <Clock className="w-3 h-3 text-emerald-400" />
-                    <span>Departure Date</span>
-                  </label>
+            <div className="space-y-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="space-y-1.5 bg-slate-950/70 p-3 rounded-xl border border-slate-800/80 hover:border-slate-700/80 transition-colors">
+                  <div className="flex items-center justify-between">
+                    <label className="text-[11px] font-semibold text-slate-300 flex items-center gap-1.5">
+                      <Clock className="w-3.5 h-3.5 text-emerald-400" />
+                      <span>Departure Date</span>
+                    </label>
+                    <span className="text-[10px] font-mono text-slate-500">Day 1</span>
+                  </div>
                   <input
                     type="date"
                     value={startDate}
                     min={getTodayIso()}
                     onChange={(e) => handleStartDateChange(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-700/90 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 transition-all [color-scheme:dark]"
+                    className="w-full bg-slate-900 border border-slate-700/80 rounded-lg px-3 py-2 text-xs font-medium text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/30 transition-all [color-scheme:dark]"
                   />
+                  <div className="text-[10px] text-slate-400 font-mono">
+                    {formatReadableDate(startDate)}
+                  </div>
                 </div>
 
-                <div className="space-y-1">
-                  <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1">
-                    <Clock className="w-3 h-3 text-cyan-400" />
-                    <span>Return Date</span>
-                  </label>
+                <div className="space-y-1.5 bg-slate-950/70 p-3 rounded-xl border border-slate-800/80 hover:border-slate-700/80 transition-colors">
+                  <div className="flex items-center justify-between">
+                    <label className="text-[11px] font-semibold text-slate-300 flex items-center gap-1.5">
+                      <Clock className="w-3.5 h-3.5 text-cyan-400" />
+                      <span>Return Date</span>
+                    </label>
+                    <span className="text-[10px] font-mono text-emerald-400 font-semibold">{durationDays} {durationDays === 1 ? 'Day' : 'Days'}</span>
+                  </div>
                   <input
                     type="date"
                     value={endDate}
                     min={startDate}
                     onChange={(e) => handleEndDateChange(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-700/90 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 transition-all [color-scheme:dark]"
+                    className="w-full bg-slate-900 border border-slate-700/80 rounded-lg px-3 py-2 text-xs font-medium text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/30 transition-all [color-scheme:dark]"
                   />
+                  <div className="text-[10px] text-slate-400 font-mono">
+                    {formatReadableDate(endDate)}
+                  </div>
                 </div>
               </div>
 
-              {/* Quick Date Duration Shifters */}
-              <div className="flex items-center gap-1.5 flex-wrap pt-1 text-[10px]">
-                <span className="text-slate-500">Quick adjust:</span>
-                {[1, 2, 3, 5, 7, 10, 14, 21, 30].map((d) => (
+              {/* Quick Duration Adjusters */}
+              <div className="flex items-center gap-1.5 flex-wrap pt-0.5">
+                <span className="text-[11px] font-medium text-slate-400 mr-1">Quick duration:</span>
+                {[
+                  { days: 2, label: '2 Days' },
+                  { days: 3, label: '3 Days' },
+                  { days: 5, label: '5 Days' },
+                  { days: 7, label: '7 Days' },
+                  { days: 10, label: '10 Days' },
+                  { days: 14, label: '14 Days' },
+                  { days: 21, label: '21 Days' },
+                ].map((item) => (
                   <button
                     type="button"
-                    key={d}
-                    onClick={() => handleDurationChange(d)}
-                    className={`px-2 py-0.5 rounded-md border text-[10px] font-medium transition-all cursor-pointer ${
-                      durationDays === d
-                        ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50 font-bold'
-                        : 'bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-700'
+                    key={item.days}
+                    onClick={() => handleDurationChange(item.days)}
+                    className={`px-2.5 py-1 rounded-lg border text-xs transition-all cursor-pointer ${
+                      durationDays === item.days
+                        ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50 font-semibold shadow-sm'
+                        : 'bg-slate-950/60 border-slate-800/80 text-slate-400 hover:text-slate-200 hover:border-slate-700'
                     }`}
                   >
-                    {d} {d === 1 ? 'Day' : 'Days'}
+                    {item.label}
                   </button>
                 ))}
               </div>
@@ -502,66 +498,105 @@ export const TripWizard: React.FC<TripWizardProps> = ({
 
           {/* Exact Days Stepper & Slider Mode */}
           {durationMode === 'custom_days' && (
-            <div className="space-y-3">
-              <div className="flex items-center justify-between gap-3">
-                <div className="flex items-center gap-2">
+            <div className="space-y-3.5 bg-slate-950/70 p-3.5 rounded-xl border border-slate-800/80">
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex items-center gap-2.5">
                   <button
                     type="button"
                     onClick={() => handleDurationChange(durationDays - 1)}
                     disabled={durationDays <= 1}
-                    className="w-8 h-8 rounded-lg bg-slate-950 border border-slate-800 hover:border-slate-700 text-slate-300 flex items-center justify-center disabled:opacity-30 cursor-pointer"
+                    aria-label="Decrease duration"
+                    className="w-8 h-8 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 hover:bg-slate-800 text-slate-300 flex items-center justify-center disabled:opacity-30 disabled:hover:bg-slate-900 disabled:hover:border-slate-800 transition-all cursor-pointer"
                   >
-                    <Minus className="w-3.5 h-3.5" />
+                    <Minus className="w-4 h-4" />
                   </button>
 
-                  <div className="px-4 py-1.5 rounded-lg bg-slate-950 border border-emerald-500/40 text-center min-w-[100px]">
-                    <span className="text-sm font-mono font-black text-emerald-300">{durationDays}</span>
-                    <span className="text-xs text-slate-400 ml-1 font-semibold">{durationDays === 1 ? 'Day' : 'Days'}</span>
+                  <div className="px-4 py-1.5 rounded-lg bg-slate-900 border border-emerald-500/40 text-center min-w-[110px] shadow-sm">
+                    <span className="text-base font-mono font-black text-emerald-300">{durationDays}</span>
+                    <span className="text-xs text-slate-300 ml-1.5 font-semibold">{durationDays === 1 ? 'Day' : 'Days'}</span>
                   </div>
 
                   <button
                     type="button"
                     onClick={() => handleDurationChange(durationDays + 1)}
                     disabled={durationDays >= 30}
-                    className="w-8 h-8 rounded-lg bg-slate-950 border border-slate-800 hover:border-slate-700 text-slate-300 flex items-center justify-center disabled:opacity-30 cursor-pointer"
+                    aria-label="Increase duration"
+                    className="w-8 h-8 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 hover:bg-slate-800 text-slate-300 flex items-center justify-center disabled:opacity-30 disabled:hover:bg-slate-900 disabled:hover:border-slate-800 transition-all cursor-pointer"
                   >
-                    <Plus className="w-3.5 h-3.5" />
+                    <Plus className="w-4 h-4" />
                   </button>
                 </div>
 
                 <div className="text-right text-[11px] text-slate-400 font-mono">
-                  Range: 1 to 30 Days
+                  <span>{formatReadableDate(startDate)}</span>
+                  <span className="text-slate-600 mx-1">→</span>
+                  <span className="text-emerald-400 font-medium">{formatReadableDate(endDate)}</span>
                 </div>
               </div>
 
-              <input
-                type="range"
-                min={1}
-                max={30}
-                step={1}
-                value={durationDays}
-                onChange={(e) => handleDurationChange(Number(e.target.value))}
-                className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500"
-              />
-              <div className="flex justify-between text-[10px] text-slate-500 font-mono">
-                <span>Min: 1 Day</span>
-                <span>Max: 30 Days</span>
+              <div className="space-y-1.5">
+                <input
+                  type="range"
+                  min={1}
+                  max={30}
+                  step={1}
+                  value={durationDays}
+                  onChange={(e) => handleDurationChange(Number(e.target.value))}
+                  className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+                />
+                <div className="flex justify-between text-[10px] text-slate-500 font-mono">
+                  <span>Min: 1 Day</span>
+                  <span className="text-slate-400">Target Range: 1 – 30 Days</span>
+                  <span>Max: 30 Days</span>
+                </div>
+              </div>
+
+              {/* Quick Duration Pills */}
+              <div className="flex items-center gap-1.5 flex-wrap pt-1 border-t border-slate-800/60">
+                <span className="text-[11px] font-medium text-slate-400 mr-1">Popular:</span>
+                {[
+                  { days: 2, label: '2 Days' },
+                  { days: 3, label: '3 Days' },
+                  { days: 5, label: '5 Days' },
+                  { days: 7, label: '7 Days' },
+                  { days: 10, label: '10 Days' },
+                  { days: 14, label: '14 Days' },
+                  { days: 21, label: '21 Days' },
+                  { days: 30, label: '30 Days' },
+                ].map((item) => (
+                  <button
+                    type="button"
+                    key={item.days}
+                    onClick={() => handleDurationChange(item.days)}
+                    className={`px-2.5 py-0.5 rounded-md border text-xs transition-all cursor-pointer ${
+                      durationDays === item.days
+                        ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50 font-semibold shadow-sm'
+                        : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700'
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                ))}
               </div>
             </div>
           )}
 
           {/* Dynamic Acclimatization Pacing Status Card */}
-          <div className="p-3 rounded-xl bg-slate-950/90 border border-slate-800/90 space-y-2">
+          <div className="p-3.5 rounded-xl bg-slate-950/90 border border-slate-800/90 space-y-2.5 shadow-inner">
             <div className="flex items-center justify-between gap-2 flex-wrap">
-              <span className={`text-[11px] px-2.5 py-1 rounded-lg font-bold border whitespace-nowrap shrink-0 flex items-center gap-1.5 ${pacing.color}`}>
-                {pacing.badge}
+              <span className={`text-xs px-2.5 py-1 rounded-lg font-bold border whitespace-nowrap shrink-0 flex items-center gap-1.5 ${pacing.color}`}>
+                <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
+                <span>{pacing.badge}</span>
               </span>
-              <span className="text-xs font-mono font-bold text-slate-200 whitespace-nowrap">
-                {formatReadableDate(startDate)} ➔ {formatReadableDate(endDate)} ({durationDays} {durationDays === 1 ? 'Day' : 'Days'})
-              </span>
+              <div className="text-xs font-mono font-medium text-slate-300 flex items-center gap-1.5 whitespace-nowrap">
+                <span className="text-slate-400">{formatReadableDate(startDate)}</span>
+                <ArrowRight className="w-3 h-3 text-emerald-400 shrink-0" />
+                <span className="text-white font-bold">{formatReadableDate(endDate)}</span>
+                <span className="text-emerald-400 font-bold ml-1">({durationDays} {durationDays === 1 ? 'Day' : 'Days'})</span>
+              </div>
             </div>
-            <div className="text-[11px] text-slate-400 leading-relaxed border-t border-slate-800/80 pt-1.5 flex items-start gap-1.5">
-              <span className="text-slate-500 shrink-0">💡</span>
+            <div className="text-xs text-slate-400 leading-relaxed border-t border-slate-800/80 pt-2 flex items-start gap-2">
+              <Info className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
               <span>{pacing.desc}</span>
             </div>
           </div>
