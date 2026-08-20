@@ -222,7 +222,7 @@ export const GroupTrackerModal: React.FC<GroupTrackerModalProps> = ({
               <div className="flex justify-between">
                 <span>Mesh Status:</span>
                 <span className={m.is_separated ? 'text-red-400 font-bold' : 'text-emerald-400'}>
-                  {m.is_separated ? '⚠️ SEPARATED' : '✓ IN FORMATION'}
+                  {m.is_separated ? 'SEPARATED' : 'IN FORMATION'}
                 </span>
               </div>
             </div>

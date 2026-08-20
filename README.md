@@ -10,7 +10,7 @@
 [![PostGIS](https://img.shields.io/badge/PostGIS-Spatial_ST_Intersects-336791.svg?logo=postgresql)](https://postgis.net)
 [![Coverage](https://img.shields.io/badge/Pan--India-28_States_%2B_8_UTs-orange.svg)]()
 
-🌐 **Live Application**: [https://ignite-lemon-nu.vercel.app](https://ignite-lemon-nu.vercel.app)
+**Live Application**: [https://ignite-lemon-nu.vercel.app](https://ignite-lemon-nu.vercel.app)
 
 ---
 

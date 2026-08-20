@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import type { Checkpoint, HazardZone, EmergencyShelter } from '../../types';
-import { ShieldCheck, AlertOctagon, Compass, MapPin, Globe } from 'lucide-react';
+import { ShieldCheck, AlertOctagon, Compass, MapPin, Globe, X } from 'lucide-react';
 
 interface TrailMapProps {
   checkpoints: Checkpoint[];
@@ -112,7 +112,7 @@ export const TrailMap: React.FC<TrailMapProps> = ({
           opacity: 1.0,
           lineCap: 'round',
         });
-        bypassPolyline.bindTooltip('⚡ RECOMMENDED SAFE BYPASS CORRIDOR', {
+        bypassPolyline.bindTooltip('RECOMMENDED SAFE BYPASS CORRIDOR', {
           permanent: true,
           direction: 'top',
           className: 'bg-cyan-900 text-cyan-200 text-xs font-bold px-2 py-1 rounded border border-cyan-500 shadow-lg',
@@ -149,7 +149,7 @@ export const TrailMap: React.FC<TrailMapProps> = ({
       });
 
       const marker = L.marker([previewCoordinates.lat, previewCoordinates.lon], { icon: previewIcon });
-      marker.bindTooltip(`📍 ${previewCoordinates.name || 'Selected Destination'}`, {
+      marker.bindTooltip(`${previewCoordinates.name || 'Selected Destination'}`, {
         permanent: true,
         direction: 'top',
         offset: [0, -14],
@@ -187,7 +187,7 @@ export const TrailMap: React.FC<TrailMapProps> = ({
           setSelectedItem({ type: 'HAZARD', data: hz });
         });
 
-        polygon.bindTooltip(`⚠️ ${hz.name}`, {
+        polygon.bindTooltip(`${hz.name}`, {
           sticky: true,
           className: 'bg-slate-950 text-orange-300 text-xs px-2 py-1 rounded border border-orange-500/50',
         });
@@ -211,7 +211,7 @@ export const TrailMap: React.FC<TrailMapProps> = ({
         marker.on('click', () => {
           setSelectedItem({ type: 'SHELTER', data: sh });
         });
-        marker.bindTooltip(`🛡️ ${sh.name} (Cap: ${sh.capacity_persons})`, {
+        marker.bindTooltip(`${sh.name} (Cap: ${sh.capacity_persons})`, {
           direction: 'top',
           offset: [0, -12],
           className: 'bg-slate-900 text-sky-200 text-xs px-2 py-1 rounded border border-sky-600',
@@ -262,7 +262,7 @@ export const TrailMap: React.FC<TrailMapProps> = ({
       });
 
       const marker = L.marker([uLat, uLon], { icon: userIcon });
-      marker.bindTooltip(`📍 You (${checkpoints[0].altitude_m}m)`, { permanent: true, direction: 'right' });
+      marker.bindTooltip(`You (${checkpoints[0].altitude_m}m)`, { permanent: true, direction: 'right' });
       layersRef.current.user.addLayer(marker);
     }
   }, [
@@ -393,9 +393,9 @@ export const TrailMap: React.FC<TrailMapProps> = ({
             </div>
             <button
               onClick={() => setSelectedItem(null)}
-              className="text-xs text-slate-400 hover:text-white px-1.5 py-0.5 rounded bg-slate-800 cursor-pointer"
+              className="text-slate-400 hover:text-white p-1 rounded bg-slate-800 cursor-pointer"
             >
-              ✕
+              <X className="w-3.5 h-3.5" />
             </button>
           </div>
 
@@ -408,7 +408,7 @@ export const TrailMap: React.FC<TrailMapProps> = ({
               <div className="flex justify-between">
                 <span className="text-slate-400">Oxygen Booth:</span>
                 <span className={selectedItem.data.has_oxygen_booth ? 'text-emerald-400 font-semibold' : 'text-slate-500'}>
-                  {selectedItem.data.has_oxygen_booth ? '✓ Available (24x7)' : '✗ Not Available'}
+                  {selectedItem.data.has_oxygen_booth ? 'Available (24x7)' : 'Not Available'}
                 </span>
               </div>
               <div className="flex justify-between">
@@ -453,7 +453,7 @@ export const TrailMap: React.FC<TrailMapProps> = ({
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-400">Emergency Power & Food:</span>
-                <span className="text-emerald-400 font-semibold">✓ Verified Active</span>
+                <span className="text-emerald-400 font-semibold">Verified Active</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-400">Helpline:</span>

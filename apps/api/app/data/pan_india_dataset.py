@@ -1646,7 +1646,7 @@ PILGRIMAGE_CIRCUITS = [
         "name": "Char Dham (Cardinal)",
         "name_hi": "चार धाम (मुख्य महातीर्थ)",
         "description": "The four sacred cardinal pilgrimage sites established across India: Badrinath (North), Dwarka (West), Puri (East), and Rameswaram (South).",
-        "icon": "☸️",
+        "icon": "compass",
         "destinations": ["dest_badrinath", "dest_dwarka", "dest_puri", "dest_rameswaram"]
     },
     {
@@ -1654,7 +1654,7 @@ PILGRIMAGE_CIRCUITS = [
         "name": "Chota Char Dham (Himalayan)",
         "name_hi": "छोटा चार धाम (उत्तराखंड)",
         "description": "High-altitude Himalayan pilgrimage circuit across the Garhwal mountains: Yamunotri, Gangotri, Kedarnath, and Badrinath.",
-        "icon": "🏔️",
+        "icon": "mountain",
         "destinations": ["dest_yamunotri", "dest_gangotri", "dest_kedarnath", "dest_badrinath"]
     },
     {
@@ -1662,7 +1662,7 @@ PILGRIMAGE_CIRCUITS = [
         "name": "12 Jyotirlingas",
         "name_hi": "द्वादश ज्योतिर्लिंग",
         "description": "The 12 most sacred manifestation shrines of Lord Shiva across coastal, mountain, plains, and riverine sectors of India.",
-        "icon": "🔱",
+        "icon": "shield",
         "destinations": [
             "dest_somnath",
             "dest_mallikarjuna",
@@ -1683,7 +1683,7 @@ PILGRIMAGE_CIRCUITS = [
         "name": "Prominent Shrines & Tirths",
         "name_hi": "प्रमुख धार्मिक एवं तीर्थ स्थल",
         "description": "Iconic multi-faith pilgrimage destinations: Ajmer Sharif Dargah, Shirdi Sai Baba, Palitana Jain Tirth, and Akshardham Temple.",
-        "icon": "🕉️",
+        "icon": "landmark",
         "destinations": ["dest_ajmer_sharif", "dest_shirdi", "dest_palitana", "dest_akshardham"]
     }
 ]

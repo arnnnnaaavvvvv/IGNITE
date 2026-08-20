@@ -40,7 +40,7 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
                 ? 'bg-red-500/20 text-red-300 border-red-500/50 animate-pulse'
                 : 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
             }`}>
-              {isSimulating ? '⚡ HAZARD ACTIVE' : '✓ NORMAL TELEMETRY'}
+              {isSimulating ? 'HAZARD ACTIVE' : 'NORMAL TELEMETRY'}
             </span>
           </div>
         </div>

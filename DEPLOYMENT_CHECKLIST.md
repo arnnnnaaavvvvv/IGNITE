@@ -1,4 +1,4 @@
-# 🚀 SafeTrail AI: Production Deployment Checklist
+# SafeTrail AI: Production Deployment Checklist
 
 ### Target Architecture: Cloud Run / AWS ECS / Self-Hosted Docker Swarm
 

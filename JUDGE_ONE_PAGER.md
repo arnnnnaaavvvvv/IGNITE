@@ -1,9 +1,9 @@
-# 🏆 SafeTrail AI: Judge-Facing One-Pager
+# SafeTrail AI: Judge-Facing One-Pager
 ### *The Sovereign-Scale, Destination-Agnostic Tourist Safety & Smart Routing System for India*
 
 ---
 
-## 🎯 The Core Differentiator
+## The Core Differentiator
 Most hackathon tourism projects are **single-location toys**: they hardcode waypoints, hazard polygons, and rules for a single temple, hill town, or trek (e.g., only Kedarnath or only Manali). When a user enters any other Indian location, they crash, return empty data, or silently claim the region is 100% safe.
 
 **SafeTrail AI solves this fundamentally.**  
@@ -11,7 +11,7 @@ It is built from the ground up as a **universal, data-driven safety infrastructu
 
 ---
 
-## ⚡ 6 Architectural Pillars
+## 6 Architectural Pillars
 
 ### 1. Dynamic Geographic Context Engine & Pilgrimage Dataset
 - **OSM Nominatim Geocoding**: Resolves any arbitrary Indian place name to precise coordinates with sovereign Indian bounding-box validation (`6.0°N–37.6°N`, `68.0°E–97.5°E`).
@@ -21,12 +21,12 @@ It is built from the ground up as a **universal, data-driven safety infrastructu
 
 ### 2. Multi-Region Mathematical Risk Matrix
 SafeTrail AI dynamically swaps mathematical scoring formulations and weight vectors based on **6 Canonical Environmental Classifications**:
-- **🏔️ Hill / Mountain**: Landslide (30%), Alpine Weather (25%), AMS Hypoxia (20%), Medical Isolation (15%), Trail Bottlenecks (10%). Curfew: 17:30 IST.
-- **🏖️ Coastal / Marine**: Cyclone/Wave Surge (35%), Precipitation/Gale (25%), Rip Currents (15%), UV/Heat (15%), Beach Density (10%). Curfew: 19:00 IST.
-- **🐅 Forest / Wildlife**: Wildlife Corridor (30%), FSI Forest Fire (25%), Flash River Flood (20%), Core Isolation (20%), Permit Queue (5%). Curfew: 17:00 IST.
-- **🏜️ Desert / Arid**: Heat & Dehydration (40%), Sandstorm Front (25%), Water Point Isolation (25%), Sand Mobility (10%). Curfew: 20:00 IST.
-- **🏛️ Urban / Heritage**: Crowd & Holding Chokepoints (40%), Waterlogging (25%), Ambulance Transit Time (20%), Air Quality AQI (15%). Curfew: 22:00 IST.
-- **🌊 Plains / Riverine**: Crowd Density & Bottleneck (35%), Riverine Flood (25%), Plains Heat Stress (20%), Emergency Transit (20%). Curfew: 21:30 IST.
+- **Hill / Mountain**: Landslide (30%), Alpine Weather (25%), AMS Hypoxia (20%), Medical Isolation (15%), Trail Bottlenecks (10%). Curfew: 17:30 IST.
+- **Coastal / Marine**: Cyclone/Wave Surge (35%), Precipitation/Gale (25%), Rip Currents (15%), UV/Heat (15%), Beach Density (10%). Curfew: 19:00 IST.
+- **Forest / Wildlife**: Wildlife Corridor (30%), FSI Forest Fire (25%), Flash River Flood (20%), Core Isolation (20%), Permit Queue (5%). Curfew: 17:00 IST.
+- **Desert / Arid**: Heat & Dehydration (40%), Sandstorm Front (25%), Water Point Isolation (25%), Sand Mobility (10%). Curfew: 20:00 IST.
+- **Urban / Heritage**: Crowd & Holding Chokepoints (40%), Waterlogging (25%), Ambulance Transit Time (20%), Air Quality AQI (15%). Curfew: 22:00 IST.
+- **Plains / Riverine**: Crowd Density & Bottleneck (35%), Riverine Flood (25%), Plains Heat Stress (20%), Emergency Transit (20%). Curfew: 21:30 IST.
 
 ### 3. Active Hazard Geo-Fencing & WebSocket Dynamic Rerouting
 - Computes spatial intersections (`ST_Intersects`) between live tourist GPS coordinates and multi-polygon hazard zones.
@@ -45,7 +45,7 @@ SafeTrail AI dynamically swaps mathematical scoring formulations and weight vect
 
 ---
 
-## 📊 Live Demo Showcase Scenarios
+## Live Demo Showcase Scenarios
 
 | Scenario | Injected Hazard | Region Model Engaged | Expected System Response |
 | :--- | :--- | :--- | :--- |
@@ -57,7 +57,7 @@ SafeTrail AI dynamically swaps mathematical scoring formulations and weight vect
 
 ---
 
-## 🛡️ Production Readiness & Verification Highlights
+## Production Readiness & Verification Highlights
 - **100% Test Pass Rate**: 53/53 automated unit, security audit, and pilgrimage archetype tests passing.
 - **PostGIS Spatial Geometry**: Full idempotent DDL/DML migration script `002_seed_pilgrimage_dataset.sql` with spatial GIST indexes.
 - **Secure by Design**: Cryptographic JWT validation, gateway sliding-window rate limiting, and PostGIS injection defenses.

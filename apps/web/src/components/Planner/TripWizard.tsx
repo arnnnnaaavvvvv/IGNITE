@@ -219,69 +219,65 @@ export const TripWizard: React.FC<TripWizardProps> = ({
   const getRegionBadge = (type: RegionType) => {
     switch (type) {
       case 'HILL_MOUNTAIN':
-        return { label: '🏔️ Hill / Mountain', color: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30' };
+        return { label: 'Hill / Mountain', color: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30' };
       case 'COASTAL_MARINE':
-        return { label: '🏖️ Coastal / Beach', color: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30' };
+        return { label: 'Coastal / Beach', color: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30' };
       case 'PLAINS_RIVERINE':
-        return { label: '🌊 Plains / Riverine', color: 'bg-blue-500/15 text-blue-300 border-blue-500/30' };
+        return { label: 'Plains / Riverine', color: 'bg-blue-500/15 text-blue-300 border-blue-500/30' };
       case 'FOREST_WILDLIFE':
-        return { label: '🐅 Forest / Wildlife', color: 'bg-amber-500/15 text-amber-300 border-amber-500/30' };
+        return { label: 'Forest / Wildlife', color: 'bg-amber-500/15 text-amber-300 border-amber-500/30' };
       case 'DESERT_ARID':
-        return { label: '🏜️ Desert / Dunes', color: 'bg-orange-500/15 text-orange-300 border-orange-500/30' };
+        return { label: 'Desert / Dunes', color: 'bg-orange-500/15 text-orange-300 border-orange-500/30' };
       case 'URBAN_HERITAGE':
-        return { label: '🏛️ Urban / Heritage', color: 'bg-purple-500/15 text-purple-300 border-purple-500/30' };
+        return { label: 'Urban / Heritage', color: 'bg-purple-500/15 text-purple-300 border-purple-500/30' };
       default:
-        return { label: '📍 Pan-India', color: 'bg-slate-500/15 text-slate-300 border-slate-500/30' };
+        return { label: 'Pan-India', color: 'bg-slate-500/15 text-slate-300 border-slate-500/30' };
     }
   };
 
   const PILGRIMAGE_CIRCUITS_DATA = {
     CHAR_DHAM: {
       name: 'Char Dham (Cardinal)',
-      icon: '☸️',
       items: [
-        { name: 'Badrinath Dham', state: 'Uttarakhand', lat: 30.7447, lon: 79.4912, icon: '🏔️' },
-        { name: 'Dwarkadhish Temple Dwarka', state: 'Gujarat', lat: 22.2442, lon: 68.9685, icon: '🏖️' },
-        { name: 'Puri Shri Jagannath Dham', state: 'Odisha', lat: 19.8135, lon: 85.8312, icon: '🏖️' },
-        { name: 'Ramanathaswamy Temple Rameswaram', state: 'Tamil Nadu', lat: 9.2881, lon: 79.3174, icon: '🏝️' },
+        { name: 'Badrinath Dham', state: 'Uttarakhand', lat: 30.7447, lon: 79.4912 },
+        { name: 'Dwarkadhish Temple Dwarka', state: 'Gujarat', lat: 22.2442, lon: 68.9685 },
+        { name: 'Puri Shri Jagannath Dham', state: 'Odisha', lat: 19.8135, lon: 85.8312 },
+        { name: 'Ramanathaswamy Temple Rameswaram', state: 'Tamil Nadu', lat: 9.2881, lon: 79.3174 },
       ],
     },
     CHOTA_CHAR_DHAM: {
       name: 'Chota Char Dham',
-      icon: '🏔️',
       items: [
-        { name: 'Yamunotri Dham', state: 'Uttarakhand', lat: 31.0140, lon: 78.4600, icon: '🏔️' },
-        { name: 'Gangotri Dham', state: 'Uttarakhand', lat: 30.9947, lon: 78.9398, icon: '🏔️' },
-        { name: 'Kedarnath Dham', state: 'Uttarakhand', lat: 30.7352, lon: 79.0669, icon: '🏔️' },
-        { name: 'Badrinath Dham', state: 'Uttarakhand', lat: 30.7447, lon: 79.4912, icon: '🏔️' },
+        { name: 'Yamunotri Dham', state: 'Uttarakhand', lat: 31.0140, lon: 78.4600 },
+        { name: 'Gangotri Dham', state: 'Uttarakhand', lat: 30.9947, lon: 78.9398 },
+        { name: 'Kedarnath Dham', state: 'Uttarakhand', lat: 30.7352, lon: 79.0669 },
+        { name: 'Badrinath Dham', state: 'Uttarakhand', lat: 30.7447, lon: 79.4912 },
       ],
     },
     JYOTIRLINGA: {
       name: '12 Jyotirlingas',
-      icon: '🔱',
       items: [
-        { name: 'Somnath Jyotirlinga Temple', state: 'Gujarat', lat: 20.8880, lon: 70.4012, icon: '🏖️' },
-        { name: 'Mallikarjuna Jyotirlinga Srisailam', state: 'Andhra Pradesh', lat: 16.0745, lon: 78.8687, icon: '🏔️' },
-        { name: 'Mahakaleshwar Jyotirlinga Ujjain', state: 'Madhya Pradesh', lat: 23.1827, lon: 75.7682, icon: '🌊' },
-        { name: 'Omkareshwar Jyotirlinga', state: 'Madhya Pradesh', lat: 22.2464, lon: 76.1517, icon: '🌊' },
-        { name: 'Kedarnath Dham', state: 'Uttarakhand', lat: 30.7352, lon: 79.0669, icon: '🏔️' },
-        { name: 'Bhimashankar Jyotirlinga', state: 'Maharashtra', lat: 19.0722, lon: 73.5354, icon: '🏔️' },
-        { name: 'Kashi Vishwanath Temple Varanasi', state: 'Uttar Pradesh', lat: 25.3109, lon: 83.0107, icon: '🏛️' },
-        { name: 'Trimbakeshwar Jyotirlinga', state: 'Maharashtra', lat: 19.9322, lon: 73.5308, icon: '🏔️' },
-        { name: 'Baidyanath Jyotirlinga Deoghar', state: 'Jharkhand', lat: 24.4925, lon: 86.7000, icon: '🌊' },
-        { name: 'Nageshwar Jyotirlinga', state: 'Gujarat', lat: 22.3353, lon: 69.0538, icon: '🏖️' },
-        { name: 'Ramanathaswamy Temple Rameswaram', state: 'Tamil Nadu', lat: 9.2881, lon: 79.3174, icon: '🏝️' },
-        { name: 'Grishneshwar Jyotirlinga Ellora', state: 'Maharashtra', lat: 20.0244, lon: 75.1722, icon: '🏛️' },
+        { name: 'Somnath Jyotirlinga Temple', state: 'Gujarat', lat: 20.8880, lon: 70.4012 },
+        { name: 'Mallikarjuna Jyotirlinga Srisailam', state: 'Andhra Pradesh', lat: 16.0745, lon: 78.8687 },
+        { name: 'Mahakaleshwar Jyotirlinga Ujjain', state: 'Madhya Pradesh', lat: 23.1827, lon: 75.7682 },
+        { name: 'Omkareshwar Jyotirlinga', state: 'Madhya Pradesh', lat: 22.2464, lon: 76.1517 },
+        { name: 'Kedarnath Dham', state: 'Uttarakhand', lat: 30.7352, lon: 79.0669 },
+        { name: 'Bhimashankar Jyotirlinga', state: 'Maharashtra', lat: 19.0722, lon: 73.5354 },
+        { name: 'Kashi Vishwanath Temple Varanasi', state: 'Uttar Pradesh', lat: 25.3109, lon: 83.0107 },
+        { name: 'Trimbakeshwar Jyotirlinga', state: 'Maharashtra', lat: 19.9322, lon: 73.5308 },
+        { name: 'Baidyanath Jyotirlinga Deoghar', state: 'Jharkhand', lat: 24.4925, lon: 86.7000 },
+        { name: 'Nageshwar Jyotirlinga', state: 'Gujarat', lat: 22.3353, lon: 69.0538 },
+        { name: 'Ramanathaswamy Temple Rameswaram', state: 'Tamil Nadu', lat: 9.2881, lon: 79.3174 },
+        { name: 'Grishneshwar Jyotirlinga Ellora', state: 'Maharashtra', lat: 20.0244, lon: 75.1722 },
       ],
     },
     SHRINES: {
       name: 'Prominent Shrines',
-      icon: '🕉️',
       items: [
-        { name: 'Ajmer Sharif Dargah', state: 'Rajasthan', lat: 26.4561, lon: 74.6282, icon: '🕌' },
-        { name: 'Shirdi Sai Baba Samadhi Mandir', state: 'Maharashtra', lat: 19.7667, lon: 74.4764, icon: '🕉️' },
-        { name: 'Palitana Shatrunjaya Temples', state: 'Gujarat', lat: 21.5033, lon: 71.7828, icon: '🏔️' },
-        { name: 'Swaminarayan Akshardham Temple Delhi', state: 'Delhi', lat: 28.6127, lon: 77.2773, icon: '🏛️' },
+        { name: 'Ajmer Sharif Dargah', state: 'Rajasthan', lat: 26.4561, lon: 74.6282 },
+        { name: 'Shirdi Sai Baba Samadhi Mandir', state: 'Maharashtra', lat: 19.7667, lon: 74.4764 },
+        { name: 'Palitana Shatrunjaya Temples', state: 'Gujarat', lat: 21.5033, lon: 71.7828 },
+        { name: 'Swaminarayan Akshardham Temple Delhi', state: 'Delhi', lat: 28.6127, lon: 77.2773 },
       ],
     },
   };
@@ -290,34 +286,34 @@ export const TripWizard: React.FC<TripWizardProps> = ({
   const getPacingInsights = (days: number) => {
     if (days === 1) {
       return {
-        badge: '⚡ Ultra-Express Pacing',
+        badge: 'Ultra-Express Pacing',
         color: 'text-amber-400 border-amber-500/40 bg-amber-500/10',
         desc: 'Concentrated full-day load. Strict 07:00 IST start required to beat dusk curfews.',
       };
     }
     if (days === 2) {
       return {
-        badge: '🛡️ Standard Safe Pacing',
+        badge: 'Standard Safe Pacing',
         color: 'text-emerald-400 border-emerald-500/40 bg-emerald-500/10',
         desc: 'Optimal baseline split with overnight recovery and safe elevation progression.',
       };
     }
     if (days <= 4) {
       return {
-        badge: '🌿 Acclimatized Safe Pacing',
+        badge: 'Acclimatized Safe Pacing',
         color: 'text-cyan-400 border-cyan-500/40 bg-cyan-500/10',
         desc: 'Gradual altitude & terrain adaptation. Lowest hypoxia & cardiovascular stress.',
       };
     }
     if (days <= 7) {
       return {
-        badge: '🏔️ Extended Exploration & Buffer',
+        badge: 'Extended Exploration & Buffer',
         color: 'text-indigo-400 border-indigo-500/40 bg-indigo-500/10',
         desc: 'Comprehensive multi-sector circuit with scheduled weather buffers & rest intervals.',
       };
     }
     return {
-      badge: '🚩 Grand Multi-Stage Expedition',
+      badge: 'Grand Multi-Stage Expedition',
       color: 'text-purple-400 border-purple-500/40 bg-purple-500/10',
       desc: 'Deep regional traverse with dedicated acclimatization rest halts & supply logistics.',
     };
@@ -395,7 +391,7 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                         )}
                         {isPilgrimage && (
                           <span className="text-[9px] px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 font-semibold">
-                            🕉️ Pilgrimage
+                            Pilgrimage
                           </span>
                         )}
                       </div>
@@ -422,7 +418,6 @@ export const TripWizard: React.FC<TripWizardProps> = ({
           <div className="mt-3 p-3 rounded-xl bg-slate-950/70 border border-amber-500/20 space-y-2.5">
             <div className="flex items-center justify-between gap-2 flex-wrap">
               <div className="flex items-center gap-1.5 text-xs font-bold text-amber-300">
-                <span>🕉️</span>
                 <span>Popular Pilgrimage Circuits</span>
               </div>
               <div className="flex items-center gap-1 bg-slate-900/90 p-0.5 rounded-lg border border-slate-800 text-[10px]">
@@ -439,7 +434,7 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                           : 'text-slate-400 hover:text-slate-200'
                       }`}
                     >
-                      {circuit.icon} {circuit.name.split(' ')[0]}
+                      {circuit.name.split(' ')[0]}
                     </button>
                   );
                 })}
@@ -455,7 +450,6 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                   onClick={() => handleQuickPick(shrine.name, shrine.lat, shrine.lon)}
                   className="px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-amber-500/10 hover:border-amber-500/40 border border-slate-800 shrink-0 cursor-pointer text-left transition-all group flex items-center gap-1.5"
                 >
-                  <span>{shrine.icon}</span>
                   <div>
                     <div className="font-semibold text-slate-200 group-hover:text-amber-300 transition-colors">
                       {shrine.name.split(' ')[0]}
@@ -475,28 +469,28 @@ export const TripWizard: React.FC<TripWizardProps> = ({
               onClick={() => handleQuickPick('Puri Beach', 19.8135, 85.8312)}
               className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 shrink-0 cursor-pointer"
             >
-              🏖️ Puri Beach (Coastal)
+              Puri Beach (Coastal)
             </button>
             <button
               type="button"
               onClick={() => handleQuickPick('Kaziranga National Park', 26.5775, 93.1711)}
               className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 shrink-0 cursor-pointer"
             >
-              🐅 Kaziranga (Forest)
+              Kaziranga (Forest)
             </button>
             <button
               type="button"
               onClick={() => handleQuickPick('Jaisalmer Sand Dunes', 26.9157, 70.9083)}
               className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 shrink-0 cursor-pointer"
             >
-              🏜️ Jaisalmer (Desert)
+              Jaisalmer (Desert)
             </button>
             <button
               type="button"
               onClick={() => handleQuickPick('Manali & Solang Valley', 32.2432, 77.1892)}
               className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 shrink-0 cursor-pointer"
             >
-              🏔️ Manali (Alpine)
+              Manali (Alpine)
             </button>
           </div>
         </div>

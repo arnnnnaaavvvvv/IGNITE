@@ -35,7 +35,7 @@ export const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary, onSelec
                 <>
                   <span className="text-slate-600">•</span>
                   <span className="text-xs font-mono px-2 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-emerald-300">
-                    📅 {itinerary.start_date} {itinerary.end_date ? `➔ ${itinerary.end_date}` : ''}
+                    {itinerary.start_date} {itinerary.end_date ? `to ${itinerary.end_date}` : ''}
                   </span>
                 </>
               )}
