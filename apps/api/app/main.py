@@ -53,7 +53,8 @@ async def health_check():
             "COASTAL_MARINE",
             "FOREST_WILDLIFE",
             "DESERT_ARID",
-            "URBAN_HERITAGE"
+            "URBAN_HERITAGE",
+            "PLAINS_RIVERINE"
         ],
         "redis_caching": "ACTIVE (Async Redis / Fast InMemory Fallback)",
         "spatial_engine": "PostGIS / Shapely Polygon Intersection",
