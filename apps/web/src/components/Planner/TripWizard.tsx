@@ -466,33 +466,6 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                   </div>
                 </div>
               </div>
-
-              {/* Quick Duration Adjusters */}
-              <div className="flex items-center gap-1.5 flex-wrap pt-0.5">
-                <span className="text-[11px] font-medium text-slate-400 mr-1">Quick duration:</span>
-                {[
-                  { days: 2, label: '2 Days' },
-                  { days: 3, label: '3 Days' },
-                  { days: 5, label: '5 Days' },
-                  { days: 7, label: '7 Days' },
-                  { days: 10, label: '10 Days' },
-                  { days: 14, label: '14 Days' },
-                  { days: 21, label: '21 Days' },
-                ].map((item) => (
-                  <button
-                    type="button"
-                    key={item.days}
-                    onClick={() => handleDurationChange(item.days)}
-                    className={`px-2.5 py-1 rounded-lg border text-xs transition-all cursor-pointer ${
-                      durationDays === item.days
-                        ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50 font-semibold shadow-sm'
-                        : 'bg-slate-950/60 border-slate-800/80 text-slate-400 hover:text-slate-200 hover:border-slate-700'
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
             </div>
           )}
 
@@ -549,34 +522,6 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                   <span className="text-slate-400">Target Range: 1 – 30 Days</span>
                   <span>Max: 30 Days</span>
                 </div>
-              </div>
-
-              {/* Quick Duration Pills */}
-              <div className="flex items-center gap-1.5 flex-wrap pt-1 border-t border-slate-800/60">
-                <span className="text-[11px] font-medium text-slate-400 mr-1">Popular:</span>
-                {[
-                  { days: 2, label: '2 Days' },
-                  { days: 3, label: '3 Days' },
-                  { days: 5, label: '5 Days' },
-                  { days: 7, label: '7 Days' },
-                  { days: 10, label: '10 Days' },
-                  { days: 14, label: '14 Days' },
-                  { days: 21, label: '21 Days' },
-                  { days: 30, label: '30 Days' },
-                ].map((item) => (
-                  <button
-                    type="button"
-                    key={item.days}
-                    onClick={() => handleDurationChange(item.days)}
-                    className={`px-2.5 py-0.5 rounded-md border text-xs transition-all cursor-pointer ${
-                      durationDays === item.days
-                        ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50 font-semibold shadow-sm'
-                        : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700'
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                ))}
               </div>
             </div>
           )}
