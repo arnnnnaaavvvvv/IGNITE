@@ -655,13 +655,13 @@ export const TripWizard: React.FC<TripWizardProps> = ({
 
           {/* Custom Date Range Picker Mode */}
           {durationMode === 'dates' && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-stretch">
               {/* Departure Card */}
-              <div className="bg-slate-900/90 p-3.5 rounded-xl border border-slate-800 hover:border-slate-700 transition-colors flex flex-col justify-between space-y-2">
-                <div className="flex items-center justify-between min-h-[22px]">
-                  <label className="text-xs font-bold text-slate-200 flex items-center gap-1.5 whitespace-nowrap">
+              <div className="bg-slate-900/90 p-3.5 rounded-xl border border-slate-800 hover:border-slate-700 transition-colors flex flex-col justify-between space-y-2 h-full">
+                <div className="flex items-center justify-between h-6">
+                  <label className="text-xs font-bold text-slate-200 flex items-center gap-1.5 whitespace-nowrap min-w-0">
                     <Clock className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                    <span>Departure</span>
+                    <span className="truncate">Departure</span>
                   </label>
                   <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 border border-slate-700 font-semibold shrink-0">
                     Day 1
@@ -672,19 +672,19 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                   value={startDate}
                   min={getTodayIso()}
                   onChange={(e) => handleStartDateChange(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-700/80 rounded-lg px-3 py-2 text-xs font-mono font-semibold text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/30 transition-all [color-scheme:dark]"
+                  className="w-full h-10 bg-slate-950 border border-slate-700/80 rounded-xl px-3 py-2 text-xs font-mono font-semibold text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/30 transition-all [color-scheme:dark]"
                 />
-                <div className="text-[11px] text-slate-400 font-mono flex items-center justify-between">
+                <div className="text-[11px] text-slate-400 font-mono flex items-center justify-between h-4">
                   <span>{formatReadableDate(startDate)}</span>
                 </div>
               </div>
 
               {/* Return Card */}
-              <div className="bg-slate-900/90 p-3.5 rounded-xl border border-slate-800 hover:border-slate-700 transition-colors flex flex-col justify-between space-y-2">
-                <div className="flex items-center justify-between min-h-[22px]">
-                  <label className="text-xs font-bold text-slate-200 flex items-center gap-1.5 whitespace-nowrap">
+              <div className="bg-slate-900/90 p-3.5 rounded-xl border border-slate-800 hover:border-slate-700 transition-colors flex flex-col justify-between space-y-2 h-full">
+                <div className="flex items-center justify-between h-6">
+                  <label className="text-xs font-bold text-slate-200 flex items-center gap-1.5 whitespace-nowrap min-w-0">
                     <Clock className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-                    <span>Return</span>
+                    <span className="truncate">Return</span>
                   </label>
                   <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-bold shrink-0">
                     {durationDays} {durationDays === 1 ? 'Day' : 'Days'}
@@ -695,9 +695,9 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                   value={endDate}
                   min={startDate}
                   onChange={(e) => handleEndDateChange(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-700/80 rounded-lg px-3 py-2 text-xs font-mono font-semibold text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/30 transition-all [color-scheme:dark]"
+                  className="w-full h-10 bg-slate-950 border border-slate-700/80 rounded-xl px-3 py-2 text-xs font-mono font-semibold text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/30 transition-all [color-scheme:dark]"
                 />
-                <div className="text-[11px] text-slate-400 font-mono flex items-center justify-between">
+                <div className="text-[11px] text-slate-400 font-mono flex items-center justify-between h-4">
                   <span>{formatReadableDate(endDate)}</span>
                 </div>
               </div>
