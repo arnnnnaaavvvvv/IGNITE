@@ -395,7 +395,7 @@ export function App() {
             <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
             <span>SafeTrail AI • Pan-India Tourist Safety & Smart Route Planner</span>
           </span>
-          <span>Active: {currentDestinationName} ({itinerary?.region_name || 'Himalayan Mountain'})</span>
+          <span>Active: {currentDestinationName ? `${currentDestinationName} (${itinerary?.region_name || 'National Network'})` : 'Pan-India Explorer (28 States & 8 UTs)'}</span>
           <span className="text-emerald-400">PostGIS • Overpass QL • Redis TTL • OSRM Routing</span>
         </div>
       </footer>

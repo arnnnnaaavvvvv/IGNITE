@@ -33,12 +33,13 @@ export const Navbar: React.FC<NavbarProps> = ({
   userName = 'Tourist Guest',
 }) => {
   const tabs = [
-    { id: 'map', label: 'Trail Map', icon: Compass },
+    { id: 'map', label: 'Explore & Map', icon: Compass },
     { id: 'itinerary', label: 'Safe Itinerary', icon: Calendar },
     { id: 'explainability', label: 'Risk Explainability', icon: Activity },
     { id: 'simulation', label: 'Disaster Bench', icon: Radio },
     { id: 'group', label: 'Group Radar', icon: Users },
   ];
+
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-xl">

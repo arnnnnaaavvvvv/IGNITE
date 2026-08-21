@@ -27,6 +27,17 @@ export interface PilgrimageCircuit {
   destination_records?: DestinationSearchResult[];
 }
 
+export interface TravelCategory {
+  id: string;
+  name: string;
+  name_hi?: string;
+  icon: string;
+  description: string;
+  destination_ids?: string[];
+  destinations?: DestinationSearchResult[];
+}
+
+
 export interface Checkpoint {
   id: string;
   name: string;

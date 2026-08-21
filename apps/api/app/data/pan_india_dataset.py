@@ -1636,6 +1636,685 @@ PAN_INDIA_DESTINATIONS = [
             {"id": "sh_mn_civil", "name": "Manali Municipal Disaster Relief Hall", "lat": 32.2450, "lon": 77.1910, "capacity_persons": 1000, "has_backup_power": True, "contact_phone": "+91-1902-252326"},
             {"id": "sh_mn_bro", "name": "BRO Emergency Shelter at Dhundi", "lat": 32.3550, "lon": 77.1650, "capacity_persons": 500, "has_backup_power": True, "contact_phone": "1077"}
         ]
+    },
+
+    # -------------------------------------------------------------------------
+    # Goa Beaches & Coastline
+    # -------------------------------------------------------------------------
+    {
+        "id": "dest_goa",
+        "canonical_name": "Goa Beaches & Coastal Promenade",
+        "name_hi": "गोवा समुद्र तट",
+        "state_ut": "Goa",
+        "region_type": "COASTAL_MARINE",
+        "category": "beach",
+        "lat": 15.5170,
+        "lon": 73.7620,
+        "elevation_m": 12,
+        "description": "Premier Arabian Sea coastal paradise featuring golden sand beaches, colonial architecture, water sports, and vibrant promenades.",
+        "trail_coords": [
+            [73.7620, 15.5170, 5],
+            [73.7550, 15.5350, 8],
+            [73.7420, 15.5860, 15],
+            [73.7380, 15.6020, 22],
+            [73.7750, 15.4980, 10]
+        ],
+        "bypass_coords": [
+            [73.7620, 15.5170, 5],
+            [73.7700, 15.5500, 14],
+            [73.7380, 15.6020, 22]
+        ],
+        "checkpoints": [
+            {"id": "cp_goa1", "name": "Calangute Tourist Security & Lifeguard Tower", "name_hi": "कैलंगूट तट चौकी", "lat": 15.5170, "lon": 73.7620, "altitude_m": 5, "facilities": ["Drishti Lifeguard Post", "Tourist Police Desk", "Emergency First Aid"], "has_oxygen_booth": False, "nearest_hospital_dist_km": 1.2, "nearest_sdrf_dist_km": 0.8},
+            {"id": "cp_goa2", "name": "Baga Creek & Water Sports Terminal", "name_hi": "बागा क्रीक", "lat": 15.5350, "lon": 73.7550, "altitude_m": 8, "facilities": ["Water Sports Safety Desk", "Coast Guard Patrol Post"], "has_oxygen_booth": False, "nearest_hospital_dist_km": 2.0, "nearest_sdrf_dist_km": 1.0},
+            {"id": "cp_goa3", "name": "Chapora Fort & Vagator Cliff", "name_hi": "चापोरा किला", "lat": 15.6020, "lon": 73.7380, "altitude_m": 22, "facilities": ["Archaeological Rest Post", "Emergency Wireless"], "has_oxygen_booth": False, "nearest_hospital_dist_km": 4.5, "nearest_sdrf_dist_km": 2.0}
+        ],
+        "hazard_zones": [
+            {
+                "id": "hz_goa_ripcurrent",
+                "name": "North Goa High Wave & Rip Current Surge Zone (INCOIS)",
+                "category": "COASTAL_SURGE",
+                "severity": "HIGH",
+                "base_hazard_weight": 0.72,
+                "polygon_coordinates": [[73.7400, 15.5000], [73.7700, 15.5000], [73.7700, 15.6100], [73.7400, 15.6100], [73.7400, 15.5000]],
+                "historical_incident": "Monsoon high tidal surge (>3.5m wave height) and red-flagged rip currents near sandbars"
+            }
+        ],
+        "shelters": [
+            {"id": "sh_goa_candolim", "name": "Candolim Multi-Purpose Coastal Shelter", "lat": 15.5120, "lon": 73.7650, "capacity_persons": 1800, "has_backup_power": True, "contact_phone": "+91-832-2419400"}
+        ]
+    },
+
+    # -------------------------------------------------------------------------
+    # Leh Ladakh & Pangong Tso
+    # -------------------------------------------------------------------------
+    {
+        "id": "dest_leh_ladakh",
+        "canonical_name": "Leh, Pangong Tso & Khardung La",
+        "name_hi": "लेह लद्दाख एवं पैंगोंग त्सो",
+        "state_ut": "Ladakh",
+        "region_type": "HILL_MOUNTAIN",
+        "category": "adventure",
+        "lat": 34.1526,
+        "lon": 77.5771,
+        "elevation_m": 3500,
+        "description": "High-altitude Trans-Himalayan desert wonderland with turquoise alpine lakes, dramatic mountain passes, and ancient Buddhist monasteries.",
+        "trail_coords": [
+            [77.5771, 34.1526, 3500],
+            [77.5850, 34.1680, 3650],
+            [77.6040, 34.2780, 5359],
+            [78.4450, 33.7500, 4250]
+        ],
+        "bypass_coords": [
+            [77.5771, 34.1526, 3500],
+            [77.6200, 34.1800, 3700],
+            [78.4450, 33.7500, 4250]
+        ],
+        "checkpoints": [
+            {"id": "cp_leh1", "name": "Leh Tourist Acclimatization Center", "name_hi": "लेह अनुकूलन केंद्र", "lat": 34.1526, "lon": 77.5771, "altitude_m": 3500, "facilities": ["SNM Hospital Helpdesk", "Oxygen Parlour", "Tourist Police"], "has_oxygen_booth": True, "nearest_hospital_dist_km": 0.5, "nearest_sdrf_dist_km": 0.3},
+            {"id": "cp_leh2", "name": "Khardung La High Altitude Pass", "name_hi": "खारदुंग ला दर्रा", "lat": 34.2780, "lon": 77.6040, "altitude_m": 5359, "facilities": ["Army Medical Post", "Hyperbaric Chamber", "BRO Rescue"], "has_oxygen_booth": True, "nearest_hospital_dist_km": 28.0, "nearest_sdrf_dist_km": 0.2},
+            {"id": "cp_leh3", "name": "Pangong Tso Spangmik Base", "name_hi": "पैंगोंग झील स्पैंगमिक", "lat": 33.7500, "lon": 78.4450, "altitude_m": 4250, "facilities": ["ITBP Border Medical Post", "Emergency Wireless"], "has_oxygen_booth": True, "nearest_hospital_dist_km": 45.0, "nearest_sdrf_dist_km": 1.0}
+        ],
+        "hazard_zones": [
+            {
+                "id": "hz_leh_hypoxia",
+                "name": "Khardung La Extreme Hypoxia & Sub-Zero Blizzard Zone (BRO)",
+                "category": "ALTITUDE_AMS",
+                "severity": "HIGH",
+                "base_hazard_weight": 0.88,
+                "polygon_coordinates": [[77.5500, 34.2200], [77.6500, 34.2200], [77.6500, 34.3200], [77.5500, 34.3200], [77.5500, 34.2200]],
+                "historical_incident": "Rapid severe AMS and sudden pass closures due to heavy summer snowfall"
+            }
+        ],
+        "shelters": [
+            {"id": "sh_leh_snm", "name": "SNM District Hospital Disaster Wing", "lat": 34.1550, "lon": 77.5800, "capacity_persons": 1200, "has_backup_power": True, "contact_phone": "+91-1982-252012"}
+        ]
+    },
+
+    # -------------------------------------------------------------------------
+    # Munnar & Kerala Highlands
+    # -------------------------------------------------------------------------
+    {
+        "id": "dest_munnar",
+        "canonical_name": "Munnar & Anamudi Highlands",
+        "name_hi": "मुन्नार एवं अनामुडी",
+        "state_ut": "Kerala",
+        "region_type": "HILL_MOUNTAIN",
+        "category": "hill_station",
+        "lat": 10.0889,
+        "lon": 77.0595,
+        "elevation_m": 1532,
+        "description": "Rolling emerald tea plantations, mist-covered Western Ghats valleys, waterfalls, and home to South India's highest peak (Anamudi).",
+        "trail_coords": [
+            [77.0595, 10.0889, 1532],
+            [77.0680, 10.1050, 1620],
+            [77.1250, 10.1380, 1880],
+            [77.0420, 10.1850, 1950],
+            [77.1650, 10.1550, 2150]
+        ],
+        "bypass_coords": [
+            [77.0595, 10.0889, 1532],
+            [77.0800, 10.1200, 1700],
+            [77.1650, 10.1550, 2150]
+        ],
+        "checkpoints": [
+            {"id": "cp_mnr1", "name": "Munnar Central Information & Medical Desk", "name_hi": "मुन्नार सूचना केंद्र", "lat": 10.0889, "lon": 77.0595, "altitude_m": 1532, "facilities": ["General Hospital", "Kerala Police Desk", "Tourist Aid"], "has_oxygen_booth": False, "nearest_hospital_dist_km": 0.3, "nearest_sdrf_dist_km": 0.5},
+            {"id": "cp_mnr2", "name": "Eravikulam Nilgiri Tahr Entry Gate", "name_hi": "इरावीकुलम राष्ट्रीय उद्यान", "lat": 10.1850, "lon": 77.0420, "altitude_m": 1950, "facilities": ["Forest Medical Post", "Emergency Vehicle Stand"], "has_oxygen_booth": True, "nearest_hospital_dist_km": 12.0, "nearest_sdrf_dist_km": 4.0},
+            {"id": "cp_mnr3", "name": "Top Station Kerala-Tamil Nadu Border", "name_hi": "टॉप स्टेशन व्यू", "lat": 10.1550, "lon": 77.1650, "altitude_m": 2150, "facilities": ["Viewpoint Rest Post", "Wireless Relay"], "has_oxygen_booth": False, "nearest_hospital_dist_km": 30.0, "nearest_sdrf_dist_km": 8.0}
+        ],
+        "hazard_zones": [
+            {
+                "id": "hz_munnar_landslide",
+                "name": "Gap Road & Mattupetty Ghat Landslide Corridor (GSI)",
+                "category": "LANDSLIDE",
+                "severity": "HIGH",
+                "base_hazard_weight": 0.76,
+                "polygon_coordinates": [[77.0300, 10.0500], [77.1800, 10.0500], [77.1800, 10.2000], [77.0300, 10.2000], [77.0300, 10.0500]],
+                "historical_incident": "Monsoon torrential downpours causing hillside soil slip along Kochi-Dhanushkodi NH85"
+            }
+        ],
+        "shelters": [
+            {"id": "sh_munnar_ktda", "name": "KTDC Tea County Emergency Shelter", "lat": 10.0910, "lon": 77.0620, "capacity_persons": 1000, "has_backup_power": True, "contact_phone": "+91-4865-230460"}
+        ]
+    },
+
+    # -------------------------------------------------------------------------
+    # Jaipur - The Pink City & Royal Forts
+    # -------------------------------------------------------------------------
+    {
+        "id": "dest_jaipur",
+        "canonical_name": "Jaipur, Amer Fort & Hawa Mahal",
+        "name_hi": "जयपुर एवं आमेर किला",
+        "state_ut": "Rajasthan",
+        "region_type": "URBAN_HERITAGE",
+        "category": "heritage",
+        "lat": 26.9124,
+        "lon": 75.7873,
+        "elevation_m": 431,
+        "description": "UNESCO World Heritage capital city famed for grand sandstone citadels, Amer Fort, City Palace, astronomical observatories, and vibrant bazaars.",
+        "trail_coords": [
+            [75.7873, 26.9124, 431],
+            [75.8240, 26.9250, 440],
+            [75.8450, 26.9650, 480],
+            [75.8510, 26.9855, 520],
+            [75.8500, 26.9950, 560]
+        ],
+        "bypass_coords": [
+            [75.7873, 26.9124, 431],
+            [75.8300, 26.9500, 460],
+            [75.8510, 26.9855, 520]
+        ],
+        "checkpoints": [
+            {"id": "cp_jpr1", "name": "Hawa Mahal Heritage Plaza", "name_hi": "हवा महल परिसर", "lat": 26.9124, "lon": 75.7873, "altitude_m": 431, "facilities": ["Tourist Police Helpdesk", "First Aid Center", "Information Kiosk"], "has_oxygen_booth": False, "nearest_hospital_dist_km": 0.8, "nearest_sdrf_dist_km": 0.5},
+            {"id": "cp_jpr2", "name": "Amer Fort Elephant Stand & Ramparts", "name_hi": "आमेर किला प्रवेश", "lat": 26.9855, "lon": 75.8510, "altitude_m": 520, "facilities": ["Archaeological Medical Wing", "Tourist Security Post"], "has_oxygen_booth": False, "nearest_hospital_dist_km": 2.5, "nearest_sdrf_dist_km": 1.0},
+            {"id": "cp_jpr3", "name": "Nahargarh Ridge Viewpoint", "name_hi": "नाहरगढ़ दुर्ग", "lat": 26.9950, "lon": 75.8500, "altitude_m": 560, "facilities": ["RTDC Rest Post", "Emergency Wireless"], "has_oxygen_booth": False, "nearest_hospital_dist_km": 8.0, "nearest_sdrf_dist_km": 2.0}
+        ],
+        "hazard_zones": [
+            {
+                "id": "hz_jpr_heat_traffic",
+                "name": "Walled City High-Density Heatwave & Narrow Bazaar Chokepoint (DDMA)",
+                "category": "HEATWAVE",
+                "severity": "MODERATE",
+                "base_hazard_weight": 0.65,
+                "polygon_coordinates": [[75.7700, 26.9000], [75.8700, 26.9000], [75.8700, 27.0100], [75.7700, 27.0100], [75.7700, 26.9000]],
+                "historical_incident": "Peak summer temperature surges (44°C+) and festival crowd congestion in Johari and Bapu Bazaars"
+            }
+        ],
+        "shelters": [
+            {"id": "sh_jpr_sms", "name": "SMS Hospital & Disaster Center", "lat": 26.8920, "lon": 75.8150, "capacity_persons": 3500, "has_backup_power": True, "contact_phone": "+91-141-2560291"}
+        ]
+    },
+
+    # -------------------------------------------------------------------------
+    # Udaipur - City of Lakes
+    # -------------------------------------------------------------------------
+    {
+        "id": "dest_udaipur",
+        "canonical_name": "Udaipur & Lake Pichola Palaces",
+        "name_hi": "उदयपुर एवं पिछोला झील",
+        "state_ut": "Rajasthan",
+        "region_type": "URBAN_HERITAGE",
+        "category": "heritage",
+        "lat": 24.5854,
+        "lon": 73.7125,
+        "elevation_m": 598,
+        "description": "Venice of the East surrounded by the Aravali Hills, famed for shimmering lakes, City Palace, Jag Mandir, and romantic heritage courtyards.",
+        "trail_coords": [
+            [73.7125, 24.5854, 598],
+            [73.6980, 24.5780, 595],
+            [73.6750, 24.5950, 605],
+            [73.6520, 24.6150, 680]
+        ],
+        "bypass_coords": [
+            [73.7125, 24.5854, 598],
+            [73.6800, 24.5900, 600],
+            [73.6520, 24.6150, 680]
+        ],
+        "checkpoints": [
+            {"id": "cp_udp1", "name": "City Palace Heritage Entry", "name_hi": "सिटी पैलेस उदयपुर", "lat": 24.5854, "lon": 73.7125, "altitude_m": 598, "facilities": ["Tourist Helpdesk", "First Aid Kiosk"], "has_oxygen_booth": False, "nearest_hospital_dist_km": 0.5, "nearest_sdrf_dist_km": 0.3},
+            {"id": "cp_udp2", "name": "Fateh Sagar Promenade & Nehru Park", "name_hi": "फतेह सागर झील", "lat": 24.5950, "lon": 73.6750, "altitude_m": 605, "facilities": ["Water Police Patrol", "Ambulance Stand"], "has_oxygen_booth": False, "nearest_hospital_dist_km": 2.0, "nearest_sdrf_dist_km": 1.0}
+        ],
+        "hazard_zones": [
+            {
+                "id": "hz_udp_water_traffic",
+                "name": "Lake Pichola Ghat Narrow Chokepoint & Summer Heat Belt",
+                "category": "HEATWAVE",
+                "severity": "MODERATE",
+                "base_hazard_weight": 0.58,
+                "polygon_coordinates": [[73.6600, 24.5600], [73.7300, 24.5600], [73.7300, 24.6200], [73.6600, 24.6200], [73.6600, 24.5600]],
+                "historical_incident": "Heavy tourist traffic congestion in Old City narrow ghat streets"
+            }
+        ],
+        "shelters": [
+            {"id": "sh_udp_mb", "name": "Maharana Bhupal Government Hospital", "lat": 24.5880, "lon": 73.7050, "capacity_persons": 2000, "has_backup_power": True, "contact_phone": "+91-294-2528811"}
+        ]
+    },
+
+    # -------------------------------------------------------------------------
+    # Agra - Taj Mahal Complex
+    # -------------------------------------------------------------------------
+    {
+        "id": "dest_agra",
+        "canonical_name": "Agra & Taj Mahal UNESCO Complex",
+        "name_hi": "आगरा एवं ताजमहल",
+        "state_ut": "Uttar Pradesh",
+        "region_type": "URBAN_HERITAGE",
+        "category": "heritage",
+        "lat": 27.1751,
+        "lon": 78.0421,
+        "elevation_m": 169,
+        "description": "Global wonder of white marble architecture on the Yamuna riverfront, alongside historic Agra Fort and Fatehpur Sikri.",
+        "trail_coords": [
+            [78.0421, 27.1751, 169],
+            [78.0380, 27.1780, 172],
+            [78.0210, 27.1795, 175],
+            [77.9950, 27.1950, 170]
+        ],
+        "bypass_coords": [
+            [78.0421, 27.1751, 169],
+            [78.0250, 27.1850, 172],
+            [77.9950, 27.1950, 170]
+        ],
+        "checkpoints": [
+            {"id": "cp_agr1", "name": "Taj Mahal Security & Bio-Queue Hub", "name_hi": "ताजमहल सुरक्षा गेट", "lat": 27.1751, "lon": 78.0421, "altitude_m": 169, "facilities": ["CISF Security Post", "Medical Dispensary", "Electric Shuttle Bay"], "has_oxygen_booth": True, "nearest_hospital_dist_km": 1.0, "nearest_sdrf_dist_km": 0.4},
+            {"id": "cp_agr2", "name": "Agra Fort Amar Singh Gate", "name_hi": "आगरा किला", "lat": 27.1795, "lon": 78.0210, "altitude_m": 175, "facilities": ["Tourist Info Center", "First Aid Kiosk"], "has_oxygen_booth": False, "nearest_hospital_dist_km": 1.5, "nearest_sdrf_dist_km": 0.5}
+        ],
+        "hazard_zones": [
+            {
+                "id": "hz_agr_crowd_heat",
+                "name": "Taj Corridor High Heat & Pedestrian Surge Zone",
+                "category": "HEATWAVE",
+                "severity": "HIGH",
+                "base_hazard_weight": 0.70,
+                "polygon_coordinates": [[78.0000, 27.1600], [78.0600, 27.1600], [78.0600, 27.2000], [78.0000, 27.2000], [78.0000, 27.1600]],
+                "historical_incident": "Intense summer heatwave (46°C) and massive weekend crowd bottlenecks in monument security queues"
+            }
+        ],
+        "shelters": [
+            {"id": "sh_agr_sn", "name": "SN Medical College Disaster Wing", "lat": 27.1820, "lon": 78.0120, "capacity_persons": 3000, "has_backup_power": True, "contact_phone": "+91-562-2260353"}
+        ]
+    },
+
+    # -------------------------------------------------------------------------
+    # Hampi UNESCO Heritage Ruins
+    # -------------------------------------------------------------------------
+    {
+        "id": "dest_hampi",
+        "canonical_name": "Hampi UNESCO Heritage Ruins & Tungabhadra",
+        "name_hi": "हम्पी ऐतिहासिक खंडहर",
+        "state_ut": "Karnataka",
+        "region_type": "URBAN_HERITAGE",
+        "category": "heritage",
+        "lat": 15.3350,
+        "lon": 76.4600,
+        "elevation_m": 467,
+        "description": "Breathtaking medieval capital of the Vijayanagara Empire with boulder-strewn landscapes, monolithic stone chariot, Virupaksha temple, and Tungabhadra riverfront.",
+        "trail_coords": [
+            [76.4600, 15.3350, 467],
+            [76.4680, 15.3380, 470],
+            [76.4750, 15.3280, 480],
+            [76.4950, 15.3180, 490],
+            [76.5120, 15.3520, 520]
+        ],
+        "bypass_coords": [
+            [76.4600, 15.3350, 467],
+            [76.4800, 15.3250, 475],
+            [76.4950, 15.3180, 490]
+        ],
+        "checkpoints": [
+            {"id": "cp_hmp1", "name": "Virupaksha Complex & Tourism Helpdesk", "name_hi": "विरूपाक्ष मंदिर", "lat": 15.3350, "lon": 76.4600, "altitude_m": 467, "facilities": ["Archaeological Helpdesk", "First Aid Kiosk", "Tourist Police"], "has_oxygen_booth": False, "nearest_hospital_dist_km": 2.0, "nearest_sdrf_dist_km": 0.8},
+            {"id": "cp_hmp2", "name": "Vittala Temple & Stone Chariot Hub", "name_hi": "विट्ठल मंदिर परिसर", "lat": 15.3180, "lon": 76.4950, "altitude_m": 490, "facilities": ["Battery Buggy Terminal", "Hydration Pavilion"], "has_oxygen_booth": False, "nearest_hospital_dist_km": 10.0, "nearest_sdrf_dist_km": 3.0}
+        ],
+        "hazard_zones": [
+            {
+                "id": "hz_hmp_heat_boulder",
+                "name": "Deccan Boulder Plain Extreme Heat & Sunstroke Belt",
+                "category": "HEATWAVE",
+                "severity": "HIGH",
+                "base_hazard_weight": 0.72,
+                "polygon_coordinates": [[76.4400, 15.3000], [76.5300, 15.3000], [76.5300, 15.3700], [76.4400, 15.3700], [76.4400, 15.3000]],
+                "historical_incident": "Summer afternoon boulder radiation (42°C+) causing rapid tourist dehydration across open walking ruins"
+            }
+        ],
+        "shelters": [
+            {"id": "sh_hmp_kstdc", "name": "KSTDC Hotel Mayura Bhuvaneshwari Shelter", "lat": 15.3280, "lon": 76.4700, "capacity_persons": 1000, "has_backup_power": True, "contact_phone": "+91-8394-241574"}
+        ]
+    },
+
+    # -------------------------------------------------------------------------
+    # Jim Corbett National Park
+    # -------------------------------------------------------------------------
+    {
+        "id": "dest_corbett",
+        "canonical_name": "Jim Corbett National Park & Tiger Reserve",
+        "name_hi": "जिम कॉर्बेट राष्ट्रीय उद्यान",
+        "state_ut": "Uttarakhand",
+        "region_type": "FOREST_WILDLIFE",
+        "category": "wildlife",
+        "lat": 29.5300,
+        "lon": 78.7747,
+        "elevation_m": 385,
+        "description": "India's oldest national park in the Himalayan foothills along Ramganga River, home to majestic Royal Bengal Tigers, wild elephants, and dense sal forests.",
+        "trail_coords": [
+            [78.7747, 29.5300, 385],
+            [78.8100, 29.5500, 420],
+            [78.8550, 29.5850, 460],
+            [78.9200, 29.6200, 510]
+        ],
+        "bypass_coords": [
+            [78.7747, 29.5300, 385],
+            [78.8200, 29.5600, 430],
+            [78.8550, 29.5850, 460]
+        ],
+        "checkpoints": [
+            {"id": "cp_cbt1", "name": "Ramnagar Forest Reception & Safari Checkpost", "name_hi": "रामनगर प्रवेश द्वार", "lat": 29.5300, "lon": 78.7747, "altitude_m": 385, "facilities": ["Forest Permit Desk", "Govt Hospital Link", "Armed Escort Bay"], "has_oxygen_booth": False, "nearest_hospital_dist_km": 1.0, "nearest_sdrf_dist_km": 0.8},
+            {"id": "cp_cbt2", "name": "Dhikala Core Wildlife Compound", "name_hi": "ढिकाला कोर कॉम्प्लेक्स", "lat": 29.5850, "lon": 78.8550, "altitude_m": 460, "facilities": ["Solar Fenced Rest House", "Forest Wireless Hub", "First Aid"], "has_oxygen_booth": False, "nearest_hospital_dist_km": 30.0, "nearest_sdrf_dist_km": 5.0}
+        ],
+        "hazard_zones": [
+            {
+                "id": "hz_cbt_wildlife_flood",
+                "name": "Ramganga River Flash Inundation & Tiger Corridor (Forest Dept)",
+                "category": "WILDLIFE_CONFLICT",
+                "severity": "HIGH",
+                "base_hazard_weight": 0.75,
+                "polygon_coordinates": [[78.7500, 29.5000], [78.9500, 29.5000], [78.9500, 29.6500], [78.7500, 29.6500], [78.7500, 29.5000]],
+                "historical_incident": "Monsoon river overflow washing out dirt jeep tracks and active elephant herd crossing curfews"
+            }
+        ],
+        "shelters": [
+            {"id": "sh_cbt_dhikala", "name": "Dhikala Forest Complex Fortified Shelter", "lat": 29.5870, "lon": 78.8580, "capacity_persons": 800, "has_backup_power": True, "contact_phone": "+91-5947-251489"}
+        ]
+    },
+
+    # -------------------------------------------------------------------------
+    # Ranthambore Tiger Reserve
+    # -------------------------------------------------------------------------
+    {
+        "id": "dest_ranthambore",
+        "canonical_name": "Ranthambore National Park & Fort",
+        "name_hi": "रणथंभौर राष्ट्रीय उद्यान",
+        "state_ut": "Rajasthan",
+        "region_type": "FOREST_WILDLIFE",
+        "category": "wildlife",
+        "lat": 26.0173,
+        "lon": 76.5026,
+        "elevation_m": 280,
+        "description": "Famed royal hunting grounds combining dry deciduous jungle, scenic lakes, ancient 10th-century cliff fort, and prominent Bengal tiger sightings.",
+        "trail_coords": [
+            [76.5026, 26.0173, 280],
+            [76.5250, 26.0280, 310],
+            [76.5400, 26.0220, 480],
+            [76.5650, 26.0450, 350]
+        ],
+        "bypass_coords": [
+            [76.5026, 26.0173, 280],
+            [76.5300, 26.0350, 320],
+            [76.5650, 26.0450, 350]
+        ],
+        "checkpoints": [
+            {"id": "cp_rnb1", "name": "Ganesh Mandir Fort Gate Checkpost", "name_hi": "गणेश मंदिर किला द्वार", "lat": 26.0173, "lon": 76.5026, "altitude_m": 280, "facilities": ["Forest Permit Center", "Police Post", "First Aid"], "has_oxygen_booth": False, "nearest_hospital_dist_km": 12.0, "nearest_sdrf_dist_km": 3.0}
+        ],
+        "hazard_zones": [
+            {
+                "id": "hz_rnb_heat_wildlife",
+                "name": "Aravalli Scrub Forest Heat & Safari Track Belt",
+                "category": "HEATWAVE",
+                "severity": "MODERATE",
+                "base_hazard_weight": 0.65,
+                "polygon_coordinates": [[76.4500, 25.9800], [76.6000, 25.9800], [76.6000, 26.0800], [76.4500, 26.0800], [76.4500, 25.9800]],
+                "historical_incident": "Summer midday heatwave (45°C) and restricted forest entry hours"
+            }
+        ],
+        "shelters": [
+            {"id": "sh_rnb_rtdc", "name": "RTDC Hotel Vinayak Tourist Shelter", "lat": 26.0050, "lon": 76.4800, "capacity_persons": 600, "has_backup_power": True, "contact_phone": "+91-7462-221333"}
+        ]
+    },
+
+    # -------------------------------------------------------------------------
+    # Havelock Island (Andaman & Nicobar)
+    # -------------------------------------------------------------------------
+    {
+        "id": "dest_havelock",
+        "canonical_name": "Havelock Island & Radhanagar Beach",
+        "name_hi": "हैवलॉक द्वीप (स्वराज द्वीप)",
+        "state_ut": "Andaman and Nicobar Islands",
+        "region_type": "COASTAL_MARINE",
+        "category": "beach",
+        "lat": 11.9761,
+        "lon": 92.9876,
+        "elevation_m": 8,
+        "description": "Asia's premier pristine tropical island with turquoise coral lagoons, Radhanagar Beach (Beach No. 7), Elephant Beach snorkeling, and scuba reefs.",
+        "trail_coords": [
+            [92.9876, 11.9761, 8],
+            [92.9550, 11.9820, 5],
+            [92.9400, 12.0050, 4],
+            [93.0200, 11.9500, 6]
+        ],
+        "bypass_coords": [
+            [92.9876, 11.9761, 8],
+            [92.9700, 11.9700, 10],
+            [92.9550, 11.9820, 5]
+        ],
+        "checkpoints": [
+            {"id": "cp_hvl1", "name": "Havelock Harbor & Tourist Police Hub", "name_hi": "हैवलॉक जेटी", "lat": 11.9761, "lon": 92.9876, "altitude_m": 8, "facilities": ["Port Medical Wing", "Coast Guard Station", "Tourist Police"], "has_oxygen_booth": True, "nearest_hospital_dist_km": 0.8, "nearest_sdrf_dist_km": 0.5},
+            {"id": "cp_hvl2", "name": "Radhanagar Blue Flag Lifeguard Watch", "name_hi": "राधानगर बीच", "lat": 11.9820, "lon": 92.9550, "altitude_m": 5, "facilities": ["Lifeguard Watchtower", "First Aid Center"], "has_oxygen_booth": False, "nearest_hospital_dist_km": 8.0, "nearest_sdrf_dist_km": 2.0}
+        ],
+        "hazard_zones": [
+            {
+                "id": "hz_hvl_cyclone",
+                "name": "Andaman Sea Deep Water Cyclone & High Tide Inundation Zone",
+                "category": "CYCLONE_SURGE",
+                "severity": "HIGH",
+                "base_hazard_weight": 0.78,
+                "polygon_coordinates": [[92.9200, 11.9300], [93.0400, 11.9300], [93.0400, 12.0300], [92.9200, 12.0300], [92.9200, 11.9300]],
+                "historical_incident": "Sudden tropical depressions and ferry suspension between Port Blair and Havelock"
+            }
+        ],
+        "shelters": [
+            {"id": "sh_hvl_community", "name": "Havelock Island Community Cyclone Shelter", "lat": 11.9780, "lon": 92.9850, "capacity_persons": 1500, "has_backup_power": True, "contact_phone": "+91-3192-282200"}
+        ]
+    },
+
+    # -------------------------------------------------------------------------
+    # Varkala Beach (Kerala)
+    # -------------------------------------------------------------------------
+    {
+        "id": "dest_varkala",
+        "canonical_name": "Varkala Cliff & Papanasam Beach",
+        "name_hi": "वरकला क्लिफ बीच",
+        "state_ut": "Kerala",
+        "region_type": "COASTAL_MARINE",
+        "category": "beach",
+        "lat": 8.7379,
+        "lon": 76.7163,
+        "elevation_m": 25,
+        "description": "Dramatic red laterite coastal cliffs overlooking the Arabian Sea, natural mineral springs, beach cafes, and ancient Janardanaswamy Temple.",
+        "trail_coords": [
+            [76.7163, 8.7379, 25],
+            [76.7120, 8.7310, 5],
+            [76.7080, 8.7240, 10],
+            [76.7250, 8.7450, 20]
+        ],
+        "bypass_coords": [
+            [76.7163, 8.7379, 25],
+            [76.7200, 8.7350, 22],
+            [76.7250, 8.7450, 20]
+        ],
+        "checkpoints": [
+            {"id": "cp_vrk1", "name": "Varkala North Cliff Tourist Outpost", "name_hi": "वरकला क्लिफ चौकी", "lat": 8.7379, "lon": 76.7163, "altitude_m": 25, "facilities": ["Tourist Police Post", "First Aid", "Lifeguard Base"], "has_oxygen_booth": False, "nearest_hospital_dist_km": 2.5, "nearest_sdrf_dist_km": 1.0}
+        ],
+        "hazard_zones": [
+            {
+                "id": "hz_vrk_cliff_erosion",
+                "name": "Varkala Laterite Cliff Erosion & High Wave Warning Belt",
+                "category": "COASTAL_SURGE",
+                "severity": "HIGH",
+                "base_hazard_weight": 0.74,
+                "polygon_coordinates": [[76.7000, 8.7100], [76.7400, 8.7100], [76.7400, 8.7600], [76.7000, 8.7600], [76.7000, 8.7100]],
+                "historical_incident": "Monsoon sea erosion and cliff edge slippage during high wave alerts"
+            }
+        ],
+        "shelters": [
+            {"id": "sh_vrk_hospital", "name": "Varkala Taluk Hospital Relief Wing", "lat": 8.7340, "lon": 76.7250, "capacity_persons": 1000, "has_backup_power": True, "contact_phone": "+91-470-2602244"}
+        ]
+    },
+
+    # -------------------------------------------------------------------------
+    # Golden Temple Amritsar
+    # -------------------------------------------------------------------------
+    {
+        "id": "dest_amritsar",
+        "canonical_name": "Golden Temple Amritsar (Harmandir Sahib)",
+        "name_hi": "स्वर्ण मंदिर अमृतसर (श्री हरिमंदिर साहिब)",
+        "state_ut": "Punjab",
+        "region_type": "URBAN_HERITAGE",
+        "category": "spiritual",
+        "lat": 31.6200,
+        "lon": 74.8765,
+        "elevation_m": 234,
+        "description": "Preeminent spiritual and cultural sanctuary of Sikhism, featuring the gilded sanctum surrounded by the sacred Amrit Sarovar lake and world's largest community kitchen (Langar).",
+        "trail_coords": [
+            [74.8765, 31.6200, 234],
+            [74.8740, 31.6205, 234],
+            [74.8720, 31.6220, 235],
+            [74.8810, 31.6210, 236]
+        ],
+        "bypass_coords": [
+            [74.8765, 31.6200, 234],
+            [74.8780, 31.6230, 235],
+            [74.8810, 31.6210, 236]
+        ],
+        "checkpoints": [
+            {"id": "cp_asr1", "name": "Harmandir Sahib Main Ghanta Ghar Gate", "name_hi": "घंटा घर मुख्य प्रवेश", "lat": 31.6200, "lon": 74.8765, "altitude_m": 234, "facilities": ["SGPC Medical Room", "Tourist Reception Hub", "Wheelchair Bank"], "has_oxygen_booth": True, "nearest_hospital_dist_km": 0.5, "nearest_sdrf_dist_km": 0.3},
+            {"id": "cp_asr2", "name": "Jallianwala Bagh Memorial Complex", "name_hi": "जलियांवाला बाग", "lat": 31.6210, "lon": 74.8810, "altitude_m": 236, "facilities": ["Memorial Aid Desk", "Emergency Exit Corridors"], "has_oxygen_booth": False, "nearest_hospital_dist_km": 0.4, "nearest_sdrf_dist_km": 0.2}
+        ],
+        "hazard_zones": [
+            {
+                "id": "hz_asr_crowd_surge",
+                "name": "Heritage Street & Darshani Deori High Crowd Holding Zone",
+                "category": "CROWD_STAMPEDE",
+                "severity": "MODERATE",
+                "base_hazard_weight": 0.65,
+                "polygon_coordinates": [[74.8600, 31.6100], [74.8900, 31.6100], [74.8900, 31.6300], [74.8600, 31.6300], [74.8600, 31.6100]],
+                "historical_incident": "Massive holiday and Gurpurab crowd density (over 200,000 daily pilgrims)"
+            }
+        ],
+        "shelters": [
+            {"id": "sh_asr_sarai", "name": "Sri Guru Ram Das Niwas Mega Yatri Niwas", "lat": 31.6210, "lon": 74.8780, "capacity_persons": 6000, "has_backup_power": True, "contact_phone": "+91-183-2553957"}
+        ]
+    },
+
+    # -------------------------------------------------------------------------
+    # Tirupati Balaji (Tirumala)
+    # -------------------------------------------------------------------------
+    {
+        "id": "dest_tirupati",
+        "canonical_name": "Tirupati Balaji Sri Venkateswara Swamy",
+        "name_hi": "श्री तिरुपति बालाजी मंदिर तिरुमला",
+        "state_ut": "Andhra Pradesh",
+        "region_type": "HILL_MOUNTAIN",
+        "category": "spiritual",
+        "lat": 13.6833,
+        "lon": 79.3472,
+        "elevation_m": 853,
+        "description": "World's most visited sacred hilltop temple situated on the Seven Hills of Seshachalam in Eastern Ghats.",
+        "trail_coords": [
+            [79.3472, 13.6833, 853],
+            [79.3550, 13.6780, 840],
+            [79.3320, 13.6650, 620],
+            [79.3100, 13.6420, 180]
+        ],
+        "bypass_coords": [
+            [79.3472, 13.6833, 853],
+            [79.3400, 13.6700, 780],
+            [79.3100, 13.6420, 180]
+        ],
+        "checkpoints": [
+            {"id": "cp_trp1", "name": "Vaikuntam Queue Complex 1 & 2", "name_hi": "वैकुंठम कतार परिसर", "lat": 13.6780, "lon": 79.3550, "altitude_m": 840, "facilities": ["TTD Central Hospital", "AC Holding Halls", "RO Water Stations"], "has_oxygen_booth": True, "nearest_hospital_dist_km": 0.2, "nearest_sdrf_dist_km": 0.2},
+            {"id": "cp_trp2", "name": "Alipiri Footpath Biometric Counter", "name_hi": "अलिपिरी पदयात्रा केंद्र", "lat": 13.6650, "lon": 79.3320, "altitude_m": 620, "facilities": ["Footpath Security Check", "Medical Relief Post"], "has_oxygen_booth": True, "nearest_hospital_dist_km": 2.0, "nearest_sdrf_dist_km": 0.5}
+        ],
+        "hazard_zones": [
+            {
+                "id": "hz_trp_crowd_ghat",
+                "name": "Seshachalam Ghat Road & Brahmotsavam Queue Chokepoint (TTD/AP Police)",
+                "category": "CROWD_STAMPEDE",
+                "severity": "HIGH",
+                "base_hazard_weight": 0.78,
+                "polygon_coordinates": [[79.3000, 13.6300], [79.3800, 13.6300], [79.3800, 13.7200], [79.3000, 13.7200], [79.3000, 13.6300]],
+                "historical_incident": "100,000+ daily pilgrim surge during annual Brahmotsavam; strictly regulated 3-tier queue compartments"
+            }
+        ],
+        "shelters": [
+            {"id": "sh_trp_svims", "name": "SVIMS Super Speciality Medical & Disaster Camp", "lat": 13.6350, "lon": 79.4050, "capacity_persons": 4000, "has_backup_power": True, "contact_phone": "+91-877-2287777"}
+        ]
+    },
+
+    # -------------------------------------------------------------------------
+    # Rishikesh & Shivpuri River Valley
+    # -------------------------------------------------------------------------
+    {
+        "id": "dest_rishikesh",
+        "canonical_name": "Rishikesh & Shivpuri River Valley",
+        "name_hi": "ऋषिकेश एवं शिवपुरी",
+        "state_ut": "Uttarakhand",
+        "region_type": "HILL_MOUNTAIN",
+        "category": "adventure",
+        "lat": 30.0869,
+        "lon": 78.2676,
+        "elevation_m": 372,
+        "description": "Yoga capital of the world and white-water river rafting hub on the holy Ganga river at the foothills of the Himalayas.",
+        "trail_coords": [
+            [78.2676, 30.0869, 372],
+            [78.3120, 30.1250, 395],
+            [78.3850, 30.1420, 440],
+            [78.4200, 30.1650, 480]
+        ],
+        "bypass_coords": [
+            [78.2676, 30.0869, 372],
+            [78.3300, 30.1350, 410],
+            [78.3850, 30.1420, 440]
+        ],
+        "checkpoints": [
+            {"id": "cp_rsh1", "name": "Triveni Ghat Evening Aarti Watch", "name_hi": "त्रिवेणी घाट", "lat": 30.0869, "lon": 78.2676, "altitude_m": 372, "facilities": ["Ghat Police Post", "First Aid Kiosk", "SDRF Water Patrol"], "has_oxygen_booth": False, "nearest_hospital_dist_km": 1.0, "nearest_sdrf_dist_km": 0.3},
+            {"id": "cp_rsh2", "name": "Shivpuri Rafting Safety Inspection Hub", "name_hi": "शिवपुरी राफ्टिंग केंद्र", "lat": 30.1420, "lon": 78.3850, "altitude_m": 440, "facilities": ["Water Rescue Post", "Rafting Permit Counter"], "has_oxygen_booth": False, "nearest_hospital_dist_km": 12.0, "nearest_sdrf_dist_km": 0.5}
+        ],
+        "hazard_zones": [
+            {
+                "id": "hz_rsh_ganga_current",
+                "name": "Ganga Gorge High Rapid Currents & Monsoon River Surge (CWC)",
+                "category": "RIVER_FLOOD",
+                "severity": "HIGH",
+                "base_hazard_weight": 0.76,
+                "polygon_coordinates": [[78.2500, 30.0500], [78.4500, 30.0500], [78.4500, 30.2000], [78.2500, 30.2000], [78.2500, 30.0500]],
+                "historical_incident": "Sudden monsoon dam discharge & rapids level elevation halting river rafting operations"
+            }
+        ],
+        "shelters": [
+            {"id": "sh_rsh_aiims", "name": "AIIMS Rishikesh Apex Trauma & Disaster Wing", "lat": 30.0750, "lon": 78.2880, "capacity_persons": 3000, "has_backup_power": True, "contact_phone": "+91-135-2462929"}
+        ]
+    },
+
+    # -------------------------------------------------------------------------
+    # Bir Billing - Paragliding Capital
+    # -------------------------------------------------------------------------
+    {
+        "id": "dest_bir_billing",
+        "canonical_name": "Bir Billing Paragliding Valley",
+        "name_hi": "बीर बिलिंग पैराग्लाइडिंग",
+        "state_ut": "Himachal Pradesh",
+        "region_type": "HILL_MOUNTAIN",
+        "category": "adventure",
+        "lat": 32.0436,
+        "lon": 76.7167,
+        "elevation_m": 2400,
+        "description": "World's second-highest paragliding take-off site nestled in the Kangra Valley, renowned for eco-tourism, Tibetan monasteries, and adventure sports.",
+        "trail_coords": [
+            [76.7167, 32.0436, 1525],
+            [76.7350, 32.0550, 1850],
+            [76.7550, 32.0800, 2400]
+        ],
+        "bypass_coords": [
+            [76.7167, 32.0436, 1525],
+            [76.7400, 32.0650, 1950],
+            [76.7550, 32.0800, 2400]
+        ],
+        "checkpoints": [
+            {"id": "cp_bir1", "name": "Billing High Ridge Launch Point", "name_hi": "बिलिंग टेक-ऑफ स्थल", "lat": 32.0800, "lon": 76.7550, "altitude_m": 2400, "facilities": ["Aero Club Safety Desk", "Emergency Anemometer", "Mountain Rescue"], "has_oxygen_booth": True, "nearest_hospital_dist_km": 14.0, "nearest_sdrf_dist_km": 2.0}
+        ],
+        "hazard_zones": [
+            {
+                "id": "hz_bir_wind_shear",
+                "name": "Dhauladhar Wind Shear & Sudden Thermal Squall Zone",
+                "category": "LANDSLIDE",
+                "severity": "HIGH",
+                "base_hazard_weight": 0.70,
+                "polygon_coordinates": [[76.6800, 32.0000], [76.7800, 32.0000], [76.7800, 32.1200], [76.6800, 32.1200], [76.6800, 32.0000]],
+                "historical_incident": "Sudden cross-winds and cloud immersion causing immediate flight cancellations"
+            }
+        ],
+        "shelters": [
+            {"id": "sh_bir_phc", "name": "Bir Community Health Centre", "lat": 32.0450, "lon": 76.7180, "capacity_persons": 600, "has_backup_power": True, "contact_phone": "+91-1894-268025"}
+        ]
     }
 ]
 
@@ -1685,5 +2364,84 @@ PILGRIMAGE_CIRCUITS = [
         "description": "Iconic multi-faith pilgrimage destinations: Ajmer Sharif Dargah, Shirdi Sai Baba, Palitana Jain Tirth, and Akshardham Temple.",
         "icon": "landmark",
         "destinations": ["dest_ajmer_sharif", "dest_shirdi", "dest_palitana", "dest_akshardham"]
+    }
+]
+
+# Complete Pan-India Curated Travel Categories for Multi-Genre Travel Planning
+TRAVEL_CATEGORIES = [
+    {
+        "id": "top_picks",
+        "name": "Top Picks",
+        "name_hi": "शीर्ष लोकप्रिय स्थल",
+        "icon": "sparkles",
+        "description": "Marquee travel destinations across India curated for unforgettable journeys.",
+        "destination_ids": [
+            "dest_goa", "dest_manali", "dest_jaipur", "dest_leh_ladakh", "dest_munnar",
+            "dest_kaziranga", "dest_udaipur", "dest_hampi", "dest_kashi_vishwanath", "dest_havelock"
+        ]
+    },
+    {
+        "id": "hill_stations",
+        "name": "Hill Stations & Alps",
+        "name_hi": "पर्वतीय स्थल एवं हिमालय",
+        "icon": "mountain",
+        "description": "Scenic alpine heights, pine valleys, snow-capped peaks, and tea plantations.",
+        "destination_ids": [
+            "dest_manali", "dest_leh_ladakh", "dest_munnar", "dest_rishikesh", "dest_bir_billing",
+            "dest_kedarnath", "dest_badrinath", "dest_yamunotri", "dest_gangotri"
+        ]
+    },
+    {
+        "id": "beaches",
+        "name": "Beaches & Coastal",
+        "name_hi": "समुद्री तट एवं द्वीप",
+        "icon": "waves",
+        "description": "Golden sand shorelines, azure lagoons, tropical palms, and marine drives.",
+        "destination_ids": [
+            "dest_goa", "dest_havelock", "dest_varkala", "dest_puri", "dest_dwarka",
+            "dest_rameswaram", "dest_somnath"
+        ]
+    },
+    {
+        "id": "wildlife",
+        "name": "Wildlife & Forests",
+        "name_hi": "वन्यजीव अभयारण्य एवं राष्ट्रीय उद्यान",
+        "icon": "trees",
+        "description": "Pristine tiger reserves, elephant migration trails, bird wetlands, and jungle safaris.",
+        "destination_ids": [
+            "dest_kaziranga", "dest_corbett", "dest_ranthambore"
+        ]
+    },
+    {
+        "id": "heritage",
+        "name": "Forts & Royal Heritage",
+        "name_hi": "ऐतिहासिक किले एवं राजमहल",
+        "icon": "landmark",
+        "description": "UNESCO World Heritage palaces, ancient stone temples, sandstone forts, and royal architectures.",
+        "destination_ids": [
+            "dest_jaipur", "dest_udaipur", "dest_agra", "dest_hampi", "dest_jaisalmer", "dest_grishneshwar"
+        ]
+    },
+    {
+        "id": "spiritual",
+        "name": "Spiritual & Pilgrimage",
+        "name_hi": "आध्यात्मिक एवं पवित्र तीर्थ",
+        "icon": "sparkle",
+        "description": "Sacred river ghats, ancient Jyotirlingas, Himalayan Char Dham, and monumental shrines.",
+        "destination_ids": [
+            "dest_kashi_vishwanath", "dest_amritsar", "dest_tirupati", "dest_kedarnath",
+            "dest_badrinath", "dest_somnath", "dest_puri", "dest_rameswaram", "dest_shirdi",
+            "dest_ajmer_sharif", "dest_palitana", "dest_akshardham"
+        ]
+    },
+    {
+        "id": "adventure",
+        "name": "Adventure & Treks",
+        "name_hi": "साहसिक यात्रा एवं ट्रेक",
+        "icon": "compass",
+        "description": "High-altitude passes, world-class paragliding, river rafting, and rugged expeditions.",
+        "destination_ids": [
+            "dest_bir_billing", "dest_manali", "dest_rishikesh", "dest_leh_ladakh", "dest_jaisalmer"
+        ]
     }
 ]

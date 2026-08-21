@@ -13,6 +13,14 @@ import {
   ArrowRight,
   Info,
   ShieldCheck,
+  X,
+  Mountain,
+  Palmtree,
+  Trees,
+  Landmark,
+  Compass,
+  Flame,
+  ChevronRight,
 } from 'lucide-react';
 import type { DestinationSearchResult, RegionType } from '../../types';
 
@@ -67,6 +75,125 @@ const formatReadableDate = (isoDate: string) => {
   return date.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' });
 };
 
+// Curated Top Destinations by Category across India
+const PAN_INDIA_CATEGORIES = [
+  {
+    id: 'top_picks',
+    name: 'Top Picks',
+    icon: Sparkles,
+    color: 'emerald',
+    badgeText: '🌟 Marquee India',
+    items: [
+      { name: 'Goa Beaches & Promenade', state: 'Goa', tag: 'Coastal Paradise', lat: 15.5170, lon: 73.7620, regionType: 'COASTAL_MARINE' },
+      { name: 'Manali & Solang Valley', state: 'Himachal Pradesh', tag: 'Alpine Alps', lat: 32.2432, lon: 77.1892, regionType: 'HILL_MOUNTAIN' },
+      { name: 'Jaipur, Amer Fort & Hawa Mahal', state: 'Rajasthan', tag: 'Royal Forts', lat: 26.9124, lon: 75.7873, regionType: 'URBAN_HERITAGE' },
+      { name: 'Leh, Pangong Tso & Khardung La', state: 'Ladakh', tag: 'High Altitude 3,500m', lat: 34.1526, lon: 77.5771, regionType: 'HILL_MOUNTAIN' },
+      { name: 'Munnar & Anamudi Highlands', state: 'Kerala', tag: 'Tea Valleys', lat: 10.0889, lon: 77.0595, regionType: 'HILL_MOUNTAIN' },
+      { name: 'Kaziranga National Park', state: 'Assam', tag: 'Rhino Sanctuary', lat: 26.5775, lon: 93.1711, regionType: 'FOREST_WILDLIFE' },
+      { name: 'Udaipur & Lake Pichola', state: 'Rajasthan', tag: 'Lake Palaces', lat: 24.5854, lon: 73.7125, regionType: 'URBAN_HERITAGE' },
+      { name: 'Hampi UNESCO Heritage Ruins', state: 'Karnataka', tag: 'Vijayanagara Empire', lat: 15.3350, lon: 76.4600, regionType: 'URBAN_HERITAGE' },
+      { name: 'Havelock Island & Radhanagar', state: 'Andaman & Nicobar', tag: 'Turquoise Reefs', lat: 11.9761, lon: 92.9876, regionType: 'COASTAL_MARINE' },
+      { name: 'Kashi Vishwanath & Ghats', state: 'Uttar Pradesh', tag: 'Ganga Aarti', lat: 25.3109, lon: 83.0107, regionType: 'URBAN_HERITAGE' },
+    ],
+  },
+  {
+    id: 'hill_stations',
+    name: 'Hill Stations & Alps',
+    icon: Mountain,
+    color: 'teal',
+    badgeText: '🏔️ Himalayan Peaks & Ghats',
+    items: [
+      { name: 'Manali & Solang Valley', state: 'Himachal Pradesh', tag: 'Snow & Pines (2,050m)', lat: 32.2432, lon: 77.1892, regionType: 'HILL_MOUNTAIN' },
+      { name: 'Leh, Pangong Tso & Khardung La', state: 'Ladakh', tag: 'Trans-Himalaya (3,500m)', lat: 34.1526, lon: 77.5771, regionType: 'HILL_MOUNTAIN' },
+      { name: 'Munnar & Anamudi Highlands', state: 'Kerala', tag: 'Western Ghats (1,530m)', lat: 10.0889, lon: 77.0595, regionType: 'HILL_MOUNTAIN' },
+      { name: 'Rishikesh & Shivpuri River Valley', state: 'Uttarakhand', tag: 'Ganga Foothills (370m)', lat: 30.0869, lon: 78.2676, regionType: 'HILL_MOUNTAIN' },
+      { name: 'Bir Billing Paragliding Valley', state: 'Himachal Pradesh', tag: 'Aero Ridge (2,400m)', lat: 32.0436, lon: 76.7167, regionType: 'HILL_MOUNTAIN' },
+      { name: 'Kedarnath Dham & Valley', state: 'Uttarakhand', tag: 'Alpine Shrine (3,583m)', lat: 30.7352, lon: 79.0669, regionType: 'HILL_MOUNTAIN' },
+      { name: 'Badrinath Dham & Mana', state: 'Uttarakhand', tag: 'Alaknanda (3,133m)', lat: 30.7447, lon: 79.4912, regionType: 'HILL_MOUNTAIN' },
+      { name: 'Yamunotri Dham', state: 'Uttarakhand', tag: 'Garhwal Alps (3,293m)', lat: 31.0140, lon: 78.4600, regionType: 'HILL_MOUNTAIN' },
+      { name: 'Gangotri Dham', state: 'Uttarakhand', tag: 'Bhagirathi (3,100m)', lat: 30.9947, lon: 78.9398, regionType: 'HILL_MOUNTAIN' },
+    ],
+  },
+  {
+    id: 'beaches',
+    name: 'Beaches & Coastal',
+    icon: Palmtree,
+    color: 'cyan',
+    badgeText: '🏖️ Sun, Sand & Azure Waters',
+    items: [
+      { name: 'Goa Beaches & Coastal Promenade', state: 'Goa', tag: 'Calangute & Baga', lat: 15.5170, lon: 73.7620, regionType: 'COASTAL_MARINE' },
+      { name: 'Havelock Island & Radhanagar', state: 'Andaman & Nicobar', tag: 'Coral Lagoon', lat: 11.9761, lon: 92.9876, regionType: 'COASTAL_MARINE' },
+      { name: 'Varkala Cliff & Papanasam Beach', state: 'Kerala', tag: 'Laterite Cliffs', lat: 8.7379, lon: 76.7163, regionType: 'COASTAL_MARINE' },
+      { name: 'Puri Shri Jagannath & Golden Beach', state: 'Odisha', tag: 'Blue Flag Surf', lat: 19.8135, lon: 85.8312, regionType: 'COASTAL_MARINE' },
+      { name: 'Dwarkadhish Temple & Shivrajpur', state: 'Gujarat', tag: 'Arabian Sea Shore', lat: 22.2442, lon: 68.9685, regionType: 'COASTAL_MARINE' },
+      { name: 'Ramanathaswamy & Dhanushkodi', state: 'Tamil Nadu', tag: 'Pamban Ocean Sangam', lat: 9.2881, lon: 79.3174, regionType: 'COASTAL_MARINE' },
+      { name: 'Somnath Jyotirlinga Promenade', state: 'Gujarat', tag: 'Prabhas Patan Shore', lat: 20.8880, lon: 70.4012, regionType: 'COASTAL_MARINE' },
+    ],
+  },
+  {
+    id: 'wildlife',
+    name: 'Wildlife & Jungles',
+    icon: Trees,
+    color: 'amber',
+    badgeText: '🐅 National Parks & Safaris',
+    items: [
+      { name: 'Kaziranga National Park', state: 'Assam', tag: '1-Horned Rhinos & Tigers', lat: 26.5775, lon: 93.1711, regionType: 'FOREST_WILDLIFE' },
+      { name: 'Jim Corbett National Park & Reserve', state: 'Uttarakhand', tag: 'Ramganga Sal Forests', lat: 29.5300, lon: 78.7747, regionType: 'FOREST_WILDLIFE' },
+      { name: 'Ranthambore National Park & Fort', state: 'Rajasthan', tag: 'Tiger Lake Terraces', lat: 26.0173, lon: 76.5026, regionType: 'FOREST_WILDLIFE' },
+    ],
+  },
+  {
+    id: 'heritage',
+    name: 'Forts & Heritage',
+    icon: Landmark,
+    color: 'purple',
+    badgeText: '🏰 Palaces & UNESCO Monuments',
+    items: [
+      { name: 'Jaipur, Amer Fort & Hawa Mahal', state: 'Rajasthan', tag: 'Pink City Citadels', lat: 26.9124, lon: 75.7873, regionType: 'URBAN_HERITAGE' },
+      { name: 'Udaipur & Lake Pichola Palaces', state: 'Rajasthan', tag: 'Mewar Royal Palaces', lat: 24.5854, lon: 73.7125, regionType: 'URBAN_HERITAGE' },
+      { name: 'Agra & Taj Mahal UNESCO Complex', state: 'Uttar Pradesh', tag: 'Mughal Wonder', lat: 27.1751, lon: 78.0421, regionType: 'URBAN_HERITAGE' },
+      { name: 'Hampi UNESCO Heritage Ruins', state: 'Karnataka', tag: 'Stone Chariot & Temples', lat: 15.3350, lon: 76.4600, regionType: 'URBAN_HERITAGE' },
+      { name: 'Jaisalmer & Sam Sand Dunes', state: 'Rajasthan', tag: 'Golden Sand Fort', lat: 26.9157, lon: 70.9083, regionType: 'DESERT_ARID' },
+      { name: 'Grishneshwar & Ellora Caves', state: 'Maharashtra', tag: 'Rock-Cut Architecture', lat: 20.0244, lon: 75.1722, regionType: 'PLAINS_RIVERINE' },
+    ],
+  },
+  {
+    id: 'spiritual',
+    name: 'Spiritual & Sacred',
+    icon: Flame,
+    color: 'orange',
+    badgeText: '🛕 Historic Circuits & Shrines',
+    items: [
+      { name: 'Golden Temple Amritsar', state: 'Punjab', tag: 'Harmandir Sahib & Langar', lat: 31.6200, lon: 74.8765, regionType: 'URBAN_HERITAGE' },
+      { name: 'Tirupati Balaji Sri Venkateswara', state: 'Andhra Pradesh', tag: 'Seven Hills Tirumala', lat: 13.6833, lon: 79.3472, regionType: 'HILL_MOUNTAIN' },
+      { name: 'Kashi Vishwanath Temple Varanasi', state: 'Uttar Pradesh', tag: 'Ganga Dashashwamedh', lat: 25.3109, lon: 83.0107, regionType: 'URBAN_HERITAGE' },
+      { name: 'Badrinath Dham', state: 'Uttarakhand', tag: 'Char Dham (North)', lat: 30.7447, lon: 79.4912, regionType: 'HILL_MOUNTAIN' },
+      { name: 'Dwarkadhish Temple Dwarka', state: 'Gujarat', tag: 'Char Dham (West)', lat: 22.2442, lon: 68.9685, regionType: 'COASTAL_MARINE' },
+      { name: 'Puri Shri Jagannath Dham', state: 'Odisha', tag: 'Char Dham (East)', lat: 19.8135, lon: 85.8312, regionType: 'COASTAL_MARINE' },
+      { name: 'Ramanathaswamy Temple Rameswaram', state: 'Tamil Nadu', tag: 'Char Dham (South)', lat: 9.2881, lon: 79.3174, regionType: 'COASTAL_MARINE' },
+      { name: 'Kedarnath Dham', state: 'Uttarakhand', tag: '12 Jyotirlingas & Chota Dham', lat: 30.7352, lon: 79.0669, regionType: 'HILL_MOUNTAIN' },
+      { name: 'Somnath Jyotirlinga Temple', state: 'Gujarat', tag: 'First Jyotirlinga', lat: 20.8880, lon: 70.4012, regionType: 'COASTAL_MARINE' },
+      { name: 'Shirdi Sai Baba Samadhi Mandir', state: 'Maharashtra', tag: 'Universal Peace Shrine', lat: 19.7667, lon: 74.4764, regionType: 'PLAINS_RIVERINE' },
+      { name: 'Ajmer Sharif Dargah', state: 'Rajasthan', tag: 'Sufi Heritage Shrine', lat: 26.4561, lon: 74.6282, regionType: 'PLAINS_RIVERINE' },
+      { name: 'Swaminarayan Akshardham Temple Delhi', state: 'Delhi', tag: 'Monumental Campus', lat: 28.6127, lon: 77.2773, regionType: 'URBAN_HERITAGE' },
+    ],
+  },
+  {
+    id: 'adventure',
+    name: 'Adventure & Treks',
+    icon: Compass,
+    color: 'indigo',
+    badgeText: '🧗 Outdoor & Paragliding',
+    items: [
+      { name: 'Bir Billing Paragliding Valley', state: 'Himachal Pradesh', tag: 'World-Class Aero Ridge', lat: 32.0436, lon: 76.7167, regionType: 'HILL_MOUNTAIN' },
+      { name: 'Rishikesh & Shivpuri River Valley', state: 'Uttarakhand', tag: 'Ganga White Water Rapids', lat: 30.0869, lon: 78.2676, regionType: 'HILL_MOUNTAIN' },
+      { name: 'Manali & Solang Valley', state: 'Himachal Pradesh', tag: 'Rohtang & Atal Tunnel', lat: 32.2432, lon: 77.1892, regionType: 'HILL_MOUNTAIN' },
+      { name: 'Leh, Pangong Tso & Khardung La', state: 'Ladakh', tag: 'High Altitude Motorcycle Pass', lat: 34.1526, lon: 77.5771, regionType: 'HILL_MOUNTAIN' },
+      { name: 'Jaisalmer & Sam Sand Dunes', state: 'Rajasthan', tag: 'Thar Desert Safari & Camp', lat: 26.9157, lon: 70.9083, regionType: 'DESERT_ARID' },
+    ],
+  },
+];
+
 export const TripWizard: React.FC<TripWizardProps> = ({
   onGenerate,
   isLoading,
@@ -77,6 +204,9 @@ export const TripWizard: React.FC<TripWizardProps> = ({
   const [searchResults, setSearchResults] = useState<DestinationSearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+
+  // Active Category State
+  const [activeCategory, setActiveCategory] = useState<string>('top_picks');
 
   // Duration & Custom Dates State (Clean 2-mode system: Dates vs Exact Days)
   const [durationMode, setDurationMode] = useState<'dates' | 'custom_days'>('dates');
@@ -101,7 +231,6 @@ export const TripWizard: React.FC<TripWizardProps> = ({
     if (!searchQuery.trim()) {
       setSearchResults([]);
       setIsSearching(false);
-      onPreviewDestination?.(null);
       return;
     }
 
@@ -166,7 +295,7 @@ export const TripWizard: React.FC<TripWizardProps> = ({
     }
   };
 
-  const handleDurationChange = (days: number) => {
+  const handleDurationPreset = (days: number) => {
     const safeDays = Math.max(1, Math.min(30, days));
     setDurationDays(safeDays);
     setEndDate(addDaysIso(startDate, safeDays - 1));
@@ -203,6 +332,7 @@ export const TripWizard: React.FC<TripWizardProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!searchQuery.trim()) return;
     onGenerate({
       destination: searchQuery,
       duration_days: durationDays,
@@ -214,142 +344,99 @@ export const TripWizard: React.FC<TripWizardProps> = ({
     });
   };
 
-  const [selectedCircuitTab, setSelectedCircuitTab] = useState<'CHAR_DHAM' | 'CHOTA_CHAR_DHAM' | 'JYOTIRLINGA' | 'SHRINES'>('CHAR_DHAM');
-
-  const getRegionBadge = (type: RegionType) => {
+  const getRegionBadge = (type: RegionType | string) => {
     switch (type) {
       case 'HILL_MOUNTAIN':
-        return { label: 'Hill / Mountain', color: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30' };
+        return { label: 'Himalayan / Alpine', color: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30' };
       case 'COASTAL_MARINE':
         return { label: 'Coastal / Beach', color: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30' };
       case 'PLAINS_RIVERINE':
         return { label: 'Plains / Riverine', color: 'bg-blue-500/15 text-blue-300 border-blue-500/30' };
       case 'FOREST_WILDLIFE':
-        return { label: 'Forest / Wildlife', color: 'bg-amber-500/15 text-amber-300 border-amber-500/30' };
+        return { label: 'Wildlife / Jungle', color: 'bg-amber-500/15 text-amber-300 border-amber-500/30' };
       case 'DESERT_ARID':
         return { label: 'Desert / Dunes', color: 'bg-orange-500/15 text-orange-300 border-orange-500/30' };
       case 'URBAN_HERITAGE':
-        return { label: 'Urban / Heritage', color: 'bg-purple-500/15 text-purple-300 border-purple-500/30' };
+        return { label: 'Royal / Heritage', color: 'bg-purple-500/15 text-purple-300 border-purple-500/30' };
       default:
         return { label: 'Pan-India', color: 'bg-slate-500/15 text-slate-300 border-slate-500/30' };
     }
-  };
-
-  const PILGRIMAGE_CIRCUITS_DATA = {
-    CHAR_DHAM: {
-      name: 'Char Dham (Cardinal)',
-      items: [
-        { name: 'Badrinath Dham', state: 'Uttarakhand', lat: 30.7447, lon: 79.4912 },
-        { name: 'Dwarkadhish Temple Dwarka', state: 'Gujarat', lat: 22.2442, lon: 68.9685 },
-        { name: 'Puri Shri Jagannath Dham', state: 'Odisha', lat: 19.8135, lon: 85.8312 },
-        { name: 'Ramanathaswamy Temple Rameswaram', state: 'Tamil Nadu', lat: 9.2881, lon: 79.3174 },
-      ],
-    },
-    CHOTA_CHAR_DHAM: {
-      name: 'Chota Char Dham',
-      items: [
-        { name: 'Yamunotri Dham', state: 'Uttarakhand', lat: 31.0140, lon: 78.4600 },
-        { name: 'Gangotri Dham', state: 'Uttarakhand', lat: 30.9947, lon: 78.9398 },
-        { name: 'Kedarnath Dham', state: 'Uttarakhand', lat: 30.7352, lon: 79.0669 },
-        { name: 'Badrinath Dham', state: 'Uttarakhand', lat: 30.7447, lon: 79.4912 },
-      ],
-    },
-    JYOTIRLINGA: {
-      name: '12 Jyotirlingas',
-      items: [
-        { name: 'Somnath Jyotirlinga Temple', state: 'Gujarat', lat: 20.8880, lon: 70.4012 },
-        { name: 'Mallikarjuna Jyotirlinga Srisailam', state: 'Andhra Pradesh', lat: 16.0745, lon: 78.8687 },
-        { name: 'Mahakaleshwar Jyotirlinga Ujjain', state: 'Madhya Pradesh', lat: 23.1827, lon: 75.7682 },
-        { name: 'Omkareshwar Jyotirlinga', state: 'Madhya Pradesh', lat: 22.2464, lon: 76.1517 },
-        { name: 'Kedarnath Dham', state: 'Uttarakhand', lat: 30.7352, lon: 79.0669 },
-        { name: 'Bhimashankar Jyotirlinga', state: 'Maharashtra', lat: 19.0722, lon: 73.5354 },
-        { name: 'Kashi Vishwanath Temple Varanasi', state: 'Uttar Pradesh', lat: 25.3109, lon: 83.0107 },
-        { name: 'Trimbakeshwar Jyotirlinga', state: 'Maharashtra', lat: 19.9322, lon: 73.5308 },
-        { name: 'Baidyanath Jyotirlinga Deoghar', state: 'Jharkhand', lat: 24.4925, lon: 86.7000 },
-        { name: 'Nageshwar Jyotirlinga', state: 'Gujarat', lat: 22.3353, lon: 69.0538 },
-        { name: 'Ramanathaswamy Temple Rameswaram', state: 'Tamil Nadu', lat: 9.2881, lon: 79.3174 },
-        { name: 'Grishneshwar Jyotirlinga Ellora', state: 'Maharashtra', lat: 20.0244, lon: 75.1722 },
-      ],
-    },
-    SHRINES: {
-      name: 'Prominent Shrines',
-      items: [
-        { name: 'Ajmer Sharif Dargah', state: 'Rajasthan', lat: 26.4561, lon: 74.6282 },
-        { name: 'Shirdi Sai Baba Samadhi Mandir', state: 'Maharashtra', lat: 19.7667, lon: 74.4764 },
-        { name: 'Palitana Shatrunjaya Temples', state: 'Gujarat', lat: 21.5033, lon: 71.7828 },
-        { name: 'Swaminarayan Akshardham Temple Delhi', state: 'Delhi', lat: 28.6127, lon: 77.2773 },
-      ],
-    },
   };
 
   // Pacing status based on duration
   const getPacingInsights = (days: number) => {
     if (days === 1) {
       return {
-        badge: 'Ultra-Express Pacing',
+        badge: 'Express Day Trip',
         color: 'text-amber-400 border-amber-500/40 bg-amber-500/10',
-        desc: 'Concentrated full-day load. Strict 07:00 IST start required to beat dusk curfews.',
+        desc: 'Concentrated full-day schedule. Early start advised to maximize sight-seeing & buffer transit.',
       };
     }
     if (days === 2) {
       return {
-        badge: 'Standard Safe Pacing',
+        badge: 'Standard Weekend Route',
         color: 'text-emerald-400 border-emerald-500/40 bg-emerald-500/10',
-        desc: 'Optimal baseline split with overnight recovery and safe elevation progression.',
+        desc: 'Optimal 2-day baseline split with overnight stay and balanced sightseeing intervals.',
       };
     }
     if (days <= 4) {
       return {
         badge: 'Acclimatized Safe Pacing',
         color: 'text-cyan-400 border-cyan-500/40 bg-cyan-500/10',
-        desc: 'Gradual altitude & terrain adaptation. Lowest hypoxia & cardiovascular stress.',
+        desc: 'Gradual altitude & terrain adaptation. Safe elevation progression and lowest travel fatigue.',
       };
     }
     if (days <= 7) {
       return {
-        badge: 'Extended Exploration & Buffer',
+        badge: 'Extended Holiday Circuit',
         color: 'text-indigo-400 border-indigo-500/40 bg-indigo-500/10',
-        desc: 'Comprehensive multi-sector circuit with scheduled weather buffers & rest intervals.',
+        desc: 'Comprehensive multi-sector circuit with scheduled rest intervals, cultural halts & weather buffers.',
       };
     }
     return {
-      badge: 'Grand Multi-Stage Expedition',
+      badge: 'Grand National Expedition',
       color: 'text-purple-400 border-purple-500/40 bg-purple-500/10',
-      desc: 'Deep regional traverse with dedicated acclimatization rest halts & supply logistics.',
+      desc: 'Deep multi-stage regional traverse with dedicated acclimatization rest halts & complete logistics.',
     };
   };
 
   const pacing = getPacingInsights(durationDays);
+  const activeCatData = PAN_INDIA_CATEGORIES.find((c) => c.id === activeCategory) || PAN_INDIA_CATEGORIES[0];
 
   return (
-    <div className="glass-panel p-6 rounded-2xl border border-slate-800 shadow-xl relative overflow-visible">
+    <div className="glass-panel p-5 sm:p-6 rounded-2xl border border-slate-800 shadow-2xl relative overflow-visible">
+      {/* Header Banner */}
       <div className="flex items-center justify-between pb-4 mb-5 border-b border-slate-800/80">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600/30 to-teal-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 shadow-lg shadow-emerald-500/10">
             <Sparkles className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="text-base font-bold text-white">Pan-India Smart Route Planner</h2>
-            <p className="text-xs text-slate-400">Search any place across India for automated risk classification & itinerary</p>
+            <h2 className="text-base font-extrabold text-white tracking-tight flex items-center gap-2">
+              <span>Pan-India Smart Route &amp; Safety Planner</span>
+            </h2>
+            <p className="text-xs text-slate-400">
+              Plan safe itineraries across 28 States &amp; 8 UTs with live geocoding &amp; adaptive risk rating
+            </p>
           </div>
         </div>
-        <span className="text-[11px] px-2.5 py-1 rounded-full bg-slate-800 text-emerald-400 font-mono font-bold">
-          PAN-INDIA RESOLVER
+        <span className="hidden sm:inline-flex text-[11px] px-3 py-1 rounded-full bg-slate-900 text-emerald-400 font-mono font-bold border border-emerald-500/30 shadow-inner">
+          ALL-INDIA RESOLVER
         </span>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-5">
         {/* Dynamic Destination Search Autocomplete Bar */}
         <div className="relative" ref={dropdownRef}>
-          <label className="text-xs font-semibold text-slate-300 flex items-center justify-between mb-2">
-            <span className="flex items-center gap-1.5">
-              <MapPin className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Destination or Landmark (Anywhere in India)</span>
+          <label className="text-xs font-bold text-slate-200 flex items-center justify-between mb-2">
+            <span className="flex items-center gap-2">
+              <MapPin className="w-4 h-4 text-emerald-400" />
+              <span>Destination or Landmark (Any Place in India)</span>
             </span>
-            <span className="text-[10px] text-slate-400 font-mono">Auto-Geocoded</span>
+            <span className="text-[10px] text-emerald-400/90 font-mono font-medium">Auto-Geocoded GPS</span>
           </label>
 
-          <div className="relative">
+          <div className="relative group">
             <input
               type="text"
               value={searchQuery}
@@ -358,54 +445,64 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                 setShowDropdown(true);
               }}
               onFocus={() => setShowDropdown(true)}
-              placeholder="e.g. Kaziranga, Puri Beach, Jaisalmer, Manali, Kedarnath, Munnar..."
-              className="w-full bg-slate-900 border border-slate-700/90 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition-all font-medium"
+              placeholder="e.g. Goa Beaches, Manali, Jaipur Amer Fort, Leh Ladakh, Munnar, Corbett, Varanasi..."
+              className="w-full bg-slate-950/90 border border-slate-700/90 group-hover:border-slate-600 rounded-xl pl-10 pr-10 py-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all font-medium shadow-inner"
             />
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5 group-focus-within:text-emerald-400 transition-colors" />
+            
+            {searchQuery && !isSearching && (
+              <button
+                type="button"
+                onClick={() => {
+                  setSearchQuery('');
+                  setSearchResults([]);
+                  onPreviewDestination?.(null);
+                }}
+                className="absolute right-3.5 top-3.5 text-slate-400 hover:text-white transition-colors cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            )}
+
             {isSearching && (
-              <div className="w-4 h-4 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin absolute right-3.5 top-3" />
+              <div className="w-4 h-4 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin absolute right-3.5 top-3.5" />
             )}
           </div>
 
           {/* Autocomplete Dropdown List */}
           {showDropdown && searchResults.length > 0 && (
-            <div className="absolute top-full left-0 right-0 z-50 mt-1.5 max-h-72 overflow-y-auto rounded-xl bg-slate-950/95 border border-slate-700 shadow-2xl p-1.5 space-y-1.5 backdrop-blur-xl">
+            <div className="absolute top-full left-0 right-0 z-50 mt-2 max-h-80 overflow-y-auto rounded-xl bg-slate-950/95 border border-slate-700 shadow-2xl p-2 space-y-1.5 backdrop-blur-2xl">
               {searchResults.map((item) => {
                 const badge = getRegionBadge(item.region_type);
                 const isPilgrimage = item.category === 'pilgrimage' || !!item.pilgrimage_metadata;
-                const circuits = item.pilgrimage_metadata?.circuits || [];
-                const mobility = item.pilgrimage_metadata?.mobility_tier;
 
                 return (
                   <button
                     key={item.id}
                     type="button"
                     onClick={() => handleSelectDestination(item)}
-                    className="w-full p-2.5 rounded-lg text-left hover:bg-slate-800/80 transition-all flex items-center justify-between gap-2 cursor-pointer border border-transparent hover:border-slate-700"
+                    className="w-full p-2.5 rounded-lg text-left hover:bg-slate-900 transition-all flex items-center justify-between gap-3 cursor-pointer border border-transparent hover:border-slate-700 group"
                   >
-                    <div className="space-y-0.5">
-                      <div className="text-xs font-bold text-white flex items-center gap-1.5 flex-wrap">
+                    <div className="space-y-1 min-w-0">
+                      <div className="text-xs font-bold text-white group-hover:text-emerald-300 transition-colors flex items-center gap-1.5 flex-wrap">
                         <span>{item.canonical_name}</span>
                         {item.name_hi && (
                           <span className="text-[10px] text-slate-400 font-sans font-normal">({item.name_hi})</span>
                         )}
                         {isPilgrimage && (
-                          <span className="text-[9px] px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 font-semibold">
-                            Pilgrimage
+                          <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 font-semibold">
+                            Sacred
                           </span>
                         )}
                       </div>
                       <div className="flex items-center gap-2 text-[10px] text-slate-400">
-                        <span>{item.state_ut}</span>
-                        {circuits.length > 0 && (
-                          <span className="text-emerald-400 font-medium">• {circuits.join(', ')}</span>
-                        )}
-                        {mobility && mobility !== 'PAVED_WALKWAY' && (
-                          <span className="text-amber-400/90 font-mono">• {mobility.replace(/_/g, ' ')}</span>
+                        <span className="text-slate-300 font-medium">{item.state_ut}</span>
+                        {item.elevation_m && item.elevation_m > 500 && (
+                          <span className="font-mono text-cyan-400/90">• {item.elevation_m}m</span>
                         )}
                       </div>
                     </div>
-                    <span className={`text-[10px] px-2 py-0.5 rounded-full font-mono font-semibold border shrink-0 ${badge.color}`}>
+                    <span className={`text-[10px] px-2.5 py-1 rounded-full font-mono font-semibold border shrink-0 ${badge.color}`}>
                       {badge.label}
                     </span>
                   </button>
@@ -414,115 +511,111 @@ export const TripWizard: React.FC<TripWizardProps> = ({
             </div>
           )}
 
-          {/* Popular Pilgrimage Circuits Quick-Selector Tray */}
-          <div className="mt-3 p-3 rounded-xl bg-slate-950/70 border border-amber-500/20 space-y-2.5">
-            <div className="flex items-center justify-between gap-2 flex-wrap">
-              <div className="flex items-center gap-1.5 text-xs font-bold text-amber-300">
-                <span>Popular Pilgrimage Circuits</span>
-              </div>
-              <div className="flex items-center gap-1 bg-slate-900/90 p-0.5 rounded-lg border border-slate-800 text-[10px]">
-                {(['CHAR_DHAM', 'CHOTA_CHAR_DHAM', 'JYOTIRLINGA', 'SHRINES'] as const).map((tabKey) => {
-                  const circuit = PILGRIMAGE_CIRCUITS_DATA[tabKey];
-                  return (
-                    <button
-                      key={tabKey}
-                      type="button"
-                      onClick={() => setSelectedCircuitTab(tabKey)}
-                      className={`px-2 py-0.5 rounded-md font-medium transition-all cursor-pointer ${
-                        selectedCircuitTab === tabKey
-                          ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 font-semibold'
-                          : 'text-slate-400 hover:text-slate-200'
-                      }`}
-                    >
-                      {circuit.name.split(' ')[0]}
-                    </button>
-                  );
-                })}
-              </div>
+          {/* Pan-India Multi-Genre Destination Explorer */}
+          <div className="mt-3.5 p-3.5 rounded-2xl bg-slate-950/80 border border-slate-800/90 space-y-3 shadow-inner">
+            {/* Category Selector Tabs */}
+            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1">
+              {PAN_INDIA_CATEGORIES.map((cat) => {
+                const Icon = cat.icon;
+                const isActive = activeCategory === cat.id;
+                return (
+                  <button
+                    key={cat.id}
+                    type="button"
+                    onClick={() => setActiveCategory(cat.id)}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer shrink-0 border ${
+                      isActive
+                        ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50 shadow-md shadow-emerald-500/10'
+                        : 'bg-slate-900/90 text-slate-400 border-slate-800 hover:text-slate-200 hover:border-slate-700'
+                    }`}
+                  >
+                    <Icon className="w-3.5 h-3.5" />
+                    <span>{cat.name}</span>
+                  </button>
+                );
+              })}
             </div>
 
-            {/* Circuit Shrines Pill Grid */}
-            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-[10px] font-medium text-slate-300 scrollbar-thin">
-              {PILGRIMAGE_CIRCUITS_DATA[selectedCircuitTab].items.map((shrine) => (
-                <button
-                  key={shrine.name}
-                  type="button"
-                  onClick={() => handleQuickPick(shrine.name, shrine.lat, shrine.lon)}
-                  className="px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-amber-500/10 hover:border-amber-500/40 border border-slate-800 shrink-0 cursor-pointer text-left transition-all group flex items-center gap-1.5"
-                >
-                  <div>
-                    <div className="font-semibold text-slate-200 group-hover:text-amber-300 transition-colors">
-                      {shrine.name.split(' ')[0]}
+            {/* Category Sub-Header Banner */}
+            <div className="flex items-center justify-between text-[11px] text-slate-400 px-1">
+              <span className="font-semibold text-slate-300 flex items-center gap-1.5">
+                <span>{activeCatData.badgeText}</span>
+              </span>
+              <span className="text-[10px] text-slate-500">Click to explore &amp; map route</span>
+            </div>
+
+            {/* Destination Grid / Card Carousel */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {activeCatData.items.map((place) => {
+                const isSelected = searchQuery.toLowerCase().includes(place.name.toLowerCase().split(' ')[0]);
+                const badge = getRegionBadge(place.regionType);
+
+                return (
+                  <button
+                    key={place.name}
+                    type="button"
+                    onClick={() => handleQuickPick(place.name, place.lat, place.lon)}
+                    onMouseEnter={() => {
+                      if (place.lat && place.lon) {
+                        onPreviewDestination?.({ lat: place.lat, lon: place.lon, name: place.name });
+                      }
+                    }}
+                    className={`p-2.5 rounded-xl text-left transition-all border cursor-pointer group flex flex-col justify-between ${
+                      isSelected
+                        ? 'bg-emerald-950/40 border-emerald-500/60 shadow-lg text-white'
+                        : 'bg-slate-900/80 hover:bg-slate-850 border-slate-800/90 hover:border-slate-700'
+                    }`}
+                  >
+                    <div className="space-y-0.5">
+                      <div className="text-xs font-bold text-slate-200 group-hover:text-emerald-300 transition-colors line-clamp-1">
+                        {place.name.split(',')[0]}
+                      </div>
+                      <div className="text-[10px] text-slate-400 font-medium truncate">
+                        {place.state}
+                      </div>
                     </div>
-                    <div className="text-[9px] text-slate-400">{shrine.state}</div>
-                  </div>
-                </button>
-              ))}
+                    
+                    <div className="mt-2 pt-1.5 border-t border-slate-800/60 flex items-center justify-between text-[9px]">
+                      <span className="text-slate-400 font-mono truncate">{place.tag}</span>
+                      <span className={`px-1.5 py-0.5 rounded font-mono font-semibold border ${badge.color}`}>
+                        {badge.label.split(' ')[0]}
+                      </span>
+                    </div>
+                  </button>
+                );
+              })}
             </div>
-          </div>
-
-          {/* Quick General Category Pickers */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pt-2 pb-1 text-[10px] font-medium text-slate-300">
-            <span className="text-slate-500 shrink-0">Other Hotspots:</span>
-            <button
-              type="button"
-              onClick={() => handleQuickPick('Puri Beach', 19.8135, 85.8312)}
-              className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 shrink-0 cursor-pointer"
-            >
-              Puri Beach (Coastal)
-            </button>
-            <button
-              type="button"
-              onClick={() => handleQuickPick('Kaziranga National Park', 26.5775, 93.1711)}
-              className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 shrink-0 cursor-pointer"
-            >
-              Kaziranga (Forest)
-            </button>
-            <button
-              type="button"
-              onClick={() => handleQuickPick('Jaisalmer Sand Dunes', 26.9157, 70.9083)}
-              className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 shrink-0 cursor-pointer"
-            >
-              Jaisalmer (Desert)
-            </button>
-            <button
-              type="button"
-              onClick={() => handleQuickPick('Manali & Solang Valley', 32.2432, 77.1892)}
-              className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 shrink-0 cursor-pointer"
-            >
-              Manali (Alpine)
-            </button>
           </div>
         </div>
 
         {/* Enhanced Trip Duration & Acclimatized Pacing */}
-        <div className="bg-slate-900/50 border border-slate-800/90 p-4 rounded-2xl space-y-3.5 shadow-sm">
+        <div className="bg-slate-950/70 border border-slate-800/90 p-4 rounded-2xl space-y-3.5 shadow-sm">
           <div className="flex items-center justify-between gap-2 flex-wrap">
-            <label className="text-xs font-semibold text-slate-200 flex items-center gap-2">
+            <label className="text-xs font-bold text-slate-200 flex items-center gap-2">
               <Calendar className="w-4 h-4 text-emerald-400" />
-              <span>Trip Duration & Acclimatized Pacing</span>
+              <span>Trip Duration &amp; Acclimatized Schedule</span>
             </label>
 
-            {/* Mode Switcher Tabs */}
-            <div className="flex items-center p-1 bg-slate-950/90 rounded-xl border border-slate-800/90 text-xs">
+            {/* Quick Duration Presets & Mode Tabs */}
+            <div className="flex items-center p-1 bg-slate-900/90 rounded-xl border border-slate-800 text-xs gap-1">
               <button
                 type="button"
                 onClick={() => setDurationMode('dates')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-medium transition-all cursor-pointer ${
+                className={`flex items-center gap-1 px-2.5 py-1 rounded-lg font-medium transition-all cursor-pointer ${
                   durationMode === 'dates'
-                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-sm font-semibold'
+                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold shadow-sm'
                     : 'text-slate-400 hover:text-slate-200 border border-transparent'
                 }`}
               >
                 <Calendar className="w-3.5 h-3.5" />
-                <span>Custom Dates</span>
+                <span>Dates</span>
               </button>
               <button
                 type="button"
                 onClick={() => setDurationMode('custom_days')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-medium transition-all cursor-pointer ${
+                className={`flex items-center gap-1 px-2.5 py-1 rounded-lg font-medium transition-all cursor-pointer ${
                   durationMode === 'custom_days'
-                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-sm font-semibold'
+                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold shadow-sm'
                     : 'text-slate-400 hover:text-slate-200 border border-transparent'
                 }`}
               >
@@ -532,48 +625,72 @@ export const TripWizard: React.FC<TripWizardProps> = ({
             </div>
           </div>
 
+          {/* Quick Preset Duration Pills */}
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-0.5">
+            <span className="text-[11px] text-slate-400 shrink-0 font-medium">Quick Pacing:</span>
+            {[
+              { days: 2, label: '2D Weekend' },
+              { days: 4, label: '4D Express' },
+              { days: 7, label: '7D Holiday' },
+              { days: 10, label: '10D Grand Tour' },
+            ].map((preset) => (
+              <button
+                key={preset.days}
+                type="button"
+                onClick={() => handleDurationPreset(preset.days)}
+                className={`px-2.5 py-1 rounded-lg text-[11px] font-mono font-semibold transition-all cursor-pointer shrink-0 border ${
+                  durationDays === preset.days
+                    ? 'bg-emerald-500/25 text-emerald-300 border-emerald-500/50 shadow-sm'
+                    : 'bg-slate-900/90 text-slate-400 border-slate-800 hover:border-slate-700 hover:text-slate-200'
+                }`}
+              >
+                {preset.label}
+              </button>
+            ))}
+          </div>
+
           {/* Custom Date Range Picker Mode */}
           {durationMode === 'dates' && (
-            <div className="space-y-3">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="space-y-1.5 bg-slate-950/70 p-3 rounded-xl border border-slate-800/80 hover:border-slate-700/80 transition-colors">
-                  <div className="flex items-center justify-between">
-                    <label className="text-[11px] font-semibold text-slate-300 flex items-center gap-1.5">
-                      <Clock className="w-3.5 h-3.5 text-emerald-400" />
-                      <span>Departure Date</span>
-                    </label>
-                    <span className="text-[10px] font-mono text-slate-500">Day 1</span>
-                  </div>
-                  <input
-                    type="date"
-                    value={startDate}
-                    min={getTodayIso()}
-                    onChange={(e) => handleStartDateChange(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700/80 rounded-lg px-3 py-2 text-xs font-medium text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/30 transition-all [color-scheme:dark]"
-                  />
-                  <div className="text-[10px] text-slate-400 font-mono">
-                    {formatReadableDate(startDate)}
-                  </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="space-y-1.5 bg-slate-900/80 p-3 rounded-xl border border-slate-800 hover:border-slate-700 transition-colors">
+                <div className="flex items-center justify-between">
+                  <label className="text-[11px] font-bold text-slate-300 flex items-center gap-1.5">
+                    <Clock className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>Departure Date</span>
+                  </label>
+                  <span className="text-[10px] font-mono text-slate-400">Day 1</span>
                 </div>
+                <input
+                  type="date"
+                  value={startDate}
+                  min={getTodayIso()}
+                  onChange={(e) => handleStartDateChange(e.target.value)}
+                  className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs font-semibold text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/30 transition-all [color-scheme:dark]"
+                />
+                <div className="text-[10px] text-slate-400 font-mono">
+                  {formatReadableDate(startDate)}
+                </div>
+              </div>
 
-                <div className="space-y-1.5 bg-slate-950/70 p-3 rounded-xl border border-slate-800/80 hover:border-slate-700/80 transition-colors">
-                  <div className="flex items-center justify-between">
-                    <label className="text-[11px] font-semibold text-slate-300 flex items-center gap-1.5">
-                      <Clock className="w-3.5 h-3.5 text-cyan-400" />
-                      <span>Return Date</span>
-                    </label>
-                    <span className="text-[10px] font-mono text-emerald-400 font-semibold">{durationDays} {durationDays === 1 ? 'Day' : 'Days'}</span>
-                  </div>
-                  <input
-                    type="date"
-                    value={endDate}
-                    min={startDate}
-                    onChange={(e) => handleEndDateChange(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700/80 rounded-lg px-3 py-2 text-xs font-medium text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/30 transition-all [color-scheme:dark]"
-                  />
-                  <div className="text-[10px] text-slate-400 font-mono">
-                    {formatReadableDate(endDate)}
-                  </div>
+              <div className="space-y-1.5 bg-slate-900/80 p-3 rounded-xl border border-slate-800 hover:border-slate-700 transition-colors">
+                <div className="flex items-center justify-between">
+                  <label className="text-[11px] font-bold text-slate-300 flex items-center gap-1.5">
+                    <Clock className="w-3.5 h-3.5 text-cyan-400" />
+                    <span>Return Date</span>
+                  </label>
+                  <span className="text-[10px] font-mono text-emerald-400 font-bold">
+                    {durationDays} {durationDays === 1 ? 'Day' : 'Days'}
+                  </span>
+                </div>
+                <input
+                  type="date"
+                  value={endDate}
+                  min={startDate}
+                  onChange={(e) => handleEndDateChange(e.target.value)}
+                  className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs font-semibold text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/30 transition-all [color-scheme:dark]"
+                />
+                <div className="text-[10px] text-slate-400 font-mono">
+                  {formatReadableDate(endDate)}
                 </div>
               </div>
             </div>
@@ -581,30 +698,32 @@ export const TripWizard: React.FC<TripWizardProps> = ({
 
           {/* Exact Days Stepper & Slider Mode */}
           {durationMode === 'custom_days' && (
-            <div className="space-y-3.5 bg-slate-950/70 p-3.5 rounded-xl border border-slate-800/80">
+            <div className="space-y-3 bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
               <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-2.5">
                   <button
                     type="button"
-                    onClick={() => handleDurationChange(durationDays - 1)}
+                    onClick={() => handleDurationPreset(durationDays - 1)}
                     disabled={durationDays <= 1}
                     aria-label="Decrease duration"
-                    className="w-8 h-8 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 hover:bg-slate-800 text-slate-300 flex items-center justify-center disabled:opacity-30 disabled:hover:bg-slate-900 disabled:hover:border-slate-800 transition-all cursor-pointer"
+                    className="w-8 h-8 rounded-lg bg-slate-950 border border-slate-800 hover:border-slate-700 hover:bg-slate-900 text-slate-300 flex items-center justify-center disabled:opacity-30 transition-all cursor-pointer"
                   >
                     <Minus className="w-4 h-4" />
                   </button>
 
-                  <div className="px-4 py-1.5 rounded-lg bg-slate-900 border border-emerald-500/40 text-center min-w-[110px] shadow-sm">
+                  <div className="px-4 py-1.5 rounded-lg bg-slate-950 border border-emerald-500/40 text-center min-w-[110px] shadow-sm">
                     <span className="text-base font-mono font-black text-emerald-300">{durationDays}</span>
-                    <span className="text-xs text-slate-300 ml-1.5 font-semibold">{durationDays === 1 ? 'Day' : 'Days'}</span>
+                    <span className="text-xs text-slate-300 ml-1.5 font-bold">
+                      {durationDays === 1 ? 'Day' : 'Days'}
+                    </span>
                   </div>
 
                   <button
                     type="button"
-                    onClick={() => handleDurationChange(durationDays + 1)}
+                    onClick={() => handleDurationPreset(durationDays + 1)}
                     disabled={durationDays >= 30}
                     aria-label="Increase duration"
-                    className="w-8 h-8 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 hover:bg-slate-800 text-slate-300 flex items-center justify-center disabled:opacity-30 disabled:hover:bg-slate-900 disabled:hover:border-slate-800 transition-all cursor-pointer"
+                    className="w-8 h-8 rounded-lg bg-slate-950 border border-slate-800 hover:border-slate-700 hover:bg-slate-900 text-slate-300 flex items-center justify-center disabled:opacity-30 transition-all cursor-pointer"
                   >
                     <Plus className="w-4 h-4" />
                   </button>
@@ -613,31 +732,29 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                 <div className="text-right text-[11px] text-slate-400 font-mono">
                   <span>{formatReadableDate(startDate)}</span>
                   <span className="text-slate-600 mx-1">→</span>
-                  <span className="text-emerald-400 font-medium">{formatReadableDate(endDate)}</span>
+                  <span className="text-emerald-400 font-bold">{formatReadableDate(endDate)}</span>
                 </div>
               </div>
 
-              <div className="space-y-1.5">
-                <input
-                  type="range"
-                  min={1}
-                  max={30}
-                  step={1}
-                  value={durationDays}
-                  onChange={(e) => handleDurationChange(Number(e.target.value))}
-                  className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500"
-                />
-                <div className="flex justify-between text-[10px] text-slate-500 font-mono">
-                  <span>Min: 1 Day</span>
-                  <span className="text-slate-400">Target Range: 1 – 30 Days</span>
-                  <span>Max: 30 Days</span>
-                </div>
+              <input
+                type="range"
+                min={1}
+                max={30}
+                step={1}
+                value={durationDays}
+                onChange={(e) => handleDurationPreset(Number(e.target.value))}
+                className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+              />
+              <div className="flex justify-between text-[10px] text-slate-500 font-mono">
+                <span>1 Day (Express)</span>
+                <span className="text-slate-400">Target Range: 1 – 30 Days</span>
+                <span>30 Days (Grand Expedition)</span>
               </div>
             </div>
           )}
 
           {/* Dynamic Acclimatization Pacing Status Card */}
-          <div className="p-3.5 rounded-xl bg-slate-950/90 border border-slate-800/90 space-y-2.5 shadow-inner">
+          <div className="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2 shadow-inner">
             <div className="flex items-center justify-between gap-2 flex-wrap">
               <span className={`text-xs px-2.5 py-1 rounded-lg font-bold border whitespace-nowrap shrink-0 flex items-center gap-1.5 ${pacing.color}`}>
                 <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
@@ -647,7 +764,9 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                 <span className="text-slate-400">{formatReadableDate(startDate)}</span>
                 <ArrowRight className="w-3 h-3 text-emerald-400 shrink-0" />
                 <span className="text-white font-bold">{formatReadableDate(endDate)}</span>
-                <span className="text-emerald-400 font-bold ml-1">({durationDays} {durationDays === 1 ? 'Day' : 'Days'})</span>
+                <span className="text-emerald-400 font-bold ml-1">
+                  ({durationDays} {durationDays === 1 ? 'Day' : 'Days'})
+                </span>
               </div>
             </div>
             <div className="text-xs text-slate-400 leading-relaxed border-t border-slate-800/80 pt-2 flex items-start gap-2">
@@ -658,22 +777,22 @@ export const TripWizard: React.FC<TripWizardProps> = ({
         </div>
 
         {/* Budget Tier Selector & Custom Slider */}
-        <div>
-          <div className="flex items-center justify-between mb-2">
-            <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
-              <Wallet className="w-3.5 h-3.5 text-emerald-400" />
+        <div className="space-y-2.5">
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
+              <Wallet className="w-4 h-4 text-emerald-400" />
               <span>Budget Allocation Tier</span>
             </label>
-            <span className="text-xs font-mono font-bold text-emerald-400">
+            <span className="text-xs font-mono font-extrabold text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
               ₹{budgetAmount.toLocaleString('en-IN')} INR
             </span>
           </div>
 
-          <div className="grid grid-cols-3 gap-3 mb-3">
+          <div className="grid grid-cols-3 gap-2.5">
             {[
-              { tier: 'BUDGET', label: 'Budget Traveler', desc: 'Govt Dorms / Homestays' },
-              { tier: 'STANDARD', label: 'Balanced Comfort', desc: 'State Tourism Cottages' },
-              { tier: 'COMFORT', label: 'Premium / Assisted', desc: 'Eco-Resorts & Private Jeep' },
+              { tier: 'BUDGET', label: 'Budget Explorer', desc: 'Govt Dorms / Homestays' },
+              { tier: 'STANDARD', label: 'Balanced Comfort', desc: 'Tourism Cottages & Cabs' },
+              { tier: 'COMFORT', label: 'Premium Leisure', desc: 'Eco-Resorts & Private SUVs' },
             ].map((t) => (
               <button
                 type="button"
@@ -681,12 +800,12 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                 onClick={() => handleTierChange(t.tier as any)}
                 className={`p-3 rounded-xl text-left border transition-all cursor-pointer ${
                   budgetTier === t.tier
-                    ? 'bg-emerald-500/15 border-emerald-500/50 text-white shadow-md'
-                    : 'bg-slate-900/60 border-slate-800/80 text-slate-400 hover:border-slate-700'
+                    ? 'bg-emerald-500/15 border-emerald-500/60 text-white shadow-md'
+                    : 'bg-slate-950/70 border-slate-800 text-slate-400 hover:border-slate-700'
                 }`}
               >
                 <div className="text-xs font-bold text-slate-200">{t.label}</div>
-                <div className="text-[10px] text-slate-400 mt-1">{t.desc}</div>
+                <div className="text-[10px] text-slate-400 mt-0.5">{t.desc}</div>
               </button>
             ))}
           </div>
@@ -700,24 +819,24 @@ export const TripWizard: React.FC<TripWizardProps> = ({
             onChange={(e) => setBudgetAmount(Number(e.target.value))}
             className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500"
           />
-          <div className="flex justify-between text-[10px] text-slate-500 font-mono mt-1">
+          <div className="flex justify-between text-[10px] text-slate-500 font-mono">
             <span>Min: ₹3,000</span>
-            <span>Includes 15% Regional Medical Reserve</span>
+            <span>Includes 15% Emergency Reserve</span>
             <span>Max: ₹40,000</span>
           </div>
         </div>
 
         {/* Fitness Level Selector */}
-        <div>
-          <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5 mb-2">
-            <Activity className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Cardiovascular Fitness & Terrain Readiness</span>
+        <div className="space-y-2.5">
+          <label className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
+            <Activity className="w-4 h-4 text-emerald-400" />
+            <span>Cardiovascular Fitness &amp; Terrain Readiness</span>
           </label>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-3 gap-2.5">
             {[
-              { key: 'BEGINNER', label: 'Beginner / Seniors', tag: 'Frequent rest halts' },
-              { key: 'MODERATE', label: 'Moderate Fitness', tag: 'Standard trail pacing' },
-              { key: 'EXPERIENCED', label: 'Experienced Trekker', tag: 'Fast adaptation' },
+              { key: 'BEGINNER', label: 'Gentle / Family', tag: 'Frequent leisure halts' },
+              { key: 'MODERATE', label: 'Moderate Active', tag: 'Standard travel pacing' },
+              { key: 'EXPERIENCED', label: 'High-Endurance', tag: 'Trekker & fast pace' },
             ].map((f) => (
               <button
                 type="button"
@@ -725,8 +844,8 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                 onClick={() => setFitnessLevel(f.key as any)}
                 className={`p-2.5 rounded-xl text-left border transition-all cursor-pointer ${
                   fitnessLevel === f.key
-                    ? 'bg-emerald-500/20 border-emerald-500/60 text-white'
-                    : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:border-slate-700'
+                    ? 'bg-emerald-500/20 border-emerald-500/60 text-white shadow-md'
+                    : 'bg-slate-950/70 border-slate-800 text-slate-400 hover:border-slate-700'
                 }`}
               >
                 <div className="text-xs font-bold text-slate-200">{f.label}</div>
@@ -739,18 +858,19 @@ export const TripWizard: React.FC<TripWizardProps> = ({
         {/* Submit Button */}
         <button
           type="submit"
-          disabled={isLoading}
-          className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-500 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold tracking-wide uppercase shadow-lg shadow-emerald-600/30 transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
+          disabled={isLoading || !searchQuery.trim()}
+          className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-500 hover:from-emerald-500 hover:to-teal-400 text-white text-xs font-extrabold tracking-wider uppercase shadow-xl shadow-emerald-600/30 transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer transform active:scale-[0.99]"
         >
           {isLoading ? (
             <>
               <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              <span>Resolving Place & Computing Multi-Region Risk...</span>
+              <span>Resolving Place &amp; Computing Pan-India Safety Matrix...</span>
             </>
           ) : (
             <>
               <Sparkles className="w-4 h-4" />
-              <span>Generate Safe Itinerary & Risk Matrix</span>
+              <span>Generate Safe Itinerary &amp; Risk Matrix</span>
+              <ChevronRight className="w-4 h-4" />
             </>
           )}
         </button>

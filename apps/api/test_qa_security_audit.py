@@ -199,5 +199,53 @@ def test_spatial_geofencing_detection():
     assert resp_clear.json()["is_inside_hazard"] is False
 
 
+# -----------------------------------------------------------------------------
+# 8. PAN-INDIA MULTI-GENRE TRAVEL CATEGORIES & DESTINATIONS
+# -----------------------------------------------------------------------------
+def test_pan_india_travel_categories_endpoint():
+    resp = client.get("/api/v1/destinations/categories")
+    assert resp.status_code == 200
+    data = resp.json()
+    assert "categories" in data
+    assert len(data["categories"]) >= 6
+    
+    cat_ids = [c["id"] for c in data["categories"]]
+    assert "top_picks" in cat_ids
+    assert "hill_stations" in cat_ids
+    assert "beaches" in cat_ids
+    assert "wildlife" in cat_ids
+    assert "heritage" in cat_ids
+    assert "spiritual" in cat_ids
+    assert "adventure" in cat_ids
+
+    # Verify top picks contain destinations
+    top_picks = next(c for c in data["categories"] if c["id"] == "top_picks")
+    assert len(top_picks["destinations"]) > 0
+
+
+def test_pan_india_multi_genre_destination_resolution():
+    # Test Goa resolution
+    resp_goa = client.post("/api/v1/destinations/resolve", json={"query": "Goa Beaches"})
+    assert resp_goa.status_code == 200
+    data_goa = resp_goa.json()
+    assert data_goa["region_type"] == "COASTAL_MARINE"
+    assert data_goa["state_ut"] == "Goa"
+
+    # Test Leh Ladakh resolution
+    resp_leh = client.post("/api/v1/destinations/resolve", json={"query": "Leh Ladakh"})
+    assert resp_leh.status_code == 200
+    data_leh = resp_leh.json()
+    assert data_leh["region_type"] == "HILL_MOUNTAIN"
+    assert data_leh["elevation_m"] >= 3000
+
+    # Test Jaipur resolution
+    resp_jpr = client.post("/api/v1/destinations/resolve", json={"query": "Jaipur Amer Fort"})
+    assert resp_jpr.status_code == 200
+    data_jpr = resp_jpr.json()
+    assert data_jpr["region_type"] == "URBAN_HERITAGE"
+    assert data_jpr["state_ut"] == "Rajasthan"
+
+
 if __name__ == "__main__":
     pytest.main(["-v", __file__])
+
