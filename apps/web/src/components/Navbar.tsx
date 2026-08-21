@@ -46,14 +46,7 @@ export const Navbar: React.FC<NavbarProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
         {/* Brand & Live Mesh Status */}
         <div className="flex items-center gap-3">
-          <div className="relative">
-            <IgniteLogo size="md" />
-            <div
-              className={`absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full border-2 border-slate-950 ${
-                isSimulatingHazard ? 'bg-red-500 animate-ping' : 'bg-emerald-400'
-              }`}
-            />
-          </div>
+          <IgniteLogo size="md" />
 
           <div>
             <div className="flex items-center gap-2">
