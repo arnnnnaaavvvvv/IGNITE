@@ -1,4 +1,4 @@
-export class SafeTrailWebSocketClient {
+export class IgniteWebSocketClient {
   private socket: WebSocket | null = null;
   private tripId: string;
   private onMessageCallback: (data: any) => void;
@@ -76,3 +76,5 @@ export class SafeTrailWebSocketClient {
     }
   }
 }
+
+export const SafeTrailWebSocketClient = IgniteWebSocketClient;

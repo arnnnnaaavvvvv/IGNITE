@@ -5,7 +5,7 @@ from app.core.redis_cache import cache_manager
 from app.routers import destinations, itinerary, risk, emergency, sos, group, simulation, geofence, auth, websocket
 
 app = FastAPI(
-    title="SafeTrail AI — Pan-India Tourist Safety & Smart Route Planner",
+    title="IGNITE — Pan-India Tourist Safety & Smart Route Planner",
     version=settings.VERSION,
     description="Production-Grade Destination-Agnostic Tourist Safety & Smart Risk-Weighted Itinerary Engine",
     openapi_url=f"{settings.API_V1_STR}/openapi.json",
@@ -40,13 +40,13 @@ app.include_router(websocket.router, prefix=settings.API_V1_STR)
 @app.on_event("startup")
 async def startup_event():
     await cache_manager.initialize()
-    print("[SafeTrail API] Initialized successfully. All Pan-India modules active.")
+    print("[IGNITE API] Initialized successfully. All Pan-India modules active.")
 
 @app.get("/health", tags=["Health"])
 async def health_check():
     return {
         "status": "healthy",
-        "service": "SafeTrail AI — Pan-India Tourist Safety Engine",
+        "service": "IGNITE — Pan-India Tourist Safety Engine",
         "version": settings.VERSION,
         "supported_region_types": [
             "HILL_MOUNTAIN",

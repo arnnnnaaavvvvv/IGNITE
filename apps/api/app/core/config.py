@@ -3,7 +3,7 @@ from pydantic_settings import BaseSettings
 from typing import Optional
 
 class Settings(BaseSettings):
-    PROJECT_NAME: str = "SafeTrail AI — Pan-India Tourist Safety & Smart Route Planner"
+    PROJECT_NAME: str = "IGNITE — Pan-India Tourist Safety & Smart Route Planner"
     VERSION: str = "2.1.0"
     API_V1_STR: str = "/api/v1"
     

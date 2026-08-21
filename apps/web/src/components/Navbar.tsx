@@ -8,6 +8,7 @@ import {
   Users,
   UserCheck,
 } from 'lucide-react';
+import { IgniteLogo } from './Common/IgniteLogo';
 
 interface NavbarProps {
   activeTab: 'map' | 'itinerary' | 'explainability' | 'simulation' | 'group';
@@ -40,16 +41,13 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'group', label: 'Group Radar', icon: Users },
   ];
 
-
   return (
     <header className="sticky top-0 z-40 w-full border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
         {/* Brand & Live Mesh Status */}
         <div className="flex items-center gap-3">
           <div className="relative">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
-              <Compass className="w-6 h-6 text-white" />
-            </div>
+            <IgniteLogo size="md" />
             <div
               className={`absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full border-2 border-slate-950 ${
                 isSimulatingHazard ? 'bg-red-500 animate-ping' : 'bg-emerald-400'
@@ -59,10 +57,10 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-extrabold text-base tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent">
-                SafeTrail AI
+              <span className="font-black text-lg tracking-tight bg-gradient-to-r from-white via-amber-200 to-orange-400 bg-clip-text text-transparent drop-shadow-sm">
+                IGNITE
               </span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/25 font-bold tracking-wider">
                 PAN-INDIA
               </span>
             </div>
@@ -76,7 +74,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         {/* Center Tabs Navigation */}
-        <nav className="hidden md:flex items-center gap-1 bg-slate-900/90 p-1 rounded-xl border border-slate-800">
+        <nav className="hidden md:flex items-center gap-1 bg-slate-900/80 p-1.5 rounded-2xl border border-slate-800/80 shadow-inner backdrop-blur-md">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -84,16 +82,16 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all duration-200 cursor-pointer ${
                   isActive
-                    ? 'bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20 font-bold'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+                    ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 shadow-md shadow-emerald-500/25 font-bold tracking-tight'
+                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
                 }`}
               >
-                <Icon className="w-3.5 h-3.5" />
+                <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-slate-950' : 'text-slate-400'}`} />
                 <span>{tab.label}</span>
                 {tab.id === 'simulation' && isSimulatingHazard && (
-                  <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                  <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
                 )}
               </button>
             );

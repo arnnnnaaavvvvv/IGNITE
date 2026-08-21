@@ -1,4 +1,4 @@
-# SafeTrail AI: Destination-Agnostic Tourist Safety & Smart Route Planner
+# IGNITE: Destination-Agnostic Tourist Safety & Smart Route Planner
 > **Travel safely, not just smartly — sovereign-scale, explainable risk intelligence and dynamic re-routing for any destination in India.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg)](https://opensource.org/licenses/MIT)
@@ -16,7 +16,7 @@
 
 ## Overview
 
-**SafeTrail AI** is a destination-agnostic tourist safety and smart itinerary system engineered for India. Unlike conventional travel applications that act as static directories or rely on opaque black-box machine learning models, SafeTrail AI utilizes **deterministic, mathematical multi-factor risk engines** and real-time geospatial data (live weather, ground elevation, PostGIS hazard polygons, crowd bottlenecks, and emergency infrastructure proximity) to synthesize and adapt day-wise itineraries on the fly. The system operates universally across all 28 States and 8 Union Territories of India: whether a tourist searches a high-altitude Himalayan trail, a coastal marine beach, a dense wildlife reserve, an arid desert dune, a dense riverine plains pilgrimage, or a modern urban heritage campus, SafeTrail AI automatically resolves coordinates, samples real ground altitude, classifies the environmental terrain profile, and enforces strict region-specific safety protocols with complete mathematical explainability.
+**IGNITE** is a destination-agnostic tourist safety and smart itinerary system engineered for India. Unlike conventional travel applications that act as static directories or rely on opaque black-box machine learning models, IGNITE utilizes **deterministic, mathematical multi-factor risk engines** and real-time geospatial data (live weather, ground elevation, PostGIS hazard polygons, crowd bottlenecks, and emergency infrastructure proximity) to synthesize and adapt day-wise itineraries on the fly. The system operates universally across all 28 States and 8 Union Territories of India: whether a tourist searches a high-altitude Himalayan trail, a coastal marine beach, a dense wildlife reserve, an arid desert dune, a dense riverine plains pilgrimage, or a modern urban heritage campus, IGNITE automatically resolves coordinates, samples real ground altitude, classifies the environmental terrain profile, and enforces strict region-specific safety protocols with complete mathematical explainability.
 
 ---
 
@@ -30,7 +30,7 @@
 | **Dynamic Re-Routing Engine** | Continuously evaluates live GPS position against active hazard zones and IMD alert levels; triggers immediate topological safe bypass routes and shelter diversion if risk score exceeds 65.0. |
 | **Emergency SOS & 2G GSM Gateway** | Dynamically queries nearest hospitals, police posts, and SDRF stations within 15km via Overpass QL and formats a 140-character compact SMS string for low-bandwidth 2G / GSM cell networks. |
 | **Spatial PostGIS Geo-Fencing** | Executes spatial polygon intersections (`ST_Intersects`) between user coordinates and geological debris slides, floodplains, tidal surges, and wildfire corridors. |
-| **IndexedDB Offline Persistence** | Caches full itineraries, topological polyline coordinates, hazard boundaries, and emergency shelter nodes into browser IndexedDB (`SafeTrailOfflineDB`) with LocalStorage fallback for zero-network environments. |
+| **IndexedDB Offline Persistence** | Caches full itineraries, topological polyline coordinates, hazard boundaries, and emergency shelter nodes into browser IndexedDB (`IgniteOfflineDB`) with LocalStorage fallback for zero-network environments. |
 | **Group Mesh Radar & Dispersion Alert** | Tracks group member positions relative to the tour leader and triggers automatic alerts if members straggle beyond a configurable separation threshold (default: 150m). |
 | **Multilingual Voice Explainability** | Translates mathematical risk scores into natural-language safety briefings with Web Speech API Text-to-Speech (TTS) support in English and Hindi. |
 | **Regulated Budget Optimizer** | Allocates realistic day-wise expenses across lodging, transit, permits, and food while strictly reserving a mandatory **15% emergency liquidity cushion**. |

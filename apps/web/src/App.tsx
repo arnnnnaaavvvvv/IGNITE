@@ -9,7 +9,7 @@ import { SOSModal } from './components/Emergency/SOSModal';
 import { GroupTrackerModal } from './components/Group/GroupTrackerModal';
 import { AuthModal } from './components/Auth/AuthModal';
 import { OfflineCacheService } from './services/offlineCache';
-import { SafeTrailWebSocketClient } from './services/websocketClient';
+import { IgniteWebSocketClient } from './services/websocketClient';
 import type {
   Checkpoint,
   HazardZone,
@@ -51,7 +51,7 @@ export function App() {
   const [isBypassActive, setIsBypassActive] = useState(false);
   const [selectedCheckpoint, setSelectedCheckpoint] = useState<any>(null);
 
-  const wsClientRef = useRef<SafeTrailWebSocketClient | null>(null);
+  const wsClientRef = useRef<IgniteWebSocketClient | null>(null);
 
   // Initialize WebSocket & Initial Scenarios Load
   useEffect(() => {
@@ -68,7 +68,7 @@ export function App() {
     loadInitialData();
 
     // Connect WebSocket
-    const ws = new SafeTrailWebSocketClient(
+    const ws = new IgniteWebSocketClient(
       'active_trip_01',
       (alertPayload) => {
         console.log('[WebSocket Alert Received]:', alertPayload);
@@ -393,7 +393,7 @@ export function App() {
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 font-mono">
           <span className="flex items-center gap-1.5 justify-center">
             <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
-            <span>SafeTrail AI • Pan-India Tourist Safety & Smart Route Planner</span>
+            <span>IGNITE • Pan-India Tourist Safety & Smart Route Planner</span>
           </span>
           <span>Active: {currentDestinationName ? `${currentDestinationName} (${itinerary?.region_name || 'National Network'})` : 'Pan-India Explorer (28 States & 8 UTs)'}</span>
           <span className="text-emerald-400">PostGIS • Overpass QL • Redis TTL • OSRM Routing</span>

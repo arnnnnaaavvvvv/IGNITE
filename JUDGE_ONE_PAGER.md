@@ -1,4 +1,4 @@
-# SafeTrail AI: Judge-Facing One-Pager
+# IGNITE: Judge-Facing One-Pager
 ### *The Sovereign-Scale, Destination-Agnostic Tourist Safety & Smart Routing System for India*
 
 ---
@@ -6,7 +6,7 @@
 ## The Core Differentiator
 Most hackathon tourism projects are **single-location toys**: they hardcode waypoints, hazard polygons, and rules for a single temple, hill town, or trek (e.g., only Kedarnath or only Manali). When a user enters any other Indian location, they crash, return empty data, or silently claim the region is 100% safe.
 
-**SafeTrail AI solves this fundamentally.**  
+**IGNITE solves this fundamentally.**  
 It is built from the ground up as a **universal, data-driven safety infrastructure** covering all **28 States and 8 Union Territories of India**. Any tourist can type in any arbitrary landmark, wildlife sanctuary, beach, desert dune, heritage city, or sacred pilgrimage corridor, and the platform dynamically resolves the geographic context, applies the exact regional mathematical risk model, and computes real-world escape corridors in real time.
 
 ---
@@ -20,7 +20,7 @@ It is built from the ground up as a **universal, data-driven safety infrastructu
 - **Dynamic Overpass QL Mesh**: Scans a 15km live radius for genuine hospitals, police posts, and relief shelters around the tourist.
 
 ### 2. Multi-Region Mathematical Risk Matrix
-SafeTrail AI dynamically swaps mathematical scoring formulations and weight vectors based on **6 Canonical Environmental Classifications**:
+IGNITE dynamically swaps mathematical scoring formulations and weight vectors based on **6 Canonical Environmental Classifications**:
 - **Hill / Mountain**: Landslide (30%), Alpine Weather (25%), AMS Hypoxia (20%), Medical Isolation (15%), Trail Bottlenecks (10%). Curfew: 17:30 IST.
 - **Coastal / Marine**: Cyclone/Wave Surge (35%), Precipitation/Gale (25%), Rip Currents (15%), UV/Heat (15%), Beach Density (10%). Curfew: 19:00 IST.
 - **Forest / Wildlife**: Wildlife Corridor (30%), FSI Forest Fire (25%), Flash River Flood (20%), Core Isolation (20%), Permit Queue (5%). Curfew: 17:00 IST.
@@ -33,7 +33,7 @@ SafeTrail AI dynamically swaps mathematical scoring formulations and weight vect
 - When an IMD Red/Orange alert or hazard breach occurs (Risk Score > 65.0), the system automatically triggers an **Emergency Reroute** directive, displaying a **safe topological bypass trail** and routing the tourist to the nearest verified disaster shelter.
 
 ### 4. Zero-Network 2G GSM SMS Gateway & Offline Resilience
-- In mountain passes or dense forests with zero 4G/5G data, browser **IndexedDB (`SafeTrailOfflineDB`)** stores the complete offline itinerary and map layers.
+- In mountain passes or dense forests with zero 4G/5G data, browser **IndexedDB (`IgniteOfflineDB`)** stores the complete offline itinerary and map layers.
 - The SOS Panic Beacon formats a standard **140-character 2G SMS** payload (`[SOS-ID] GPS:LAT,LON ALT:Xm BAT:X% NAME MED:X HOSP:NAME:Xkm Call:112`) transmitted via GSM cell tower relay.
 
 ### 5. Regulated Logistics & 15% Emergency Reserve

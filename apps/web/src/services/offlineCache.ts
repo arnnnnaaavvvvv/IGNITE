@@ -1,14 +1,14 @@
 import type { ItineraryResponse } from '../types';
 
-const DB_NAME = 'SafeTrailOfflineDB';
+const DB_NAME = 'IgniteOfflineDB';
 const DB_VERSION = 1;
 const STORE_TRIPS = 'trips';
 const STORE_MAP = 'map_layers';
 const STORE_USER = 'user_session';
 
-const STORAGE_KEY_ITINERARY = 'safetrail_active_itinerary';
-const STORAGE_KEY_USER_PROFILE = 'safetrail_user_session';
-const STORAGE_KEY_OFFLINE_TIMESTAMP = 'safetrail_cached_at';
+const STORAGE_KEY_ITINERARY = 'ignite_active_itinerary';
+const STORAGE_KEY_USER_PROFILE = 'ignite_user_session';
+const STORAGE_KEY_OFFLINE_TIMESTAMP = 'ignite_cached_at';
 
 function openDatabase(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
