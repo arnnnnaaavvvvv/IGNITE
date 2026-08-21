@@ -43,6 +43,8 @@ export const TrailMap: React.FC<TrailMapProps> = ({
   const [showCheckpoints, setShowCheckpoints] = useState(true);
   const [selectedItem, setSelectedItem] = useState<any>(null);
 
+  const lastFlownKeyRef = useRef<string>('');
+
   // Initialize Leaflet Map centered on India by default
   useEffect(() => {
     if (!mapContainerRef.current) return;
@@ -54,6 +56,9 @@ export const TrailMap: React.FC<TrailMapProps> = ({
         minZoom: 4,
         maxZoom: 18,
         zoomControl: false,
+        zoomAnimation: true,
+        fadeAnimation: true,
+        markerZoomAnimation: true,
       });
 
       L.control.zoom({ position: 'bottomright' }).addTo(map);
@@ -120,12 +125,17 @@ export const TrailMap: React.FC<TrailMapProps> = ({
         layersRef.current.trails.addLayer(bypassPolyline);
       }
 
-      // Smoothly re-center map bounds to active destination
-      try {
-        const bounds = L.latLngBounds(latlngs);
-        map.flyToBounds(bounds, { padding: [50, 50], maxZoom: 13, duration: 1.3 });
-      } catch (err) {
-        console.error('Failed to fit map bounds:', err);
+      // Smoothly re-center map bounds only once per trail update
+      const trailKey = `trail-${mainTrailCoords.length}-${mainTrailCoords[0]?.[0]}-${mainTrailCoords[0]?.[1]}`;
+      if (lastFlownKeyRef.current !== trailKey) {
+        lastFlownKeyRef.current = trailKey;
+        try {
+          const bounds = L.latLngBounds(latlngs);
+          map.stop();
+          map.flyToBounds(bounds, { padding: [50, 50], maxZoom: 13, duration: 1.4, easeLinearity: 0.2 });
+        } catch (err) {
+          console.error('Failed to fit map bounds:', err);
+        }
       }
     } else if (previewCoordinates && previewCoordinates.lat && previewCoordinates.lon) {
       // 2. User typed / selected destination: Fly directly to place & drop pulsing target pin
@@ -157,7 +167,15 @@ export const TrailMap: React.FC<TrailMapProps> = ({
       });
       layersRef.current.preview.addLayer(marker);
 
-      map.flyTo([previewCoordinates.lat, previewCoordinates.lon], 12, { duration: 1.5, easeLinearity: 0.25 });
+      const previewKey = `preview-${previewCoordinates.lat.toFixed(4)}-${previewCoordinates.lon.toFixed(4)}`;
+      if (lastFlownKeyRef.current !== previewKey) {
+        lastFlownKeyRef.current = previewKey;
+        map.stop();
+        map.flyTo([previewCoordinates.lat, previewCoordinates.lon], 12, {
+          duration: 1.5,
+          easeLinearity: 0.2,
+        });
+      }
     } else {
       // 3. No active itinerary and no preview -> smooth Pan-India overview
       layersRef.current.preview.clearLayers();
@@ -165,7 +183,12 @@ export const TrailMap: React.FC<TrailMapProps> = ({
       layersRef.current.hazards.clearLayers();
       layersRef.current.shelters.clearLayers();
       layersRef.current.checkpoints.clearLayers();
-      map.flyTo([22.8000, 79.5000], 4.8, { duration: 1.2 });
+
+      if (lastFlownKeyRef.current !== 'india-overview') {
+        lastFlownKeyRef.current = 'india-overview';
+        map.stop();
+        map.flyTo([22.8000, 79.5000], 4.8, { duration: 1.3, easeLinearity: 0.2 });
+      }
     }
 
     // 2. Draw Hazard Zones (PostGIS Polygons)

@@ -218,6 +218,7 @@ export const TripWizard: React.FC<TripWizardProps> = ({
   const [budgetAmount, setBudgetAmount] = useState(12000);
   const [fitnessLevel, setFitnessLevel] = useState<'BEGINNER' | 'MODERATE' | 'EXPERIENCED'>('MODERATE');
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const isProgrammaticSelectionRef = useRef<boolean>(false);
 
   // Sync prop changes
   useEffect(() => {
@@ -242,20 +243,21 @@ export const TripWizard: React.FC<TripWizardProps> = ({
         const results: DestinationSearchResult[] = data.results || [];
         setSearchResults(results);
 
-        // If results found with coordinates, zoom map smoothly to top match
-        if (results.length > 0 && results[0].lat && results[0].lon) {
+        // If results found with coordinates and this was user typing (not a card click), zoom map
+        if (!isProgrammaticSelectionRef.current && results.length > 0 && results[0].lat && results[0].lon) {
           onPreviewDestination?.({
             lat: results[0].lat,
             lon: results[0].lon,
             name: results[0].canonical_name,
           });
         }
+        isProgrammaticSelectionRef.current = false;
       } catch (err) {
         console.error('Destination search failed:', err);
       } finally {
         setIsSearching(false);
       }
-    }, 280);
+    }, 350);
 
     return () => clearTimeout(timer);
   }, [searchQuery]);
@@ -272,6 +274,7 @@ export const TripWizard: React.FC<TripWizardProps> = ({
   }, []);
 
   const handleSelectDestination = (dest: DestinationSearchResult) => {
+    isProgrammaticSelectionRef.current = true;
     setSearchQuery(dest.canonical_name);
     setShowDropdown(false);
     if (dest.lat && dest.lon) {
@@ -284,6 +287,7 @@ export const TripWizard: React.FC<TripWizardProps> = ({
   };
 
   const handleQuickPick = (name: string, lat?: number, lon?: number) => {
+    isProgrammaticSelectionRef.current = true;
     setSearchQuery(name);
     setShowDropdown(false);
     if (lat && lon) {
