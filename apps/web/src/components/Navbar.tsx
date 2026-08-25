@@ -7,6 +7,7 @@ import {
   Radio,
   Users,
   UserCheck,
+  LogIn,
 } from 'lucide-react';
 import { IgniteLogo } from './Common/IgniteLogo';
 
@@ -33,6 +34,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   isWebSocketConnected = true,
   currentUser,
 }) => {
+  const isUserAuthenticated = Boolean(currentUser && !currentUser.isGuest && currentUser.email);
   const userName = currentUser?.name || 'Tourist Guest';
   const tabs = [
     { id: 'map', label: 'Explore & Map', icon: Compass },
@@ -96,24 +98,32 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Right Action Controls: Lang, Auth, SOS */}
           <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-            {/* User Auth Profile Trigger */}
+            {/* User Auth Profile / Login Trigger */}
             {onOpenAuth && (
               <button
                 onClick={onOpenAuth}
-                className="flex items-center gap-1.5 px-2 sm:px-2.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-850 border border-slate-800 text-xs text-slate-300 transition-all cursor-pointer group"
-                title="Tourist Identity & Medical Info"
+                className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-sm group ${
+                  isUserAuthenticated
+                    ? 'bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200'
+                    : 'bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/40 text-emerald-300 ring-1 ring-emerald-400/30'
+                }`}
+                title={isUserAuthenticated ? 'View Profile & Medical Info' : 'Open Tourist Login / Sign Up'}
               >
-                {currentUser?.photoURL ? (
+                {isUserAuthenticated && currentUser?.photoURL ? (
                   <img
                     src={currentUser.photoURL}
                     alt={userName}
                     className="w-4 h-4 rounded-full border border-emerald-400 object-cover"
                   />
+                ) : isUserAuthenticated ? (
+                  <UserCheck className="w-3.5 h-3.5 text-emerald-400" />
                 ) : (
-                  <UserCheck className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform" />
+                  <LogIn className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform" />
                 )}
-                <span className="hidden sm:inline text-[11px] font-medium max-w-[110px] truncate">{userName}</span>
-                {currentUser && !currentUser.isGuest && (
+                <span className="text-[11px] font-bold max-w-[120px] truncate">
+                  {isUserAuthenticated ? userName : 'Login / Sign Up'}
+                </span>
+                {isUserAuthenticated && (
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" title="Verified Firebase User" />
                 )}
               </button>

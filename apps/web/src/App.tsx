@@ -28,7 +28,7 @@ export function App() {
 
   // User Profile
   const [currentUser, setCurrentUser] = useState<FirebaseTouristProfile | null>(
-    OfflineCacheService.getUserSession() || { uid: 'guest', name: 'Tourist Guest', email: '', isGuest: true }
+    OfflineCacheService.getUserSession() || null
   );
 
   // Core Destination & Map Data States
@@ -412,7 +412,7 @@ export function App() {
         isOpen={isAuthOpen}
         onClose={() => setIsAuthOpen(false)}
         currentUser={currentUser}
-        onUserLogin={(user) => setCurrentUser(user || { uid: 'guest', name: 'Tourist Guest', email: '', isGuest: true })}
+        onUserLogin={(user) => setCurrentUser(user)}
       />
 
       {/* Modern Footer */}
