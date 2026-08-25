@@ -105,26 +105,28 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>{t('sdrf_grid_online', language)}</span>
             </div>
 
-            {/* Language Switcher */}
-            <div className="flex items-center bg-[#10131e] border border-white/[0.08] rounded-lg p-0.5 text-xs shadow-inner">
+            {/* High-Precision Segmented Language Switcher */}
+            <div className="flex items-center bg-[#0e111a] border border-white/[0.1] rounded-lg p-0.5 text-xs shadow-inner">
               <button
+                type="button"
                 onClick={() => handleLanguageChange('en')}
                 aria-label="Switch to English"
-                className={`btn-tactile px-2.5 py-1 rounded-md font-mono text-[11px] font-semibold cursor-pointer transition-all ${
+                className={`btn-tactile w-7.5 h-6.5 sm:w-8 sm:h-7 rounded-md text-[11px] font-bold cursor-pointer transition-all duration-150 flex items-center justify-center text-center ${
                   language === 'en'
-                    ? 'bg-white/[0.12] text-white shadow-sm border border-white/[0.08]'
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-white/[0.14] text-white shadow-sm border border-white/[0.1]'
+                    : 'text-slate-400 hover:text-slate-200 border border-transparent'
                 }`}
               >
                 EN
               </button>
               <button
+                type="button"
                 onClick={() => handleLanguageChange('hi')}
                 aria-label="हिंदी में बदलें"
-                className={`btn-tactile px-2.5 py-1 rounded-md font-mono text-[11px] font-semibold cursor-pointer transition-all ${
+                className={`btn-tactile w-7.5 h-6.5 sm:w-8 sm:h-7 rounded-md text-[11px] font-bold cursor-pointer transition-all duration-150 flex items-center justify-center text-center ${
                   language === 'hi'
-                    ? 'bg-white/[0.12] text-white shadow-sm border border-white/[0.08]'
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-white/[0.14] text-white shadow-sm border border-white/[0.1]'
+                    : 'text-slate-400 hover:text-slate-200 border border-transparent'
                 }`}
               >
                 हिं
@@ -134,10 +136,10 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* High Priority Emergency SOS Button */}
             <button
               onClick={onOpenSOS}
-              className="btn-tactile flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-lg bg-gradient-to-b from-red-500 to-red-600 hover:from-red-400 hover:to-red-500 text-white font-extrabold text-xs shadow-[0_2px_14px_rgba(239,68,68,0.45),inset_0_1px_0_0_rgba(255,255,255,0.35)] cursor-pointer border border-red-400/50"
+              className="btn-tactile flex items-center justify-center gap-1.5 px-3 sm:px-3.5 h-7.5 sm:h-8 rounded-lg bg-gradient-to-b from-red-500 to-red-600 hover:from-red-400 hover:to-red-500 text-white font-extrabold text-xs shadow-[0_2px_14px_rgba(239,68,68,0.45),inset_0_1px_0_0_rgba(255,255,255,0.35)] cursor-pointer border border-red-400/50 min-w-[68px] sm:min-w-[76px]"
             >
-              <ShieldAlert className="w-3.5 sm:w-4 h-3.5 sm:h-4 stroke-[2.5]" />
-              <span className="tracking-wider font-mono">{t('sos', language)}</span>
+              <ShieldAlert className="w-3.5 sm:w-4 h-3.5 sm:h-4 stroke-[2.5] shrink-0" />
+              <span className="tracking-wider font-mono font-black">{t('sos', language)}</span>
             </button>
           </div>
         </div>

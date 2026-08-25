@@ -129,14 +129,14 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
   },
   hi: {
     // Brand & Header
-    'brand_tagline': 'अखिल भारतीय जीआईएस',
+    'brand_tagline': 'अखिल भारत',
     'live_mesh': 'लाइव मेश',
-    'connecting': 'कनेक्ट हो रहा है',
-    'sdrf_grid_online': 'एसडीआरएफ ग्रिड ऑनलाइन',
-    'sos': 'आपातकालीन',
-    'nav_map': 'मानचित्र और खोज',
+    'connecting': 'कनेक्टिंग',
+    'sdrf_grid_online': 'एसडीआरएफ ऑनलाइन',
+    'sos': 'SOS',
+    'nav_map': 'मानचित्र व खोज',
     'nav_itinerary': 'सुरक्षित यात्रा',
-    'nav_explainability': 'जोखिम विश्लेषण',
+    'nav_explainability': 'जोखिम मैट्रिक्स',
     'nav_simulation': 'आपदा सिमुलेटर',
     'nav_group': 'समूह रडार',
 
