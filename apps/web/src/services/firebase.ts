@@ -25,7 +25,7 @@ export interface FirebaseTouristProfile {
 
 // User-provided Firebase Production Configuration
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || 'AIzaSyCDf6EKT6np-lV0h8FSElhcP2bVQT3uV1o',
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || 'AIzaSyCDf6EKT6np-1V0h8FSElhcP2bVQT3uV1o',
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || 'ignite-f7c25.firebaseapp.com',
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || 'ignite-f7c25',
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || 'ignite-f7c25.firebasestorage.app',
