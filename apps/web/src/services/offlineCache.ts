@@ -152,4 +152,15 @@ export class OfflineCacheService {
       return null;
     }
   }
+
+  /**
+   * Clears current user auth profile.
+   */
+  static clearUserSession(): void {
+    try {
+      localStorage.removeItem(STORAGE_KEY_USER_PROFILE);
+    } catch (e) {
+      console.warn('[OfflineCache] Session clear warning:', e);
+    }
+  }
 }

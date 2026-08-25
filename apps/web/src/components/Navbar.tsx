@@ -19,7 +19,7 @@ interface NavbarProps {
   onOpenAuth?: () => void;
   isSimulatingHazard?: boolean;
   isWebSocketConnected?: boolean;
-  userName?: string;
+  currentUser?: { name?: string; email?: string; photoURL?: string | null; isGuest?: boolean } | null;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -31,8 +31,9 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenAuth,
   isSimulatingHazard = false,
   isWebSocketConnected = true,
-  userName = 'Tourist Guest',
+  currentUser,
 }) => {
+  const userName = currentUser?.name || 'Tourist Guest';
   const tabs = [
     { id: 'map', label: 'Explore & Map', icon: Compass },
     { id: 'itinerary', label: 'Safe Itinerary', icon: Calendar },
@@ -99,11 +100,22 @@ export const Navbar: React.FC<NavbarProps> = ({
             {onOpenAuth && (
               <button
                 onClick={onOpenAuth}
-                className="flex items-center gap-1.5 px-2 sm:px-2.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 transition-all cursor-pointer"
+                className="flex items-center gap-1.5 px-2 sm:px-2.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-850 border border-slate-800 text-xs text-slate-300 transition-all cursor-pointer group"
                 title="Tourist Identity & Medical Info"
               >
-                <UserCheck className="w-3.5 h-3.5 text-emerald-400" />
-                <span className="hidden sm:inline text-[11px] font-medium">{userName}</span>
+                {currentUser?.photoURL ? (
+                  <img
+                    src={currentUser.photoURL}
+                    alt={userName}
+                    className="w-4 h-4 rounded-full border border-emerald-400 object-cover"
+                  />
+                ) : (
+                  <UserCheck className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform" />
+                )}
+                <span className="hidden sm:inline text-[11px] font-medium max-w-[110px] truncate">{userName}</span>
+                {currentUser && !currentUser.isGuest && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" title="Verified Firebase User" />
+                )}
               </button>
             )}
 

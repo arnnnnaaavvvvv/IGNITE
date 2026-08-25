@@ -10,6 +10,7 @@ import { GroupTrackerModal } from './components/Group/GroupTrackerModal';
 import { AuthModal } from './components/Auth/AuthModal';
 import { OfflineCacheService } from './services/offlineCache';
 import { IgniteWebSocketClient } from './services/websocketClient';
+import { FirebaseAuthService, type FirebaseTouristProfile } from './services/firebase';
 import type {
   Checkpoint,
   HazardZone,
@@ -26,7 +27,9 @@ export function App() {
   const [isAuthOpen, setIsAuthOpen] = useState(false);
 
   // User Profile
-  const [currentUser, setCurrentUser] = useState<any>(OfflineCacheService.getUserSession() || { name: 'Tourist Guest' });
+  const [currentUser, setCurrentUser] = useState<FirebaseTouristProfile | null>(
+    OfflineCacheService.getUserSession() || { uid: 'guest', name: 'Tourist Guest', email: '', isGuest: true }
+  );
 
   // Core Destination & Map Data States
   const [currentDestinationName, setCurrentDestinationName] = useState('');
@@ -86,8 +89,22 @@ export function App() {
     ws.connect();
     wsClientRef.current = ws;
 
+    // Listen to Firebase Auth state
+    const unsubscribeAuth = FirebaseAuthService.onAuthStateChange((firebaseUser) => {
+      if (firebaseUser) {
+        const cached = OfflineCacheService.getUserSession();
+        const mergedUser = {
+          ...firebaseUser,
+          bloodGroup: cached?.bloodGroup || 'O+ Positive',
+        };
+        setCurrentUser(mergedUser);
+        OfflineCacheService.saveUserSession(mergedUser);
+      }
+    });
+
     return () => {
       ws.disconnect();
+      unsubscribeAuth();
     };
   }, [language]);
 
@@ -218,7 +235,7 @@ export function App() {
         onOpenAuth={() => setIsAuthOpen(true)}
         isSimulatingHazard={isBypassActive}
         isWebSocketConnected={isWebSocketConnected}
-        userName={currentUser?.name || 'Tourist Guest'}
+        currentUser={currentUser}
       />
 
       {/* Main Content Area */}
@@ -394,7 +411,8 @@ export function App() {
       <AuthModal
         isOpen={isAuthOpen}
         onClose={() => setIsAuthOpen(false)}
-        onUserLogin={(user) => setCurrentUser(user)}
+        currentUser={currentUser}
+        onUserLogin={(user) => setCurrentUser(user || { uid: 'guest', name: 'Tourist Guest', email: '', isGuest: true })}
       />
 
       {/* Modern Footer */}
