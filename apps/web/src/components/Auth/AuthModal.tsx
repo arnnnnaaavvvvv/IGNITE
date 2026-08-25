@@ -67,7 +67,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       if (err.code === 'auth/popup-closed-by-user') {
         setErrorMsg('Sign-in popup was closed before completing. Please try again.');
       } else if (err.code === 'auth/unauthorized-domain') {
-        setErrorMsg('Domain not authorized in Firebase Console. Please add this domain to Authorized Domains in Firebase Console.');
+        const host = typeof window !== 'undefined' ? window.location.hostname : 'ignite-lemon-nu.vercel.app';
+        setErrorMsg(`Domain "${host}" must be authorized in Firebase Console: Go to Firebase Console -> Authentication -> Settings -> Authorized Domains -> Add "${host}". In the meantime, use Email login or 1-Click Tourist Pass below.`);
       } else {
         setErrorMsg(err.message || 'Google Sign-In failed. Please try Email login or Quick Tourist Pass.');
       }
