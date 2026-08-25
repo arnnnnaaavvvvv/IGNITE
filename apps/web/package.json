@@ -12,7 +12,6 @@
   "dependencies": {
     "clsx": "^2.1.1",
     "firebase": "^12.18.0",
-    "framer-motion": "^13.1.1",
     "leaflet": "^1.9.4",
     "lucide-react": "^1.31.0",
     "react": "^19.2.8",

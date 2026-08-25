@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import { Navbar } from './components/Navbar';
-import { LandingPage } from './components/Landing/LandingPage';
 import { TrailMap } from './components/Map/TrailMap';
 import { TripWizard } from './components/Planner/TripWizard';
 import { ItineraryView } from './components/Itinerary/ItineraryView';
@@ -20,7 +19,6 @@ import type {
 import { AlertTriangle, WifiOff, CheckCircle, MapPin } from 'lucide-react';
 
 export function App() {
-  const [viewMode, setViewMode] = useState<'landing' | 'app'>('landing');
   const [activeTab, setActiveTab] = useState<'map' | 'itinerary' | 'explainability' | 'simulation' | 'group'>('map');
   const [language, setLanguage] = useState('en');
   const [isSOSOpen, setIsSOSOpen] = useState(false);
@@ -203,14 +201,6 @@ export function App() {
     }
   };
 
-  if (viewMode === 'landing') {
-    return (
-      <LandingPage
-        onLaunchApp={() => setViewMode('app')}
-      />
-    );
-  }
-
   return (
     <div className="min-h-screen bg-[#070b14] text-slate-100 flex flex-col selection:bg-emerald-500 selection:text-slate-950 font-sans">
       {/* Navigation Header */}
@@ -220,7 +210,6 @@ export function App() {
         language={language}
         setLanguage={setLanguage}
         onOpenSOS={() => setIsSOSOpen(true)}
-        onToggleLanding={() => setViewMode('landing')}
         isSimulatingHazard={isBypassActive}
         isWebSocketConnected={isWebSocketConnected}
       />

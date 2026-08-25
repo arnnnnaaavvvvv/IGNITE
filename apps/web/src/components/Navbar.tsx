@@ -15,7 +15,6 @@ interface NavbarProps {
   language: string;
   setLanguage: (lang: string) => void;
   onOpenSOS: () => void;
-  onToggleLanding?: () => void;
   isSimulatingHazard?: boolean;
   isWebSocketConnected?: boolean;
 }
@@ -26,7 +25,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   language,
   setLanguage,
   onOpenSOS,
-  onToggleLanding,
   isSimulatingHazard = false,
   isWebSocketConnected = true,
 }) => {
@@ -90,21 +88,10 @@ export const Navbar: React.FC<NavbarProps> = ({
             })}
           </nav>
 
-          {/* Right Action Controls: Pitch Button, Safety Badge, Lang, SOS */}
+          {/* Right Action Controls: Safety Badge, Lang, SOS */}
           <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-            {/* Hackathon Pitch / Overview Toggle */}
-            {onToggleLanding && (
-              <button
-                onClick={onToggleLanding}
-                className="flex items-center gap-1 px-2.5 sm:px-3 py-1.5 rounded-xl bg-orange-500/15 hover:bg-orange-500/25 border border-orange-500/40 text-orange-300 text-[11px] font-mono font-bold transition-all cursor-pointer"
-                title="View Hackathon Pitch & Overview"
-              >
-                <span>SIH 2026 Overview</span>
-              </button>
-            )}
-
             {/* Live Safety Status Indicator */}
-            <div className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-xs font-mono font-bold">
+            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-xs font-mono font-bold">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               <span>SDRF GRID ONLINE</span>
             </div>
