@@ -174,11 +174,34 @@ export interface DestinationSearchResult {
   pilgrimage_metadata?: PilgrimageMetadata;
 }
 
+export interface IncidentHistoryRecord {
+  id: string;
+  year_or_date: string;
+  title: string;
+  category: string;
+  severity: 'LOW' | 'MODERATE' | 'HIGH' | 'CRITICAL' | string;
+  description: string;
+  mitigation_taken: string;
+  reporting_agency: string;
+}
+
+export interface NationalDisasterBulletin {
+  id: string;
+  agency: string;
+  badge_color: string;
+  headline: string;
+  headline_hi?: string;
+  impact_regions: string[];
+  severity: 'INFO' | 'ORANGE' | 'RED' | string;
+  timestamp: string;
+}
+
 export interface SimulationScenario {
   id: string;
   title: string;
   title_hi?: string;
   destination_match: string;
+  zone_name?: string;
   region_type: string;
   description: string;
   weather: {
@@ -190,6 +213,31 @@ export interface SimulationScenario {
   };
   hazard_active: boolean;
   expected_risk_category: string;
+  primary_agency?: string;
+  evacuation_target?: string;
+}
+
+export interface SimulationResponse {
+  is_pan_india: boolean;
+  destination?: string;
+  destination_id?: string;
+  state_ut?: string;
+  region_type?: RegionType | string;
+  region_name?: string;
+  elevation_m?: number;
+  emergency_agency?: string;
+  emergency_helplines?: Array<{ label: string; number: string }>;
+  scenarios: SimulationScenario[];
+  incident_history?: IncidentHistoryRecord[];
+  active_hazard_zones?: HazardZone[];
+  shelters?: EmergencyShelter[];
+  national_disaster_bulletins?: NationalDisasterBulletin[];
+  pan_india_zones_summary?: {
+    total_active_scenarios: number;
+    critical_alerts: number;
+    high_alerts: number;
+    monitoring_agencies: string[];
+  };
 }
 
 export interface SOSDispatch {

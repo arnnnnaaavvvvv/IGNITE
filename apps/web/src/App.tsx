@@ -170,8 +170,12 @@ export function App() {
   // Live Scenario Injection Handler (Multi-Region Pan-India Demo)
   const handleTriggerScenario = async (scenario: SimulationScenario) => {
     setActiveScenario(scenario);
-    const targetDest = scenario.destination_match !== 'All' ? scenario.destination_match : currentDestinationName;
+    const targetDest = (scenario.destination_match && scenario.destination_match !== 'All')
+      ? scenario.destination_match
+      : (currentDestinationName || 'Kedarnath');
     
+    setCurrentDestinationName(targetDest);
+
     try {
       const res = await fetch('/api/v1/risk/recheck', {
         method: 'POST',
@@ -351,6 +355,11 @@ export function App() {
               activeScenarioId={activeScenario?.id}
               isSimulating={isBypassActive}
               rerouteData={rerouteData}
+              selectedDestinationName={currentDestinationName}
+              onSelectDestination={(destName) => {
+                setCurrentDestinationName(destName);
+              }}
+              onNavigateToMap={() => setActiveTab('map')}
             />
           </div>
         )}
