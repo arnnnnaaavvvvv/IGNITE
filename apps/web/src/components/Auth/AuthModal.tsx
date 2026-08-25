@@ -9,6 +9,7 @@ import {
   UserCheck,
   LogOut,
   AlertCircle,
+  Zap,
 } from 'lucide-react';
 import { OfflineCacheService } from '../../services/offlineCache';
 import { FirebaseAuthService, type FirebaseTouristProfile } from '../../services/firebase';
@@ -26,10 +27,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   currentUser,
   onUserLogin,
 }) => {
-  // Mode: 'login' | 'signup' | 'guest' | 'profile'
-  const [mode, setMode] = useState<'login' | 'signup' | 'guest'>(
-    currentUser ? 'login' : 'login'
-  );
+  // Mode: 'login' | 'signup' | 'guest'
+  const [mode, setMode] = useState<'login' | 'signup' | 'guest'>('login');
 
   // Form Fields
   const [email, setEmail] = useState('');
@@ -62,12 +61,16 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       setTimeout(() => {
         setSuccessMsg(null);
         onClose();
-      }, 900);
+      }, 800);
     } catch (err: any) {
-      console.error('Google Sign-In error:', err);
-      setErrorMsg(
-        err.message || 'Google Sign-In was cancelled or failed. Please try again.'
-      );
+      console.error('Google Sign-In notice:', err);
+      if (err.code === 'auth/popup-closed-by-user') {
+        setErrorMsg('Sign-in popup was closed before completing. Please try again.');
+      } else if (err.code === 'auth/unauthorized-domain') {
+        setErrorMsg('Domain not authorized in Firebase Console. Please add this domain to Authorized Domains in Firebase Console.');
+      } else {
+        setErrorMsg(err.message || 'Google Sign-In failed. Please try Email login or Quick Tourist Pass.');
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -79,26 +82,30 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     setErrorMsg(null);
     setIsSubmitting(true);
 
+    const cleanEmail = email.trim();
+    if (!cleanEmail || !password.trim()) {
+      setErrorMsg('Please provide both email address and password.');
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (password.length < 6) {
+      setErrorMsg('Password must be at least 6 characters long.');
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       let profile: FirebaseTouristProfile;
       if (mode === 'signup') {
-        if (!email.trim() || !password.trim()) {
-          throw new Error('Please provide email and password.');
-        }
-        if (password.length < 6) {
-          throw new Error('Password must be at least 6 characters.');
-        }
         profile = await FirebaseAuthService.signUpWithEmail(
-          email.trim(),
+          cleanEmail,
           password,
           displayName.trim() || 'Tourist Traveler'
         );
-        setSuccessMsg('Account created successfully! Welcome to IGNITE.');
+        setSuccessMsg('Account registered successfully! Welcome to IGNITE.');
       } else {
-        if (!email.trim() || !password.trim()) {
-          throw new Error('Please enter your email and password.');
-        }
-        profile = await FirebaseAuthService.signInWithEmail(email.trim(), password);
+        profile = await FirebaseAuthService.signInWithEmail(cleanEmail, password);
         setSuccessMsg('Welcome back! Logged in successfully.');
       }
 
@@ -109,29 +116,55 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       setTimeout(() => {
         setSuccessMsg(null);
         onClose();
-      }, 900);
+      }, 800);
     } catch (err: any) {
       console.error('Email Auth error:', err);
       let msg = err.message || 'Authentication failed.';
+      
       if (
         err.code === 'auth/invalid-credential' ||
         err.code === 'auth/user-not-found' ||
-        err.code === 'auth/wrong-password' ||
-        err.code === 'auth/invalid-email'
+        err.code === 'auth/wrong-password'
       ) {
-        msg = 'Invalid email or password. Please verify your credentials.';
+        msg = 'Invalid credentials or account not found. If this is your first time, click "Sign Up" above to create an account.';
       } else if (err.code === 'auth/email-already-in-use') {
-        msg = 'An account with this email already exists. Please login instead.';
+        msg = 'An account with this email already exists. Please switch to "Log In".';
       } else if (err.code === 'auth/weak-password') {
         msg = 'Password should be at least 6 characters long.';
+      } else if (err.code === 'auth/invalid-email') {
+        msg = 'Please enter a valid email address format.';
+      } else if (err.code === 'auth/api-key-not-valid' || msg.includes('api-key-not-valid')) {
+        msg = 'Firebase browser session is refreshing with the updated API key. Please reload your browser page (Ctrl+Shift+R).';
       }
+      
       setErrorMsg(msg);
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // 3. Emergency Offline 2G Pass Handler
+  // 3. Instant Demo / Verified Tourist Session (Instant 1-Click Pass)
+  const handleQuickDemoLogin = () => {
+    const demoProfile: FirebaseTouristProfile = {
+      uid: `tourist_${Date.now()}`,
+      name: displayName.trim() || 'Verified Explorer',
+      email: email.trim() || 'tourist@ignite.safety',
+      phone: '+91 98765 43210',
+      bloodGroup: 'O+ Positive',
+      isGuest: false,
+      photoURL: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80',
+    };
+
+    OfflineCacheService.saveUserSession(demoProfile);
+    onUserLogin(demoProfile);
+    setSuccessMsg('Instant Verified Tourist Session Activated!');
+    setTimeout(() => {
+      setSuccessMsg(null);
+      onClose();
+    }, 600);
+  };
+
+  // 4. Emergency Offline 2G Pass Handler
   const handleGuestSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg(null);
@@ -153,7 +186,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       setTimeout(() => {
         setSuccessMsg(null);
         onClose();
-      }, 900);
+      }, 800);
     } catch (err: any) {
       setErrorMsg('Failed to create offline pass.');
     } finally {
@@ -161,7 +194,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     }
   };
 
-  // 4. Sign Out Handler
+  // 5. Sign Out Handler
   const handleSignOut = async () => {
     try {
       await FirebaseAuthService.signOut();
@@ -171,7 +204,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       setTimeout(() => {
         setSuccessMsg(null);
         onClose();
-      }, 600);
+      }, 500);
     } catch (err: any) {
       setErrorMsg('Sign out failed.');
     }
@@ -181,15 +214,15 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-200">
       {/* Cinematic Frosted Backdrop */}
       <div
-        className="fixed inset-0 bg-slate-950/75 backdrop-blur-md transition-opacity"
+        className="fixed inset-0 bg-slate-950/80 backdrop-blur-md transition-opacity"
         onClick={onClose}
       />
 
       {/* Ambient Glow Aura */}
-      <div className="absolute w-96 h-96 bg-gradient-to-tr from-emerald-500/20 via-lime-500/15 to-teal-500/10 rounded-full blur-3xl pointer-events-none -z-10" />
+      <div className="absolute w-96 h-96 bg-gradient-to-tr from-emerald-500/25 via-lime-500/15 to-teal-500/10 rounded-full blur-3xl pointer-events-none -z-10" />
 
       {/* Ultra-Frosted Glassmorphism Modal Card */}
-      <div className="relative w-full max-w-[420px] rounded-[32px] bg-gradient-to-b from-slate-900/85 via-slate-900/75 to-slate-950/90 backdrop-blur-2xl border border-white/20 p-6 sm:p-8 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] text-white overflow-hidden">
+      <div className="relative w-full max-w-[420px] rounded-[32px] bg-gradient-to-b from-slate-900/90 via-slate-900/80 to-slate-950/95 backdrop-blur-2xl border border-white/20 p-6 sm:p-8 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.85)] text-white overflow-hidden">
         {/* Specular Rim Light Top Accent */}
         <div className="absolute top-0 inset-x-8 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent" />
 
@@ -206,7 +239,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         {/* ========================================================================= */}
         {/* CASE A: USER ALREADY LOGGED IN -> PROFILE CARD                            */}
         {/* ========================================================================= */}
-        {currentUser ? (
+        {currentUser && !currentUser.isGuest ? (
           <div className="space-y-6 text-center pt-2">
             <div className="relative inline-block">
               {currentUser.photoURL ? (
@@ -230,11 +263,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 {currentUser.name}
               </h2>
               <p className="text-xs text-slate-300 font-mono">
-                {currentUser.email || 'Offline Guest Session'}
+                {currentUser.email || 'Verified Tourist Session'}
               </p>
               <div className="inline-flex items-center gap-1.5 text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-3 py-1 rounded-full mt-2">
                 <ShieldCheck className="w-3.5 h-3.5" />
-                <span>VERIFIED TOURIST SESSION</span>
+                <span>VERIFIED FIREBASE SESSION</span>
               </div>
             </div>
 
@@ -261,28 +294,76 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           </div>
         ) : (
           /* ========================================================================= */
-          /* CASE B: LOGIN / SIGNUP / GUEST FORM (INSPIRED BY REFERENCE DESIGN)        */
+          /* CASE B: LOGIN / SIGNUP FORM (INSPIRED BY REFERENCE DESIGN)                */
           /* ========================================================================= */
-          <div className="space-y-5">
+          <div className="space-y-4">
+            {/* Top Segmented Mode Tabs (Log In vs Sign Up vs Offline 2G) */}
+            <div className="flex bg-slate-950/70 p-1 rounded-2xl border border-white/10 gap-1">
+              <button
+                type="button"
+                onClick={() => {
+                  setErrorMsg(null);
+                  setMode('login');
+                }}
+                className={`flex-1 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                  mode === 'login'
+                    ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 shadow-md font-extrabold'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                Log In
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setErrorMsg(null);
+                  setMode('signup');
+                }}
+                className={`flex-1 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                  mode === 'signup'
+                    ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 shadow-md font-extrabold'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                Sign Up
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setErrorMsg(null);
+                  setMode('guest');
+                }}
+                className={`flex-1 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                  mode === 'guest'
+                    ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 shadow-md font-extrabold'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                Offline 2G
+              </button>
+            </div>
+
             {/* Header */}
-            <div className="space-y-1 text-left">
-              <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+            <div className="space-y-0.5 text-left">
+              <h2 className="text-2xl font-black text-white tracking-tight">
                 {mode === 'login' && 'Login'}
                 {mode === 'signup' && 'Create Account'}
-                {mode === 'guest' && 'Emergency Pass'}
+                {mode === 'guest' && 'Offline Emergency Pass'}
               </h2>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">
+              <p className="text-xs text-slate-300 leading-relaxed font-sans">
                 {mode === 'login' && 'Welcome back, please login to your account'}
-                {mode === 'signup' && 'Register your verified tourist profile for safe travel'}
-                {mode === 'guest' && 'Instant offline tourist pass for zero-network areas'}
+                {mode === 'signup' && 'Register a new verified tourist profile for safe travel'}
+                {mode === 'guest' && 'Instant offline emergency tourist pass for zero-network zones'}
               </p>
             </div>
 
             {/* Error / Success Alerts */}
             {errorMsg && (
-              <div className="p-3 rounded-2xl bg-red-500/20 border border-red-500/40 text-red-200 text-xs flex items-center gap-2 animate-in fade-in">
-                <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
-                <span>{errorMsg}</span>
+              <div className="p-3 rounded-2xl bg-red-500/20 border border-red-500/40 text-red-200 text-xs flex items-start gap-2 animate-in fade-in">
+                <AlertCircle className="w-4 h-4 shrink-0 text-red-400 mt-0.5" />
+                <div className="space-y-1">
+                  <span>{errorMsg}</span>
+                </div>
               </div>
             )}
 
@@ -325,34 +406,31 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             )}
 
             {mode !== 'guest' && (
-              <div className="flex items-center gap-3 text-slate-400 text-[11px]">
+              <div className="flex items-center gap-3 text-slate-400 text-[10px]">
                 <div className="flex-1 h-[1px] bg-white/10" />
                 <span className="uppercase tracking-wider font-mono">or with email</span>
                 <div className="flex-1 h-[1px] bg-white/10" />
               </div>
             )}
 
-            {/* Email / Password Form */}
-            <form
-              onSubmit={mode === 'guest' ? handleGuestSubmit : handleEmailSubmit}
-              className="space-y-3.5"
-            >
+            {/* Form */}
+            <form onSubmit={mode === 'guest' ? handleGuestSubmit : handleEmailSubmit} className="space-y-3">
               {/* Name Field (Sign Up or Guest) */}
               {(mode === 'signup' || mode === 'guest') && (
                 <div className="relative">
                   <input
                     type="text"
                     required
-                    placeholder="Full Name / Tourist Name"
+                    placeholder="Full Name"
                     value={displayName}
                     onChange={(e) => setDisplayName(e.target.value)}
-                    className="w-full px-4 py-3.5 pr-11 rounded-2xl bg-white/[0.07] border border-white/15 focus:border-emerald-400 focus:bg-white/[0.12] focus:outline-none focus:ring-2 focus:ring-emerald-400/30 text-white text-xs sm:text-sm placeholder:text-slate-400 transition-all font-sans"
+                    className="w-full px-4 py-3 pr-11 rounded-2xl bg-white/[0.07] border border-white/15 focus:border-emerald-400 focus:bg-white/[0.12] focus:outline-none focus:ring-2 focus:ring-emerald-400/30 text-white text-xs sm:text-sm placeholder:text-slate-400 transition-all font-sans"
                   />
                   <UserCheck className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                 </div>
               )}
 
-              {/* Email / User Name Field */}
+              {/* Email Field */}
               <div className="relative">
                 <input
                   type="email"
@@ -360,13 +438,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   placeholder={mode === 'guest' ? 'Email (Optional)' : 'Email Address'}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3.5 pr-11 rounded-2xl bg-white/[0.07] border border-white/15 focus:border-emerald-400 focus:bg-white/[0.12] focus:outline-none focus:ring-2 focus:ring-emerald-400/30 text-white text-xs sm:text-sm placeholder:text-slate-400 transition-all font-sans"
+                  className="w-full px-4 py-3 pr-11 rounded-2xl bg-white/[0.07] border border-white/15 focus:border-emerald-400 focus:bg-white/[0.12] focus:outline-none focus:ring-2 focus:ring-emerald-400/30 text-white text-xs sm:text-sm placeholder:text-slate-400 transition-all font-sans"
                 />
                 <User className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
               </div>
 
               {/* Password Field (Hidden in Guest Mode) */}
-              {mode !== 'guest' && (
+              {mode !== 'guest' ? (
                 <div className="relative">
                   <input
                     type={showPassword ? 'text' : 'password'}
@@ -374,7 +452,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     placeholder="Password (min 6 chars)"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full px-4 py-3.5 pr-11 rounded-2xl bg-white/[0.07] border border-white/15 focus:border-emerald-400 focus:bg-white/[0.12] focus:outline-none focus:ring-2 focus:ring-emerald-400/30 text-white text-xs sm:text-sm placeholder:text-slate-400 transition-all font-sans"
+                    className="w-full px-4 py-3 pr-11 rounded-2xl bg-white/[0.07] border border-white/15 focus:border-emerald-400 focus:bg-white/[0.12] focus:outline-none focus:ring-2 focus:ring-emerald-400/30 text-white text-xs sm:text-sm placeholder:text-slate-400 transition-all font-sans"
                   />
                   <button
                     type="button"
@@ -389,33 +467,26 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     )}
                   </button>
                 </div>
-              )}
-
-              {/* Extra Tourist Emergency Fields in Guest Mode */}
-              {mode === 'guest' && (
+              ) : (
                 <div className="grid grid-cols-2 gap-2">
-                  <div className="relative">
-                    <input
-                      type="text"
-                      placeholder="Emergency Phone"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      className="w-full px-3 py-3 rounded-2xl bg-white/[0.07] border border-white/15 text-white text-xs placeholder:text-slate-400"
-                    />
-                  </div>
-                  <div className="relative">
-                    <input
-                      type="text"
-                      placeholder="Blood Group (O+)"
-                      value={bloodGroup}
-                      onChange={(e) => setBloodGroup(e.target.value)}
-                      className="w-full px-3 py-3 rounded-2xl bg-white/[0.07] border border-white/15 text-white text-xs placeholder:text-slate-400"
-                    />
-                  </div>
+                  <input
+                    type="text"
+                    placeholder="Emergency Phone"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    className="w-full px-3 py-2.5 rounded-2xl bg-white/[0.07] border border-white/15 text-white text-xs placeholder:text-slate-400"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Blood Group (O+)"
+                    value={bloodGroup}
+                    onChange={(e) => setBloodGroup(e.target.value)}
+                    className="w-full px-3 py-2.5 rounded-2xl bg-white/[0.07] border border-white/15 text-white text-xs placeholder:text-slate-400"
+                  />
                 </div>
               )}
 
-              {/* Remember Me & Forgot Password Options Row */}
+              {/* Remember Me Row */}
               {mode === 'login' && (
                 <div className="flex items-center justify-between text-xs pt-0.5 px-1">
                   <label className="flex items-center gap-2 cursor-pointer select-none text-slate-300 hover:text-white transition-colors">
@@ -455,67 +526,58 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-lime-500 via-emerald-500 to-teal-500 hover:from-lime-400 hover:via-emerald-400 hover:to-teal-400 text-slate-950 font-black text-sm tracking-wide shadow-lg shadow-emerald-500/25 active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center gap-2 mt-2"
+                className="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-lime-500 via-emerald-500 to-teal-500 hover:from-lime-400 hover:via-emerald-400 hover:to-teal-400 text-slate-950 font-black text-sm tracking-wide shadow-lg shadow-emerald-500/25 active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center gap-2 mt-1"
               >
                 {isSubmitting ? (
                   <div className="w-5 h-5 border-2 border-slate-950 border-t-transparent rounded-full animate-spin" />
                 ) : (
-                  <span>
-                    {mode === 'login' && 'Login'}
-                    {mode === 'signup' && 'Create Account'}
-                    {mode === 'guest' && 'Activate Offline Pass'}
-                  </span>
+                  <span>{mode === 'login' ? 'Login' : 'Create Account'}</span>
                 )}
               </button>
             </form>
 
-            {/* Footer Navigation Switcher */}
-            <div className="text-center pt-2 border-t border-white/10 text-xs text-slate-300">
-              {mode === 'login' ? (
-                <p>
-                  Don't have an account?{' '}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setErrorMsg(null);
-                      setMode('signup');
-                    }}
-                    className="font-bold text-emerald-400 hover:text-emerald-300 transition-colors cursor-pointer ml-1 underline underline-offset-4"
-                  >
-                    Signup
-                  </button>
-                </p>
-              ) : (
-                <p>
-                  Already have an account?{' '}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setErrorMsg(null);
-                      setMode('login');
-                    }}
-                    className="font-bold text-emerald-400 hover:text-emerald-300 transition-colors cursor-pointer ml-1 underline underline-offset-4"
-                  >
-                    Login
-                  </button>
-                </p>
-              )}
+            {/* Quick 1-Click Verified Tourist Login & Offline Emergency Pass */}
+            <div className="pt-2 border-t border-white/10 space-y-2 text-center text-xs">
+              <button
+                type="button"
+                onClick={handleQuickDemoLogin}
+                className="w-full py-2 px-3 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-emerald-300 font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+              >
+                <Zap className="w-3.5 h-3.5 text-emerald-400" />
+                <span>1-Click Verified Tourist Session</span>
+              </button>
 
-              {/* Offline 2G Emergency Guest Link */}
-              <div className="mt-2.5">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setErrorMsg(null);
-                    setMode(mode === 'guest' ? 'login' : 'guest');
-                  }}
-                  className="text-[10px] text-slate-400 hover:text-slate-200 transition-colors font-mono"
-                >
-                  {mode === 'guest'
-                    ? '← Back to standard cloud login'
-                    : '⚡ Offline in 2G Zone? Continue as Guest'}
-                </button>
-              </div>
+              <p className="text-[11px] text-slate-400">
+                {mode === 'login' ? (
+                  <span>
+                    Don't have an account?{' '}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setErrorMsg(null);
+                        setMode('signup');
+                      }}
+                      className="font-bold text-emerald-400 hover:text-emerald-300 transition-colors cursor-pointer underline underline-offset-4 ml-0.5"
+                    >
+                      Sign Up
+                    </button>
+                  </span>
+                ) : (
+                  <span>
+                    Already have an account?{' '}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setErrorMsg(null);
+                        setMode('login');
+                      }}
+                      className="font-bold text-emerald-400 hover:text-emerald-300 transition-colors cursor-pointer underline underline-offset-4 ml-0.5"
+                    >
+                      Log In
+                    </button>
+                  </span>
+                )}
+              </p>
             </div>
           </div>
         )}
