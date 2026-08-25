@@ -21,7 +21,6 @@ import {
   Compass,
   Flame,
   ChevronRight,
-  Check,
 } from 'lucide-react';
 import type { DestinationSearchResult, RegionType } from '../../types';
 
@@ -610,12 +609,6 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                         <div className={`text-xs font-bold transition-colors line-clamp-1 ${isSelected ? 'text-emerald-300 font-black' : 'text-slate-200 group-hover:text-emerald-300'}`}>
                           {place.name.split(',')[0]}
                         </div>
-                        {isSelected && (
-                          <span className="flex items-center gap-0.5 text-[8px] font-mono font-black bg-emerald-400 text-slate-950 px-1.5 py-0.5 rounded-full shadow-sm shrink-0">
-                            <Check className="w-2.5 h-2.5 stroke-[3]" />
-                            <span>SELECTED</span>
-                          </span>
-                        )}
                       </div>
                       <div className="text-[10px] text-slate-400 font-medium truncate">
                         {place.state}

@@ -6,5 +6,8 @@
     "dev": "npm run dev --prefix apps/web",
     "build": "npm run build --prefix apps/web",
     "lint": "npm run lint --prefix apps/web"
+  },
+  "dependencies": {
+    "firebase": "^12.18.0"
   }
 }
