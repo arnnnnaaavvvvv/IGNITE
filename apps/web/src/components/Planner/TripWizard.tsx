@@ -854,7 +854,7 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                 type="button"
                 key={tItem.tier}
                 onClick={() => handleTierChange(tItem.tier as any)}
-                className={`btn-tactile p-2.5 sm:p-3 rounded-xl text-left border cursor-pointer ${
+                className={`btn-tactile h-full min-h-[64px] p-2.5 sm:p-3 rounded-xl text-left border cursor-pointer flex flex-col justify-center ${
                   budgetTier === tItem.tier
                     ? 'bg-emerald-500/15 border-emerald-500/60 text-white shadow-md'
                     : 'bg-[#121522] border-white/[0.08] text-slate-400 hover:border-white/[0.16]'
@@ -888,7 +888,7 @@ export const TripWizard: React.FC<TripWizardProps> = ({
             <Activity className="w-4 h-4 text-emerald-400" />
             <span>{t('fitness_heading', language)}</span>
           </label>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-2.5">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-2.5 items-stretch">
             {[
               { key: 'BEGINNER', label: isHi ? 'सरल / पारिवारिक' : 'Gentle / Family', tag: isHi ? 'आराम से चलना' : 'Frequent leisure halts' },
               { key: 'MODERATE', label: isHi ? 'मध्यम सक्रिय' : 'Moderate Active', tag: isHi ? 'मानक यात्रा गति' : 'Standard travel pacing' },
@@ -898,7 +898,7 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                 type="button"
                 key={f.key}
                 onClick={() => setFitnessLevel(f.key as any)}
-                className={`btn-tactile p-2.5 sm:p-3 rounded-xl text-left border cursor-pointer ${
+                className={`btn-tactile h-full min-h-[64px] p-2.5 sm:p-3 rounded-xl text-left border cursor-pointer flex flex-col justify-center ${
                   fitnessLevel === f.key
                     ? 'bg-emerald-500/20 border-emerald-500/60 text-white shadow-md'
                     : 'bg-[#121522] border-white/[0.08] text-slate-400 hover:border-white/[0.16]'

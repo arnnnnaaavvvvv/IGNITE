@@ -43,17 +43,17 @@ interface DisasterBenchProps {
 
 // Popular Quick Chips
 const POPULAR_DESTINATIONS = [
-  { name: 'All India', label: '🇮🇳 Pan-India Live Grid', isAll: true },
-  { name: 'Kedarnath', label: '🏔️ Kedarnath', zone: 'Himalayan North' },
-  { name: 'Puri', label: '🌊 Puri Beach', zone: 'Bay of Bengal' },
-  { name: 'Kaziranga', label: '🌿 Kaziranga', zone: 'Northeast Wildlife' },
-  { name: 'Jaisalmer', label: '🏜️ Jaisalmer', zone: 'Thar Arid' },
-  { name: 'Manali', label: '🏔️ Manali Alps', zone: 'Himachal' },
-  { name: 'Kashi Vishwanath & Ghats', label: '🏛️ Varanasi', zone: 'Gangetic Plains' },
-  { name: 'Goa Beaches & Promenade', label: '🌊 Goa Coast', zone: 'Arabian Sea' },
-  { name: 'Badrinath Dham', label: '🏔️ Badrinath', zone: 'Garhwal Alps' },
-  { name: 'Munnar & Anamudi Highlands', label: '🌿 Munnar', zone: 'Western Ghats' },
-  { name: 'Leh, Pangong Tso & Khardung La', label: '🏔️ Leh Ladakh', zone: 'Trans-Himalaya' },
+  { name: 'All India', label: '🇮🇳 Pan-India Live Grid', label_hi: '🇮🇳 अखिल भारतीय ग्रिड', isAll: true },
+  { name: 'Kedarnath', label: '🏔️ Kedarnath', label_hi: '🏔️ केदारनाथ धाम', zone: 'Himalayan North' },
+  { name: 'Puri', label: '🌊 Puri Beach', label_hi: '🌊 पुरी तट', zone: 'Bay of Bengal' },
+  { name: 'Kaziranga', label: '🌿 Kaziranga', label_hi: '🌿 काजीरंगा', zone: 'Northeast Wildlife' },
+  { name: 'Jaisalmer', label: '🏜️ Jaisalmer', label_hi: '🏜️ जैसलमेर', zone: 'Thar Arid' },
+  { name: 'Manali', label: '🏔️ Manali Alps', label_hi: '🏔️ मनाली', zone: 'Himachal' },
+  { name: 'Kashi Vishwanath & Ghats', label: '🏛️ Varanasi', label_hi: '🏛️ वाराणसी', zone: 'Gangetic Plains' },
+  { name: 'Goa Beaches & Promenade', label: '🌊 Goa Coast', label_hi: '🌊 गोवा तट', zone: 'Arabian Sea' },
+  { name: 'Badrinath Dham', label: '🏔️ Badrinath', label_hi: '🏔️ बद्रीनाथ धाम', zone: 'Garhwal Alps' },
+  { name: 'Munnar & Anamudi Highlands', label: '🌿 Munnar', label_hi: '🌿 मुन्नार', zone: 'Western Ghats' },
+  { name: 'Leh, Pangong Tso & Khardung La', label: '🏔️ Leh Ladakh', label_hi: '🏔️ लेह लद्दाख', zone: 'Trans-Himalaya' },
 ];
 
 export const DisasterBench: React.FC<DisasterBenchProps> = ({
@@ -315,21 +315,22 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
           {/* Quick Destination Chips */}
           <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
             <span className="text-[10px] font-mono text-slate-400 whitespace-nowrap uppercase tracking-wider shrink-0">
-              Quick Switch:
+              {language === 'hi' ? 'त्वरित चयन:' : 'Quick Switch:'}
             </span>
             {POPULAR_DESTINATIONS.map((dest) => {
               const isSelected = dest.isAll ? !currentPlace : currentPlace.toLowerCase().includes(dest.name.toLowerCase());
+              const chipLabel = (language === 'hi' && dest.label_hi) ? dest.label_hi : dest.label;
               return (
                 <button
                   key={dest.name}
                   onClick={() => dest.isAll ? handleClearPlace() : handleSelectPlace(dest.name)}
-                  className={`text-[11px] font-bold px-3 py-1.5 rounded-xl whitespace-nowrap transition-all flex items-center gap-1.5 cursor-pointer border shrink-0 ${
+                  className={`btn-tactile text-[11px] font-bold px-3 py-1.5 rounded-xl whitespace-nowrap transition-all flex items-center gap-1.5 cursor-pointer border shrink-0 ${
                     isSelected
                       ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/60 shadow-lg shadow-emerald-950/50'
-                      : 'bg-slate-950/70 hover:bg-slate-800 text-slate-300 border-slate-800 hover:border-slate-700'
+                      : 'bg-[#0c0e16]/80 hover:bg-[#151928] text-slate-300 border-white/[0.08] hover:border-white/[0.16]'
                   }`}
                 >
-                  <span>{dest.label}</span>
+                  <span>{chipLabel}</span>
                 </button>
               );
             })}

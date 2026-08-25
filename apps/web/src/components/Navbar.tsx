@@ -144,8 +144,8 @@ export const Navbar: React.FC<NavbarProps> = ({
       </header>
 
       {/* Fixed Mobile Bottom Navigation Bar (iOS / Android Native Feel) */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#08090d]/95 backdrop-blur-2xl border-t border-white/[0.08] px-2 pt-2 pb-[max(0.6rem,env(safe-area-inset-bottom))] shadow-2xl">
-        <div className="flex items-center justify-around">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#08090d]/95 backdrop-blur-2xl border-t border-white/[0.08] px-2 pt-1.5 pb-[max(0.6rem,env(safe-area-inset-bottom))] shadow-2xl">
+        <div className="grid grid-cols-5 items-center justify-items-center max-w-lg mx-auto">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -153,7 +153,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`flex flex-col items-center justify-center py-1 px-3 rounded-lg transition-all relative ${
+                className={`w-full flex flex-col items-center justify-center py-1 px-1 rounded-xl transition-all relative ${
                   isActive
                     ? 'text-emerald-400 font-bold'
                     : 'text-slate-400 hover:text-slate-200'
@@ -165,7 +165,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-red-500 animate-ping" />
                   )}
                 </div>
-                <span className="text-[10px] mt-1 font-medium tracking-tight whitespace-nowrap">
+                <span className="text-[10px] mt-1 font-medium tracking-tight whitespace-nowrap text-center">
                   {tab.shortLabel}
                 </span>
                 {isActive && (
