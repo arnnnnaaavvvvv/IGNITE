@@ -17,10 +17,17 @@ import type {
   SimulationScenario,
 } from './types';
 import { AlertTriangle, WifiOff, CheckCircle, MapPin } from 'lucide-react';
+import { t, getLocalizedDestinationName } from './services/i18n';
 
 export function App() {
   const [activeTab, setActiveTab] = useState<'map' | 'itinerary' | 'explainability' | 'simulation' | 'group'>('map');
-  const [language, setLanguage] = useState('en');
+  const [language, setLanguage] = useState<string>(() => {
+    try {
+      return localStorage.getItem('ignite_lang') || 'en';
+    } catch {
+      return 'en';
+    }
+  });
   const [isSOSOpen, setIsSOSOpen] = useState(false);
 
   // Core Destination & Map Data States
@@ -226,9 +233,9 @@ export function App() {
               <div className="w-6 h-6 rounded-lg bg-amber-500/20 border border-amber-500/30 flex items-center justify-center shrink-0">
                 <WifiOff className="w-3.5 h-3.5 text-amber-400" />
               </div>
-              <span className="font-medium">Offline 2G Resilient Cache Active. Displaying verified local plan for <strong className="text-white">{currentDestinationName}</strong>.</span>
+              <span className="font-medium">{t('offline_banner_title', language)} <strong className="text-white">{getLocalizedDestinationName(currentDestinationName, language)}</strong>.</span>
             </div>
-            <span className="text-[11px] font-mono text-amber-400/90 self-end sm:self-auto bg-amber-950/80 px-2 py-0.5 rounded border border-amber-500/30">Cached: {new Date(cachedTime).toLocaleTimeString()}</span>
+            <span className="text-[11px] font-mono text-amber-400/90 self-end sm:self-auto bg-amber-950/80 px-2 py-0.5 rounded border border-amber-500/30">{t('cached_at', language)}: {new Date(cachedTime).toLocaleTimeString()}</span>
           </div>
         )}
 
@@ -242,7 +249,7 @@ export function App() {
               <div>
                 <div className="text-[11px] sm:text-xs font-mono font-bold tracking-wider uppercase text-red-400 flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
-                  CRITICAL REGIONAL HAZARD ACTIVE ({rerouteData?.destination || currentDestinationName})
+                  {t('critical_hazard_active', language)} ({getLocalizedDestinationName(rerouteData?.destination || currentDestinationName, language)})
                 </div>
                 <div className="text-xs sm:text-sm text-slate-300 font-medium mt-0.5">
                   {rerouteData?.instructions || 'Regional hazard threshold exceeded. Safe bypass trail engaged.'}
@@ -254,7 +261,7 @@ export function App() {
               onClick={() => setActiveTab('map')}
               className="btn-tactile w-full sm:w-auto px-4 py-2 rounded-lg bg-red-600 hover:bg-red-500 text-white font-bold text-xs shadow-[0_2px_12px_rgba(239,68,68,0.4)] whitespace-nowrap cursor-pointer text-center border border-red-400/30"
             >
-              View Safe Reroute on Map
+              {t('view_reroute_map', language)}
             </button>
           </div>
         )}
@@ -274,6 +281,7 @@ export function App() {
                   destinationName={currentDestinationName}
                   regionType={itinerary?.region_type}
                   previewCoordinates={previewCoordinates}
+                  language={language}
                   onResetToIndia={handleResetToIndia}
                   onSelectCheckpoint={(cp) => setSelectedCheckpoint(cp)}
                 />
@@ -284,6 +292,7 @@ export function App() {
                   onGenerate={generateItinerary}
                   isLoading={isGenerating}
                   selectedDestinationName={currentDestinationName}
+                  language={language}
                   onPreviewDestination={(dest) => {
                     setPreviewCoordinates(dest);
                     if (dest) setCurrentDestinationName(dest.name);
@@ -300,6 +309,7 @@ export function App() {
             {itinerary ? (
               <ItineraryView
                 itinerary={itinerary}
+                language={language}
                 onSelectCheckpoint={(cp) => {
                   setSelectedCheckpoint(cp);
                   setActiveTab('explainability');
@@ -311,16 +321,16 @@ export function App() {
                   <MapPin className="w-7 h-7 stroke-[1.8]" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-white mb-1.5 tracking-tight">No Active Itinerary Generated</h3>
+                  <h3 className="text-base font-bold text-white mb-1.5 tracking-tight">{t('no_itinerary_title', language)}</h3>
                   <p className="text-xs text-slate-400 leading-relaxed max-w-md mx-auto">
-                    Search any Indian destination in the Map &amp; Planner tab and click <span className="text-emerald-400 font-semibold">&ldquo;Generate Safe Itinerary &amp; Risk Matrix&rdquo;</span> to synthesize a tailored schedule with verified safety protocols.
+                    {t('no_itinerary_desc', language)}
                   </p>
                 </div>
                 <button
                   onClick={() => setActiveTab('map')}
                   className="btn-tactile px-5 py-2.5 rounded-xl bg-gradient-to-b from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-slate-950 text-xs font-bold transition-all cursor-pointer shadow-[0_2px_12px_rgba(16,185,129,0.35)]"
                 >
-                  Go to Map &amp; Planner
+                  {t('btn_go_map', language)}
                 </button>
               </div>
             )}
@@ -332,7 +342,7 @@ export function App() {
           <div className="space-y-6">
             <ExplainabilityPanel
               subScores={selectedCheckpoint?.sub_scores || (itinerary?.days?.[0]?.checkpoints?.[0]?.sub_scores)}
-              checkpointName={selectedCheckpoint?.name || currentDestinationName}
+              checkpointName={getLocalizedDestinationName(selectedCheckpoint?.name || currentDestinationName, language)}
               totalScore={selectedCheckpoint?.total_risk_score || itinerary?.overall_safety_score || 25}
               explanationText={
                 itinerary?.explainability?.summary_text ||
@@ -355,6 +365,7 @@ export function App() {
               isSimulating={isBypassActive}
               rerouteData={rerouteData}
               selectedDestinationName={currentDestinationName}
+              language={language}
               onSelectDestination={(destName) => {
                 setCurrentDestinationName(destName);
               }}
@@ -367,7 +378,8 @@ export function App() {
         {activeTab === 'group' && (
           <div className="space-y-6">
             <GroupTrackerModal
-              destinationName={currentDestinationName}
+              destinationName={getLocalizedDestinationName(currentDestinationName, language)}
+              language={language}
               leaderLocation={{
                 lat: checkpoints[0]?.lat || 28.6139,
                 lon: checkpoints[0]?.lon || 77.2090,
@@ -382,6 +394,7 @@ export function App() {
       <SOSModal
         isOpen={isSOSOpen}
         onClose={() => setIsSOSOpen(false)}
+        language={language}
         userCoords={{
           lat: checkpoints[0]?.lat || 30.6270,
           lon: checkpoints[0]?.lon || 79.0700,
@@ -394,10 +407,10 @@ export function App() {
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2.5 font-mono">
           <span className="flex items-center gap-2 justify-center text-slate-400">
             <CheckCircle className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-            <span className="font-semibold text-slate-300">IGNITE</span> • Pan-India Tourist Safety &amp; Autonomous Rerouting Engine
+            <span className="font-semibold text-slate-300">IGNITE</span> • {t('footer_title', language)}
           </span>
-          <span className="text-[11px] text-slate-400">Active: <span className="text-white font-medium">{currentDestinationName ? `${currentDestinationName} (${itinerary?.region_name || 'National Network'})` : 'Pan-India Explorer (28 States & 8 UTs)'}</span></span>
-          <span className="text-[11px] text-emerald-400/90 font-medium">PostGIS • Overpass QL • Redis TTL • OSRM Routing</span>
+          <span className="text-[11px] text-slate-400">{t('footer_active', language)}: <span className="text-white font-medium">{currentDestinationName ? `${getLocalizedDestinationName(currentDestinationName, language)} (${itinerary?.region_name || 'National Network'})` : t('footer_pan_india', language)}</span></span>
+          <span className="text-[11px] text-emerald-400/90 font-medium">{t('footer_tech', language)}</span>
         </div>
       </footer>
     </div>

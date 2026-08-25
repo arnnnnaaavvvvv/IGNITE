@@ -17,11 +17,13 @@ interface GroupMember {
 interface GroupTrackerModalProps {
   destinationName?: string;
   leaderLocation?: { lat: number; lon: number; altitude_m?: number };
+  language?: string;
 }
 
 export const GroupTrackerModal: React.FC<GroupTrackerModalProps> = ({
   destinationName = 'Active Destination',
   leaderLocation = { lat: 28.6139, lon: 77.2090, altitude_m: 210 },
+  language = 'en',
 }) => {
   const [groupData, setGroupData] = useState<{
     total_members: number;
@@ -105,21 +107,21 @@ export const GroupTrackerModal: React.FC<GroupTrackerModalProps> = ({
           <div>
             <div className="flex items-center gap-2 mb-1">
               <span className="text-xs font-mono font-bold uppercase tracking-wider text-teal-400">
-                FAMILY & GROUP MESH RADAR
+                {language === 'hi' ? 'परिवार एवं समूह मेश रडार' : 'FAMILY & GROUP MESH RADAR'}
               </span>
               <span className="text-slate-600">•</span>
-              <span className="text-xs text-slate-400">{destinationName} Travel Squad</span>
+              <span className="text-xs text-slate-400">{destinationName}</span>
             </div>
-            <h2 className="text-lg font-bold text-white">Real-Time Member Tracking & Separation Alerts</h2>
+            <h2 className="text-lg font-bold text-white">{language === 'hi' ? 'रीयल-टाइम सदस्य ट्रैकिंग और अलगाव अलर्ट' : 'Real-Time Member Tracking & Separation Alerts'}</h2>
           </div>
 
           <button
             onClick={simulateGroupSync}
             disabled={simulatingMove}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-teal-600/20 hover:bg-teal-600/30 text-teal-300 border border-teal-500/40 text-xs font-bold transition-all cursor-pointer"
+            className="btn-tactile flex items-center gap-2 px-3.5 py-2 rounded-xl bg-teal-600/20 hover:bg-teal-600/30 text-teal-300 border border-teal-500/40 text-xs font-bold transition-all cursor-pointer"
           >
             <Radio className={`w-3.5 h-3.5 ${simulatingMove ? 'animate-spin' : 'animate-pulse'}`} />
-            <span>{simulatingMove ? 'Syncing...' : 'Poll Mesh Telemetry'}</span>
+            <span>{simulatingMove ? (language === 'hi' ? 'सिंक हो रहा है...' : 'Syncing...') : (language === 'hi' ? 'मेश टेलीमेट्री सिंक करें' : 'Poll Mesh Telemetry')}</span>
           </button>
         </div>
 

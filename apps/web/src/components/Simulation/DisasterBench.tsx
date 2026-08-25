@@ -36,6 +36,7 @@ interface DisasterBenchProps {
   isSimulating: boolean;
   rerouteData?: any;
   selectedDestinationName?: string;
+  language?: string;
   onSelectDestination?: (destName: string) => void;
   onNavigateToMap?: () => void;
 }
@@ -62,6 +63,7 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
   isSimulating,
   rerouteData,
   selectedDestinationName = '',
+  language = 'en',
   onSelectDestination,
   onNavigateToMap,
 }) => {
@@ -86,13 +88,15 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
     }
   }, [selectedDestinationName]);
 
-  // Fetch scenarios & incident records whenever currentPlace changes
+  // Fetch scenarios & incident records whenever currentPlace or language changes
   useEffect(() => {
     let isMounted = true;
     async function fetchDisasterData() {
       setIsLoading(true);
       try {
-        const queryParam = currentPlace ? `?destination=${encodeURIComponent(currentPlace)}` : '';
+        const queryParam = currentPlace
+          ? `?destination=${encodeURIComponent(currentPlace)}&language=${encodeURIComponent(language)}`
+          : `?language=${encodeURIComponent(language)}`;
         const res = await fetch(`/api/v1/simulation/scenarios${queryParam}`);
         if (res.ok) {
           const data: SimulationResponse = await res.json();
@@ -111,7 +115,7 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
     return () => {
       isMounted = false;
     };
-  }, [currentPlace]);
+  }, [currentPlace, language]);
 
   // Autocomplete search handler
   useEffect(() => {

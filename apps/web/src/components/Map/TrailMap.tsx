@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import type { Checkpoint, HazardZone, EmergencyShelter } from '../../types';
 import { ShieldCheck, AlertOctagon, Compass, MapPin, Globe, X } from 'lucide-react';
+import { t, getLocalizedDestinationName } from '../../services/i18n';
 
 interface TrailMapProps {
   checkpoints: Checkpoint[];
@@ -16,6 +17,7 @@ interface TrailMapProps {
   destinationName?: string;
   regionType?: string;
   previewCoordinates?: { lat: number; lon: number; name?: string } | null;
+  language?: string;
   onResetToIndia?: () => void;
 }
 
@@ -32,6 +34,7 @@ export const TrailMap: React.FC<TrailMapProps> = ({
   destinationName = '',
   regionType = 'HILL_MOUNTAIN',
   previewCoordinates = null,
+  language = 'en',
   onResetToIndia,
 }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
@@ -319,39 +322,38 @@ export const TrailMap: React.FC<TrailMapProps> = ({
           <>
             <button
               onClick={() => setShowHazards(!showHazards)}
-              className={`flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-semibold backdrop-blur-md transition-all shadow-md cursor-pointer ${
+              className={`btn-tactile flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-semibold backdrop-blur-md transition-all shadow-md cursor-pointer ${
                 showHazards
                   ? 'bg-orange-500/80 text-white border border-orange-400'
-                  : 'bg-slate-900/80 text-slate-400 border border-slate-700'
+                  : 'bg-[#0c0e16]/90 text-slate-400 border border-white/[0.08]'
               }`}
             >
               <AlertOctagon className="w-3 sm:w-3.5 h-3 sm:h-3.5" />
-              <span className="hidden xs:inline">Regional </span>
-              <span>Hazards ({hazardZones ? hazardZones.length : 0})</span>
+              <span>{language === 'hi' ? 'खतरे' : 'Hazards'} ({hazardZones ? hazardZones.length : 0})</span>
             </button>
 
             <button
               onClick={() => setShowShelters(!showShelters)}
-              className={`flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-semibold backdrop-blur-md transition-all shadow-md cursor-pointer ${
+              className={`btn-tactile flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-semibold backdrop-blur-md transition-all shadow-md cursor-pointer ${
                 showShelters
                   ? 'bg-sky-600/80 text-white border border-sky-400'
-                  : 'bg-slate-900/80 text-slate-400 border border-slate-700'
+                  : 'bg-[#0c0e16]/90 text-slate-400 border border-white/[0.08]'
               }`}
             >
               <ShieldCheck className="w-3 sm:w-3.5 h-3 sm:h-3.5" />
-              <span>Shelters</span>
+              <span>{language === 'hi' ? 'आश्रय स्थल' : 'Shelters'} ({shelters ? shelters.length : 0})</span>
             </button>
 
             <button
               onClick={() => setShowCheckpoints(!showCheckpoints)}
-              className={`flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-semibold backdrop-blur-md transition-all shadow-md cursor-pointer ${
+              className={`btn-tactile flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-semibold backdrop-blur-md transition-all shadow-md cursor-pointer ${
                 showCheckpoints
                   ? 'bg-emerald-600/80 text-white border border-emerald-400'
-                  : 'bg-slate-900/80 text-slate-400 border border-slate-700'
+                  : 'bg-[#0c0e16]/90 text-slate-400 border border-white/[0.08]'
               }`}
             >
               <Compass className="w-3 sm:w-3.5 h-3 sm:h-3.5" />
-              <span>Points ({checkpoints ? checkpoints.length : 0})</span>
+              <span>{language === 'hi' ? 'चेकपॉइंट' : 'Points'} ({checkpoints ? checkpoints.length : 0})</span>
             </button>
           </>
         )}
@@ -360,10 +362,10 @@ export const TrailMap: React.FC<TrailMapProps> = ({
           <button
             type="button"
             onClick={onResetToIndia}
-            className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-semibold bg-slate-900/90 hover:bg-slate-800 text-slate-300 border border-slate-700 backdrop-blur-md transition-all shadow-md cursor-pointer"
+            className="btn-tactile flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-semibold bg-[#0c0e16]/95 hover:bg-[#151928] text-slate-200 border border-white/[0.1] backdrop-blur-md transition-all shadow-md cursor-pointer"
           >
             <Globe className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-emerald-400" />
-            <span className="hidden xs:inline">Pan-India</span> Overview
+            <span>{t('btn_reset_india', language)}</span>
           </button>
         )}
       </div>
@@ -374,31 +376,31 @@ export const TrailMap: React.FC<TrailMapProps> = ({
           <div className="glass-panel bg-red-950/90 border-red-500 text-red-200 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl shadow-2xl flex items-center gap-1.5 sm:gap-2.5 animate-pulse">
             <AlertOctagon className="w-4 sm:w-5 h-4 sm:h-5 text-red-400 shrink-0" />
             <div className="min-w-0">
-              <div className="text-[10px] sm:text-xs font-black tracking-wide text-red-300 truncate">REROUTE ACTIVE</div>
-              <div className="text-[9px] text-slate-300 hidden sm:block">Hazard spike detected. Safe bypass engaged.</div>
+              <div className="text-[10px] sm:text-xs font-black tracking-wide text-red-300 truncate">{language === 'hi' ? 'बाईपास मार्ग सक्रिय' : 'REROUTE ACTIVE'}</div>
+              <div className="text-[9px] text-slate-300 hidden sm:block">{language === 'hi' ? 'खतरे के कारण सुरक्षित मार्ग लागू' : 'Hazard spike detected. Safe bypass engaged.'}</div>
             </div>
           </div>
         ) : hasActiveTrail ? (
-          <div className="glass-panel bg-slate-950/85 border-emerald-500/40 text-emerald-300 px-2 sm:px-3 py-1 sm:py-1.5 rounded-xl shadow-xl flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-medium backdrop-blur-md">
+          <div className="glass-panel bg-[#08090d]/90 border-emerald-500/40 text-emerald-300 px-2.5 sm:px-3 py-1.5 rounded-xl shadow-xl flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-medium backdrop-blur-md">
             <MapPin className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-emerald-400 shrink-0" />
-            <span className="truncate max-w-[80px] sm:max-w-[140px]">{destinationName}</span>
+            <span className="truncate max-w-[80px] sm:max-w-[140px] font-semibold">{getLocalizedDestinationName(destinationName, language)}</span>
             <span className="text-[9px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded-full font-mono font-bold hidden sm:inline">
-              ACTIVE
+              {language === 'hi' ? 'सक्रिय' : 'ACTIVE'}
             </span>
           </div>
         ) : isPreviewing ? (
-          <div className="glass-panel bg-slate-950/90 border-cyan-500/40 text-cyan-200 px-2 sm:px-3.5 py-1 sm:py-2 rounded-xl shadow-xl flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-medium backdrop-blur-md animate-pulse">
+          <div className="glass-panel bg-[#08090d]/90 border-cyan-500/40 text-cyan-200 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl shadow-xl flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-medium backdrop-blur-md animate-pulse">
             <MapPin className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-cyan-400 shrink-0" />
             <div className="min-w-0">
-              <div className="font-bold text-white text-[10px] sm:text-xs truncate">{previewCoordinates?.name}</div>
-              <div className="text-[9px] text-slate-400 hidden sm:block">Target locked • Ready to Plan</div>
+              <div className="font-bold text-white text-[10px] sm:text-xs truncate">{getLocalizedDestinationName(previewCoordinates?.name || '', language)}</div>
+              <div className="text-[9px] text-slate-400 hidden sm:block">{language === 'hi' ? 'लक्ष्य लॉक • योजना के लिए तैयार' : 'Target locked • Ready to Plan'}</div>
             </div>
           </div>
         ) : (
-          <div className="glass-panel bg-slate-950/80 border-slate-700/80 text-slate-300 px-2 sm:px-3 py-1 sm:py-1.5 rounded-xl shadow-xl flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-medium backdrop-blur-md">
+          <div className="glass-panel bg-[#08090d]/90 border-white/[0.08] text-slate-300 px-2.5 sm:px-3 py-1.5 rounded-xl shadow-xl flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-medium backdrop-blur-md">
             <Globe className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-emerald-400 shrink-0" />
-            <span className="hidden sm:inline">Pan-India Grid</span>
-            <span className="text-[9px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded-full font-mono">
+            <span className="hidden sm:inline">{language === 'hi' ? 'अखिल भारतीय ग्रिड' : 'Pan-India Grid'}</span>
+            <span className="text-[9px] bg-white/[0.06] text-slate-300 px-1.5 py-0.5 rounded-full font-mono">
               28S • 8UT
             </span>
           </div>

@@ -18,12 +18,14 @@ interface SOSModalProps {
   isOpen: boolean;
   onClose: () => void;
   userCoords?: { lat: number; lon: number; altitude_m: number };
+  language?: string;
 }
 
 export const SOSModal: React.FC<SOSModalProps> = ({
   isOpen,
   onClose,
   userCoords = { lat: 30.6270, lon: 79.0700, altitude_m: 2550 },
+  language = 'en',
 }) => {
   const [isSending, setIsSending] = useState(false);
   const [dispatchData, setDispatchData] = useState<SOSDispatch | null>(null);
@@ -98,7 +100,7 @@ export const SOSModal: React.FC<SOSModalProps> = ({
                 OVERPASS DISPATCH
               </span>
             </div>
-            <h2 className="text-sm sm:text-lg font-black text-white">Universal Search & Rescue Panic Beacon</h2>
+            <h2 className="text-sm sm:text-lg font-black text-white">{language === 'hi' ? 'सार्वभौमिक खोज एवं बचाव पैनिक बीकन' : 'Universal Search & Rescue Panic Beacon'}</h2>
           </div>
         </div>
 
@@ -107,7 +109,7 @@ export const SOSModal: React.FC<SOSModalProps> = ({
           <div className="flex items-center justify-between text-xs">
             <span className="text-slate-400 flex items-center gap-1.5">
               <MapPin className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Current GPS Telemetry:</span>
+              <span>{language === 'hi' ? 'वर्तमान जीपीएस निर्देशांक:' : 'Current GPS Telemetry:'}</span>
             </span>
             <span className="font-mono font-bold text-white">
               {userCoords.lat.toFixed(4)}°N, {userCoords.lon.toFixed(4)}°E ({userCoords.altitude_m}m)
@@ -118,7 +120,7 @@ export const SOSModal: React.FC<SOSModalProps> = ({
             <div className="space-y-3 pt-2 border-t border-slate-800/60">
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-[11px] font-semibold text-slate-400 block mb-1">Tourist Name</label>
+                  <label className="text-[11px] font-semibold text-slate-400 block mb-1">{language === 'hi' ? 'पर्यटक का नाम' : 'Tourist Name'}</label>
                   <input
                     type="text"
                     value={victimName}
@@ -127,7 +129,7 @@ export const SOSModal: React.FC<SOSModalProps> = ({
                   />
                 </div>
                 <div>
-                  <label className="text-[11px] font-semibold text-slate-400 block mb-1">Mobile Phone</label>
+                  <label className="text-[11px] font-semibold text-slate-400 block mb-1">{language === 'hi' ? 'मोबाइल नंबर' : 'Mobile Phone'}</label>
                   <input
                     type="text"
                     value={victimPhone}
@@ -139,7 +141,7 @@ export const SOSModal: React.FC<SOSModalProps> = ({
 
               <div>
                 <label className="text-[11px] font-semibold text-slate-400 block mb-1">
-                  Medical Notes / Observed Distress
+                  {language === 'hi' ? 'चिकित्सा विवरण / समस्या' : 'Medical Notes / Observed Distress'}
                 </label>
                 <input
                   type="text"
@@ -157,12 +159,12 @@ export const SOSModal: React.FC<SOSModalProps> = ({
                 {isSending ? (
                   <>
                     <div className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
-                    <span>Querying Overpass Emergency Grid & Dispatching SOS...</span>
+                    <span>{language === 'hi' ? 'इमरजेंसी ग्रिड से संपर्क किया जा रहा है...' : 'Querying Overpass Emergency Grid & Dispatching SOS...'}</span>
                   </>
                 ) : (
                   <>
                     <Send className="w-4 h-4" />
-                    <span>Broadcast Emergency SOS to Response Grid</span>
+                    <span>{language === 'hi' ? 'प्रतिक्रिया ग्रिड पर आपातकालीन एसओएस भेजें' : 'Broadcast Emergency SOS to Response Grid'}</span>
                   </>
                 )}
               </button>
