@@ -202,7 +202,10 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070b14] text-slate-100 flex flex-col selection:bg-emerald-500 selection:text-slate-950 font-sans">
+    <div className="min-h-screen bg-[#08090d] text-slate-100 flex flex-col selection:bg-emerald-500 selection:text-slate-950 font-sans relative bg-tactical-grid">
+      {/* Subtle Top Ambient Lighting */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-48 bg-gradient-to-b from-orange-500/[0.04] to-transparent pointer-events-none blur-3xl -z-10" />
+
       {/* Navigation Header */}
       <Navbar
         activeTab={activeTab}
@@ -215,30 +218,33 @@ export function App() {
       />
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-4 lg:px-8 py-3 sm:py-6 space-y-4 sm:space-y-6 pb-28 md:pb-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-4 lg:px-8 py-3 sm:py-6 space-y-4 sm:space-y-6 pb-28 md:pb-8 relative z-10">
         {/* Offline Fallback Banner */}
         {isOfflineMode && cachedTime && (
-          <div className="p-3 sm:p-3.5 rounded-2xl bg-amber-950/80 border border-amber-500/60 text-amber-200 text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 shadow-xl">
+          <div className="p-3 sm:p-3.5 rounded-xl bg-amber-950/60 border border-amber-500/40 text-amber-200 text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 shadow-[0_4px_20px_rgba(245,158,11,0.15),inset_0_1px_0_0_rgba(255,255,255,0.06)] backdrop-blur-md">
             <div className="flex items-center gap-2.5">
-              <WifiOff className="w-4 h-4 text-amber-400 shrink-0" />
-              <span>Offline 2G Fallback Mode Active. Displaying cached itinerary for <strong>{currentDestinationName}</strong>.</span>
+              <div className="w-6 h-6 rounded-lg bg-amber-500/20 border border-amber-500/30 flex items-center justify-center shrink-0">
+                <WifiOff className="w-3.5 h-3.5 text-amber-400" />
+              </div>
+              <span className="font-medium">Offline 2G Resilient Cache Active. Displaying verified local plan for <strong className="text-white">{currentDestinationName}</strong>.</span>
             </div>
-            <span className="text-[10px] font-mono text-amber-400 self-end sm:self-auto">Cached: {new Date(cachedTime).toLocaleTimeString()}</span>
+            <span className="text-[11px] font-mono text-amber-400/90 self-end sm:self-auto bg-amber-950/80 px-2 py-0.5 rounded border border-amber-500/30">Cached: {new Date(cachedTime).toLocaleTimeString()}</span>
           </div>
         )}
 
         {/* Dynamic Hazard Alert Top Bar */}
         {isBypassActive && (
-          <div className="p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-red-950/90 via-slate-900/90 to-red-950/90 border border-red-500/80 shadow-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-3 sm:gap-4 animate-pulse">
+          <div className="p-3.5 sm:p-4 rounded-xl bg-gradient-to-r from-red-950/80 via-[#140b10]/90 to-red-950/80 border border-red-500/60 shadow-[0_8px_30px_rgba(239,68,68,0.25),inset_0_1px_0_0_rgba(255,255,255,0.1)] flex flex-col md:flex-row items-start md:items-center justify-between gap-3 sm:gap-4 backdrop-blur-xl">
             <div className="flex items-center gap-3">
-              <div className="w-9 sm:w-10 h-9 sm:h-10 rounded-xl bg-red-600/30 border border-red-500 flex items-center justify-center text-red-400 shrink-0">
-                <AlertTriangle className="w-5 sm:w-6 h-5 sm:h-6 text-red-400" />
+              <div className="w-9 sm:w-10 h-9 sm:h-10 rounded-xl bg-red-600/20 border border-red-500/50 flex items-center justify-center text-red-400 shrink-0 shadow-[0_0_12px_rgba(239,68,68,0.4)]">
+                <AlertTriangle className="w-5 sm:w-6 h-5 sm:h-6 text-red-400 animate-pulse" />
               </div>
               <div>
-                <div className="text-[11px] sm:text-xs font-black tracking-wider uppercase text-red-300">
+                <div className="text-[11px] sm:text-xs font-mono font-bold tracking-wider uppercase text-red-400 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
                   CRITICAL REGIONAL HAZARD ACTIVE ({rerouteData?.destination || currentDestinationName})
                 </div>
-                <div className="text-[11px] sm:text-xs text-slate-300">
+                <div className="text-xs sm:text-sm text-slate-300 font-medium mt-0.5">
                   {rerouteData?.instructions || 'Regional hazard threshold exceeded. Safe bypass trail engaged.'}
                 </div>
               </div>
@@ -246,9 +252,9 @@ export function App() {
 
             <button
               onClick={() => setActiveTab('map')}
-              className="w-full sm:w-auto px-4 py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-xs shadow-lg shadow-red-600/30 whitespace-nowrap cursor-pointer text-center"
+              className="btn-tactile w-full sm:w-auto px-4 py-2 rounded-lg bg-red-600 hover:bg-red-500 text-white font-bold text-xs shadow-[0_2px_12px_rgba(239,68,68,0.4)] whitespace-nowrap cursor-pointer text-center border border-red-400/30"
             >
-              View Reroute on Map
+              View Safe Reroute on Map
             </button>
           </div>
         )}
@@ -300,19 +306,19 @@ export function App() {
                 }}
               />
             ) : (
-              <div className="glass-panel p-12 rounded-2xl text-center text-slate-300 max-w-lg mx-auto space-y-4 my-8">
-                <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center mx-auto text-emerald-400">
-                  <MapPin className="w-7 h-7" />
+              <div className="glass-panel p-12 rounded-2xl text-center text-slate-300 max-w-lg mx-auto space-y-4 my-8 border border-white/[0.08] shadow-[0_16px_36px_rgba(0,0,0,0.6)]">
+                <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center mx-auto text-emerald-400 shadow-[0_0_16px_rgba(16,185,129,0.2)]">
+                  <MapPin className="w-7 h-7 stroke-[1.8]" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-white mb-1">No Active Itinerary Generated</h3>
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    Search any Indian destination in the Map & Planner tab and click <span className="text-emerald-400 font-semibold">&ldquo;Generate Safe Itinerary &amp; Risk Matrix&rdquo;</span> to synthesize a tailored schedule with verified safety protocols.
+                  <h3 className="text-base font-bold text-white mb-1.5 tracking-tight">No Active Itinerary Generated</h3>
+                  <p className="text-xs text-slate-400 leading-relaxed max-w-md mx-auto">
+                    Search any Indian destination in the Map &amp; Planner tab and click <span className="text-emerald-400 font-semibold">&ldquo;Generate Safe Itinerary &amp; Risk Matrix&rdquo;</span> to synthesize a tailored schedule with verified safety protocols.
                   </p>
                 </div>
                 <button
                   onClick={() => setActiveTab('map')}
-                  className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all cursor-pointer shadow-lg shadow-emerald-600/30"
+                  className="btn-tactile px-5 py-2.5 rounded-xl bg-gradient-to-b from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-slate-950 text-xs font-bold transition-all cursor-pointer shadow-[0_2px_12px_rgba(16,185,129,0.35)]"
                 >
                   Go to Map &amp; Planner
                 </button>
@@ -383,15 +389,15 @@ export function App() {
         }}
       />
 
-      {/* Modern Footer */}
-      <footer className="mt-auto border-t border-slate-900 glass-panel py-4 px-6 text-center text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 font-mono">
-          <span className="flex items-center gap-1.5 justify-center">
-            <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
-            <span>IGNITE • Pan-India Tourist Safety & Smart Route Planner</span>
+      {/* Modern High-Precision Command Footer */}
+      <footer className="mt-auto border-t border-white/[0.08] bg-[#08090d]/80 backdrop-blur-xl py-3.5 px-6 text-center text-xs text-slate-500">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2.5 font-mono">
+          <span className="flex items-center gap-2 justify-center text-slate-400">
+            <CheckCircle className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+            <span className="font-semibold text-slate-300">IGNITE</span> • Pan-India Tourist Safety &amp; Autonomous Rerouting Engine
           </span>
-          <span>Active: {currentDestinationName ? `${currentDestinationName} (${itinerary?.region_name || 'National Network'})` : 'Pan-India Explorer (28 States & 8 UTs)'}</span>
-          <span className="text-emerald-400">PostGIS • Overpass QL • Redis TTL • OSRM Routing</span>
+          <span className="text-[11px] text-slate-400">Active: <span className="text-white font-medium">{currentDestinationName ? `${currentDestinationName} (${itinerary?.region_name || 'National Network'})` : 'Pan-India Explorer (28 States & 8 UTs)'}</span></span>
+          <span className="text-[11px] text-emerald-400/90 font-medium">PostGIS • Overpass QL • Redis TTL • OSRM Routing</span>
         </div>
       </footer>
     </div>
