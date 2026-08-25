@@ -21,6 +21,7 @@ import {
   Compass,
   Flame,
   ChevronRight,
+  Check,
 } from 'lucide-react';
 import type { DestinationSearchResult, RegionType } from '../../types';
 
@@ -201,6 +202,7 @@ export const TripWizard: React.FC<TripWizardProps> = ({
   onPreviewDestination,
 }) => {
   const [searchQuery, setSearchQuery] = useState(selectedDestinationName || '');
+  const [selectedPlaceName, setSelectedPlaceName] = useState<string>(selectedDestinationName || '');
   const [searchResults, setSearchResults] = useState<DestinationSearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -222,8 +224,9 @@ export const TripWizard: React.FC<TripWizardProps> = ({
 
   // Sync prop changes
   useEffect(() => {
-    if (selectedDestinationName !== undefined) {
+    if (selectedDestinationName) {
       setSearchQuery(selectedDestinationName);
+      setSelectedPlaceName(selectedDestinationName);
     }
   }, [selectedDestinationName]);
 
@@ -275,6 +278,7 @@ export const TripWizard: React.FC<TripWizardProps> = ({
 
   const handleSelectDestination = (dest: DestinationSearchResult) => {
     isProgrammaticSelectionRef.current = true;
+    setSelectedPlaceName(dest.canonical_name);
     setSearchQuery(dest.canonical_name);
     setShowDropdown(false);
     if (dest.lat && dest.lon) {
@@ -288,6 +292,7 @@ export const TripWizard: React.FC<TripWizardProps> = ({
 
   const handleQuickPick = (name: string, lat?: number, lon?: number) => {
     isProgrammaticSelectionRef.current = true;
+    setSelectedPlaceName(name);
     setSearchQuery(name);
     setShowDropdown(false);
     if (lat && lon) {
@@ -540,18 +545,45 @@ export const TripWizard: React.FC<TripWizardProps> = ({
               })}
             </div>
 
-            {/* Category Sub-Header Banner */}
+            {/* Category Sub-Header Banner & Active Selection Pill */}
             <div className="flex items-center justify-between text-[11px] text-slate-400 px-1">
               <span className="font-semibold text-slate-300 flex items-center gap-1.5">
                 <span>{activeCatData.badgeText}</span>
               </span>
-              <span className="text-[10px] text-slate-500">Click to explore &amp; map route</span>
+              <span className="text-[10px] text-slate-500">Click any card to select &amp; map route</span>
             </div>
+
+            {selectedPlaceName && (
+              <div className="flex items-center justify-between p-2.5 rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-xs text-emerald-300 shadow-sm animate-in fade-in">
+                <div className="flex items-center gap-2 min-w-0">
+                  <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+                  <span className="truncate">
+                    Active Target: <strong className="text-white font-bold">{selectedPlaceName}</strong>
+                  </span>
+                </div>
+                <span className="text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-md shrink-0">
+                  READY TO PLAN
+                </span>
+              </div>
+            )}
 
             {/* Destination Grid / Card Carousel */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {activeCatData.items.map((place) => {
-                const isSelected = searchQuery.toLowerCase().includes(place.name.toLowerCase().split(' ')[0]);
+                const current = (selectedPlaceName || searchQuery).toLowerCase().trim();
+                const target = place.name.toLowerCase().trim();
+                const targetBase = target.replace(/[,&]/g, ' ').split(/\s+/)[0];
+                const currentBase = current.replace(/[,&]/g, ' ').split(/\s+/)[0];
+
+                const isSelected = Boolean(
+                  current && (
+                    current === target ||
+                    target.includes(current) ||
+                    current.includes(target) ||
+                    (targetBase.length > 2 && current.includes(targetBase)) ||
+                    (currentBase.length > 2 && target.includes(currentBase))
+                  )
+                );
                 const badge = getRegionBadge(place.regionType);
 
                 return (
@@ -564,22 +596,33 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                         onPreviewDestination?.({ lat: place.lat, lon: place.lon, name: place.name });
                       }
                     }}
-                    className={`p-2.5 rounded-xl text-left transition-all border cursor-pointer group flex flex-col justify-between ${
+                    className={`p-2.5 sm:p-3 rounded-2xl text-left transition-all border cursor-pointer group flex flex-col justify-between relative overflow-hidden transform active:scale-95 duration-200 ${
                       isSelected
-                        ? 'bg-emerald-950/40 border-emerald-500/60 shadow-lg text-white'
-                        : 'bg-slate-900/80 hover:bg-slate-850 border-slate-800/90 hover:border-slate-700'
+                        ? 'bg-emerald-950/80 border-emerald-400 ring-2 ring-emerald-400 shadow-xl shadow-emerald-500/25 text-white'
+                        : 'bg-slate-900/80 hover:bg-slate-850 border-slate-800/90 hover:border-slate-700 text-slate-300'
                     }`}
                   >
-                    <div className="space-y-0.5">
-                      <div className="text-xs font-bold text-slate-200 group-hover:text-emerald-300 transition-colors line-clamp-1">
-                        {place.name.split(',')[0]}
+                    {isSelected && (
+                      <div className="absolute top-0 right-0 w-12 h-12 bg-emerald-500/20 rounded-bl-full pointer-events-none" />
+                    )}
+                    <div className="space-y-0.5 relative z-10">
+                      <div className="flex items-start justify-between gap-1">
+                        <div className={`text-xs font-bold transition-colors line-clamp-1 ${isSelected ? 'text-emerald-300 font-black' : 'text-slate-200 group-hover:text-emerald-300'}`}>
+                          {place.name.split(',')[0]}
+                        </div>
+                        {isSelected && (
+                          <span className="flex items-center gap-0.5 text-[8px] font-mono font-black bg-emerald-400 text-slate-950 px-1.5 py-0.5 rounded-full shadow-sm shrink-0">
+                            <Check className="w-2.5 h-2.5 stroke-[3]" />
+                            <span>SELECTED</span>
+                          </span>
+                        )}
                       </div>
                       <div className="text-[10px] text-slate-400 font-medium truncate">
                         {place.state}
                       </div>
                     </div>
                     
-                    <div className="mt-2 pt-1.5 border-t border-slate-800/60 flex items-center justify-between text-[9px]">
+                    <div className="mt-2 pt-1.5 border-t border-slate-800/60 flex items-center justify-between text-[9px] relative z-10">
                       <span className="text-slate-400 font-mono truncate">{place.tag}</span>
                       <span className={`px-1.5 py-0.5 rounded font-mono font-semibold border ${badge.color}`}>
                         {badge.label.split(' ')[0]}
