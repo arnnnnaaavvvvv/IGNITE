@@ -6,8 +6,6 @@ import {
   Activity,
   Radio,
   Users,
-  UserCheck,
-  LogIn,
 } from 'lucide-react';
 import { IgniteLogo } from './Common/IgniteLogo';
 
@@ -17,10 +15,8 @@ interface NavbarProps {
   language: string;
   setLanguage: (lang: string) => void;
   onOpenSOS: () => void;
-  onOpenAuth?: () => void;
   isSimulatingHazard?: boolean;
   isWebSocketConnected?: boolean;
-  currentUser?: { name?: string; email?: string; photoURL?: string | null; isGuest?: boolean } | null;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -29,13 +25,9 @@ export const Navbar: React.FC<NavbarProps> = ({
   language,
   setLanguage,
   onOpenSOS,
-  onOpenAuth,
   isSimulatingHazard = false,
   isWebSocketConnected = true,
-  currentUser,
 }) => {
-  const isUserAuthenticated = Boolean(currentUser && !currentUser.isGuest && currentUser.email);
-  const userName = currentUser?.name || 'Tourist Guest';
   const tabs = [
     { id: 'map', label: 'Explore & Map', icon: Compass },
     { id: 'itinerary', label: 'Safe Itinerary', icon: Calendar },
@@ -96,38 +88,13 @@ export const Navbar: React.FC<NavbarProps> = ({
             })}
           </nav>
 
-          {/* Right Action Controls: Lang, Auth, SOS */}
+          {/* Right Action Controls: Safety Badge, Lang, SOS */}
           <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-            {/* User Auth Profile / Login Trigger */}
-            {onOpenAuth && (
-              <button
-                onClick={onOpenAuth}
-                className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-sm group ${
-                  isUserAuthenticated
-                    ? 'bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200'
-                    : 'bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/40 text-emerald-300 ring-1 ring-emerald-400/30'
-                }`}
-                title={isUserAuthenticated ? 'View Profile & Medical Info' : 'Open Tourist Login / Sign Up'}
-              >
-                {isUserAuthenticated && currentUser?.photoURL ? (
-                  <img
-                    src={currentUser.photoURL}
-                    alt={userName}
-                    className="w-4 h-4 rounded-full border border-emerald-400 object-cover"
-                  />
-                ) : isUserAuthenticated ? (
-                  <UserCheck className="w-3.5 h-3.5 text-emerald-400" />
-                ) : (
-                  <LogIn className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform" />
-                )}
-                <span className="text-[11px] font-bold max-w-[120px] truncate">
-                  {isUserAuthenticated ? userName : 'Login / Sign Up'}
-                </span>
-                {isUserAuthenticated && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" title="Verified Firebase User" />
-                )}
-              </button>
-            )}
+            {/* Live Safety Status Indicator */}
+            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-xs font-mono font-bold">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>SDRF GRID ONLINE</span>
+            </div>
 
             {/* Language Switcher */}
             <div className="flex items-center bg-slate-900 border border-slate-800 rounded-xl p-0.5 text-xs">

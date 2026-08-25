@@ -7,10 +7,8 @@ import { ExplainabilityPanel } from './components/Explainability/ExplainabilityP
 import { DisasterBench } from './components/Simulation/DisasterBench';
 import { SOSModal } from './components/Emergency/SOSModal';
 import { GroupTrackerModal } from './components/Group/GroupTrackerModal';
-import { AuthModal } from './components/Auth/AuthModal';
 import { OfflineCacheService } from './services/offlineCache';
 import { IgniteWebSocketClient } from './services/websocketClient';
-import { FirebaseAuthService, type FirebaseTouristProfile } from './services/firebase';
 import type {
   Checkpoint,
   HazardZone,
@@ -24,12 +22,6 @@ export function App() {
   const [activeTab, setActiveTab] = useState<'map' | 'itinerary' | 'explainability' | 'simulation' | 'group'>('map');
   const [language, setLanguage] = useState('en');
   const [isSOSOpen, setIsSOSOpen] = useState(false);
-  const [isAuthOpen, setIsAuthOpen] = useState(false);
-
-  // User Profile
-  const [currentUser, setCurrentUser] = useState<FirebaseTouristProfile | null>(
-    OfflineCacheService.getUserSession() || null
-  );
 
   // Core Destination & Map Data States
   const [currentDestinationName, setCurrentDestinationName] = useState('');
@@ -89,22 +81,8 @@ export function App() {
     ws.connect();
     wsClientRef.current = ws;
 
-    // Listen to Firebase Auth state
-    const unsubscribeAuth = FirebaseAuthService.onAuthStateChange((firebaseUser) => {
-      if (firebaseUser) {
-        const cached = OfflineCacheService.getUserSession();
-        const mergedUser = {
-          ...firebaseUser,
-          bloodGroup: cached?.bloodGroup || 'O+ Positive',
-        };
-        setCurrentUser(mergedUser);
-        OfflineCacheService.saveUserSession(mergedUser);
-      }
-    });
-
     return () => {
       ws.disconnect();
-      unsubscribeAuth();
     };
   }, [language]);
 
@@ -232,10 +210,8 @@ export function App() {
         language={language}
         setLanguage={setLanguage}
         onOpenSOS={() => setIsSOSOpen(true)}
-        onOpenAuth={() => setIsAuthOpen(true)}
         isSimulatingHazard={isBypassActive}
         isWebSocketConnected={isWebSocketConnected}
-        currentUser={currentUser}
       />
 
       {/* Main Content Area */}
@@ -405,14 +381,6 @@ export function App() {
           lon: checkpoints[0]?.lon || 79.0700,
           altitude_m: checkpoints[0]?.altitude_m || 2550,
         }}
-      />
-
-      {/* Tourist Identity & Auth Modal */}
-      <AuthModal
-        isOpen={isAuthOpen}
-        onClose={() => setIsAuthOpen(false)}
-        currentUser={currentUser}
-        onUserLogin={(user) => setCurrentUser(user)}
       />
 
       {/* Modern Footer */}
