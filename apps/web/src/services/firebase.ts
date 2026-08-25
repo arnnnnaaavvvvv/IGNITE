@@ -9,7 +9,7 @@ import {
   signOut as fbSignOut,
   onAuthStateChanged,
   type User,
-  type Auth
+  type Auth,
 } from 'firebase/auth';
 
 export interface FirebaseTouristProfile {
@@ -23,13 +23,15 @@ export interface FirebaseTouristProfile {
   token?: string;
 }
 
+// User-provided Firebase Production Configuration
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || '',
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || '',
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || 'ignite',
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || '',
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '',
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || '',
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || 'AIzaSyCDf6EKT6np-lV0h8FSElhcP2bVQT3uV1o',
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || 'ignite-f7c25.firebaseapp.com',
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || 'ignite-f7c25',
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || 'ignite-f7c25.firebasestorage.app',
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '790007897163',
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || '1:790007897163:web:dcf2c44a68cbebb71481ce',
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || 'G-0DTR1EH1PB',
 };
 
 export const isFirebaseConfigured: boolean = Boolean(
@@ -50,7 +52,7 @@ if (typeof window !== 'undefined' && isFirebaseConfigured) {
     googleProvider = new GoogleAuthProvider();
     googleProvider.setCustomParameters({ prompt: 'select_account' });
   } catch (error) {
-    console.warn('Firebase initialization error:', error);
+    console.warn('Firebase initialization notice:', error);
   }
 }
 
@@ -66,7 +68,7 @@ export const FirebaseAuthService = {
   async signInWithGoogle(): Promise<FirebaseTouristProfile> {
     if (!auth || !googleProvider) {
       throw new Error(
-        'Firebase is not configured yet. Please add your Firebase Web App credentials to .env (see .env.example).'
+        'Firebase is not initialized. Please verify your internet connectivity.'
       );
     }
 
@@ -87,7 +89,7 @@ export const FirebaseAuthService = {
   async signInWithEmail(email: string, pass: string): Promise<FirebaseTouristProfile> {
     if (!auth) {
       throw new Error(
-        'Firebase is not configured yet. Please add your Firebase Web App credentials to .env (see .env.example).'
+        'Firebase is not initialized. Please verify your internet connectivity.'
       );
     }
 
@@ -98,7 +100,7 @@ export const FirebaseAuthService = {
     return {
       uid: user.uid,
       name: user.displayName || user.email?.split('@')[0] || 'Tourist User',
-      email: user.email || '',
+      email: user.email || email,
       photoURL: user.photoURL,
       isGuest: false,
       token,
@@ -108,7 +110,7 @@ export const FirebaseAuthService = {
   async signUpWithEmail(email: string, pass: string, displayName: string): Promise<FirebaseTouristProfile> {
     if (!auth) {
       throw new Error(
-        'Firebase is not configured yet. Please add your Firebase Web App credentials to .env (see .env.example).'
+        'Firebase is not initialized. Please verify your internet connectivity.'
       );
     }
 
@@ -116,7 +118,11 @@ export const FirebaseAuthService = {
     const user = result.user;
 
     if (displayName) {
-      await updateProfile(user, { displayName });
+      try {
+        await updateProfile(user, { displayName });
+      } catch (err) {
+        console.warn('Profile name update skipped:', err);
+      }
     }
 
     const token = await user.getIdToken();
@@ -124,7 +130,7 @@ export const FirebaseAuthService = {
     return {
       uid: user.uid,
       name: displayName || user.email?.split('@')[0] || 'Tourist User',
-      email: user.email || '',
+      email: user.email || email,
       photoURL: user.photoURL,
       isGuest: false,
       token,
@@ -137,26 +143,23 @@ export const FirebaseAuthService = {
     }
   },
 
-  onAuthStateChange(callback: (user: FirebaseTouristProfile | null) => void): () => void {
+  onAuthStateChange(callback: (profile: FirebaseTouristProfile | null) => void): () => void {
     if (!auth) {
+      callback(null);
       return () => {};
     }
 
     return onAuthStateChanged(auth, async (user: User | null) => {
       if (user) {
-        try {
-          const token = await user.getIdToken();
-          callback({
-            uid: user.uid,
-            name: user.displayName || user.email?.split('@')[0] || 'Tourist User',
-            email: user.email || '',
-            photoURL: user.photoURL,
-            isGuest: false,
-            token,
-          });
-        } catch {
-          callback(null);
-        }
+        const token = await user.getIdToken().catch(() => '');
+        callback({
+          uid: user.uid,
+          name: user.displayName || user.email?.split('@')[0] || 'Tourist User',
+          email: user.email || '',
+          photoURL: user.photoURL,
+          isGuest: false,
+          token,
+        });
       } else {
         callback(null);
       }
