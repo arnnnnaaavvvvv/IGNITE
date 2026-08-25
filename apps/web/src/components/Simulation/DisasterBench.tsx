@@ -309,7 +309,7 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
           </div>
 
           {/* Quick Destination Chips */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-thin">
+          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
             <span className="text-[10px] font-mono text-slate-400 whitespace-nowrap uppercase tracking-wider shrink-0">
               Quick Switch:
             </span>
@@ -372,30 +372,30 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
 
         {/* Pan-India Telemetry Stats Bar (When No Place is Selected) */}
         {isPanIndia && simData?.pan_india_zones_summary && (
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-            <div className="bg-slate-950/80 p-3 rounded-xl border border-slate-800">
-              <div className="text-slate-400 text-[10px] uppercase font-mono">Active National Scenarios</div>
-              <div className="text-base font-black text-white mt-0.5">{simData.pan_india_zones_summary.total_active_scenarios} Hazards</div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 text-xs">
+            <div className="bg-slate-950/80 p-2.5 sm:p-3 rounded-xl border border-slate-800">
+              <div className="text-slate-400 text-[9px] sm:text-[10px] uppercase font-mono">Active Scenarios</div>
+              <div className="text-sm sm:text-base font-black text-white mt-0.5">{simData.pan_india_zones_summary.total_active_scenarios} Hazards</div>
             </div>
-            <div className="bg-slate-950/80 p-3 rounded-xl border border-slate-800">
-              <div className="text-slate-400 text-[10px] uppercase font-mono">IMD Red Alerts</div>
-              <div className="text-base font-black text-red-400 mt-0.5">{simData.pan_india_zones_summary.critical_alerts} Zones (Critical)</div>
+            <div className="bg-slate-950/80 p-2.5 sm:p-3 rounded-xl border border-slate-800">
+              <div className="text-slate-400 text-[9px] sm:text-[10px] uppercase font-mono">IMD Red Alerts</div>
+              <div className="text-sm sm:text-base font-black text-red-400 mt-0.5">{simData.pan_india_zones_summary.critical_alerts} Zones (Critical)</div>
             </div>
-            <div className="bg-slate-950/80 p-3 rounded-xl border border-slate-800">
-              <div className="text-slate-400 text-[10px] uppercase font-mono">High Warning Belts</div>
-              <div className="text-base font-black text-orange-400 mt-0.5">{simData.pan_india_zones_summary.high_alerts} Zones (High)</div>
+            <div className="bg-slate-950/80 p-2.5 sm:p-3 rounded-xl border border-slate-800">
+              <div className="text-slate-400 text-[9px] sm:text-[10px] uppercase font-mono">High Warning</div>
+              <div className="text-sm sm:text-base font-black text-orange-400 mt-0.5">{simData.pan_india_zones_summary.high_alerts} Zones (High)</div>
             </div>
-            <div className="bg-slate-950/80 p-3 rounded-xl border border-slate-800">
-              <div className="text-slate-400 text-[10px] uppercase font-mono">Multi-Agency Network</div>
-              <div className="text-base font-black text-emerald-400 mt-0.5">5 Major Agencies</div>
+            <div className="bg-slate-950/80 p-2.5 sm:p-3 rounded-xl border border-slate-800">
+              <div className="text-slate-400 text-[9px] sm:text-[10px] uppercase font-mono">Agency Network</div>
+              <div className="text-sm sm:text-base font-black text-emerald-400 mt-0.5">5 Major Agencies</div>
             </div>
           </div>
         )}
       </div>
 
       {/* Navigation Sub-Tabs */}
-      <div className="flex items-center justify-between gap-2 border-b border-slate-800 pb-2 overflow-x-auto">
-        <div className="flex items-center gap-2">
+      <div className="flex items-center justify-between gap-2 border-b border-slate-800 pb-2 overflow-x-auto no-scrollbar">
+        <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={() => setActiveTab('scenarios')}
             className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer border ${

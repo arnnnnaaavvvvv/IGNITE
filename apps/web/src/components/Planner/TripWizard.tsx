@@ -796,7 +796,7 @@ export const TripWizard: React.FC<TripWizardProps> = ({
             </span>
           </div>
 
-          <div className="grid grid-cols-3 gap-2.5">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-2.5">
             {[
               { tier: 'BUDGET', label: 'Budget Explorer', desc: 'Govt Dorms / Homestays' },
               { tier: 'STANDARD', label: 'Balanced Comfort', desc: 'Tourism Cottages & Cabs' },
@@ -806,7 +806,7 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                 type="button"
                 key={t.tier}
                 onClick={() => handleTierChange(t.tier as any)}
-                className={`p-3 rounded-xl text-left border transition-all cursor-pointer ${
+                className={`p-2.5 sm:p-3 rounded-xl text-left border transition-all cursor-pointer ${
                   budgetTier === t.tier
                     ? 'bg-emerald-500/15 border-emerald-500/60 text-white shadow-md'
                     : 'bg-slate-950/70 border-slate-800 text-slate-400 hover:border-slate-700'
@@ -829,7 +829,7 @@ export const TripWizard: React.FC<TripWizardProps> = ({
           />
           <div className="flex justify-between text-[10px] text-slate-500 font-mono">
             <span>Min: ₹3,000</span>
-            <span>Includes 15% Emergency Reserve</span>
+            <span className="hidden sm:inline">Includes 15% Emergency Reserve</span>
             <span>Max: ₹40,000</span>
           </div>
         </div>
@@ -840,7 +840,7 @@ export const TripWizard: React.FC<TripWizardProps> = ({
             <Activity className="w-4 h-4 text-emerald-400" />
             <span>Cardiovascular Fitness &amp; Terrain Readiness</span>
           </label>
-          <div className="grid grid-cols-3 gap-2.5">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-2.5">
             {[
               { key: 'BEGINNER', label: 'Gentle / Family', tag: 'Frequent leisure halts' },
               { key: 'MODERATE', label: 'Moderate Active', tag: 'Standard travel pacing' },
@@ -850,7 +850,7 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                 type="button"
                 key={f.key}
                 onClick={() => setFitnessLevel(f.key as any)}
-                className={`p-2.5 rounded-xl text-left border transition-all cursor-pointer ${
+                className={`p-2.5 sm:p-3 rounded-xl text-left border transition-all cursor-pointer ${
                   fitnessLevel === f.key
                     ? 'bg-emerald-500/20 border-emerald-500/60 text-white shadow-md'
                     : 'bg-slate-950/70 border-slate-800 text-slate-400 hover:border-slate-700'

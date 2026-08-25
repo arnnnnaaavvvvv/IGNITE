@@ -75,30 +75,30 @@ export const SOSModal: React.FC<SOSModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
-      <div className="glass-panel w-full max-w-xl p-6 rounded-3xl border border-red-500/60 shadow-2xl relative bg-slate-950/95 animate-in fade-in zoom-in duration-200 space-y-5 max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-slate-950/80 backdrop-blur-md">
+      <div className="glass-panel w-full max-w-xl p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-red-500/60 shadow-2xl relative bg-slate-950/95 animate-in fade-in zoom-in duration-200 space-y-4 sm:space-y-5 max-h-[94vh] overflow-y-auto">
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 text-slate-400 hover:text-white p-1.5 rounded-xl bg-slate-900 border border-slate-800 cursor-pointer"
+          className="absolute top-4 right-4 sm:top-5 sm:right-5 text-slate-400 hover:text-white p-1.5 rounded-xl bg-slate-900 border border-slate-800 cursor-pointer"
         >
           <X className="w-4 h-4" />
         </button>
 
         {/* Modal Header */}
-        <div className="flex items-center gap-3.5 pb-4 border-b border-slate-800/80">
-          <div className="w-12 h-12 rounded-2xl bg-red-600/20 border border-red-500 flex items-center justify-center text-red-400 animate-pulse">
-            <ShieldAlert className="w-7 h-7" />
+        <div className="flex items-center gap-2.5 sm:gap-3.5 pb-3 sm:pb-4 border-b border-slate-800/80 pr-8">
+          <div className="w-10 sm:w-12 h-10 sm:h-12 rounded-2xl bg-red-600/20 border border-red-500 flex items-center justify-center text-red-400 animate-pulse shrink-0">
+            <ShieldAlert className="w-5 sm:w-7 h-5 sm:h-7" />
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-mono font-black uppercase tracking-wider text-red-400">
+            <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+              <span className="text-[10px] sm:text-xs font-mono font-black uppercase tracking-wider text-red-400">
                 CRITICAL LIFE SAFETY PROTOCOL
               </span>
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-red-950 text-red-300 font-mono border border-red-800">
+              <span className="text-[9px] sm:text-[10px] px-1.5 sm:px-2 py-0.5 rounded-full bg-red-950 text-red-300 font-mono border border-red-800">
                 OVERPASS DISPATCH
               </span>
             </div>
-            <h2 className="text-lg font-black text-white">Universal Search & Rescue Panic Beacon</h2>
+            <h2 className="text-sm sm:text-lg font-black text-white">Universal Search & Rescue Panic Beacon</h2>
           </div>
         </div>
 

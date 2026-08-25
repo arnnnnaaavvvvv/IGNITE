@@ -222,30 +222,30 @@ export function App() {
       />
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto p-4 lg:p-8 space-y-6">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-4 lg:px-8 py-3 sm:py-6 space-y-4 sm:space-y-6 pb-28 md:pb-8">
         {/* Offline Fallback Banner */}
         {isOfflineMode && cachedTime && (
-          <div className="p-3.5 rounded-2xl bg-amber-950/80 border border-amber-500/60 text-amber-200 text-xs flex items-center justify-between shadow-xl">
+          <div className="p-3 sm:p-3.5 rounded-2xl bg-amber-950/80 border border-amber-500/60 text-amber-200 text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 shadow-xl">
             <div className="flex items-center gap-2.5">
-              <WifiOff className="w-4 h-4 text-amber-400" />
+              <WifiOff className="w-4 h-4 text-amber-400 shrink-0" />
               <span>Offline 2G Fallback Mode Active. Displaying cached itinerary for <strong>{currentDestinationName}</strong>.</span>
             </div>
-            <span className="text-[10px] font-mono text-amber-400">Cached: {new Date(cachedTime).toLocaleTimeString()}</span>
+            <span className="text-[10px] font-mono text-amber-400 self-end sm:self-auto">Cached: {new Date(cachedTime).toLocaleTimeString()}</span>
           </div>
         )}
 
         {/* Dynamic Hazard Alert Top Bar */}
         {isBypassActive && (
-          <div className="p-4 rounded-2xl bg-gradient-to-r from-red-950/90 via-slate-900/90 to-red-950/90 border border-red-500/80 shadow-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 animate-pulse">
+          <div className="p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-red-950/90 via-slate-900/90 to-red-950/90 border border-red-500/80 shadow-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-3 sm:gap-4 animate-pulse">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-red-600/30 border border-red-500 flex items-center justify-center text-red-400 shrink-0">
-                <AlertTriangle className="w-6 h-6 text-red-400" />
+              <div className="w-9 sm:w-10 h-9 sm:h-10 rounded-xl bg-red-600/30 border border-red-500 flex items-center justify-center text-red-400 shrink-0">
+                <AlertTriangle className="w-5 sm:w-6 h-5 sm:h-6 text-red-400" />
               </div>
               <div>
-                <div className="text-xs font-black tracking-wider uppercase text-red-300">
+                <div className="text-[11px] sm:text-xs font-black tracking-wider uppercase text-red-300">
                   CRITICAL REGIONAL HAZARD ACTIVE ({rerouteData?.destination || currentDestinationName})
                 </div>
-                <div className="text-xs text-slate-300">
+                <div className="text-[11px] sm:text-xs text-slate-300">
                   {rerouteData?.instructions || 'Regional hazard threshold exceeded. Safe bypass trail engaged.'}
                 </div>
               </div>
@@ -253,7 +253,7 @@ export function App() {
 
             <button
               onClick={() => setActiveTab('map')}
-              className="px-4 py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-xs shadow-lg shadow-red-600/30 whitespace-nowrap cursor-pointer"
+              className="w-full sm:w-auto px-4 py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-xs shadow-lg shadow-red-600/30 whitespace-nowrap cursor-pointer text-center"
             >
               View Reroute on Map
             </button>

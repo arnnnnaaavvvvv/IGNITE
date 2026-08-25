@@ -310,47 +310,48 @@ export const TrailMap: React.FC<TrailMapProps> = ({
   const isPreviewing = previewCoordinates && previewCoordinates.lat;
 
   return (
-    <div className="relative w-full h-[620px] rounded-2xl overflow-hidden border border-slate-800 shadow-2xl glass-panel">
+    <div className="relative w-full h-[360px] sm:h-[480px] lg:h-[620px] rounded-2xl overflow-hidden border border-slate-800 shadow-2xl glass-panel">
       <div ref={mapContainerRef} className="w-full h-full z-0" />
 
       {/* Layer Toggle Controls Floating Bar */}
-      <div className="absolute top-4 left-4 z-10 flex flex-wrap gap-2">
+      <div className="absolute top-2.5 sm:top-4 left-2.5 sm:left-4 z-10 flex flex-wrap gap-1.5 sm:gap-2 max-w-[70%] sm:max-w-none">
         {hasActiveTrail && (
           <>
             <button
               onClick={() => setShowHazards(!showHazards)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold backdrop-blur-md transition-all shadow-md cursor-pointer ${
+              className={`flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-semibold backdrop-blur-md transition-all shadow-md cursor-pointer ${
                 showHazards
                   ? 'bg-orange-500/80 text-white border border-orange-400'
                   : 'bg-slate-900/80 text-slate-400 border border-slate-700'
               }`}
             >
-              <AlertOctagon className="w-3.5 h-3.5" />
-              <span>Regional Hazards ({hazardZones ? hazardZones.length : 0})</span>
+              <AlertOctagon className="w-3 sm:w-3.5 h-3 sm:h-3.5" />
+              <span className="hidden xs:inline">Regional </span>
+              <span>Hazards ({hazardZones ? hazardZones.length : 0})</span>
             </button>
 
             <button
               onClick={() => setShowShelters(!showShelters)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold backdrop-blur-md transition-all shadow-md cursor-pointer ${
+              className={`flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-semibold backdrop-blur-md transition-all shadow-md cursor-pointer ${
                 showShelters
                   ? 'bg-sky-600/80 text-white border border-sky-400'
                   : 'bg-slate-900/80 text-slate-400 border border-slate-700'
               }`}
             >
-              <ShieldCheck className="w-3.5 h-3.5" />
-              <span>Emergency Shelters</span>
+              <ShieldCheck className="w-3 sm:w-3.5 h-3 sm:h-3.5" />
+              <span>Shelters</span>
             </button>
 
             <button
               onClick={() => setShowCheckpoints(!showCheckpoints)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold backdrop-blur-md transition-all shadow-md cursor-pointer ${
+              className={`flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-semibold backdrop-blur-md transition-all shadow-md cursor-pointer ${
                 showCheckpoints
                   ? 'bg-emerald-600/80 text-white border border-emerald-400'
                   : 'bg-slate-900/80 text-slate-400 border border-slate-700'
               }`}
             >
-              <Compass className="w-3.5 h-3.5" />
-              <span>Checkpoints ({checkpoints ? checkpoints.length : 0})</span>
+              <Compass className="w-3 sm:w-3.5 h-3 sm:h-3.5" />
+              <span>Points ({checkpoints ? checkpoints.length : 0})</span>
             </button>
           </>
         )}
@@ -359,64 +360,64 @@ export const TrailMap: React.FC<TrailMapProps> = ({
           <button
             type="button"
             onClick={onResetToIndia}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-900/90 hover:bg-slate-800 text-slate-300 border border-slate-700 backdrop-blur-md transition-all shadow-md cursor-pointer"
+            className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-semibold bg-slate-900/90 hover:bg-slate-800 text-slate-300 border border-slate-700 backdrop-blur-md transition-all shadow-md cursor-pointer"
           >
-            <Globe className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Pan-India Overview</span>
+            <Globe className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-emerald-400" />
+            <span className="hidden xs:inline">Pan-India</span> Overview
           </button>
         )}
       </div>
 
-      {/* Top Center Floating Status Pill */}
-      <div className="absolute top-4 right-4 z-10">
+      {/* Top Right Floating Status Pill */}
+      <div className="absolute top-2.5 sm:top-4 right-2.5 sm:right-4 z-10 max-w-[45%] sm:max-w-sm">
         {isBypassActive ? (
-          <div className="max-w-sm glass-panel bg-red-950/85 border-red-500 text-red-200 px-3.5 py-2 rounded-xl shadow-2xl flex items-center gap-2.5 animate-pulse">
-            <AlertOctagon className="w-5 h-5 text-red-400 shrink-0" />
-            <div>
-              <div className="text-xs font-black tracking-wide text-red-300">DYNAMIC REROUTE ACTIVE</div>
-              <div className="text-[10px] text-slate-300">Hazard spike detected. Safe bypass engaged.</div>
+          <div className="glass-panel bg-red-950/90 border-red-500 text-red-200 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl shadow-2xl flex items-center gap-1.5 sm:gap-2.5 animate-pulse">
+            <AlertOctagon className="w-4 sm:w-5 h-4 sm:h-5 text-red-400 shrink-0" />
+            <div className="min-w-0">
+              <div className="text-[10px] sm:text-xs font-black tracking-wide text-red-300 truncate">REROUTE ACTIVE</div>
+              <div className="text-[9px] text-slate-300 hidden sm:block">Hazard spike detected. Safe bypass engaged.</div>
             </div>
           </div>
         ) : hasActiveTrail ? (
-          <div className="glass-panel bg-slate-950/85 border-emerald-500/40 text-emerald-300 px-3 py-1.5 rounded-xl shadow-xl flex items-center gap-2 text-xs font-medium backdrop-blur-md">
-            <MapPin className="w-3.5 h-3.5 text-emerald-400" />
-            <span>{destinationName} Corridor</span>
-            <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full font-mono font-bold">
-              ACTIVE ROUTE
+          <div className="glass-panel bg-slate-950/85 border-emerald-500/40 text-emerald-300 px-2 sm:px-3 py-1 sm:py-1.5 rounded-xl shadow-xl flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-medium backdrop-blur-md">
+            <MapPin className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-emerald-400 shrink-0" />
+            <span className="truncate max-w-[80px] sm:max-w-[140px]">{destinationName}</span>
+            <span className="text-[9px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded-full font-mono font-bold hidden sm:inline">
+              ACTIVE
             </span>
           </div>
         ) : isPreviewing ? (
-          <div className="glass-panel bg-slate-950/90 border-cyan-500/40 text-cyan-200 px-3.5 py-2 rounded-xl shadow-xl flex items-center gap-2 text-xs font-medium backdrop-blur-md animate-pulse">
-            <MapPin className="w-4 h-4 text-cyan-400 shrink-0" />
-            <div>
-              <div className="font-bold text-white text-xs">{previewCoordinates?.name}</div>
-              <div className="text-[10px] text-slate-400">Target locked • Click &apos;Generate Safe Itinerary&apos;</div>
+          <div className="glass-panel bg-slate-950/90 border-cyan-500/40 text-cyan-200 px-2 sm:px-3.5 py-1 sm:py-2 rounded-xl shadow-xl flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-medium backdrop-blur-md animate-pulse">
+            <MapPin className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-cyan-400 shrink-0" />
+            <div className="min-w-0">
+              <div className="font-bold text-white text-[10px] sm:text-xs truncate">{previewCoordinates?.name}</div>
+              <div className="text-[9px] text-slate-400 hidden sm:block">Target locked • Ready to Plan</div>
             </div>
           </div>
         ) : (
-          <div className="glass-panel bg-slate-950/80 border-slate-700/80 text-slate-300 px-3 py-1.5 rounded-xl shadow-xl flex items-center gap-2 text-xs font-medium backdrop-blur-md">
-            <Globe className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Pan-India Sovereign Safety Grid</span>
-            <span className="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full font-mono">
-              28 States & 8 UTs
+          <div className="glass-panel bg-slate-950/80 border-slate-700/80 text-slate-300 px-2 sm:px-3 py-1 sm:py-1.5 rounded-xl shadow-xl flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-medium backdrop-blur-md">
+            <Globe className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-emerald-400 shrink-0" />
+            <span className="hidden sm:inline">Pan-India Grid</span>
+            <span className="text-[9px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded-full font-mono">
+              28S • 8UT
             </span>
           </div>
         )}
       </div>
 
-      {/* Selection Details Floating Modal Card */}
+      {/* Selection Details Floating Modal Card (Bottom Sheet on Mobile) */}
       {selectedItem && (
-        <div className="absolute bottom-6 left-6 z-10 max-w-md w-full glass-panel bg-slate-950/90 border-slate-700/80 p-4 rounded-xl shadow-2xl text-slate-200">
+        <div className="absolute bottom-2 left-2 right-2 sm:bottom-6 sm:left-6 sm:right-auto sm:max-w-md w-auto z-20 glass-panel bg-slate-950/95 border-slate-700/80 p-3 sm:p-4 rounded-xl sm:rounded-2xl shadow-2xl text-slate-200 backdrop-blur-xl animate-in slide-in-from-bottom-3 duration-200">
           <div className="flex items-start justify-between gap-2 border-b border-slate-800 pb-2 mb-2">
-            <div className="flex items-center gap-2">
-              {selectedItem.type === 'HAZARD' && <AlertOctagon className="w-5 h-5 text-red-400" />}
-              {selectedItem.type === 'SHELTER' && <ShieldCheck className="w-5 h-5 text-sky-400" />}
-              {selectedItem.type === 'CHECKPOINT' && <Compass className="w-5 h-5 text-emerald-400" />}
-              <span className="font-bold text-sm text-white">{selectedItem.data.name}</span>
+            <div className="flex items-center gap-2 min-w-0">
+              {selectedItem.type === 'HAZARD' && <AlertOctagon className="w-4 sm:w-5 h-4 sm:h-5 text-red-400 shrink-0" />}
+              {selectedItem.type === 'SHELTER' && <ShieldCheck className="w-4 sm:w-5 h-4 sm:h-5 text-sky-400 shrink-0" />}
+              {selectedItem.type === 'CHECKPOINT' && <Compass className="w-4 sm:w-5 h-4 sm:h-5 text-emerald-400 shrink-0" />}
+              <span className="font-bold text-xs sm:text-sm text-white truncate">{selectedItem.data.name}</span>
             </div>
             <button
               onClick={() => setSelectedItem(null)}
-              className="text-slate-400 hover:text-white p-1 rounded bg-slate-800 cursor-pointer"
+              className="text-slate-400 hover:text-white p-1 rounded-lg bg-slate-900 border border-slate-800 cursor-pointer shrink-0"
             >
               <X className="w-3.5 h-3.5" />
             </button>
