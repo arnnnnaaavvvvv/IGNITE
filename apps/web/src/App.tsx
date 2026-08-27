@@ -408,7 +408,6 @@ export function App() {
           <span className="text-[11px] text-slate-400">
             {t('footer_active', language)}: <span className="text-white font-medium">{currentDestinationName ? `${getLocalizedDestinationName(currentDestinationName, language)} (${itinerary?.region_name || 'National Network'})` : t('footer_pan_india', language)}</span>
           </span>
-          <span className="text-[11px] text-slate-400">{t('footer_tech', language)}</span>
         </div>
       </footer>
     </div>
