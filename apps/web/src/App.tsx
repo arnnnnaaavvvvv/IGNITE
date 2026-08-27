@@ -16,7 +16,7 @@ import type {
   ItineraryResponse,
   SimulationScenario,
 } from './types';
-import { AlertTriangle, WifiOff, CheckCircle, MapPin } from 'lucide-react';
+import { AlertTriangle, WifiOff, MapPin } from 'lucide-react';
 import { t, getLocalizedDestinationName } from './services/i18n';
 
 export function App() {
@@ -169,7 +169,7 @@ export function App() {
     setItinerary(null);
   };
 
-  // Live Scenario Injection Handler (Multi-Region Pan-India Demo)
+  // Live Scenario Injection Handler
   const handleTriggerScenario = async (scenario: SimulationScenario) => {
     setActiveScenario(scenario);
     const targetDest = (scenario.destination_match && scenario.destination_match !== 'All')
@@ -209,10 +209,7 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#08090d] text-slate-100 flex flex-col selection:bg-emerald-500 selection:text-slate-950 font-sans relative bg-tactical-grid">
-      {/* Subtle Top Ambient Lighting */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-48 bg-gradient-to-b from-orange-500/[0.04] to-transparent pointer-events-none blur-3xl -z-10" />
-
+    <div className="min-h-screen bg-[#090a0f] text-slate-100 flex flex-col selection:bg-emerald-500/30 selection:text-white font-sans relative bg-tactical-grid">
       {/* Navigation Header */}
       <Navbar
         activeTab={activeTab}
@@ -225,33 +222,31 @@ export function App() {
       />
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-4 lg:px-8 py-3 sm:py-6 space-y-4 sm:space-y-6 pb-28 md:pb-8 relative z-10">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-4 pb-24 md:pb-8 relative z-10">
         {/* Offline Fallback Banner */}
         {isOfflineMode && cachedTime && (
-          <div className="p-3 sm:p-3.5 rounded-xl bg-amber-950/60 border border-amber-500/40 text-amber-200 text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 shadow-[0_4px_20px_rgba(245,158,11,0.15),inset_0_1px_0_0_rgba(255,255,255,0.06)] backdrop-blur-md">
-            <div className="flex items-center gap-2.5">
-              <div className="w-6 h-6 rounded-lg bg-amber-500/20 border border-amber-500/30 flex items-center justify-center shrink-0">
-                <WifiOff className="w-3.5 h-3.5 text-amber-400" />
-              </div>
-              <span className="font-medium">{t('offline_banner_title', language)} <strong className="text-white">{getLocalizedDestinationName(currentDestinationName, language)}</strong>.</span>
+          <div className="p-3 rounded-lg bg-amber-950/40 border border-amber-500/30 text-amber-200 text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
+              <WifiOff className="w-4 h-4 text-amber-400 shrink-0" />
+              <span>{t('offline_banner_title', language)} <strong className="text-white font-semibold">{getLocalizedDestinationName(currentDestinationName, language)}</strong>.</span>
             </div>
-            <span className="text-[11px] font-mono text-amber-400/90 self-end sm:self-auto bg-amber-950/80 px-2 py-0.5 rounded border border-amber-500/30">{t('cached_at', language)}: {new Date(cachedTime).toLocaleTimeString()}</span>
+            <span className="text-[11px] font-mono text-amber-400/90 self-end sm:self-auto bg-amber-950/60 px-2 py-0.5 rounded border border-amber-500/20">{t('cached_at', language)}: {new Date(cachedTime).toLocaleTimeString()}</span>
           </div>
         )}
 
         {/* Dynamic Hazard Alert Top Bar */}
         {isBypassActive && (
-          <div className="p-3.5 sm:p-4 rounded-xl bg-gradient-to-r from-red-950/80 via-[#140b10]/90 to-red-950/80 border border-red-500/60 shadow-[0_8px_30px_rgba(239,68,68,0.25),inset_0_1px_0_0_rgba(255,255,255,0.1)] flex flex-col md:flex-row items-start md:items-center justify-between gap-3 sm:gap-4 backdrop-blur-xl">
+          <div className="p-3.5 rounded-lg bg-red-950/40 border border-red-500/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div className="flex items-center gap-3">
-              <div className="w-9 sm:w-10 h-9 sm:h-10 rounded-xl bg-red-600/20 border border-red-500/50 flex items-center justify-center text-red-400 shrink-0 shadow-[0_0_12px_rgba(239,68,68,0.4)]">
-                <AlertTriangle className="w-5 sm:w-6 h-5 sm:h-6 text-red-400 animate-pulse" />
+              <div className="w-8 h-8 rounded-md bg-red-500/20 border border-red-500/40 flex items-center justify-center text-red-400 shrink-0">
+                <AlertTriangle className="w-4 h-4 text-red-400" />
               </div>
               <div>
-                <div className="text-[11px] sm:text-xs font-mono font-bold tracking-wider uppercase text-red-400 flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
+                <div className="text-xs font-mono font-bold tracking-wide uppercase text-red-400 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
                   {t('critical_hazard_active', language)} ({getLocalizedDestinationName(rerouteData?.destination || currentDestinationName, language)})
                 </div>
-                <div className="text-xs sm:text-sm text-slate-300 font-medium mt-0.5">
+                <div className="text-xs text-slate-300 mt-0.5">
                   {rerouteData?.instructions || 'Regional hazard threshold exceeded. Safe bypass trail engaged.'}
                 </div>
               </div>
@@ -259,7 +254,7 @@ export function App() {
 
             <button
               onClick={() => setActiveTab('map')}
-              className="btn-tactile w-full sm:w-auto px-4 py-2 rounded-lg bg-red-600 hover:bg-red-500 text-white font-bold text-xs shadow-[0_2px_12px_rgba(239,68,68,0.4)] whitespace-nowrap cursor-pointer text-center border border-red-400/30"
+              className="btn-tactile w-full sm:w-auto px-3.5 py-1.5 rounded-md bg-red-600 hover:bg-red-500 text-white font-semibold text-xs whitespace-nowrap cursor-pointer text-center"
             >
               {t('view_reroute_map', language)}
             </button>
@@ -268,8 +263,8 @@ export function App() {
 
         {/* Tab 1: Interactive Map & Autocomplete Planner */}
         {activeTab === 'map' && (
-          <div className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
               <div className="lg:col-span-2">
                 <TrailMap
                   checkpoints={checkpoints}
@@ -305,7 +300,7 @@ export function App() {
 
         {/* Tab 2: Safe Itinerary & Regional Budget Logistics */}
         {activeTab === 'itinerary' && (
-          <div className="space-y-6">
+          <div className="space-y-4">
             {itinerary ? (
               <ItineraryView
                 itinerary={itinerary}
@@ -316,19 +311,19 @@ export function App() {
                 }}
               />
             ) : (
-              <div className="glass-panel p-12 rounded-2xl text-center text-slate-300 max-w-lg mx-auto space-y-4 my-8 border border-white/[0.08] shadow-[0_16px_36px_rgba(0,0,0,0.6)]">
-                <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center mx-auto text-emerald-400 shadow-[0_0_16px_rgba(16,185,129,0.2)]">
-                  <MapPin className="w-7 h-7 stroke-[1.8]" />
+              <div className="glass-panel p-10 rounded-xl text-center text-slate-300 max-w-md mx-auto space-y-3 my-8">
+                <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto text-emerald-400">
+                  <MapPin className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-white mb-1.5 tracking-tight">{t('no_itinerary_title', language)}</h3>
-                  <p className="text-xs text-slate-400 leading-relaxed max-w-md mx-auto">
+                  <h3 className="text-sm font-bold text-white mb-1">{t('no_itinerary_title', language)}</h3>
+                  <p className="text-xs text-slate-400 leading-relaxed">
                     {t('no_itinerary_desc', language)}
                   </p>
                 </div>
                 <button
                   onClick={() => setActiveTab('map')}
-                  className="btn-tactile px-5 py-2.5 rounded-xl bg-gradient-to-b from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-slate-950 text-xs font-bold transition-all cursor-pointer shadow-[0_2px_12px_rgba(16,185,129,0.35)]"
+                  className="btn-tactile px-4 py-2 rounded-md bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold cursor-pointer"
                 >
                   {t('btn_go_map', language)}
                 </button>
@@ -339,7 +334,7 @@ export function App() {
 
         {/* Tab 3: Risk Explainability Panel */}
         {activeTab === 'explainability' && (
-          <div className="space-y-6">
+          <div className="space-y-4">
             <ExplainabilityPanel
               subScores={selectedCheckpoint?.sub_scores || (itinerary?.days?.[0]?.checkpoints?.[0]?.sub_scores)}
               checkpointName={getLocalizedDestinationName(selectedCheckpoint?.name || currentDestinationName, language)}
@@ -357,7 +352,7 @@ export function App() {
 
         {/* Tab 4: Disaster Bench & Multi-Region Simulator */}
         {activeTab === 'simulation' && (
-          <div className="space-y-6">
+          <div className="space-y-4">
             <DisasterBench
               scenarios={scenarios}
               onTriggerScenario={handleTriggerScenario}
@@ -376,7 +371,7 @@ export function App() {
 
         {/* Tab 5: Group Live Radar */}
         {activeTab === 'group' && (
-          <div className="space-y-6">
+          <div className="space-y-4">
             <GroupTrackerModal
               destinationName={getLocalizedDestinationName(currentDestinationName, language)}
               language={language}
@@ -402,15 +397,18 @@ export function App() {
         }}
       />
 
-      {/* Modern High-Precision Command Footer */}
-      <footer className="mt-auto border-t border-white/[0.08] bg-[#08090d]/80 backdrop-blur-xl py-3.5 px-6 text-center text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2.5 font-mono">
-          <span className="flex items-center gap-2 justify-center text-slate-400">
-            <CheckCircle className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-            <span className="font-semibold text-slate-300">IGNITE</span> • {t('footer_title', language)}
+      {/* High-Precision Command Footer */}
+      <footer className="mt-auto border-t border-white/[0.08] bg-[#090a0f] py-3 px-6 text-xs text-slate-500">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 font-mono">
+          <span className="flex items-center gap-1.5 text-slate-400">
+            <span className="font-semibold text-slate-200">IGNITE</span>
+            <span className="text-slate-600">•</span>
+            <span>{t('footer_title', language)}</span>
           </span>
-          <span className="text-[11px] text-slate-400">{t('footer_active', language)}: <span className="text-white font-medium">{currentDestinationName ? `${getLocalizedDestinationName(currentDestinationName, language)} (${itinerary?.region_name || 'National Network'})` : t('footer_pan_india', language)}</span></span>
-          <span className="text-[11px] text-emerald-400/90 font-medium">{t('footer_tech', language)}</span>
+          <span className="text-[11px] text-slate-400">
+            {t('footer_active', language)}: <span className="text-white font-medium">{currentDestinationName ? `${getLocalizedDestinationName(currentDestinationName, language)} (${itinerary?.region_name || 'National Network'})` : t('footer_pan_india', language)}</span>
+          </span>
+          <span className="text-[11px] text-slate-400">{t('footer_tech', language)}</span>
         </div>
       </footer>
     </div>

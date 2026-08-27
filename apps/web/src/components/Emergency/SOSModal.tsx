@@ -36,7 +36,7 @@ export const SOSModal: React.FC<SOSModalProps> = ({
   const [victimPhone, setVictimPhone] = useState(cachedUser?.phone || '+91 98765 43210');
   const [medicalNote, setMedicalNote] = useState(
     cachedUser?.bloodGroup
-      ? `Blood: ${cachedUser.bloodGroup}. Acute mountain fatigue / distress`
+      ? `Blood: ${cachedUser.bloodGroup}. Acute mountain fatigue`
       : 'Suspected acute hypothermia & exhaustion'
   );
 
@@ -77,94 +77,95 @@ export const SOSModal: React.FC<SOSModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-slate-950/80 backdrop-blur-md">
-      <div className="glass-panel w-full max-w-xl p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-red-500/60 shadow-2xl relative bg-slate-950/95 animate-in fade-in zoom-in duration-200 space-y-4 sm:space-y-5 max-h-[94vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#090a0f]/80 backdrop-blur-md">
+      <div className="glass-panel w-full max-w-lg p-5 sm:p-6 rounded-xl border border-red-500/40 shadow-2xl relative bg-[#0e1017] space-y-4 max-h-[92vh] overflow-y-auto">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 sm:top-5 sm:right-5 text-slate-400 hover:text-white p-1.5 rounded-xl bg-slate-900 border border-slate-800 cursor-pointer"
+          className="btn-tactile absolute top-4 right-4 text-slate-400 hover:text-white p-1 rounded-md bg-[#12141d] border border-white/[0.08] cursor-pointer"
         >
           <X className="w-4 h-4" />
         </button>
 
         {/* Modal Header */}
-        <div className="flex items-center gap-2.5 sm:gap-3.5 pb-3 sm:pb-4 border-b border-slate-800/80 pr-8">
-          <div className="w-10 sm:w-12 h-10 sm:h-12 rounded-2xl bg-red-600/20 border border-red-500 flex items-center justify-center text-red-400 animate-pulse shrink-0">
-            <ShieldAlert className="w-5 sm:w-7 h-5 sm:h-7" />
+        <div className="flex items-center gap-3 pb-3 border-b border-white/[0.08] pr-8">
+          <div className="w-9 h-9 rounded-lg bg-red-500/20 border border-red-500/40 flex items-center justify-center text-red-400 shrink-0">
+            <ShieldAlert className="w-5 h-5" />
           </div>
           <div>
-            <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
-              <span className="text-[10px] sm:text-xs font-mono font-black uppercase tracking-wider text-red-400">
-                CRITICAL LIFE SAFETY PROTOCOL
-              </span>
-              <span className="text-[9px] sm:text-[10px] px-1.5 sm:px-2 py-0.5 rounded-full bg-red-950 text-red-300 font-mono border border-red-800">
-                OVERPASS DISPATCH
-              </span>
+            <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-red-400">
+              LIFE SAFETY PROTOCOL
             </div>
-            <h2 className="text-sm sm:text-lg font-black text-white">{language === 'hi' ? 'सार्वभौमिक खोज एवं बचाव पैनिक बीकन' : 'Universal Search & Rescue Panic Beacon'}</h2>
+            <h2 className="text-sm sm:text-base font-bold text-white">
+              {language === 'hi' ? 'खोज एवं बचाव पैनिक बीकन' : 'Search & Rescue Emergency Beacon'}
+            </h2>
           </div>
         </div>
 
         {/* SOS Telemetry Card */}
-        <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
+        <div className="p-3 rounded-lg bg-[#12141d] border border-white/[0.06] space-y-2.5">
           <div className="flex items-center justify-between text-xs">
             <span className="text-slate-400 flex items-center gap-1.5">
               <MapPin className="w-3.5 h-3.5 text-emerald-400" />
-              <span>{language === 'hi' ? 'वर्तमान जीपीएस निर्देशांक:' : 'Current GPS Telemetry:'}</span>
+              <span>{language === 'hi' ? 'जीपीएस निर्देशांक:' : 'Current Telemetry:'}</span>
             </span>
-            <span className="font-mono font-bold text-white">
+            <span className="font-mono font-semibold text-white">
               {userCoords.lat.toFixed(4)}°N, {userCoords.lon.toFixed(4)}°E ({userCoords.altitude_m}m)
             </span>
           </div>
 
           {!dispatchData && (
-            <div className="space-y-3 pt-2 border-t border-slate-800/60">
-              <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-2.5 pt-2 border-t border-white/[0.06]">
+              <div className="grid grid-cols-2 gap-2.5">
                 <div>
-                  <label className="text-[11px] font-semibold text-slate-400 block mb-1">{language === 'hi' ? 'पर्यटक का नाम' : 'Tourist Name'}</label>
+                  <label className="text-[10px] font-medium text-slate-400 block mb-1">
+                    {language === 'hi' ? 'पर्यटक का नाम' : 'Tourist Name'}
+                  </label>
                   <input
                     type="text"
                     value={victimName}
                     onChange={(e) => setVictimName(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white"
+                    className="w-full bg-[#0e1017] border border-white/[0.08] rounded-md px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-red-500/60"
                   />
                 </div>
                 <div>
-                  <label className="text-[11px] font-semibold text-slate-400 block mb-1">{language === 'hi' ? 'मोबाइल नंबर' : 'Mobile Phone'}</label>
+                  <label className="text-[10px] font-medium text-slate-400 block mb-1">
+                    {language === 'hi' ? 'मोबाइल नंबर' : 'Phone'}
+                  </label>
                   <input
                     type="text"
                     value={victimPhone}
                     onChange={(e) => setVictimPhone(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white font-mono"
+                    className="w-full bg-[#0e1017] border border-white/[0.08] rounded-md px-2.5 py-1.5 text-xs text-white font-mono focus:outline-none focus:border-red-500/60"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="text-[11px] font-semibold text-slate-400 block mb-1">
-                  {language === 'hi' ? 'चिकित्सा विवरण / समस्या' : 'Medical Notes / Observed Distress'}
+                <label className="text-[10px] font-medium text-slate-400 block mb-1">
+                  {language === 'hi' ? 'चिकित्सा विवरण' : 'Medical Distress Notes'}
                 </label>
                 <input
                   type="text"
                   value={medicalNote}
                   onChange={(e) => setMedicalNote(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white"
+                  className="w-full bg-[#0e1017] border border-white/[0.08] rounded-md px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-red-500/60"
                 />
               </div>
 
               <button
                 onClick={handleSendSOS}
                 disabled={isSending}
-                className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-red-600 via-rose-600 to-red-600 hover:from-red-500 hover:to-rose-500 text-white font-black text-xs uppercase tracking-wider shadow-xl shadow-red-600/40 transition-all flex items-center justify-center gap-2 cursor-pointer animate-pulse"
+                className="btn-tactile w-full py-2.5 px-3 rounded-lg bg-red-600 hover:bg-red-500 text-white font-bold text-xs uppercase tracking-wide transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm"
               >
                 {isSending ? (
                   <>
-                    <div className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
-                    <span>{language === 'hi' ? 'इमरजेंसी ग्रिड से संपर्क किया जा रहा है...' : 'Querying Overpass Emergency Grid & Dispatching SOS...'}</span>
+                    <div className="w-3.5 h-3.5 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                    <span>{language === 'hi' ? 'एसओएस भेजा जा रहा है...' : 'Dispatching Emergency SOS...'}</span>
                   </>
                 ) : (
                   <>
-                    <Send className="w-4 h-4" />
-                    <span>{language === 'hi' ? 'प्रतिक्रिया ग्रिड पर आपातकालीन एसओएस भेजें' : 'Broadcast Emergency SOS to Response Grid'}</span>
+                    <Send className="w-3.5 h-3.5" />
+                    <span>{language === 'hi' ? 'आपातकालीन एसओएस भेजें' : 'Broadcast Emergency SOS'}</span>
                   </>
                 )}
               </button>
@@ -172,84 +173,77 @@ export const SOSModal: React.FC<SOSModalProps> = ({
           )}
         </div>
 
-        {/* Dispatched Confirmation & Nearest Overpass Rescue Posts */}
+        {/* Dispatched Confirmation */}
         {dispatchData && (
-          <div className="space-y-4 animate-in fade-in duration-300">
-            <div className="p-4 rounded-2xl bg-emerald-950/40 border border-emerald-500/60 text-emerald-200 text-xs flex items-center justify-between">
+          <div className="space-y-3">
+            <div className="p-3 rounded-lg bg-emerald-950/30 border border-emerald-500/40 text-emerald-200 text-xs flex items-center justify-between">
               <div>
-                <div className="font-bold text-emerald-300 flex items-center gap-1.5">
-                  <Radio className="w-4 h-4" />
+                <div className="font-semibold text-emerald-300 flex items-center gap-1.5">
+                  <Radio className="w-3.5 h-3.5" />
                   <span>BEACON BROADCAST ACTIVE (ID: {dispatchData.sos_id})</span>
                 </div>
-                <div className="text-[11px] text-emerald-400/90 mt-0.5">
-                  Dispatched to SDRF / Coast Guard / State Police Command
-                </div>
-              </div>
-              <span className="text-[10px] font-mono px-2 py-1 rounded bg-emerald-900/80 text-emerald-200 border border-emerald-700">
-                ALPHA-1 PRIORITY
-              </span>
-            </div>
-
-            {/* Nearest Overpass Hospital & Police Card */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-              <div className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 space-y-1">
-                <div className="text-slate-400 flex items-center gap-1 text-[11px]">
-                  <HeartPulse className="w-3.5 h-3.5 text-red-400" />
-                  <span>Nearest Medical Facility (Overpass)</span>
-                </div>
-                <div className="font-bold text-white truncate">{dispatchData.nearest_rescue_post.name}</div>
-                <div className="flex justify-between text-[11px] pt-1">
-                  <span className="text-slate-400">Distance:</span>
-                  <span className="font-mono font-bold text-cyan-300">
-                    {dispatchData.nearest_rescue_post.distance_km || 1.2} km
-                  </span>
-                </div>
-              </div>
-
-              <div className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 space-y-1">
-                <div className="text-slate-400 flex items-center gap-1 text-[11px]">
-                  <Building2 className="w-3.5 h-3.5 text-sky-400" />
-                  <span>Nearest Police / SDRF Station</span>
-                </div>
-                <div className="font-bold text-white truncate">
-                  {(dispatchData as any).nearest_police_post?.name || 'Local Police Station'}
-                </div>
-                <div className="flex justify-between text-[11px] pt-1">
-                  <span className="text-slate-400">Helpline:</span>
-                  <span className="font-mono font-bold text-amber-300">112 / 1070</span>
+                <div className="text-[10px] text-emerald-400/90 mt-0.5">
+                  Dispatched to SDRF / Coast Guard / State Police
                 </div>
               </div>
             </div>
 
-            {/* 140-Character Offline 2G GSM SMS Fallback String Card */}
-            <div className="p-4 rounded-2xl bg-slate-900 border border-slate-700/80 space-y-2">
+            {/* Nearest Rescue Posts */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+              <div className="p-2.5 rounded-lg bg-[#12141d] border border-white/[0.06] space-y-0.5">
+                <div className="text-slate-400 flex items-center gap-1 text-[10px]">
+                  <HeartPulse className="w-3 h-3 text-red-400" />
+                  <span>Medical Facility</span>
+                </div>
+                <div className="font-semibold text-white truncate">{dispatchData.nearest_rescue_post.name}</div>
+                <div className="text-[10px] text-slate-400">
+                  Dist: <span className="font-mono text-sky-300 font-semibold">{dispatchData.nearest_rescue_post.distance_km || 1.2} km</span>
+                </div>
+              </div>
+
+              <div className="p-2.5 rounded-lg bg-[#12141d] border border-white/[0.06] space-y-0.5">
+                <div className="text-slate-400 flex items-center gap-1 text-[10px]">
+                  <Building2 className="w-3 h-3 text-sky-400" />
+                  <span>Police / SDRF Station</span>
+                </div>
+                <div className="font-semibold text-white truncate">
+                  {(dispatchData as any).nearest_police_post?.name || 'Local Station'}
+                </div>
+                <div className="text-[10px] text-slate-400">
+                  Helpline: <span className="font-mono text-amber-300 font-semibold">112 / 1070</span>
+                </div>
+              </div>
+            </div>
+
+            {/* 140-Char 2G SMS String */}
+            <div className="p-3 rounded-lg bg-[#12141d] border border-white/[0.06] space-y-1.5">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-bold text-slate-200 flex items-center gap-1.5">
-                  <PhoneCall className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Offline 140-Char 2G GSM SMS Fallback:</span>
+                <span className="font-medium text-slate-300 flex items-center gap-1">
+                  <PhoneCall className="w-3 h-3 text-amber-400" />
+                  <span>Offline 2G SMS Payload:</span>
                 </span>
-                <span className="text-[10px] font-mono text-emerald-400 font-bold">
+                <span className="text-[10px] font-mono text-emerald-400">
                   {dispatchData.sms_fallback_string.length}/140 Chars
                 </span>
               </div>
 
-              <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 font-mono text-xs text-amber-200/90 leading-relaxed break-all select-all">
+              <div className="p-2 rounded bg-[#0e1017] border border-white/[0.04] font-mono text-[11px] text-amber-200/90 leading-relaxed break-all select-all">
                 {dispatchData.sms_fallback_string}
               </div>
 
               <button
                 onClick={handleCopySMS}
-                className="w-full py-2.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                className="btn-tactile w-full py-1.5 px-3 rounded bg-[#181b26] hover:bg-[#202434] text-slate-200 text-xs font-medium border border-white/[0.08] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 {copiedSMS ? (
                   <>
-                    <Check className="w-3.5 h-3.5 text-emerald-400" />
-                    <span className="text-emerald-300">Copied to Clipboard for SMS Transmission</span>
+                    <Check className="w-3 h-3 text-emerald-400" />
+                    <span className="text-emerald-300">Copied to Clipboard</span>
                   </>
                 ) : (
                   <>
-                    <Copy className="w-3.5 h-3.5 text-slate-400" />
-                    <span>Copy 140-Char 2G SMS Payload</span>
+                    <Copy className="w-3 h-3 text-slate-400" />
+                    <span>Copy 2G SMS Payload</span>
                   </>
                 )}
               </button>
@@ -260,3 +254,5 @@ export const SOSModal: React.FC<SOSModalProps> = ({
     </div>
   );
 };
+
+export default SOSModal;

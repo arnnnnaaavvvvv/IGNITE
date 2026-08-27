@@ -48,32 +48,26 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <>
-      <header className="sticky top-0 z-40 w-full border-b border-white/[0.08] bg-[#08090d]/90 backdrop-blur-xl shadow-2xl">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-15 sm:h-16 flex items-center justify-between gap-3">
+      <header className="sticky top-0 z-40 w-full border-b border-white/[0.08] bg-[#090a0f]/90 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-3">
           {/* Brand & Live Mesh Status */}
           <div className="flex items-center gap-3 shrink-0">
-            <IgniteLogo size="md" showGlow />
+            <IgniteLogo size="sm" />
 
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-extrabold text-base sm:text-lg tracking-tight bg-gradient-to-r from-white via-amber-100 to-orange-400 bg-clip-text text-transparent">
-                  IGNITE
-                </span>
-                <span className="text-[9px] sm:text-[10px] font-mono px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/30 font-semibold tracking-wider uppercase">
-                  {t('brand_tagline', language)}
-                </span>
-              </div>
-              <div className="flex items-center gap-1.5 text-[10px] text-slate-400 font-mono">
-                <span className={`w-1.5 h-1.5 rounded-full ${isWebSocketConnected ? 'bg-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.8)]' : 'bg-amber-400 animate-pulse'}`} />
+            <div className="flex items-center gap-2.5">
+              <span className="font-bold text-sm tracking-tight text-white">
+                IGNITE
+              </span>
+              <span className="h-3.5 w-px bg-white/[0.12] hidden sm:inline" />
+              <div className="flex items-center gap-1.5 text-[11px] text-slate-400 font-mono">
+                <span className={`w-1.5 h-1.5 rounded-full ${isWebSocketConnected ? 'bg-emerald-500' : 'bg-amber-400 animate-pulse'}`} />
                 <span className="font-medium text-slate-300">{isWebSocketConnected ? t('live_mesh', language) : t('connecting', language)}</span>
-                <span className="text-slate-600 hidden sm:inline">•</span>
-                <span className="text-slate-400 hidden sm:inline">PostGIS + OSRM</span>
               </div>
             </div>
           </div>
 
           {/* Desktop Center Tabs Navigation */}
-          <nav className="hidden md:flex items-center gap-1 bg-[#10131e]/90 p-1 rounded-xl border border-white/[0.08] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
+          <nav className="hidden md:flex items-center gap-1 bg-[#12141d] p-1 rounded-lg border border-white/[0.08]">
             {tabs.map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -81,40 +75,34 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as any)}
-                  className={`btn-tactile flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold cursor-pointer relative transition-all duration-200 ${
+                  className={`btn-tactile flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-medium cursor-pointer relative transition-all ${
                     isActive
-                      ? 'bg-gradient-to-b from-emerald-400 to-emerald-500 text-slate-950 font-bold shadow-[0_2px_10px_rgba(16,185,129,0.35),inset_0_1px_0_0_rgba(255,255,255,0.4)]'
-                      : 'text-slate-400 hover:text-slate-100 hover:bg-white/[0.04]'
+                      ? 'bg-white/[0.1] text-white font-semibold shadow-sm'
+                      : 'text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]'
                   }`}
                 >
-                  <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-slate-950 stroke-[2.4]' : 'text-slate-400 stroke-[1.8]'}`} />
+                  <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-emerald-400' : 'text-slate-400'}`} />
                   <span>{tab.label}</span>
                   {tab.id === 'simulation' && isSimulatingHazard && (
-                    <span className="w-2 h-2 rounded-full bg-red-500 animate-ping absolute -top-0.5 -right-0.5" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-red-500 absolute top-1 right-1" />
                   )}
                 </button>
               );
             })}
           </nav>
 
-          {/* Right Action Controls: Safety Badge, Lang, SOS */}
+          {/* Right Action Controls: Lang Switcher & SOS */}
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-            {/* Live Safety Status Indicator */}
-            <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-500/[0.08] border border-emerald-500/20 text-emerald-400 text-xs font-mono font-medium">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_rgba(16,185,129,0.9)]" />
-              <span>{t('sdrf_grid_online', language)}</span>
-            </div>
-
             {/* High-Precision Segmented Language Switcher */}
-            <div className="flex items-center bg-[#0e111a] border border-white/[0.1] rounded-lg p-0.5 text-xs shadow-inner">
+            <div className="flex items-center bg-[#12141d] border border-white/[0.08] rounded-md p-0.5 text-xs">
               <button
                 type="button"
                 onClick={() => handleLanguageChange('en')}
                 aria-label="Switch to English"
-                className={`btn-tactile w-7.5 h-6.5 sm:w-8 sm:h-7 rounded-md text-[11px] font-bold cursor-pointer transition-all duration-150 flex items-center justify-center text-center ${
+                className={`btn-tactile px-2 py-0.5 rounded text-[11px] font-mono cursor-pointer transition-all ${
                   language === 'en'
-                    ? 'bg-white/[0.14] text-white shadow-sm border border-white/[0.1]'
-                    : 'text-slate-400 hover:text-slate-200 border border-transparent'
+                    ? 'bg-white/[0.12] text-white font-semibold'
+                    : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
                 EN
@@ -123,30 +111,30 @@ export const Navbar: React.FC<NavbarProps> = ({
                 type="button"
                 onClick={() => handleLanguageChange('hi')}
                 aria-label="हिंदी में बदलें"
-                className={`btn-tactile w-7.5 h-6.5 sm:w-8 sm:h-7 rounded-md text-[11px] font-bold cursor-pointer transition-all duration-150 flex items-center justify-center text-center ${
+                className={`btn-tactile px-2 py-0.5 rounded text-[11px] font-mono cursor-pointer transition-all ${
                   language === 'hi'
-                    ? 'bg-white/[0.14] text-white shadow-sm border border-white/[0.1]'
-                    : 'text-slate-400 hover:text-slate-200 border border-transparent'
+                    ? 'bg-white/[0.12] text-white font-semibold'
+                    : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
-                हिं
+                HI
               </button>
             </div>
 
             {/* High Priority Emergency SOS Button */}
             <button
               onClick={onOpenSOS}
-              className="btn-tactile flex items-center justify-center gap-1.5 px-3 sm:px-3.5 h-7.5 sm:h-8 rounded-lg bg-gradient-to-b from-red-500 to-red-600 hover:from-red-400 hover:to-red-500 text-white font-extrabold text-xs shadow-[0_2px_14px_rgba(239,68,68,0.45),inset_0_1px_0_0_rgba(255,255,255,0.35)] cursor-pointer border border-red-400/50 min-w-[68px] sm:min-w-[76px]"
+              className="btn-tactile flex items-center justify-center gap-1.5 px-3 h-7 rounded-md bg-red-600 hover:bg-red-500 text-white font-bold text-xs cursor-pointer border border-red-500 shadow-sm"
             >
-              <ShieldAlert className="w-3.5 sm:w-4 h-3.5 sm:h-4 stroke-[2.5] shrink-0" />
-              <span className="tracking-wider font-mono font-black">{t('sos', language)}</span>
+              <ShieldAlert className="w-3.5 h-3.5 shrink-0" />
+              <span className="tracking-wider font-mono">{t('sos', language)}</span>
             </button>
           </div>
         </div>
       </header>
 
-      {/* Fixed Mobile Bottom Navigation Bar (iOS / Android Native Feel) */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#08090d]/95 backdrop-blur-2xl border-t border-white/[0.08] px-2 pt-1.5 pb-[max(0.6rem,env(safe-area-inset-bottom))] shadow-2xl">
+      {/* Fixed Mobile Bottom Navigation Bar */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#090a0f]/95 backdrop-blur-md border-t border-white/[0.08] px-2 pt-1.5 pb-[max(0.6rem,env(safe-area-inset-bottom))]">
         <div className="grid grid-cols-5 items-center justify-items-center max-w-lg mx-auto">
           {tabs.map((tab) => {
             const Icon = tab.icon;
@@ -155,24 +143,21 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`w-full flex flex-col items-center justify-center py-1 px-1 rounded-xl transition-all relative ${
+                className={`w-full flex flex-col items-center justify-center py-1 px-1 rounded-md transition-all relative ${
                   isActive
-                    ? 'text-emerald-400 font-bold'
+                    ? 'text-emerald-400 font-semibold'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
                 <div className="relative">
-                  <Icon className={`w-5 h-5 ${isActive ? 'text-emerald-400 scale-105' : 'text-slate-400'}`} />
+                  <Icon className={`w-4 h-4 ${isActive ? 'text-emerald-400' : 'text-slate-400'}`} />
                   {tab.id === 'simulation' && isSimulatingHazard && (
-                    <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-red-500 animate-ping" />
+                    <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-red-500" />
                   )}
                 </div>
-                <span className="text-[10px] mt-1 font-medium tracking-tight whitespace-nowrap text-center">
+                <span className="text-[10px] mt-0.5 font-medium tracking-tight whitespace-nowrap text-center">
                   {tab.shortLabel}
                 </span>
-                {isActive && (
-                  <span className="w-1 h-1 rounded-full bg-emerald-400 mt-0.5 shadow-[0_0_6px_rgba(16,185,129,0.9)]" />
-                )}
               </button>
             );
           })}
