@@ -44,24 +44,6 @@ export const AceternityBackground: React.FC<AceternityBackgroundProps> = ({
         </svg>
       </div>
 
-      {/* 2. Warm Amber/Orange Radial Glow Arc positioned low in the Hero section */}
-      {/* Soft and diffused large blurred radial gradient that fades smoothly into black */}
-      <div
-        className="absolute top-[260px] sm:top-[300px] md:top-[340px] left-1/2 -translate-x-1/2 w-[900px] sm:w-[1300px] md:w-[1600px] h-[480px] sm:h-[600px] pointer-events-none blur-3xl opacity-75"
-        style={{
-          background:
-            'radial-gradient(ellipse 65% 42% at 50% 55%, rgba(245, 158, 11, 0.28) 0%, rgba(217, 119, 6, 0.16) 35%, rgba(180, 83, 9, 0.06) 60%, rgba(0, 0, 0, 0) 80%)',
-        }}
-      />
-
-      {/* Secondary subtle diffused center core to maintain readability and soft amber ambiance */}
-      <div
-        className="absolute top-[320px] sm:top-[380px] left-1/2 -translate-x-1/2 w-[600px] sm:w-[850px] h-[300px] sm:h-[400px] pointer-events-none blur-[100px] opacity-60"
-        style={{
-          background:
-            'radial-gradient(circle, rgba(251, 191, 36, 0.20) 0%, rgba(245, 158, 11, 0.10) 45%, rgba(0, 0, 0, 0) 75%)',
-        }}
-      />
     </div>
   );
 };

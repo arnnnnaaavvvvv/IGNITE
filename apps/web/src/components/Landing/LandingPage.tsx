@@ -255,21 +255,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
   return (
     <div className="min-h-screen bg-transparent text-white selection:bg-emerald-500/30 selection:text-white font-sans antialiased relative overflow-hidden">
-      {/* 1. Plume Editorial Hero Section with Direct Layered Dot-Grid and Amber Radial Glow */}
+      {/* 1. Plume Editorial Hero Section */}
       <section
         id="hero"
         className="relative mx-auto mt-6 sm:mt-10 max-w-[88rem] px-4 sm:px-6 text-center md:px-8 pt-10 pb-14 rounded-3xl overflow-hidden"
-        style={{
-          backgroundColor: '#000000',
-          backgroundImage: `
-            radial-gradient(ellipse 90% 55% at 50% 100%, rgba(255, 140, 0, 0.50), rgba(232, 93, 4, 0.25) 40%, transparent 72%),
-            radial-gradient(circle at 50% 95%, rgba(255, 180, 0, 0.40), transparent 50%),
-            radial-gradient(rgba(255, 255, 255, 0.18) 1.2px, transparent 1.2px)
-          `,
-          backgroundSize: '100% 100%, 100% 100%, 24px 24px',
-          backgroundPosition: 'center bottom, center bottom, center top',
-          backgroundRepeat: 'no-repeat, no-repeat, repeat',
-        }}
       >
         {/* Inner Content Container sitting securely on top (z-10) */}
         <div className="relative z-10 max-w-5xl mx-auto">
