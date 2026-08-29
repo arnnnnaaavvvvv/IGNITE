@@ -7,7 +7,6 @@ import {
   WifiOff,
   Users,
   Activity,
-  ChevronRight,
   Zap,
   CheckCircle2,
   Compass,
@@ -257,19 +256,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   return (
     <div className="min-h-screen bg-transparent text-white selection:bg-emerald-500/30 selection:text-white font-sans antialiased relative overflow-hidden">
       {/* 1. Plume Editorial Hero Section */}
-      <section id="hero" className="relative mx-auto mt-10 sm:mt-14 max-w-[84rem] px-4 sm:px-6 text-center md:px-8">
-        {/* Plume Editorial Shimmer Announcement Pill */}
-        <div
-          onClick={() => onLaunchSimulation()}
-          className="inline-flex h-8 items-center justify-between rounded-full border border-[#FF6B35]/40 bg-[#FF6B35]/10 px-4 text-xs text-[#FF6B35] transition-all ease-in hover:cursor-pointer hover:bg-[#FF6B35]/20 group gap-2 shadow-sm font-mono"
-        >
-          <span className="w-2 h-2 rounded-full bg-[#FF6B35] animate-pulse" />
-          <span className="font-semibold tracking-wide">
-            {language === 'hi' ? '✦ स्वायत्त आपदा-प्रतिरोधी सुरक्षा प्रणाली' : '✦ PAN-INDIA AUTONOMOUS SAFETY ENGINE'}
-          </span>
-          <ChevronRight className="size-3.5 transition-transform duration-300 ease-in-out group-hover:translate-x-1 text-[#FF6B35]" />
-        </div>
-
+      <section id="hero" className="relative mx-auto mt-12 sm:mt-16 max-w-[84rem] px-4 sm:px-6 text-center md:px-8">
         {/* Plume Editorial Headline */}
         <h1 className="font-display py-5 text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-6xl md:text-7xl lg:text-8xl drop-shadow-sm max-w-5xl mx-auto">
           {language === 'hi' ? (
@@ -286,9 +273,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         {/* Plume Editorial Subheading */}
         <p className="mb-8 text-base font-normal tracking-tight text-slate-300 md:text-xl text-balance max-w-3xl mx-auto leading-relaxed font-sans">
           {language === 'hi' ? (
-            'वास्तविक समय उपग्रह मौसम रडार, स्वायत्त भूस्खलन बाईपास, 2G ऑफलाइन आपातकालीन कैश और सभी 28 राज्यों व 8 केंद्र शासित प्रदेशों में एसडीआरएफ त्वरित बचाव सहायता।'
+            'वास्तविक समय उपग्रह मौसम रडार, स्वायत्त भूस्खलन बाईपास, एएमएस हाइपोक्सिया विश्लेषण और सभी 28 राज्यों व 8 केंद्र शासित प्रदेशों में बहु-एजेंसी आपातकालीन बचाव सहायता।'
           ) : (
-            'Real-time IMD weather radar, autonomous hazard re-routing, offline-first 2G cache, and multi-agency SDRF emergency rescue coverage across all 28 States & 8 UTs.'
+            'Real-time IMD weather radar, autonomous hazard re-routing, explainable AMS hypoxia prediction, and multi-agency emergency rescue coverage across all 28 States & 8 UTs.'
           )}
         </p>
 
@@ -303,7 +290,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </button>
 
           <button
-            onClick={() => onSelectTab('simulation')}
+            onClick={() => {
+              onLaunchSimulation();
+              onSelectTab('simulation');
+            }}
             className="btn-tactile inline-flex items-center justify-center whitespace-nowrap text-sm font-semibold transition-colors border border-white/20 bg-white/10 hover:bg-white/15 text-white h-11 px-5 rounded-xl cursor-pointer gap-2 shadow-sm font-mono"
           >
             <Radio className="w-4 h-4 text-[#FF6B35]" />
@@ -340,21 +330,21 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </div>
 
           <div className="p-4 rounded-2xl bg-[#0e1017]/95 border border-white/15 backdrop-blur-md shadow-lg">
-            <div className="text-xs font-mono text-amber-400 uppercase font-bold flex items-center gap-1.5">
-              <WifiOff className="w-3.5 h-3.5" />
-              Offline 2G
+            <div className="text-xs font-mono text-purple-400 uppercase font-bold flex items-center gap-1.5">
+              <Activity className="w-3.5 h-3.5" />
+              AI Physiology
             </div>
-            <div className="text-2xl font-extrabold text-white mt-1 font-display">100% Signal-Free</div>
-            <div className="text-xs text-slate-300 mt-0.5">Local cache for routes & SOS</div>
+            <div className="text-2xl font-extrabold text-white mt-1 font-display">AMS Hypoxia</div>
+            <div className="text-xs text-slate-300 mt-0.5">Altitude & oxygen risk scoring</div>
           </div>
 
           <div className="p-4 rounded-2xl bg-[#0e1017]/95 border border-white/15 backdrop-blur-md shadow-lg">
             <div className="text-xs font-mono text-emerald-400 uppercase font-bold flex items-center gap-1.5">
               <Zap className="w-3.5 h-3.5" />
-              Auto-Failover
+              Terrain Radar
             </div>
-            <div className="text-2xl font-extrabold text-white mt-1 font-display">&lt;450ms Reroute</div>
-            <div className="text-xs text-slate-300 mt-0.5">Instant bypass on cloudburst</div>
+            <div className="text-2xl font-extrabold text-white mt-1 font-display">Auto Bypass</div>
+            <div className="text-xs text-slate-300 mt-0.5">Instant reroute on cloudburst/hazard</div>
           </div>
         </div>
 
@@ -362,21 +352,15 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         <div className="relative mx-auto max-w-[84rem] text-left">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 gap-3 border-b border-white/15 pb-4">
             <div>
-              <span className="text-xs font-mono uppercase tracking-wider text-emerald-400 font-bold">
+              <span className="text-xs font-mono uppercase tracking-wider text-[#FF6B35] font-bold">
                 PAN-INDIA COVERAGE & SAFETY GRIDS
               </span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mt-1">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mt-1 font-display">
                 Explore Protected Circuits Across India
               </h2>
-              <p className="text-sm text-slate-300 mt-1">
+              <p className="text-sm text-slate-300 mt-1 font-sans">
                 Select a geographic corridor to view live safety scores, mountain elevations, and emergency force readiness.
               </p>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-mono px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 font-semibold">
-                ● LIVE VERIFIED CORRIDORS
-              </span>
             </div>
           </div>
 

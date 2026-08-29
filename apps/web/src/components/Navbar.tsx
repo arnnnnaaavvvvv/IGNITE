@@ -27,7 +27,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   setLanguage,
   onOpenSOS,
   isSimulatingHazard = false,
-  isWebSocketConnected = true,
 }) => {
   const tabs = [
     { id: 'overview', label: t('nav_overview', language), shortLabel: language === 'hi' ? 'होम' : 'Home', icon: Activity },
@@ -62,11 +61,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span className="font-bold text-sm tracking-tight text-white hover:text-neutral-300 transition-colors font-sans">
                 IGNITE
               </span>
-              <span className="h-3.5 w-px bg-white/15 hidden sm:inline" />
-              <div className="flex items-center gap-1.5 text-[11px] text-slate-400 font-mono">
-                <span className={`w-1.5 h-1.5 rounded-full ${isWebSocketConnected ? 'bg-emerald-500' : 'bg-amber-400 animate-pulse'}`} />
-                <span className="font-medium text-slate-300">{isWebSocketConnected ? t('live_mesh', language) : t('connecting', language)}</span>
-              </div>
             </div>
           </button>
 
