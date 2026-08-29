@@ -48,7 +48,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       <div className="ambient-glow-top" />
 
       {/* Hero Section */}
-      <section id="hero" className="relative mx-auto mt-20 sm:mt-28 max-w-[80rem] px-6 text-center md:px-8">
+      <section id="hero" className="relative mx-auto mt-16 sm:mt-24 max-w-[80rem] px-6 text-center md:px-8">
+        {/* Aceternity Large Ambient Watermark */}
+        <p className="pointer-events-none select-none absolute -top-12 left-1/2 -translate-x-1/2 text-center text-[110px] sm:text-[160px] md:text-[220px] lg:text-[280px] font-extrabold tracking-tighter bg-gradient-to-b from-white/[0.08] via-white/[0.03] to-transparent bg-clip-text text-transparent -z-10 leading-none">
+          IGNITE
+        </p>
+
         {/* Magic UI Shimmer Announcement Pill */}
         <div
           onClick={() => onLaunchSimulation()}
