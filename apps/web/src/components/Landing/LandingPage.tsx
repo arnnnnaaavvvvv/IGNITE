@@ -261,56 +261,56 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         className="relative mx-auto mt-6 sm:mt-10 max-w-[88rem] px-4 sm:px-6 text-center md:px-8 pt-10 pb-14 rounded-3xl overflow-hidden"
       >
         {/* Animated Background Layers (Strictly z-0 behind content) */}
-        <div className="absolute inset-0 pointer-events-none -z-0 overflow-hidden" aria-hidden="true">
+        <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
           {/* A. Topographic Contour Line Terrain Mesh */}
-          <div className="absolute inset-0 opacity-[0.08] animate-hero-contour">
+          <div className="absolute inset-0 opacity-15 animate-hero-contour">
             <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
               <defs>
-                <pattern id="contour-pattern" width="200" height="200" patternUnits="userSpaceOnUse">
+                <pattern id="contour-pattern" width="180" height="180" patternUnits="userSpaceOnUse">
                   <path
-                    d="M0 50 Q 50 20, 100 50 T 200 50 M0 100 Q 50 70, 100 100 T 200 100 M0 150 Q 50 120, 100 150 T 200 150"
+                    d="M0 45 Q 45 15, 90 45 T 180 45 M0 90 Q 45 60, 90 90 T 180 90 M0 135 Q 45 105, 90 135 T 180 135"
                     fill="none"
-                    stroke="rgba(255, 255, 255, 0.4)"
-                    strokeWidth="0.75"
+                    stroke="rgba(255, 255, 255, 0.6)"
+                    strokeWidth="0.8"
                   />
-                  <circle cx="100" cy="100" r="35" fill="none" stroke="rgba(255, 255, 255, 0.25)" strokeWidth="0.5" strokeDasharray="3 3" />
+                  <circle cx="90" cy="90" r="30" fill="none" stroke="rgba(255, 107, 53, 0.4)" strokeWidth="0.6" strokeDasharray="4 4" />
                 </pattern>
               </defs>
               <rect width="100%" height="100%" fill="url(#contour-pattern)" />
             </svg>
           </div>
 
-          {/* B. Morphing Amber / Orange / Red Living Orbs */}
+          {/* B. Morphing Amber / Orange / Red Living Orbs (High Luminance) */}
           {/* Orb 1: Warm Amber (Center-Left) */}
           <div
-            className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[550px] sm:w-[700px] h-[350px] sm:h-[450px] rounded-full blur-[110px] animate-hero-orb-1 opacity-25"
+            className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[550px] sm:w-[700px] h-[350px] sm:h-[450px] rounded-full blur-[70px] animate-hero-orb-1 opacity-70"
             style={{
-              background: 'radial-gradient(circle, rgba(255, 107, 53, 0.45) 0%, rgba(232, 93, 4, 0.15) 55%, transparent 75%)',
+              background: 'radial-gradient(circle, rgba(255, 107, 53, 0.65) 0%, rgba(232, 93, 4, 0.30) 45%, transparent 70%)',
             }}
           />
 
           {/* Orb 2: Radiant Flame Orange (Center-Right) */}
           <div
-            className="absolute top-1/3 right-1/4 translate-x-1/2 -translate-y-1/2 w-[500px] sm:w-[650px] h-[320px] sm:h-[420px] rounded-full blur-[120px] animate-hero-orb-2 opacity-25"
+            className="absolute top-1/3 right-1/4 translate-x-1/2 -translate-y-1/2 w-[500px] sm:w-[650px] h-[320px] sm:h-[420px] rounded-full blur-[70px] animate-hero-orb-2 opacity-65"
             style={{
-              background: 'radial-gradient(circle, rgba(255, 140, 0, 0.40) 0%, rgba(255, 87, 34, 0.12) 55%, transparent 75%)',
+              background: 'radial-gradient(circle, rgba(255, 140, 0, 0.60) 0%, rgba(255, 87, 34, 0.25) 45%, transparent 70%)',
             }}
           />
 
           {/* Orb 3: Deep Warm Crimson Low-Center */}
           <div
-            className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[650px] sm:w-[850px] h-[280px] sm:h-[360px] rounded-full blur-[130px] animate-hero-orb-3 opacity-20"
+            className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[650px] sm:w-[850px] h-[280px] sm:h-[360px] rounded-full blur-[80px] animate-hero-orb-3 opacity-60"
             style={{
-              background: 'radial-gradient(ellipse, rgba(230, 57, 70, 0.35) 0%, rgba(255, 107, 53, 0.10) 50%, transparent 75%)',
+              background: 'radial-gradient(ellipse, rgba(230, 57, 70, 0.50) 0%, rgba(255, 107, 53, 0.20) 45%, transparent 70%)',
             }}
           />
 
           {/* C. Faint Rotating Radar-Sweep Line / Wedge */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[800px] h-[600px] sm:h-[800px] pointer-events-none opacity-[0.14]">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[800px] h-[600px] sm:h-[800px] pointer-events-none opacity-40">
             <div
               className="w-full h-full rounded-full animate-hero-radar"
               style={{
-                background: 'conic-gradient(from 0deg, transparent 0deg, transparent 310deg, rgba(255, 107, 53, 0.08) 345deg, rgba(255, 165, 0, 0.35) 360deg)',
+                background: 'conic-gradient(from 0deg, transparent 0deg, transparent 290deg, rgba(255, 107, 53, 0.15) 320deg, rgba(255, 180, 0, 0.65) 360deg)',
                 maskImage: 'radial-gradient(circle at center, black 15%, transparent 68%)',
                 WebkitMaskImage: 'radial-gradient(circle at center, black 15%, transparent 68%)',
               }}
