@@ -28,6 +28,9 @@
     },
     {
       "src": "/assets/(.*)",
+      "headers": {
+        "cache-control": "public, max-age=31536000, immutable"
+      },
       "dest": "/apps/web/assets/$1"
     },
     {
@@ -40,6 +43,9 @@
     },
     {
       "src": "/(.*)",
+      "headers": {
+        "cache-control": "no-cache, no-store, must-revalidate"
+      },
       "dest": "/apps/web/index.html"
     }
   ]
