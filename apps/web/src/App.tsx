@@ -212,8 +212,8 @@ export function App() {
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col selection:bg-emerald-500/30 selection:text-white font-sans antialiased relative">
-      {/* Aceternity Hero Beams & Radiant Eclipse Background */}
-      <AceternityBackground />
+      {/* Landing Page Amber Glow & Dot-Grid Background (Landing Only) */}
+      {activeTab === 'overview' && <AceternityBackground />}
 
       {/* Navigation Header */}
       <Navbar
