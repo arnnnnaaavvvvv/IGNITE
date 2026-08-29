@@ -1,7 +1,5 @@
 {
   "version": 2,
-  "buildCommand": "cd apps/web && npm install && npm run build",
-  "outputDirectory": "apps/web/dist",
   "builds": [
     {
       "src": "api/index.py",
@@ -30,11 +28,19 @@
     },
     {
       "src": "/assets/(.*)",
-      "dest": "/assets/$1"
+      "dest": "/apps/web/assets/$1"
+    },
+    {
+      "src": "/favicon.svg",
+      "dest": "/apps/web/favicon.svg"
+    },
+    {
+      "src": "/icons.svg",
+      "dest": "/apps/web/icons.svg"
     },
     {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "/apps/web/index.html"
     }
   ]
 }
