@@ -66,14 +66,14 @@ export const TrailMap: React.FC<TrailMapProps> = ({
 
       L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-      // Official OpenStreetMap standard tiles (100% Free, Open Source, Never Requires API Key)
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        subdomains: ['a', 'b', 'c'],
-        maxZoom: 19,
+      // Esri World Topographic Map (100% Free, Global English Labels, Clean Elevation & Terrain Shading, No API Key Required)
+      const esriTopo = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, USGS, NOAA',
+        maxZoom: 18,
         crossOrigin: true,
       }).addTo(map);
 
+      layersRef.current.basemap = esriTopo as any;
       layersRef.current.trails = L.layerGroup().addTo(map);
       layersRef.current.hazards = L.layerGroup().addTo(map);
       layersRef.current.shelters = L.layerGroup().addTo(map);
@@ -97,33 +97,53 @@ export const TrailMap: React.FC<TrailMapProps> = ({
 
       const latlngs: L.LatLngExpression[] = mainTrailCoords.map((c) => [c[1], c[0]]);
       
+      // Outer Glow Polyline for Professional Tactical Look
+      const glowPolyline = L.polyline(latlngs, {
+        color: isBypassActive ? 'rgba(249, 115, 22, 0.35)' : 'rgba(16, 185, 129, 0.35)',
+        weight: 8,
+        opacity: 0.8,
+        lineCap: 'round',
+        lineJoin: 'round',
+      });
+      layersRef.current.trails.addLayer(glowPolyline);
+
+      // Inner Sharp Polyline
       const trailPolyline = L.polyline(latlngs, {
         color: isBypassActive ? '#f97316' : '#10b981',
-        weight: 4,
-        opacity: 0.9,
+        weight: 3.5,
+        opacity: 1.0,
         dashArray: isBypassActive ? '6, 6' : undefined,
         lineCap: 'round',
         lineJoin: 'round',
       });
-      trailPolyline.bindTooltip(isBypassActive ? 'Main Route (Degraded)' : `Safe Route (${destinationName})`, {
+      trailPolyline.bindTooltip(isBypassActive ? 'Main Route (Degraded)' : `Verified Safe Route • ${destinationName}`, {
         sticky: true,
-        className: 'bg-slate-900 text-slate-100 text-xs px-2 py-1 rounded border border-slate-700',
+        className: 'bg-[#0e1017] text-white text-xs font-semibold px-2.5 py-1 rounded-md border border-emerald-500/40 shadow-xl',
       });
       layersRef.current.trails.addLayer(trailPolyline);
 
       // Draw Bypass if active
       if (isBypassActive && bypassTrailCoords && bypassTrailCoords.length > 0) {
         const bypassLatLngs: L.LatLngExpression[] = bypassTrailCoords.map((c) => [c[1], c[0]]);
+        
+        const bypassGlow = L.polyline(bypassLatLngs, {
+          color: 'rgba(56, 189, 248, 0.4)',
+          weight: 8,
+          opacity: 0.8,
+          lineCap: 'round',
+        });
+        layersRef.current.trails.addLayer(bypassGlow);
+
         const bypassPolyline = L.polyline(bypassLatLngs, {
           color: '#38bdf8',
-          weight: 4,
+          weight: 3.5,
           opacity: 1.0,
           lineCap: 'round',
         });
-        bypassPolyline.bindTooltip('SAFE BYPASS CORRIDOR', {
+        bypassPolyline.bindTooltip('✦ AUTONOMOUS SAFE BYPASS CORRIDOR', {
           permanent: true,
           direction: 'top',
-          className: 'bg-sky-950 text-sky-200 text-xs font-bold px-2 py-1 rounded border border-sky-500',
+          className: 'bg-[#0e1017] text-sky-300 text-xs font-bold px-2.5 py-1 rounded-md border border-sky-400 shadow-xl',
         });
         layersRef.current.trails.addLayer(bypassPolyline);
       }
@@ -135,7 +155,7 @@ export const TrailMap: React.FC<TrailMapProps> = ({
         try {
           const bounds = L.latLngBounds(latlngs);
           map.stop();
-          map.flyToBounds(bounds, { padding: [40, 40], maxZoom: 13, duration: 1.2 });
+          map.flyToBounds(bounds, { padding: [50, 50], maxZoom: 13, duration: 1.2 });
         } catch (err) {
           console.error('Failed to fit map bounds:', err);
         }
@@ -149,23 +169,23 @@ export const TrailMap: React.FC<TrailMapProps> = ({
       const previewIcon = L.divIcon({
         className: 'custom-preview-icon',
         html: `
-          <div style="position: relative; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;">
-            <div class="target-beacon-pulse" style="position: absolute; width: 28px; height: 28px; border-radius: 50%; background: rgba(16, 185, 129, 0.4);"></div>
-            <div style="position: relative; z-index: 10; width: 16px; height: 16px; border-radius: 50%; background: #10b981; border: 2px solid white; display: flex; align-items: center; justify-content: center;">
+          <div style="position: relative; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
+            <div class="target-beacon-pulse" style="position: absolute; width: 32px; height: 32px; border-radius: 50%; background: rgba(16, 185, 129, 0.45); animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;"></div>
+            <div style="position: relative; z-index: 10; width: 18px; height: 18px; border-radius: 50%; background: #10b981; border: 2.5px solid white; box-shadow: 0 4px 12px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center;">
               <div style="width: 4px; height: 4px; border-radius: 50%; background: white;"></div>
             </div>
           </div>
         `,
-        iconSize: [28, 28],
-        iconAnchor: [14, 14],
+        iconSize: [32, 32],
+        iconAnchor: [16, 16],
       });
 
       const marker = L.marker([previewCoordinates.lat, previewCoordinates.lon], { icon: previewIcon });
       marker.bindTooltip(`${previewCoordinates.name || 'Selected Destination'}`, {
         permanent: true,
         direction: 'top',
-        offset: [0, -10],
-        className: 'bg-slate-950 text-emerald-300 text-xs font-semibold px-2 py-0.5 rounded border border-emerald-500/40',
+        offset: [0, -12],
+        className: 'bg-[#0e1017] text-emerald-300 text-xs font-bold px-2.5 py-1 rounded-md border border-emerald-500/50 shadow-xl',
       });
       layersRef.current.preview.addLayer(marker);
 
@@ -191,7 +211,7 @@ export const TrailMap: React.FC<TrailMapProps> = ({
       }
     }
 
-    // 2. Draw Hazard Zones (Polygons)
+    // 2. Draw Hazard Zones (Polygons) with Professional Tactical Styling
     layersRef.current.hazards.clearLayers();
     if (showHazards && hazardZones) {
       hazardZones.forEach((hz) => {
@@ -201,61 +221,65 @@ export const TrailMap: React.FC<TrailMapProps> = ({
         const polygon = L.polygon(polygonLatLngs, {
           color: isTriggered ? '#ef4444' : '#f97316',
           fillColor: isTriggered ? '#ef4444' : '#ea580c',
-          fillOpacity: isTriggered ? 0.35 : 0.2,
-          weight: isTriggered ? 2 : 1,
-          dashArray: isTriggered ? '4, 4' : undefined,
+          fillOpacity: isTriggered ? 0.28 : 0.15,
+          weight: isTriggered ? 2 : 1.5,
+          dashArray: '5, 5',
         });
 
         polygon.on('click', () => {
           setSelectedItem({ type: 'HAZARD', data: hz });
         });
 
-        polygon.bindTooltip(`${hz.name}`, {
+        polygon.bindTooltip(`⚠️ ${hz.name}`, {
           sticky: true,
-          className: 'bg-slate-950 text-orange-300 text-xs px-2 py-0.5 rounded border border-orange-500/40',
+          className: 'bg-[#0e1017] text-amber-300 text-xs font-semibold px-2 py-0.5 rounded border border-amber-500/40 shadow-lg',
         });
 
         layersRef.current.hazards.addLayer(polygon);
       });
     }
 
-    // 3. Draw Emergency Shelters
+    // 3. Draw Emergency Shelters with Crisp Shield Badges
     layersRef.current.shelters.clearLayers();
     if (showShelters && shelters) {
       shelters.forEach((sh) => {
         const shelterIcon = L.divIcon({
           className: 'custom-shelter-icon',
-          html: `<div style="background-color: #0284c7; width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid white; display: flex; align-items: center; justify-content: center;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>`,
-          iconSize: [22, 22],
-          iconAnchor: [11, 11],
+          html: `<div style="background-color: #0284c7; width: 24px; height: 24px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>`,
+          iconSize: [24, 24],
+          iconAnchor: [12, 12],
         });
 
         const marker = L.marker([sh.lat, sh.lon], { icon: shelterIcon });
         marker.on('click', () => {
           setSelectedItem({ type: 'SHELTER', data: sh });
         });
-        marker.bindTooltip(`${sh.name} (${sh.capacity_persons}p)`, {
+        marker.bindTooltip(`🛡 ${sh.name} (${sh.capacity_persons}p)`, {
           direction: 'top',
-          offset: [0, -10],
-          className: 'bg-slate-900 text-sky-200 text-xs px-2 py-0.5 rounded border border-sky-600',
+          offset: [0, -12],
+          className: 'bg-[#0e1017] text-sky-200 text-xs font-semibold px-2.5 py-1 rounded-md border border-sky-500/50 shadow-lg',
         });
         layersRef.current.shelters.addLayer(marker);
       });
     }
 
-    // 4. Draw Checkpoint Markers
+    // 4. Draw Checkpoint Markers with Clean Tactical Design
     layersRef.current.checkpoints.clearLayers();
     if (showCheckpoints && checkpoints) {
       checkpoints.forEach((cp, idx) => {
         const isEnd = idx === checkpoints.length - 1;
         const isStart = idx === 0;
 
-        const markerColor = isEnd ? '#eab308' : isStart ? '#10b981' : '#475569';
+        const markerBg = isEnd ? '#f59e0b' : isStart ? '#10b981' : '#1e293b';
         const checkpointIcon = L.divIcon({
           className: 'custom-cp-icon',
-          html: `<div style="background-color: ${markerColor}; color: white; font-weight: 700; font-size: 10px; width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid white; display: flex; align-items: center; justify-content: center;">${idx + 1}</div>`,
-          iconSize: [22, 22],
-          iconAnchor: [11, 11],
+          html: `
+            <div style="background-color: ${markerBg}; color: white; font-weight: 800; font-family: sans-serif; font-size: 11px; width: 24px; height: 24px; border-radius: 50%; border: 2px solid white; box-shadow: 0 3px 10px rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center;">
+              ${idx + 1}
+            </div>
+          `,
+          iconSize: [24, 24],
+          iconAnchor: [12, 12],
         });
 
         const marker = L.marker([cp.lat, cp.lon], { icon: checkpointIcon });
@@ -263,10 +287,10 @@ export const TrailMap: React.FC<TrailMapProps> = ({
           setSelectedItem({ type: 'CHECKPOINT', data: cp });
           if (onSelectCheckpoint) onSelectCheckpoint(cp);
         });
-        marker.bindTooltip(`${cp.name} (${cp.altitude_m}m)`, {
+        marker.bindTooltip(`📍 ${cp.name} (${cp.altitude_m}m)`, {
           direction: 'top',
-          offset: [0, -10],
-          className: 'bg-slate-900 text-slate-100 text-xs px-2 py-0.5 rounded border border-slate-700',
+          offset: [0, -12],
+          className: 'bg-[#0e1017] text-white text-xs font-medium px-2.5 py-1 rounded-md border border-white/20 shadow-lg',
         });
         layersRef.current.checkpoints.addLayer(marker);
       });
