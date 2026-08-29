@@ -2,12 +2,12 @@
   "name": "ignite",
   "version": "2.0.0",
   "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
   "scripts": {
     "dev": "npm run dev --prefix apps/web",
-    "build": "npm run build --prefix apps/web",
+    "build": "cd apps/web && npm run build",
     "lint": "npm run lint --prefix apps/web"
-  },
-  "dependencies": {
-    "firebase": "^12.18.0"
   }
 }
