@@ -3,21 +3,37 @@
 
 @layer base {
   :root {
-    --font-sans: 'Plus Jakarta Sans', 'Noto Sans Devanagari', 'Mukta', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --font-mono: 'JetBrains Mono', 'Noto Sans Devanagari', ui-monospace, SFMono-Regular, monospace;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
     
-    /* Strict Linear / Vercel Surface Tokens */
-    --surface-canvas: #090a0f;
-    --surface-panel: #0e1017;
-    --surface-card: #12141d;
-    --surface-elevated: #181b26;
+    /* Magic UI Startup Template Tokens */
+    --background: #000000;
+    --foreground: #ffffff;
+    --primary: #ffffff;
+    --primary-foreground: #000000;
+    --secondary: #1a1d28;
+    --secondary-foreground: #ffffff;
+    --muted: #11141f;
+    --muted-foreground: #9ca3af;
+    --border: rgba(255, 255, 255, 0.1);
+    --input: rgba(255, 255, 255, 0.15);
+    --navigation-height: 3.5rem;
+    --color-one: #ffaa40;
+    --color-two: #9c40ff;
+    --color-three: #ffaa40;
+    
+    /* Surface Tokens */
+    --surface-canvas: #000000;
+    --surface-panel: #0a0c10;
+    --surface-card: #10131c;
+    --surface-elevated: #161924;
     --surface-hover: #1c202e;
     
-    /* Strict Border Tokens */
-    --border-hairline: rgba(255, 255, 255, 0.06);
-    --border-subtle: rgba(255, 255, 255, 0.09);
-    --border-medium: rgba(255, 255, 255, 0.16);
-    --border-focus: rgba(16, 185, 129, 0.5);
+    /* Border Tokens */
+    --border-hairline: rgba(255, 255, 255, 0.07);
+    --border-subtle: rgba(255, 255, 255, 0.12);
+    --border-medium: rgba(255, 255, 255, 0.2);
+    --border-focus: rgba(255, 170, 64, 0.5);
 
     /* Restrained Semantic Accents */
     --accent-emerald: #10b981;
@@ -43,7 +59,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    letter-spacing: -0.011em;
+    letter-spacing: -0.015em;
   }
 
   button, input, select, textarea {
