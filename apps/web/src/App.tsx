@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Navbar } from './components/Navbar';
 import { LandingPage } from './components/Landing/LandingPage';
+import { Particles } from './components/Common/Particles';
 import { TrailMap } from './components/Map/TrailMap';
 import { TripWizard } from './components/Planner/TripWizard';
 import { ItineraryView } from './components/Itinerary/ItineraryView';
@@ -210,7 +211,17 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#090a0f] text-slate-100 flex flex-col selection:bg-emerald-500/30 selection:text-white font-sans relative bg-tactical-grid">
+    <div className="min-h-screen bg-black text-white flex flex-col selection:bg-emerald-500/30 selection:text-white font-sans antialiased relative">
+      {/* Global Magic UI Particles Background */}
+      <Particles
+        className="fixed inset-0 pointer-events-none -z-10"
+        quantity={60}
+        ease={60}
+        size={0.6}
+        staticity={35}
+        color="#ffffff"
+      />
+
       {/* Navigation Header */}
       <Navbar
         activeTab={activeTab}

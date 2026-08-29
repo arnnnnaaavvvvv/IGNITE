@@ -49,7 +49,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <>
-      <header className="sticky top-0 z-40 w-full border-b border-white/[0.08] bg-[#090a0f]/90 backdrop-blur-md">
+      <header className="sticky top-0 z-40 w-full border-b border-white/10 bg-black/70 backdrop-blur-[12px]">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-3">
           {/* Brand & Live Mesh Status */}
           <button 
@@ -59,10 +59,10 @@ export const Navbar: React.FC<NavbarProps> = ({
             <IgniteLogo size="sm" />
 
             <div className="flex items-center gap-2.5">
-              <span className="font-bold text-sm tracking-tight text-white hover:text-emerald-400 transition-colors">
+              <span className="font-bold text-sm tracking-tight text-white hover:text-neutral-300 transition-colors font-sans">
                 IGNITE
               </span>
-              <span className="h-3.5 w-px bg-white/[0.12] hidden sm:inline" />
+              <span className="h-3.5 w-px bg-white/15 hidden sm:inline" />
               <div className="flex items-center gap-1.5 text-[11px] text-slate-400 font-mono">
                 <span className={`w-1.5 h-1.5 rounded-full ${isWebSocketConnected ? 'bg-emerald-500' : 'bg-amber-400 animate-pulse'}`} />
                 <span className="font-medium text-slate-300">{isWebSocketConnected ? t('live_mesh', language) : t('connecting', language)}</span>
@@ -71,7 +71,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           </button>
 
           {/* Desktop Center Tabs Navigation */}
-          <nav className="hidden md:flex items-center gap-1 bg-[#12141d] p-1 rounded-lg border border-white/[0.08]">
+          <nav className="hidden md:flex items-center gap-1 bg-white/[0.05] p-1 rounded-lg border border-white/10">
             {tabs.map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -81,11 +81,11 @@ export const Navbar: React.FC<NavbarProps> = ({
                   onClick={() => setActiveTab(tab.id as any)}
                   className={`btn-tactile flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-medium cursor-pointer relative transition-all ${
                     isActive
-                      ? 'bg-white/[0.1] text-white font-semibold shadow-sm'
-                      : 'text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]'
+                      ? 'bg-white/15 text-white font-semibold shadow-sm'
+                      : 'text-slate-400 hover:text-white hover:bg-white/[0.05]'
                   }`}
                 >
-                  <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-emerald-400' : 'text-slate-400'}`} />
+                  <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-white' : 'text-slate-400'}`} />
                   <span>{tab.label}</span>
                   {tab.id === 'simulation' && isSimulatingHazard && (
                     <span className="w-1.5 h-1.5 rounded-full bg-red-500 absolute top-1 right-1" />
@@ -98,14 +98,14 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Right Action Controls: Lang Switcher & SOS */}
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             {/* High-Precision Segmented Language Switcher */}
-            <div className="flex items-center bg-[#12141d] border border-white/[0.08] rounded-md p-0.5 text-xs">
+            <div className="flex items-center bg-white/[0.05] border border-white/10 rounded-md p-0.5 text-xs">
               <button
                 type="button"
                 onClick={() => handleLanguageChange('en')}
                 aria-label="Switch to English"
                 className={`btn-tactile px-2 py-0.5 rounded text-[11px] font-mono cursor-pointer transition-all ${
                   language === 'en'
-                    ? 'bg-white/[0.12] text-white font-semibold'
+                    ? 'bg-white/20 text-white font-semibold'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -117,7 +117,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 aria-label="हिंदी में बदलें"
                 className={`btn-tactile px-2 py-0.5 rounded text-[11px] font-mono cursor-pointer transition-all ${
                   language === 'hi'
-                    ? 'bg-white/[0.12] text-white font-semibold'
+                    ? 'bg-white/20 text-white font-semibold'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -138,7 +138,7 @@ export const Navbar: React.FC<NavbarProps> = ({
       </header>
 
       {/* Fixed Mobile Bottom Navigation Bar */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#090a0f]/95 backdrop-blur-md border-t border-white/[0.08] px-2 pt-1.5 pb-[max(0.6rem,env(safe-area-inset-bottom))]">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-black/80 backdrop-blur-[12px] border-t border-white/10 px-2 pt-1.5 pb-[max(0.6rem,env(safe-area-inset-bottom))]">
         <div className="grid grid-cols-6 items-center justify-items-center max-w-lg mx-auto">
           {tabs.map((tab) => {
             const Icon = tab.icon;

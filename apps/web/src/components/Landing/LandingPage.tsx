@@ -12,7 +12,6 @@ import {
   Zap,
 } from 'lucide-react';
 import { IgniteLogo } from '../Common/IgniteLogo';
-import { Particles } from '../Common/Particles';
 import { getLocalizedDestinationName } from '../../services/i18n';
 
 interface LandingPageProps {
@@ -45,15 +44,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
   return (
     <div className="min-h-screen bg-black text-white selection:bg-emerald-500/30 selection:text-white font-sans antialiased relative overflow-hidden">
-      {/* Magic UI Particle Background Canvas */}
-      <Particles
-        className="absolute inset-0 -z-10"
-        quantity={65}
-        ease={60}
-        size={0.6}
-        staticity={35}
-        color="#ffffff"
-      />
+      {/* Magic UI Ambient Top Radial Glow */}
+      <div className="ambient-glow-top" />
 
       {/* Hero Section */}
       <section id="hero" className="relative mx-auto mt-20 sm:mt-28 max-w-[80rem] px-6 text-center md:px-8">
