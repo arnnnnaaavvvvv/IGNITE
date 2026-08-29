@@ -255,61 +255,92 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
   return (
     <div className="min-h-screen bg-transparent text-white selection:bg-emerald-500/30 selection:text-white font-sans antialiased relative overflow-hidden">
-      {/* 1. Plume Editorial Hero Section */}
-      <section id="hero" className="relative mx-auto mt-12 sm:mt-16 max-w-[84rem] px-4 sm:px-6 text-center md:px-8">
-        {/* Plume Editorial Headline */}
-        <h1 className="font-display py-5 text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-6xl md:text-7xl lg:text-8xl drop-shadow-sm max-w-5xl mx-auto">
-          {language === 'hi' ? (
-            <>
-              भारत के हर दुर्गम मार्ग पर<br className="hidden md:block" /> <span className="text-[#FF6B35] italic">स्वायत्त व सुरक्षित</span> नेविगेशन।
-            </>
-          ) : (
-            <>
-              Navigate High-Risk Trails &<br className="hidden md:block" /> Remote India with <span className="text-[#FF6B35] italic">Total Safety.</span>
-            </>
-          )}
-        </h1>
-
-        {/* Plume Editorial Subheading */}
-        <p className="mb-8 text-base font-normal tracking-tight text-slate-300 md:text-xl text-balance max-w-3xl mx-auto leading-relaxed font-sans">
-          {language === 'hi' ? (
-            'वास्तविक समय उपग्रह मौसम रडार, स्वायत्त भूस्खलन बाईपास, एएमएस हाइपोक्सिया विश्लेषण और सभी 28 राज्यों व 8 केंद्र शासित प्रदेशों में बहु-एजेंसी आपातकालीन बचाव सहायता।'
-          ) : (
-            'Real-time IMD weather radar, autonomous hazard re-routing, explainable AMS hypoxia prediction, and multi-agency emergency rescue coverage across all 28 States & 8 UTs.'
-          )}
-        </p>
-
-        {/* Plume Hero Action Button Group */}
-        <div className="flex flex-wrap items-center justify-center gap-3.5 mb-14">
-          <button
-            onClick={() => onLaunchMap('Kedarnath Dham & Valley')}
-            className="btn-tactile inline-flex items-center justify-center whitespace-nowrap text-sm font-bold transition-all bg-[#FF6B35] hover:bg-[#E85D04] text-white shadow-xl shadow-[#FF6B35]/25 h-11 px-6 gap-2 rounded-xl cursor-pointer group"
+      {/* 1. Plume Editorial Hero Section with Direct Layered Dot-Grid and Amber Radial Glow */}
+      <section
+        id="hero"
+        className="relative mx-auto mt-6 sm:mt-10 max-w-[88rem] px-4 sm:px-6 text-center md:px-8 pt-10 pb-14 rounded-3xl overflow-hidden"
+        style={{
+          backgroundColor: '#000000',
+          backgroundImage: `
+            radial-gradient(ellipse 90% 55% at 50% 100%, rgba(255, 140, 0, 0.50), rgba(232, 93, 4, 0.25) 40%, transparent 72%),
+            radial-gradient(circle at 50% 95%, rgba(255, 180, 0, 0.40), transparent 50%),
+            radial-gradient(rgba(255, 255, 255, 0.18) 1.2px, transparent 1.2px)
+          `,
+          backgroundSize: '100% 100%, 100% 100%, 24px 24px',
+          backgroundPosition: 'center bottom, center bottom, center top',
+          backgroundRepeat: 'no-repeat, no-repeat, repeat',
+        }}
+      >
+        {/* Inner Content Container sitting securely on top (z-10) */}
+        <div className="relative z-10 max-w-5xl mx-auto">
+          {/* Badge Pill */}
+          <div
+            onClick={() => onLaunchSimulation()}
+            className="inline-flex h-8 items-center justify-between rounded-full border border-amber-400/40 bg-amber-950/60 px-4 text-xs text-amber-200 transition-all ease-in hover:cursor-pointer hover:bg-amber-900/70 group gap-2 shadow-lg mb-4 font-mono"
           >
-            <span>{language === 'hi' ? 'नक्शा व योजना शुरू करें' : 'Launch Tactical Map & Planner'}</span>
-            <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
-          </button>
+            <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+            <span className="font-semibold tracking-wide">
+              {language === 'hi' ? '✦ अखिल भारतीय स्वायत्त पर्यटक सुरक्षा व मार्ग मेश' : '✦ Pan-India Autonomous Tourist Safety & Route Mesh'}
+            </span>
+          </div>
 
-          <button
-            onClick={() => {
-              onLaunchSimulation();
-              onSelectTab('simulation');
-            }}
-            className="btn-tactile inline-flex items-center justify-center whitespace-nowrap text-sm font-semibold transition-colors border border-white/20 bg-white/10 hover:bg-white/15 text-white h-11 px-5 rounded-xl cursor-pointer gap-2 shadow-sm font-mono"
-          >
-            <Radio className="w-4 h-4 text-[#FF6B35]" />
-            <span>{language === 'hi' ? 'आपदा सिमुलेटर' : 'Simulate Disaster Bench'}</span>
-          </button>
+          {/* Plume Editorial Headline */}
+          <h1 className="font-display py-4 text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-6xl md:text-7xl lg:text-8xl drop-shadow-md max-w-5xl mx-auto">
+            {language === 'hi' ? (
+              <>
+                भारत के हर दुर्गम मार्ग पर<br className="hidden md:block" /> <span className="text-[#FF6B35] italic">स्वायत्त व सुरक्षित</span> नेविगेशन।
+              </>
+            ) : (
+              <>
+                Navigate High-Risk Trails &<br className="hidden md:block" /> Remote India with <span className="text-[#FF6B35] italic">Total Safety.</span>
+              </>
+            )}
+          </h1>
 
-          <button
-            onClick={onOpenSOS}
-            className="btn-tactile inline-flex items-center justify-center whitespace-nowrap text-sm font-bold transition-colors border border-red-500/50 bg-red-600/90 hover:bg-red-600 text-white h-11 px-4 rounded-xl cursor-pointer gap-2 shadow-lg font-mono"
-          >
-            <AlertTriangle className="w-4 h-4" />
-            <span>{language === 'hi' ? 'एसओएस आपातकाल' : 'Emergency SOS'}</span>
-          </button>
+          {/* Plume Editorial Subheading */}
+          <p className="mb-8 text-base font-normal tracking-tight text-slate-200 md:text-xl text-balance max-w-3xl mx-auto leading-relaxed font-sans">
+            {language === 'hi' ? (
+              'वास्तविक समय उपग्रह मौसम रडार, स्वायत्त भूस्खलन बाईपास, एएमएस हाइपोक्सिया विश्लेषण और सभी 28 राज्यों व 8 केंद्र शासित प्रदेशों में बहु-एजेंसी आपातकालीन बचाव सहायता।'
+            ) : (
+              'Real-time IMD weather radar, autonomous hazard re-routing, explainable AMS hypoxia prediction, and multi-agency emergency rescue coverage across all 28 States & 8 UTs.'
+            )}
+          </p>
+
+          {/* Plume Hero Action Button Group */}
+          <div className="flex flex-wrap items-center justify-center gap-3.5 mb-10">
+            <button
+              onClick={() => onLaunchMap('Kedarnath Dham & Valley')}
+              className="btn-tactile inline-flex items-center justify-center whitespace-nowrap text-sm font-bold transition-all bg-[#FF6B35] hover:bg-[#E85D04] text-white shadow-2xl shadow-[#FF6B35]/40 h-11 px-6 gap-2 rounded-xl cursor-pointer group"
+            >
+              <span>{language === 'hi' ? 'नक्शा व योजना शुरू करें' : 'Launch Tactical Map & Planner'}</span>
+              <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
+            </button>
+
+            <button
+              onClick={() => {
+                onLaunchSimulation();
+                onSelectTab('simulation');
+              }}
+              className="btn-tactile inline-flex items-center justify-center whitespace-nowrap text-sm font-semibold transition-colors border border-white/25 bg-black/50 hover:bg-white/15 text-white h-11 px-5 rounded-xl cursor-pointer gap-2 shadow-md font-mono backdrop-blur-sm"
+            >
+              <Radio className="w-4 h-4 text-amber-400" />
+              <span>{language === 'hi' ? 'आपदा सिमुलेटर' : 'Simulate Disaster Bench'}</span>
+            </button>
+
+            <button
+              onClick={onOpenSOS}
+              className="btn-tactile inline-flex items-center justify-center whitespace-nowrap text-sm font-bold transition-colors border border-red-500/60 bg-red-600 hover:bg-red-500 text-white h-11 px-4 rounded-xl cursor-pointer gap-2 shadow-xl font-mono"
+            >
+              <AlertTriangle className="w-4 h-4" />
+              <span>{language === 'hi' ? 'एसओएस आपातकाल' : 'Emergency SOS'}</span>
+            </button>
+          </div>
         </div>
+      </section>
 
-        {/* 2. Plume Pan-India Live Safety Grid Metric Strip */}
+      {/* 2. Plume Pan-India Live Safety Grid & Coverage Explorer */}
+      <section id="coverage" className="relative mx-auto max-w-[84rem] px-4 sm:px-6 md:px-8 mt-12">
+        {/* 2.1 Metric Strip */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-5xl mx-auto mb-16 text-left">
           <div className="p-4 rounded-2xl bg-[#0e1017]/95 border border-white/15 backdrop-blur-md shadow-lg">
             <div className="text-xs font-mono text-[#FF6B35] uppercase font-bold flex items-center gap-1.5">
@@ -348,7 +379,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </div>
         </div>
 
-        {/* 3. High-Visibility Interactive Pan-India Coverage Explorer */}
+        {/* 2.2 Interactive Pan-India Coverage Explorer */}
         <div className="relative mx-auto max-w-[84rem] text-left">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 gap-3 border-b border-white/15 pb-4">
             <div>
