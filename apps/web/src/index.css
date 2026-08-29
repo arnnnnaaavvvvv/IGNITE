@@ -17,23 +17,23 @@
     --muted-foreground: #9ca3af;
     --border: rgba(255, 255, 255, 0.1);
     --input: rgba(255, 255, 255, 0.15);
-    --navigation-height: 3.5rem;
-    --color-one: #ffaa40;
-    --color-two: #9c40ff;
-    --color-three: #ffaa40;
+    /* Golden Palette Color Tokens */
+    --color-one: #f59e0b;
+    --color-two: #fbbf24;
+    --color-three: #d97706;
     
     /* Surface Tokens */
-    --surface-canvas: #000000;
-    --surface-panel: #0a0c10;
-    --surface-card: #10131c;
-    --surface-elevated: #161924;
-    --surface-hover: #1c202e;
+    --surface-canvas: #050402;
+    --surface-panel: #0d0a06;
+    --surface-card: #141009;
+    --surface-elevated: #1c170d;
+    --surface-hover: #262013;
     
     /* Border Tokens */
-    --border-hairline: rgba(255, 255, 255, 0.07);
-    --border-subtle: rgba(255, 255, 255, 0.12);
-    --border-medium: rgba(255, 255, 255, 0.2);
-    --border-focus: rgba(255, 170, 64, 0.5);
+    --border-hairline: rgba(245, 158, 11, 0.1);
+    --border-subtle: rgba(245, 158, 11, 0.18);
+    --border-medium: rgba(245, 158, 11, 0.32);
+    --border-focus: rgba(245, 158, 11, 0.65);
 
     /* Restrained Semantic Accents */
     --accent-emerald: #10b981;

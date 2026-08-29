@@ -258,24 +258,24 @@ export const LandingPage: React.FC<LandingPageProps> = ({
     <div className="min-h-screen bg-transparent text-white selection:bg-emerald-500/30 selection:text-white font-sans antialiased relative overflow-hidden">
       {/* 1. Hero Title & Summary Section */}
       <section id="hero" className="relative mx-auto mt-12 sm:mt-16 max-w-[84rem] px-4 sm:px-6 text-center md:px-8">
-        {/* Aceternity Large Ambient Background Watermark */}
-        <p className="pointer-events-none select-none absolute -top-12 left-1/2 -translate-x-1/2 text-center text-[100px] sm:text-[160px] md:text-[220px] lg:text-[280px] font-extrabold tracking-tighter bg-gradient-to-b from-white/[0.08] via-white/[0.03] to-transparent bg-clip-text text-transparent -z-10 leading-none">
+        {/* Golden Ambient Background Watermark */}
+        <p className="pointer-events-none select-none absolute -top-12 left-1/2 -translate-x-1/2 text-center text-[100px] sm:text-[160px] md:text-[220px] lg:text-[280px] font-extrabold tracking-tighter bg-gradient-to-b from-amber-400/[0.22] via-yellow-500/[0.06] to-transparent bg-clip-text text-transparent -z-10 leading-none">
           IGNITE
         </p>
 
-        {/* Shimmer Announcement Pill */}
+        {/* Golden Shimmer Announcement Pill */}
         <div
           onClick={() => onLaunchSimulation()}
-          className="backdrop-filter-[12px] inline-flex h-8 items-center justify-between rounded-full border border-white/20 bg-white/10 px-4 text-xs text-white transition-all ease-in hover:cursor-pointer hover:bg-white/15 group gap-1.5 shadow-md"
+          className="backdrop-filter-[12px] inline-flex h-8 items-center justify-between rounded-full border border-amber-400/30 bg-amber-950/50 px-4 text-xs text-amber-200 transition-all ease-in hover:cursor-pointer hover:bg-amber-900/60 group gap-1.5 shadow-lg shadow-amber-950/30"
         >
-          <p className="mx-auto max-w-md animate-shimmer bg-clip-text bg-no-repeat bg-gradient-to-r from-neutral-200 via-white via-50% to-neutral-200 inline-flex items-center justify-center font-medium">
+          <p className="mx-auto max-w-md animate-shimmer bg-clip-text bg-no-repeat bg-gradient-to-r from-amber-200 via-yellow-100 via-50% to-amber-200 inline-flex items-center justify-center font-semibold">
             <span>{language === 'hi' ? '✨ प्रस्तुत है भारत की पहली स्वायत्त आपदा-प्रतिरोधी सुरक्षा प्रणाली' : '✨ Pan-India Autonomous Tourist Safety & Route Mesh'}</span>
-            <ChevronRight className="ml-1.5 size-3.5 transition-transform duration-300 ease-in-out group-hover:translate-x-1" />
+            <ChevronRight className="ml-1.5 size-3.5 transition-transform duration-300 ease-in-out group-hover:translate-x-1 text-amber-400" />
           </p>
         </div>
 
-        {/* High-Contrast Hero Title */}
-        <h1 className="bg-gradient-to-br from-white via-slate-100 to-slate-400 bg-clip-text py-5 text-4xl font-bold leading-tight tracking-tight text-transparent text-balance sm:text-6xl md:text-7xl lg:text-8xl">
+        {/* Golden-Tinted Hero Title */}
+        <h1 className="bg-gradient-to-br from-amber-100 via-white to-amber-200/90 bg-clip-text py-5 text-4xl font-extrabold leading-tight tracking-tight text-transparent text-balance sm:text-6xl md:text-7xl lg:text-8xl drop-shadow-sm">
           {language === 'hi' ? (
             <>
               भारत के हर दुर्गम मार्ग पर<br className="hidden md:block" /> सुरक्षित और स्वायत्त नेविगेशन।
@@ -300,7 +300,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         <div className="flex flex-wrap items-center justify-center gap-3.5 mb-12">
           <button
             onClick={() => onLaunchMap('Kedarnath Dham & Valley')}
-            className="btn-tactile inline-flex items-center justify-center whitespace-nowrap text-sm font-bold transition-all bg-white text-black shadow-2xl hover:bg-neutral-200 h-11 px-6 gap-2 rounded-xl cursor-pointer group"
+            className="btn-tactile inline-flex items-center justify-center whitespace-nowrap text-sm font-bold transition-all bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 hover:from-amber-300 hover:to-yellow-200 text-black shadow-xl shadow-amber-500/20 h-11 px-6 gap-2 rounded-xl cursor-pointer group"
           >
             <span>{language === 'hi' ? 'नक्शा व योजना शुरू करें' : 'Launch Tactical Map & Planner'}</span>
             <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -308,9 +308,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
           <button
             onClick={() => onSelectTab('simulation')}
-            className="btn-tactile inline-flex items-center justify-center whitespace-nowrap text-sm font-semibold transition-colors border border-white/20 bg-white/10 hover:bg-white/15 text-white h-11 px-5 rounded-xl cursor-pointer gap-2 shadow-sm"
+            className="btn-tactile inline-flex items-center justify-center whitespace-nowrap text-sm font-semibold transition-colors border border-amber-400/25 bg-amber-950/40 hover:bg-amber-900/50 text-amber-100 h-11 px-5 rounded-xl cursor-pointer gap-2 shadow-sm"
           >
-            <Radio className="w-4 h-4 text-emerald-400" />
+            <Radio className="w-4 h-4 text-amber-400" />
             <span>{language === 'hi' ? 'आपदा बेंच डेमो' : 'Simulate Disaster Bench'}</span>
           </button>
 
