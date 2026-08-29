@@ -66,10 +66,10 @@ export const TrailMap: React.FC<TrailMapProps> = ({
 
       L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-      // CartoDB Voyager English map tiles (100% Free, Global English Place Names & Crisp Typography)
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        subdomains: 'abcd',
+      // Official OpenStreetMap standard tiles (100% Free, Open Source, Never Requires API Key)
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        subdomains: ['a', 'b', 'c'],
         maxZoom: 19,
       }).addTo(map);
 
