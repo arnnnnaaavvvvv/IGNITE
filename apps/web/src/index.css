@@ -132,15 +132,21 @@
 }
 
 .animate-marquee {
-  animation: marquee 28s linear infinite;
+  animation: marquee 32s linear infinite;
 }
 
 .animate-marquee-slow {
-  animation: marquee 45s linear infinite;
+  animation: marquee 50s linear infinite;
 }
 
 .animate-marquee-reverse {
-  animation: marquee 28s linear infinite reverse;
+  animation: marquee 32s linear infinite reverse;
+}
+
+.hover-pause:hover .animate-marquee,
+.hover-pause:hover .animate-marquee-reverse,
+.hover-pause:hover .animate-marquee-slow {
+  animation-play-state: paused;
 }
 
 /* Magic UI Border Beam Animation */

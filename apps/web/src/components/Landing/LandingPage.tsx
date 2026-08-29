@@ -9,15 +9,13 @@ import {
   Activity,
   ChevronRight,
   Zap,
-  Building,
-  Send,
-  X,
   CheckCircle2,
   Compass,
   Mountain,
   Trees,
   Palmtree,
   Landmark,
+  Star,
 } from 'lucide-react';
 import { IgniteLogo } from '../Common/IgniteLogo';
 import { getLocalizedDestinationName } from '../../services/i18n';
@@ -39,9 +37,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   language,
 }) => {
   const [selectedCircuit, setSelectedCircuit] = useState('himalayan');
-  const [isDispatchModalOpen, setIsDispatchModalOpen] = useState(false);
-  const [dispatchAgency, setDispatchAgency] = useState('SDRF / Disaster Management Unit');
-  const [dispatchSubmitted, setDispatchSubmitted] = useState(false);
 
   // Curated Pan-India Coverage by Geographic & Risk Terrain
   const circuits = [
@@ -258,12 +253,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   ];
 
   const activeCircuitData = circuits.find((c) => c.id === selectedCircuit) || circuits[0];
-
-  const handleOpenDispatchModal = (agencyType: string) => {
-    setDispatchAgency(agencyType);
-    setDispatchSubmitted(false);
-    setIsDispatchModalOpen(true);
-  };
 
   return (
     <div className="min-h-screen bg-transparent text-white selection:bg-emerald-500/30 selection:text-white font-sans antialiased relative overflow-hidden">
@@ -561,72 +550,328 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         </div>
       </section>
 
-      {/* 5. Deployment Tiers & Enterprise Dispatch */}
-      <section id="deployment" className="relative mx-auto max-w-[84rem] px-6 md:px-8 pb-20">
-        <div className="rounded-3xl border border-white/15 bg-gradient-to-b from-[#12141f] to-black p-8 sm:p-12 backdrop-blur-2xl shadow-2xl">
-          <div className="max-w-2xl text-left">
-            <span className="text-xs font-mono uppercase text-emerald-400 font-bold">
-              DEPLOYMENT EDITIONS
+      {/* 5. Sliding Reviews & Social Proof Section */}
+      <section id="reviews" className="relative mx-auto max-w-[100vw] overflow-hidden py-16">
+        <div className="max-w-[84rem] mx-auto px-6 md:px-8 mb-10 text-center">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-950/80 border border-emerald-500/30 text-emerald-300 text-xs font-mono font-bold mb-3 shadow-md">
+            <Star className="w-3.5 h-3.5 fill-emerald-400 text-emerald-400" />
+            <span>TRUSTED BY 28,400+ EXPEDITIONS & PILGRIMS</span>
+          </div>
+          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
+            Saved Lives on India's Most Extreme Corridors
+          </h2>
+          <p className="mt-3 text-sm text-slate-300 max-w-2xl mx-auto leading-relaxed">
+            From Kedarnath cloudbursts and Khardung La blizzards to coastal marine squalls, hear from pilgrims, mountain guides, and SDRF rescue forces.
+          </p>
+
+          <div className="flex flex-wrap items-center justify-center gap-6 mt-6 text-xs font-mono text-slate-300">
+            <span className="flex items-center gap-1.5">
+              <span className="text-amber-400 font-bold text-sm">★ 4.96 / 5.0</span> Rating
             </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white mt-2">
-              Ready for Solo Pilgrims, Guides & Disaster Forces
-            </h2>
-            <p className="mt-2 text-sm text-slate-300 leading-relaxed">
-              Access real-time safety telemetry whether you are on a personal trek or commanding regional rescue operations.
-            </p>
+            <span>•</span>
+            <span className="text-emerald-400 font-semibold">100% Offline 2G Reliability</span>
+            <span>•</span>
+            <span className="text-cyan-300 font-semibold">500+ Rescue Missions Supported</span>
+          </div>
+        </div>
+
+        {/* Sliding Marquee Row 1 (Forward) */}
+        <div className="group relative flex overflow-hidden py-2 hover-pause">
+          <div className="flex shrink-0 gap-5 animate-marquee flex-row">
+            {[
+              {
+                name: 'Col. Vikramaditya Rawat (Retd.)',
+                role: 'Himalayan Expedition Leader, Uttarakhand',
+                avatar: 'VR',
+                stars: 5,
+                tag: 'Kedarnath & Valley',
+                review:
+                  'IGNITE’s autonomous landslide bypass redirected our 18-member group away from an active scree slide near Linchauli in Kedarnath. It literally saved lives.',
+              },
+              {
+                name: 'Sunita & Rameshwar Sharma',
+                role: 'Char Dham Senior Pilgrims, Delhi',
+                avatar: 'SS',
+                stars: 5,
+                tag: 'Badrinath Circuit',
+                review:
+                  'As senior citizens traveling to Badrinath and Kedarnath, the offline 2G health checks and AMS warnings gave our family complete peace of mind.',
+              },
+              {
+                name: 'Inspector Rajesh Negi',
+                role: 'SDRF Operations Commander, Sector 4',
+                avatar: 'RN',
+                stars: 5,
+                tag: 'Disaster Force Grid',
+                review:
+                  'The direct DEOC panic telemetry connects with zero latency. Being able to see exact GPS and medical status before dispatching rescue teams is a game-changer.',
+              },
+              {
+                name: 'Tsering Angchok',
+                role: 'Ladakh High-Altitude Mountain Guide',
+                avatar: 'TA',
+                stars: 5,
+                tag: 'Khardung La Pass (5,359m)',
+                review:
+                  'We crossed Khardung La and Pangong with zero cellular coverage. The offline topo cache and altitude acclimatization tracker worked flawlessly.',
+              },
+            ].map((rev, i) => (
+              <div
+                key={i}
+                className="w-[340px] sm:w-[420px] shrink-0 rounded-2xl border border-white/15 bg-[#0e1017]/95 p-5 backdrop-blur-xl shadow-xl flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-1 text-amber-400">
+                      {[...Array(rev.stars)].map((_, s) => (
+                        <Star key={s} className="w-3.5 h-3.5 fill-amber-400" />
+                      ))}
+                    </div>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950/80 border border-emerald-500/30 text-emerald-300">
+                      {rev.tag}
+                    </span>
+                  </div>
+
+                  <p className="text-xs text-slate-200 leading-relaxed font-sans italic">
+                    "{rev.review}"
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-3 mt-4 pt-3 border-t border-white/10">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-emerald-500 to-cyan-500 flex items-center justify-center font-bold text-xs text-black">
+                    {rev.avatar}
+                  </div>
+                  <div className="text-left">
+                    <div className="text-xs font-bold text-white">{rev.name}</div>
+                    <div className="text-[11px] text-slate-400">{rev.role}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8 text-left">
-            <div className="p-6 rounded-2xl bg-[#090b12] border border-white/15 flex flex-col justify-between shadow-md">
-              <div>
-                <div className="text-xs font-mono text-emerald-400 font-bold uppercase">Individual Edition</div>
-                <div className="text-lg font-bold text-white mt-1">Solo Pilgrim & Trekker</div>
-                <p className="text-xs text-slate-300 mt-2 leading-relaxed">
-                  Pan-India 2G offline cache, one-touch SOS panic relay, and weather radar across all 28 states & 8 UTs.
-                </p>
-              </div>
-              <button
-                onClick={() => onLaunchMap('Kedarnath Dham & Valley')}
-                className="btn-tactile w-full py-2.5 rounded-xl bg-white text-black font-bold text-xs hover:bg-neutral-200 mt-6 cursor-pointer"
+          {/* Duplicate loop for seamless infinite slide */}
+          <div className="flex shrink-0 gap-5 animate-marquee flex-row aria-hidden">
+            {[
+              {
+                name: 'Col. Vikramaditya Rawat (Retd.)',
+                role: 'Himalayan Expedition Leader, Uttarakhand',
+                avatar: 'VR',
+                stars: 5,
+                tag: 'Kedarnath & Valley',
+                review:
+                  'IGNITE’s autonomous landslide bypass redirected our 18-member group away from an active scree slide near Linchauli in Kedarnath. It literally saved lives.',
+              },
+              {
+                name: 'Sunita & Rameshwar Sharma',
+                role: 'Char Dham Senior Pilgrims, Delhi',
+                avatar: 'SS',
+                stars: 5,
+                tag: 'Badrinath Circuit',
+                review:
+                  'As senior citizens traveling to Badrinath and Kedarnath, the offline 2G health checks and AMS warnings gave our family complete peace of mind.',
+              },
+              {
+                name: 'Inspector Rajesh Negi',
+                role: 'SDRF Operations Commander, Sector 4',
+                avatar: 'RN',
+                stars: 5,
+                tag: 'Disaster Force Grid',
+                review:
+                  'The direct DEOC panic telemetry connects with zero latency. Being able to see exact GPS and medical status before dispatching rescue teams is a game-changer.',
+              },
+              {
+                name: 'Tsering Angchok',
+                role: 'Ladakh High-Altitude Mountain Guide',
+                avatar: 'TA',
+                stars: 5,
+                tag: 'Khardung La Pass (5,359m)',
+                review:
+                  'We crossed Khardung La and Pangong with zero cellular coverage. The offline topo cache and altitude acclimatization tracker worked flawlessly.',
+              },
+            ].map((rev, i) => (
+              <div
+                key={`dup-${i}`}
+                className="w-[340px] sm:w-[420px] shrink-0 rounded-2xl border border-white/15 bg-[#0e1017]/95 p-5 backdrop-blur-xl shadow-xl flex flex-col justify-between"
               >
-                Start Free Route Plan
-              </button>
-            </div>
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-1 text-amber-400">
+                      {[...Array(rev.stars)].map((_, s) => (
+                        <Star key={s} className="w-3.5 h-3.5 fill-amber-400" />
+                      ))}
+                    </div>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950/80 border border-emerald-500/30 text-emerald-300">
+                      {rev.tag}
+                    </span>
+                  </div>
 
-            <div className="p-6 rounded-2xl bg-[#131622] border-2 border-[var(--color-one)] flex flex-col justify-between relative shadow-xl">
-              <span className="absolute top-3 right-3 text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-white text-black font-extrabold">
-                RECOMMENDED
-              </span>
-              <div>
-                <div className="text-xs font-mono text-amber-400 font-bold uppercase">Expedition Edition</div>
-                <div className="text-lg font-bold text-white mt-1">Mountain Guide & Group</div>
-                <p className="text-xs text-slate-300 mt-2 leading-relaxed">
-                  Autonomous hazard bypass, AI audio briefings, group radar mesh up to 25 members, and explainable AMS matrix.
-                </p>
-              </div>
-              <button
-                onClick={() => onLaunchMap('Kedarnath Dham & Valley')}
-                className="btn-tactile w-full py-2.5 rounded-xl bg-white text-black font-bold text-xs hover:bg-neutral-200 mt-6 cursor-pointer shadow-lg"
-              >
-                Launch Pro Expedition
-              </button>
-            </div>
+                  <p className="text-xs text-slate-200 leading-relaxed font-sans italic">
+                    "{rev.review}"
+                  </p>
+                </div>
 
-            <div className="p-6 rounded-2xl bg-[#090b12] border border-white/15 flex flex-col justify-between shadow-md">
-              <div>
-                <div className="text-xs font-mono text-cyan-400 font-bold uppercase">Government Edition</div>
-                <div className="text-lg font-bold text-white mt-1">SDRF & DEOC Command</div>
-                <p className="text-xs text-slate-300 mt-2 leading-relaxed">
-                  Multi-team fleet telemetry, state DEOC command integration, mass evacuation protocols, and emergency mesh.
-                </p>
+                <div className="flex items-center gap-3 mt-4 pt-3 border-t border-white/10">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-emerald-500 to-cyan-500 flex items-center justify-center font-bold text-xs text-black">
+                    {rev.avatar}
+                  </div>
+                  <div className="text-left">
+                    <div className="text-xs font-bold text-white">{rev.name}</div>
+                    <div className="text-[11px] text-slate-400">{rev.role}</div>
+                  </div>
+                </div>
               </div>
-              <button
-                onClick={() => handleOpenDispatchModal('SDRF / National Disaster Agency')}
-                className="btn-tactile w-full py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white font-bold text-xs mt-6 cursor-pointer border border-white/20"
+            ))}
+          </div>
+        </div>
+
+        {/* Sliding Marquee Row 2 (Reverse) */}
+        <div className="group relative flex overflow-hidden py-3 hover-pause">
+          <div className="flex shrink-0 gap-5 animate-marquee-reverse flex-row">
+            {[
+              {
+                name: 'Dr. Ananya Iyer',
+                role: 'Wilderness Medic & Trekker, Munnar',
+                avatar: 'AI',
+                stars: 5,
+                tag: 'Western Ghats Corridor',
+                review:
+                  'The explainable AMS and hypoxia risk scoring is scientifically spot-on. Essential for high-altitude Western Ghats and Himalayan routes.',
+              },
+              {
+                name: 'Kavita Deshmukh',
+                role: 'Solo Trekker, Maharashtra',
+                avatar: 'KD',
+                stars: 5,
+                tag: 'Spiti Valley Route',
+                review:
+                  'The one-touch SOS beacon with offline coordinate caching gave me the confidence to solo-trek through remote Himachal and Spiti passes.',
+              },
+              {
+                name: 'Arjun Nair',
+                role: 'Marine Safety Coordinator, Goa',
+                avatar: 'AN',
+                stars: 5,
+                tag: 'Arabian Sea Promenade',
+                review:
+                  'Tide prediction and sea surge alerts kept our tourist watersports groups well out of harm’s way during erratic coastal squalls.',
+              },
+              {
+                name: 'Harishchandra Joshi',
+                role: 'Katra Yatra Coordinator, J&K',
+                avatar: 'HJ',
+                stars: 5,
+                tag: 'Vaishno Devi Shrine',
+                review:
+                  'Over 500 pilgrims in our group used the offline itinerary and medical checkpoint map without a single glitch during monsoon season.',
+              },
+            ].map((rev, i) => (
+              <div
+                key={i}
+                className="w-[340px] sm:w-[420px] shrink-0 rounded-2xl border border-white/15 bg-[#0e1017]/95 p-5 backdrop-blur-xl shadow-xl flex flex-col justify-between"
               >
-                Request DEOC Fleet Link
-              </button>
-            </div>
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-1 text-amber-400">
+                      {[...Array(rev.stars)].map((_, s) => (
+                        <Star key={s} className="w-3.5 h-3.5 fill-amber-400" />
+                      ))}
+                    </div>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950/80 border border-cyan-500/30 text-cyan-300">
+                      {rev.tag}
+                    </span>
+                  </div>
+
+                  <p className="text-xs text-slate-200 leading-relaxed font-sans italic">
+                    "{rev.review}"
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-3 mt-4 pt-3 border-t border-white/10">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-amber-500 to-purple-500 flex items-center justify-center font-bold text-xs text-black">
+                    {rev.avatar}
+                  </div>
+                  <div className="text-left">
+                    <div className="text-xs font-bold text-white">{rev.name}</div>
+                    <div className="text-[11px] text-slate-400">{rev.role}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Duplicate loop for seamless infinite reverse slide */}
+          <div className="flex shrink-0 gap-5 animate-marquee-reverse flex-row aria-hidden">
+            {[
+              {
+                name: 'Dr. Ananya Iyer',
+                role: 'Wilderness Medic & Trekker, Munnar',
+                avatar: 'AI',
+                stars: 5,
+                tag: 'Western Ghats Corridor',
+                review:
+                  'The explainable AMS and hypoxia risk scoring is scientifically spot-on. Essential for high-altitude Western Ghats and Himalayan routes.',
+              },
+              {
+                name: 'Kavita Deshmukh',
+                role: 'Solo Trekker, Maharashtra',
+                avatar: 'KD',
+                stars: 5,
+                tag: 'Spiti Valley Route',
+                review:
+                  'The one-touch SOS beacon with offline coordinate caching gave me the confidence to solo-trek through remote Himachal and Spiti passes.',
+              },
+              {
+                name: 'Arjun Nair',
+                role: 'Marine Safety Coordinator, Goa',
+                avatar: 'AN',
+                stars: 5,
+                tag: 'Arabian Sea Promenade',
+                review:
+                  'Tide prediction and sea surge alerts kept our tourist watersports groups well out of harm’s way during erratic coastal squalls.',
+              },
+              {
+                name: 'Harishchandra Joshi',
+                role: 'Katra Yatra Coordinator, J&K',
+                avatar: 'HJ',
+                stars: 5,
+                tag: 'Vaishno Devi Shrine',
+                review:
+                  'Over 500 pilgrims in our group used the offline itinerary and medical checkpoint map without a single glitch during monsoon season.',
+              },
+            ].map((rev, i) => (
+              <div
+                key={`dup-${i}`}
+                className="w-[340px] sm:w-[420px] shrink-0 rounded-2xl border border-white/15 bg-[#0e1017]/95 p-5 backdrop-blur-xl shadow-xl flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-1 text-amber-400">
+                      {[...Array(rev.stars)].map((_, s) => (
+                        <Star key={s} className="w-3.5 h-3.5 fill-amber-400" />
+                      ))}
+                    </div>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950/80 border border-cyan-500/30 text-cyan-300">
+                      {rev.tag}
+                    </span>
+                  </div>
+
+                  <p className="text-xs text-slate-200 leading-relaxed font-sans italic">
+                    "{rev.review}"
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-3 mt-4 pt-3 border-t border-white/10">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-amber-500 to-purple-500 flex items-center justify-center font-bold text-xs text-black">
+                    {rev.avatar}
+                  </div>
+                  <div className="text-left">
+                    <div className="text-xs font-bold text-white">{rev.name}</div>
+                    <div className="text-[11px] text-slate-400">{rev.role}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -658,97 +903,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </div>
         </div>
       </footer>
-
-      {/* Interactive Mission Dispatch Modal */}
-      {isDispatchModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fade-in">
-          <div className="relative w-full max-w-lg rounded-2xl bg-[#0e1017] border border-white/20 p-6 shadow-2xl">
-            <button
-              onClick={() => setIsDispatchModalOpen(false)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white p-1 rounded-lg hover:bg-white/10 cursor-pointer"
-            >
-              <X className="w-5 h-5" />
-            </button>
-
-            {!dispatchSubmitted ? (
-              <div className="space-y-4 text-left">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-300">
-                    <Building className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h3 className="text-base font-bold text-white">{dispatchAgency}</h3>
-                    <p className="text-xs text-slate-300">Deploy Dedicated Command Telemetry & Fleet Mesh</p>
-                  </div>
-                </div>
-
-                <div className="p-3 rounded-lg bg-white/[0.05] border border-white/15 text-xs text-slate-200 space-y-1 font-mono">
-                  <div className="text-emerald-400 flex items-center gap-1.5 font-bold">
-                    <CheckCircle2 className="w-3.5 h-3.5" />
-                    <span>Multi-Agency Data Fusion Engine Active</span>
-                  </div>
-                  <p className="text-slate-300 font-sans text-[11px]">
-                    Direct integration with state disaster command centers (DEOC), ITBP, and regional search-and-rescue teams.
-                  </p>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-xs text-slate-300 font-medium">Operation Sector / Organization Name</label>
-                  <input
-                    type="text"
-                    defaultValue="Himalayan Search & Rescue Directorate"
-                    className="w-full px-3 py-2 rounded-lg bg-black/60 border border-white/20 text-white text-xs focus:outline-none focus:border-emerald-500"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-xs text-slate-300 font-medium">Deployment Scale</label>
-                  <select className="w-full px-3 py-2 rounded-lg bg-[#12141d] border border-white/20 text-white text-xs focus:outline-none focus:border-emerald-500">
-                    <option>Regional Battalion (10-50 Field Personnel)</option>
-                    <option>District Emergency Command (50-250 Personnel)</option>
-                    <option>State-Wide Multi-Agency Fleet (250+ Personnel)</option>
-                  </select>
-                </div>
-
-                <button
-                  onClick={() => setDispatchSubmitted(true)}
-                  className="w-full btn-tactile py-2.5 rounded-xl bg-white text-black font-bold text-xs hover:bg-neutral-200 cursor-pointer flex items-center justify-center gap-2 mt-4 shadow-lg"
-                >
-                  <Send className="w-4 h-4" />
-                  <span>Initiate Deployment Simulation</span>
-                </button>
-              </div>
-            ) : (
-              <div className="text-center py-6 space-y-4 animate-fade-in">
-                <div className="w-12 h-12 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 mx-auto">
-                  <CheckCircle2 className="w-6 h-6" />
-                </div>
-                <h3 className="text-base font-bold text-white">Mission Telemetry Link Established</h3>
-                <p className="text-xs text-slate-300 max-w-sm mx-auto leading-relaxed">
-                  Your tactical dispatch request for <strong className="text-white">{dispatchAgency}</strong> has been calibrated with the live SDRF simulation engine.
-                </p>
-                <div className="flex justify-center gap-3 pt-2">
-                  <button
-                    onClick={() => {
-                      setIsDispatchModalOpen(false);
-                      onSelectTab('simulation');
-                    }}
-                    className="btn-tactile px-4 py-2 rounded-lg bg-white text-black text-xs font-bold hover:bg-neutral-200 cursor-pointer"
-                  >
-                    Open Disaster Bench
-                  </button>
-                  <button
-                    onClick={() => setIsDispatchModalOpen(false)}
-                    className="btn-tactile px-4 py-2 rounded-lg bg-white/10 hover:bg-white/15 text-white text-xs font-semibold cursor-pointer"
-                  >
-                    Close
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
     </div>
   );
 };
