@@ -256,39 +256,35 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
   return (
     <div className="min-h-screen bg-transparent text-white selection:bg-emerald-500/30 selection:text-white font-sans antialiased relative overflow-hidden">
-      {/* 1. Hero Title & Summary Section */}
-      <section id="hero" className="relative mx-auto mt-12 sm:mt-16 max-w-[84rem] px-4 sm:px-6 text-center md:px-8">
-        {/* Golden Ambient Background Watermark */}
-        <p className="pointer-events-none select-none absolute -top-12 left-1/2 -translate-x-1/2 text-center text-[100px] sm:text-[160px] md:text-[220px] lg:text-[280px] font-extrabold tracking-tighter bg-gradient-to-b from-amber-400/[0.22] via-yellow-500/[0.06] to-transparent bg-clip-text text-transparent -z-10 leading-none">
-          IGNITE
-        </p>
-
-        {/* Golden Shimmer Announcement Pill */}
+      {/* 1. Plume Editorial Hero Section */}
+      <section id="hero" className="relative mx-auto mt-10 sm:mt-14 max-w-[84rem] px-4 sm:px-6 text-center md:px-8">
+        {/* Plume Editorial Shimmer Announcement Pill */}
         <div
           onClick={() => onLaunchSimulation()}
-          className="backdrop-filter-[12px] inline-flex h-8 items-center justify-between rounded-full border border-amber-400/30 bg-amber-950/50 px-4 text-xs text-amber-200 transition-all ease-in hover:cursor-pointer hover:bg-amber-900/60 group gap-1.5 shadow-lg shadow-amber-950/30"
+          className="inline-flex h-8 items-center justify-between rounded-full border border-[#FF6B35]/40 bg-[#FF6B35]/10 px-4 text-xs text-[#FF6B35] transition-all ease-in hover:cursor-pointer hover:bg-[#FF6B35]/20 group gap-2 shadow-sm font-mono"
         >
-          <p className="mx-auto max-w-md animate-shimmer bg-clip-text bg-no-repeat bg-gradient-to-r from-amber-200 via-yellow-100 via-50% to-amber-200 inline-flex items-center justify-center font-semibold">
-            <span>{language === 'hi' ? '✨ प्रस्तुत है भारत की पहली स्वायत्त आपदा-प्रतिरोधी सुरक्षा प्रणाली' : '✨ Pan-India Autonomous Tourist Safety & Route Mesh'}</span>
-            <ChevronRight className="ml-1.5 size-3.5 transition-transform duration-300 ease-in-out group-hover:translate-x-1 text-amber-400" />
-          </p>
+          <span className="w-2 h-2 rounded-full bg-[#FF6B35] animate-pulse" />
+          <span className="font-semibold tracking-wide">
+            {language === 'hi' ? '✦ स्वायत्त आपदा-प्रतिरोधी सुरक्षा प्रणाली' : '✦ PAN-INDIA AUTONOMOUS SAFETY ENGINE'}
+          </span>
+          <ChevronRight className="size-3.5 transition-transform duration-300 ease-in-out group-hover:translate-x-1 text-[#FF6B35]" />
         </div>
 
-        {/* Golden-Tinted Hero Title */}
-        <h1 className="bg-gradient-to-br from-amber-100 via-white to-amber-200/90 bg-clip-text py-5 text-4xl font-extrabold leading-tight tracking-tight text-transparent text-balance sm:text-6xl md:text-7xl lg:text-8xl drop-shadow-sm">
+        {/* Plume Editorial Headline */}
+        <h1 className="font-display py-5 text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-6xl md:text-7xl lg:text-8xl drop-shadow-sm max-w-5xl mx-auto">
           {language === 'hi' ? (
             <>
-              भारत के हर दुर्गम मार्ग पर<br className="hidden md:block" /> सुरक्षित और स्वायत्त नेविगेशन।
+              भारत के हर दुर्गम मार्ग पर<br className="hidden md:block" /> <span className="text-[#FF6B35] italic">स्वायत्त व सुरक्षित</span> नेविगेशन।
             </>
           ) : (
             <>
-              Navigate High-Risk Trails &<br className="hidden md:block" /> Remote India with Total Safety.
+              Navigate High-Risk Trails &<br className="hidden md:block" /> Remote India with <span className="text-[#FF6B35] italic">Total Safety.</span>
             </>
           )}
         </h1>
 
-        {/* High-Visibility Subheading */}
-        <p className="mb-8 text-base font-normal tracking-tight text-slate-200 md:text-xl text-balance max-w-3xl mx-auto leading-relaxed">
+        {/* Plume Editorial Subheading */}
+        <p className="mb-8 text-base font-normal tracking-tight text-slate-300 md:text-xl text-balance max-w-3xl mx-auto leading-relaxed font-sans">
           {language === 'hi' ? (
             'वास्तविक समय उपग्रह मौसम रडार, स्वायत्त भूस्खलन बाईपास, 2G ऑफलाइन आपातकालीन कैश और सभी 28 राज्यों व 8 केंद्र शासित प्रदेशों में एसडीआरएफ त्वरित बचाव सहायता।'
           ) : (
@@ -296,11 +292,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           )}
         </p>
 
-        {/* Hero Action Button Group */}
-        <div className="flex flex-wrap items-center justify-center gap-3.5 mb-12">
+        {/* Plume Hero Action Button Group */}
+        <div className="flex flex-wrap items-center justify-center gap-3.5 mb-14">
           <button
             onClick={() => onLaunchMap('Kedarnath Dham & Valley')}
-            className="btn-tactile inline-flex items-center justify-center whitespace-nowrap text-sm font-bold transition-all bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 hover:from-amber-300 hover:to-yellow-200 text-black shadow-xl shadow-amber-500/20 h-11 px-6 gap-2 rounded-xl cursor-pointer group"
+            className="btn-tactile inline-flex items-center justify-center whitespace-nowrap text-sm font-bold transition-all bg-[#FF6B35] hover:bg-[#E85D04] text-white shadow-xl shadow-[#FF6B35]/25 h-11 px-6 gap-2 rounded-xl cursor-pointer group"
           >
             <span>{language === 'hi' ? 'नक्शा व योजना शुरू करें' : 'Launch Tactical Map & Planner'}</span>
             <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -308,57 +304,57 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
           <button
             onClick={() => onSelectTab('simulation')}
-            className="btn-tactile inline-flex items-center justify-center whitespace-nowrap text-sm font-semibold transition-colors border border-amber-400/25 bg-amber-950/40 hover:bg-amber-900/50 text-amber-100 h-11 px-5 rounded-xl cursor-pointer gap-2 shadow-sm"
+            className="btn-tactile inline-flex items-center justify-center whitespace-nowrap text-sm font-semibold transition-colors border border-white/20 bg-white/10 hover:bg-white/15 text-white h-11 px-5 rounded-xl cursor-pointer gap-2 shadow-sm font-mono"
           >
-            <Radio className="w-4 h-4 text-amber-400" />
-            <span>{language === 'hi' ? 'आपदा बेंच डेमो' : 'Simulate Disaster Bench'}</span>
+            <Radio className="w-4 h-4 text-[#FF6B35]" />
+            <span>{language === 'hi' ? 'आपदा सिमुलेटर' : 'Simulate Disaster Bench'}</span>
           </button>
 
           <button
             onClick={onOpenSOS}
-            className="btn-tactile inline-flex items-center justify-center whitespace-nowrap text-sm font-bold transition-colors border border-red-500/50 bg-red-950/80 hover:bg-red-900/80 text-red-200 h-11 px-4 rounded-xl cursor-pointer gap-2 shadow-lg"
+            className="btn-tactile inline-flex items-center justify-center whitespace-nowrap text-sm font-bold transition-colors border border-red-500/50 bg-red-600/90 hover:bg-red-600 text-white h-11 px-4 rounded-xl cursor-pointer gap-2 shadow-lg font-mono"
           >
-            <AlertTriangle className="w-4 h-4 text-red-400" />
+            <AlertTriangle className="w-4 h-4" />
             <span>{language === 'hi' ? 'एसओएस आपातकाल' : 'Emergency SOS'}</span>
           </button>
         </div>
 
-        {/* 2. Pan-India Live Safety Grid Metric Strip */}
+        {/* 2. Plume Pan-India Live Safety Grid Metric Strip */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-5xl mx-auto mb-16 text-left">
-          <div className="p-4 rounded-2xl bg-[#0e1017]/90 border border-white/15 backdrop-blur-md">
-            <div className="text-xs font-mono text-emerald-400 uppercase font-bold flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              Pan-India Mesh
+          <div className="p-4 rounded-2xl bg-[#0e1017]/95 border border-white/15 backdrop-blur-md shadow-lg">
+            <div className="text-xs font-mono text-[#FF6B35] uppercase font-bold flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-[#FF6B35] animate-pulse" />
+              Pan-India Grid
             </div>
-            <div className="text-2xl font-extrabold text-white mt-1">28 States & 8 UTs</div>
-            <div className="text-xs text-slate-300 mt-0.5">Highways, trails & pilgrimage circuits</div>
+            <div className="text-2xl font-extrabold text-white mt-1 font-display">28 States & 8 UTs</div>
+            <div className="text-xs text-slate-300 mt-0.5">Highways, trails & pilgrimages</div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-[#0e1017]/90 border border-white/15 backdrop-blur-md">
+          <div className="p-4 rounded-2xl bg-[#0e1017]/95 border border-white/15 backdrop-blur-md shadow-lg">
             <div className="text-xs font-mono text-cyan-400 uppercase font-bold flex items-center gap-1.5">
               <Shield className="w-3.5 h-3.5" />
               SDRF Standby
             </div>
-            <div className="text-2xl font-extrabold text-white mt-1">500+ Rescue Posts</div>
+            <div className="text-2xl font-extrabold text-white mt-1 font-display">500+ Posts</div>
             <div className="text-xs text-slate-300 mt-0.5">Direct DEOC & ITBP telemetry</div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-[#0e1017]/90 border border-white/15 backdrop-blur-md">
+          <div className="p-4 rounded-2xl bg-[#0e1017]/95 border border-white/15 backdrop-blur-md shadow-lg">
             <div className="text-xs font-mono text-amber-400 uppercase font-bold flex items-center gap-1.5">
               <WifiOff className="w-3.5 h-3.5" />
-              Offline 2G Mesh
+              Offline 2G
             </div>
-            <div className="text-2xl font-extrabold text-white mt-1">100% Signal-Free</div>
+            <div className="text-2xl font-extrabold text-white mt-1 font-display">100% Signal-Free</div>
             <div className="text-xs text-slate-300 mt-0.5">Local cache for routes & SOS</div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-[#0e1017]/90 border border-white/15 backdrop-blur-md">
-            <div className="text-xs font-mono text-purple-400 uppercase font-bold flex items-center gap-1.5">
+          <div className="p-4 rounded-2xl bg-[#0e1017]/95 border border-white/15 backdrop-blur-md shadow-lg">
+            <div className="text-xs font-mono text-emerald-400 uppercase font-bold flex items-center gap-1.5">
               <Zap className="w-3.5 h-3.5" />
               Auto-Failover
             </div>
-            <div className="text-2xl font-extrabold text-white mt-1">&lt;450ms Reroute</div>
-            <div className="text-xs text-slate-300 mt-0.5">Instant bypass on cloudburst/landslide</div>
+            <div className="text-2xl font-extrabold text-white mt-1 font-display">&lt;450ms Reroute</div>
+            <div className="text-xs text-slate-300 mt-0.5">Instant bypass on cloudburst</div>
           </div>
         </div>
 
@@ -393,13 +389,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 <button
                   key={circuit.id}
                   onClick={() => setSelectedCircuit(circuit.id)}
-                  className={`btn-tactile shrink-0 px-4 py-2.5 rounded-xl text-xs font-bold cursor-pointer transition-all border flex items-center gap-2 ${
+                  className={`btn-tactile shrink-0 px-4 py-2.5 rounded-xl text-xs font-bold cursor-pointer transition-all border flex items-center gap-2 font-mono ${
                     isActive
-                      ? 'bg-white text-black border-white shadow-xl scale-[1.02]'
+                      ? 'bg-[#FF6B35] text-white border-[#FF6B35] shadow-lg shadow-[#FF6B35]/25 scale-[1.02]'
                       : 'bg-[#0f121d] border-white/15 text-slate-200 hover:text-white hover:bg-white/10'
                   }`}
                 >
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-black' : 'text-emerald-400'}`} />
+                  <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-[#FF6B35]'}`} />
                   <span>{circuit.name}</span>
                 </button>
               );
@@ -411,7 +407,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             <span className="text-xs font-mono text-slate-300">
               Region: <strong className="text-white">{activeCircuitData.badge}</strong>
             </span>
-            <span className="text-xs font-mono text-emerald-400 font-semibold">
+            <span className="text-xs font-mono text-[#FF6B35] font-semibold">
               {activeCircuitData.destinations.length} Key Routes Active
             </span>
           </div>
@@ -421,7 +417,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             {activeCircuitData.destinations.map((dest) => (
               <div
                 key={dest.name}
-                className="rounded-2xl border border-white/15 bg-[#0e1017]/95 p-5 backdrop-blur-xl hover:border-emerald-500/50 transition-all flex flex-col justify-between shadow-xl group hover:-translate-y-1"
+                className="rounded-2xl border border-white/15 bg-[#0e1017]/95 p-5 backdrop-blur-xl hover:border-[#FF6B35]/60 transition-all flex flex-col justify-between shadow-xl group hover:-translate-y-1"
               >
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-2">
@@ -433,7 +429,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                     </span>
                   </div>
 
-                  <h3 className="text-base font-bold text-white group-hover:text-emerald-300 transition-colors">
+                  <h3 className="text-base font-bold text-white group-hover:text-[#FF6B35] transition-colors font-display">
                     {getLocalizedDestinationName(dest.name, language)}
                   </h3>
 
@@ -462,7 +458,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
                 <button
                   onClick={() => onLaunchMap(dest.name)}
-                  className="btn-tactile w-full py-2.5 rounded-xl bg-white text-black font-bold text-xs hover:bg-neutral-200 cursor-pointer flex items-center justify-center gap-1.5 mt-5 shadow-md"
+                  className="btn-tactile w-full py-2.5 rounded-xl bg-white text-black font-bold text-xs hover:bg-[#FF6B35] hover:text-white cursor-pointer flex items-center justify-center gap-1.5 mt-5 shadow-md transition-colors"
                 >
                   <span>{language === 'hi' ? 'यह मार्ग बनाएं' : 'Synthesize Route Plan'}</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -476,24 +472,24 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       {/* 4. Core Tactical Capabilities Grid (High Visibility) */}
       <section id="features" className="relative mx-auto max-w-[84rem] px-6 md:px-8 py-20">
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <span className="text-xs font-mono uppercase tracking-wider text-emerald-400 font-bold">
+          <span className="text-xs font-mono uppercase tracking-wider text-[#FF6B35] font-bold">
             TACTICAL ARCHITECTURE
           </span>
-          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white mt-2">
+          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white mt-2 font-display">
             Engineered for Zero-Connectivity & Extreme Terrains
           </h2>
-          <p className="mt-3 text-base text-slate-300">
+          <p className="mt-3 text-base text-slate-300 font-sans">
             Every layer of IGNITE is designed to protect lives during flash floods, cloudbursts, and high-altitude hypoxia.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <div onClick={() => onSelectTab('map')} className="rounded-2xl border border-white/15 bg-[#0e1017]/90 backdrop-blur-md p-6 hover:border-emerald-500/50 transition-all cursor-pointer group shadow-xl">
-            <div className="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-300 mb-4 group-hover:scale-105 transition-transform">
+          <div onClick={() => onSelectTab('map')} className="rounded-2xl border border-white/15 bg-[#0e1017]/90 backdrop-blur-md p-6 hover:border-[#FF6B35]/60 transition-all cursor-pointer group shadow-xl">
+            <div className="w-12 h-12 rounded-xl bg-[#FF6B35]/20 border border-[#FF6B35]/40 flex items-center justify-center text-[#FF6B35] mb-4 group-hover:scale-105 transition-transform">
               <Zap className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">Autonomous Safe Rerouting</h3>
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <h3 className="text-lg font-bold text-white mb-2 font-display">Autonomous Safe Rerouting</h3>
+            <p className="text-xs text-slate-300 leading-relaxed font-sans">
               When landslides or cloudburst thresholds trigger, the engine automatically recalculates verified escape bypasses and shelter waypoints within 450ms.
             </p>
           </div>
@@ -502,8 +498,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             <div className="w-12 h-12 rounded-xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-300 mb-4 group-hover:scale-105 transition-transform">
               <WifiOff className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">Offline-First 2G Cache</h3>
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <h3 className="text-lg font-bold text-white mb-2 font-display">Offline-First 2G Cache</h3>
+            <p className="text-xs text-slate-300 leading-relaxed font-sans">
               Complete itineraries, GPS coordinates, oxygen booth waypoints, and emergency protocols stay 100% accessible even with zero cellular signal.
             </p>
           </div>
@@ -512,8 +508,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             <div className="w-12 h-12 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-300 mb-4 group-hover:scale-105 transition-transform">
               <Activity className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">Explainable Risk Matrix</h3>
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <h3 className="text-lg font-bold text-white mb-2 font-display">Explainable Risk Matrix</h3>
+            <p className="text-xs text-slate-300 leading-relaxed font-sans">
               AI decomposes complex safety conditions into actionable sub-scores: Acute Mountain Sickness (AMS), slope gradient, rainfall, and audio safety briefings.
             </p>
           </div>
@@ -522,8 +518,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             <div className="w-12 h-12 rounded-xl bg-red-500/20 border border-red-500/40 flex items-center justify-center text-red-300 mb-4 group-hover:scale-105 transition-transform">
               <AlertTriangle className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">One-Touch SDRF SOS Beacon</h3>
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <h3 className="text-lg font-bold text-white mb-2 font-display">One-Touch SDRF SOS Beacon</h3>
+            <p className="text-xs text-slate-300 leading-relaxed font-sans">
               Instant panic signal dispatches live coordinates, altitude, and group medical state directly to local district disaster response force units.
             </p>
           </div>
@@ -532,8 +528,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             <div className="w-12 h-12 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-300 mb-4 group-hover:scale-105 transition-transform">
               <Radio className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">Multi-Scenario Disaster Bench</h3>
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <h3 className="text-lg font-bold text-white mb-2 font-display">Multi-Scenario Disaster Bench</h3>
+            <p className="text-xs text-slate-300 leading-relaxed font-sans">
               Stress-test expedition plans against cloudbursts, glacial surges, rockfalls, and heatwaves before you set foot on the mountain trail.
             </p>
           </div>
@@ -542,8 +538,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             <div className="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-300 mb-4 group-hover:scale-105 transition-transform">
               <Users className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">Group Live Mesh Radar</h3>
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <h3 className="text-lg font-bold text-white mb-2 font-display">Group Live Mesh Radar</h3>
+            <p className="text-xs text-slate-300 leading-relaxed font-sans">
               Track team members within dynamic geofences. Automatically alert leaders when a member falls behind or strays outside the safe corridor.
             </p>
           </div>
@@ -553,8 +549,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       {/* 5. Sliding Reviews & Social Proof Section */}
       <section id="reviews" className="relative mx-auto max-w-[100vw] overflow-hidden py-16">
         <div className="max-w-[84rem] mx-auto px-6 md:px-8 mb-10 text-center">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-950/80 border border-emerald-500/30 text-emerald-300 text-xs font-mono font-bold mb-3 shadow-md">
-            <Star className="w-3.5 h-3.5 fill-emerald-400 text-emerald-400" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FF6B35]/15 border border-[#FF6B35]/40 text-[#FF6B35] text-xs font-mono font-bold mb-3 shadow-sm">
+            <Star className="w-3.5 h-3.5 fill-[#FF6B35] text-[#FF6B35]" />
             <span>TRUSTED BY 28,400+ EXPEDITIONS & PILGRIMS</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
