@@ -8,14 +8,16 @@ import {
   Users,
   Activity,
   ChevronRight,
-  HeartHandshake,
   Zap,
-  Check,
   Building,
   Send,
   X,
-  MapPin,
   CheckCircle2,
+  Compass,
+  Mountain,
+  Trees,
+  Palmtree,
+  Landmark,
 } from 'lucide-react';
 import { IgniteLogo } from '../Common/IgniteLogo';
 import { getLocalizedDestinationName } from '../../services/i18n';
@@ -35,92 +37,227 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   onOpenSOS,
   onSelectTab,
   language,
-  isWebSocketConnected = true,
 }) => {
-  const [isAnnual, setIsAnnual] = useState(true);
-  const [selectedPreviewDest, setSelectedPreviewDest] = useState('Kedarnath Dham & Valley');
+  const [selectedCircuit, setSelectedCircuit] = useState('himalayan');
   const [isDispatchModalOpen, setIsDispatchModalOpen] = useState(false);
   const [dispatchAgency, setDispatchAgency] = useState('SDRF / Disaster Management Unit');
   const [dispatchSubmitted, setDispatchSubmitted] = useState(false);
 
-  const previewDestinations = [
+  // Curated Pan-India Coverage by Geographic & Risk Terrain
+  const circuits = [
     {
-      name: 'Kedarnath Dham & Valley',
-      region: 'Himalayan Alpine Corridor',
-      base: 'Gaurikund Base (1,982m)',
-      summit: 'Kedarnath Dham (3,583m)',
-      distance: '14.2 km trail',
-      alt: '3,583m',
-      riskScore: 24,
-      riskText: 'Low Risk • Safe Corridor',
-      weather: 'Clear Skies (11°C)',
-      landslide: 'Low (8%)',
-      sdrf: 'Post #4 Standby',
-      waypoints: ['Jungle Chatti [Safe]', 'Bheembali [Shelter Active]', 'Linchauli [Oxygen Booth]', 'Sanctuary'],
+      id: 'himalayan',
+      name: 'Himalayan High Altitude & Pilgrimage',
+      name_hi: 'हिमालयी उच्च क्षेत्र एवं तीर्थ कॉरिडोर',
+      icon: Mountain,
+      badge: 'Uttarakhand, Himachal, J&K',
+      badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
+      destinations: [
+        {
+          name: 'Kedarnath Dham & Valley',
+          state: 'Uttarakhand',
+          elevation: '3,583m',
+          terrain: 'Glacial Alpine Trail',
+          safetyScore: 92,
+          safetyText: 'Verified Safe',
+          rescueAgency: 'SDRF 7th Bn Standby',
+          keyFeatures: ['AMS Acclimatization Booths', 'Slope Stability Monitored', '14.2 km Verified Track'],
+        },
+        {
+          name: 'Badrinath & Mana Border',
+          state: 'Uttarakhand',
+          elevation: '3,133m',
+          terrain: 'Alaknanda River Corridor',
+          safetyScore: 88,
+          safetyText: 'Clear Corridor',
+          rescueAgency: 'ITBP & SDRF Command',
+          keyFeatures: ['Vasudhara Falls Bypass', 'Bridge Sensors Online', 'Helipad Rescue Ready'],
+        },
+        {
+          name: 'Gangotri & Gaumukh Glacier',
+          state: 'Uttarakhand',
+          elevation: '4,023m',
+          terrain: 'Glacial Moraine Track',
+          safetyScore: 84,
+          safetyText: 'Extreme Altitude',
+          rescueAgency: 'Forest & SDRF Patrol',
+          keyFeatures: ['Glacial Surges Tracked', 'Bhojbasa Night Shelter', 'O2 Satellite Relay'],
+        },
+        {
+          name: 'Vaishno Devi Shrine & Katra',
+          state: 'Jammu & Kashmir',
+          elevation: '1,585m',
+          terrain: 'Trikuta Shivalik Path',
+          safetyScore: 95,
+          safetyText: 'Optimal Safety',
+          rescueAgency: 'Shrine Board & CRPF',
+          keyFeatures: ['Automated Landslide Fences', 'Medical Posts Every 1km', 'Paved Track'],
+        },
+      ],
     },
     {
-      name: 'Leh, Pangong Tso & Khardung La',
-      region: 'Trans-Himalayan High Altitude',
-      base: 'Leh Town Base (3,500m)',
-      summit: 'Khardung La Pass (5,359m)',
-      distance: '39.8 km trail',
-      alt: '5,359m',
-      riskScore: 38,
-      riskText: 'Moderate AMS Vigilance',
-      weather: 'Sub-Zero Dry (-2°C)',
-      landslide: 'Glacial Scree (18%)',
-      sdrf: 'ITBP High-Altitude Unit',
-      waypoints: ['South Pullu Checkpost', 'Rinchen Base Camp', 'Khardung Summit (O2 Mandatory)', 'North Nubra'],
+      id: 'trans_himalayan',
+      name: 'Trans-Himalayan Passes & Cold Deserts',
+      name_hi: 'ट्रांस-हिमालयी दर्रे एवं शीत मरुस्थल',
+      icon: Compass,
+      badge: 'Ladakh & Lahaul Spiti',
+      badgeColor: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40',
+      destinations: [
+        {
+          name: 'Leh, Pangong Tso & Khardung La',
+          state: 'Ladakh',
+          elevation: '5,359m',
+          terrain: 'Sub-Zero Scree & Passes',
+          safetyScore: 82,
+          safetyText: 'AMS Protocol Required',
+          rescueAgency: 'ITBP High-Altitude Rescue',
+          keyFeatures: ['Mandatory 48h Rest Flag', 'Oxygen Bar Checkpoints', 'Military Mesh Telemetry'],
+        },
+        {
+          name: 'Spiti Valley & Kunzum Pass',
+          state: 'Himachal Pradesh',
+          elevation: '4,590m',
+          terrain: 'Remote Mountain Passes',
+          safetyScore: 80,
+          safetyText: 'Remote Terrain',
+          rescueAgency: 'HP State Disaster Unit',
+          keyFeatures: ['Zero-Cell Offline Routing', 'Fuel & Shelter Waypoints', 'River Ford Radar'],
+        },
+        {
+          name: 'Nubra Valley & Hunder Dunes',
+          state: 'Ladakh',
+          elevation: '3,048m',
+          terrain: 'Shyok River Basin',
+          safetyScore: 90,
+          safetyText: 'Stable Corridor',
+          rescueAgency: 'Diskit District Medical',
+          keyFeatures: ['Flash Flood Sensors', 'Khardung La Weather Link', 'Tourist Health Grid'],
+        },
+      ],
     },
     {
-      name: 'Munnar & Anamudi Highlands',
-      region: 'Western Ghats Bio-Corridor',
-      base: 'Munnar Base (1,532m)',
-      summit: 'Anamudi Peak (2,695m)',
-      distance: '18.5 km trail',
-      alt: '2,695m',
-      riskScore: 15,
-      riskText: 'Low Risk • Favorable',
-      weather: 'Misty Rainforest (19°C)',
-      landslide: 'Slope Stable (4%)',
-      sdrf: 'Kerala Forest Patrol',
-      waypoints: ['Eravikulam Gate', 'Rajamalai Sanctuary', 'Tea Highlands Valley', 'Anamudi Ridge'],
+      id: 'western_ghats',
+      name: 'Western Ghats & Southern Highlands',
+      name_hi: 'पश्चिमी घाट एवं दक्षिणी पर्वतमाला',
+      icon: Trees,
+      badge: 'Kerala, Tamil Nadu, Karnataka',
+      badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
+      destinations: [
+        {
+          name: 'Munnar & Anamudi Highlands',
+          state: 'Kerala',
+          elevation: '2,695m',
+          terrain: 'Rainforest & Tea Escarpments',
+          safetyScore: 94,
+          safetyText: 'Favorable Weather',
+          rescueAgency: 'Kerala Forest & Fire Force',
+          keyFeatures: ['Monsoon Flood Predictor', 'Wildlife Buffer Alert', '18.5 km Eco-Trail'],
+        },
+        {
+          name: 'Wayanad & Chembra Peak',
+          state: 'Kerala',
+          elevation: '2,100m',
+          terrain: 'Dense Canopy Ridge',
+          safetyScore: 86,
+          safetyText: 'Slope Warning Active',
+          rescueAgency: 'District Disaster Unit',
+          keyFeatures: ['Landslide Real-time Radar', 'Heart Lake Safe Path', 'Local Guide P2P Mesh'],
+        },
+        {
+          name: 'Coorg & Brahmagiri Range',
+          state: 'Karnataka',
+          elevation: '1,608m',
+          terrain: 'Western Ghat Shola Forest',
+          safetyScore: 92,
+          safetyText: 'Clear Paths',
+          rescueAgency: 'Karnataka SDRF Unit',
+          keyFeatures: ['River Crossing Telemetry', 'Iruppu Falls Safety Zone', 'Offline Topo Maps'],
+        },
+      ],
     },
     {
-      name: 'Vaishno Devi Shrine & Katra',
-      region: 'Shivalik Pilgrimage Network',
-      base: 'Katra Base Camp (750m)',
-      summit: 'Bhavan Sanctuary (1,585m)',
-      distance: '12.8 km trail',
-      alt: '1,585m',
-      riskScore: 18,
-      riskText: 'Low Risk • Well Paved',
-      weather: 'Clear & Mild (22°C)',
-      landslide: 'Fencing Verified (5%)',
-      sdrf: 'Shrine Board Command',
-      waypoints: ['Banganga Gate', 'Charan Paduka', 'Adhkuwari Gufa Complex', 'Bhavan Complex'],
+      id: 'coastal',
+      name: 'Coastal & Marine Safety Corridors',
+      name_hi: 'तटीय एवं समुद्री सुरक्षा कॉरिडोर',
+      icon: Palmtree,
+      badge: 'Goa, Andaman, Tamil Nadu',
+      badgeColor: 'bg-blue-500/20 text-blue-300 border-blue-500/40',
+      destinations: [
+        {
+          name: 'Goa Beaches & Promenade',
+          state: 'Goa',
+          elevation: '12m',
+          terrain: 'Arabian Coastal Promenade',
+          safetyScore: 96,
+          safetyText: 'Optimal Conditions',
+          rescueAgency: 'Drishti Marine Lifesavers',
+          keyFeatures: ['High Tide Early Alert', 'Safe Swimming Geofence', 'Lifeguard Tower Comms'],
+        },
+        {
+          name: 'Havelock Island & Radhanagar',
+          state: 'Andaman & Nicobar',
+          elevation: '18m',
+          terrain: 'Coral Island Coast',
+          safetyScore: 93,
+          safetyText: 'Clear Waters',
+          rescueAgency: 'Indian Coast Guard Unit',
+          keyFeatures: ['Tsunami & Surge Sensor', 'Reef Hazard Mapping', 'Ferry Safe Schedules'],
+        },
+        {
+          name: 'Gokarna & Om Beach Cliffs',
+          state: 'Karnataka',
+          elevation: '45m',
+          terrain: 'Rocky Coastal Trail',
+          safetyScore: 90,
+          safetyText: 'Stable Cliffs',
+          rescueAgency: 'Coastal Police Patrol',
+          keyFeatures: ['Cliff Edge Warnings', 'Tide Timetable Sync', 'P2P Beach Rescue Mesh'],
+        },
+      ],
     },
     {
-      name: 'Goa Beaches & Promenade',
-      region: 'Coastal Arabian Sea Corridor',
-      base: 'Panaji Promenade (4m)',
-      summit: 'Arambol & Chapora (65m)',
-      distance: '26.4 km coastal route',
-      alt: '12m',
-      riskScore: 12,
-      riskText: 'Low Risk • Leisure',
-      weather: 'Warm Sea Breeze (29°C)',
-      landslide: 'Zero Hazard (1%)',
-      sdrf: 'Drishti Marine Rescue',
-      waypoints: ['Miramar Beach Promenade', 'Calangute Coastal Strip', 'Anjuna Rocks', 'Chapora Fort'],
+      id: 'heritage',
+      name: 'Royal Heritage & Sacred Corridors',
+      name_hi: 'विरासत, किले एवं सांस्कृतिक कॉरिडोर',
+      icon: Landmark,
+      badge: 'Rajasthan, UP, Karnataka',
+      badgeColor: 'bg-amber-500/20 text-amber-300 border-amber-500/40',
+      destinations: [
+        {
+          name: 'Jaipur, Amer Fort & Hawa Mahal',
+          state: 'Rajasthan',
+          elevation: '431m',
+          terrain: 'Aravalli Fort Enclosures',
+          safetyScore: 95,
+          safetyText: 'Well Protected',
+          rescueAgency: 'Rajasthan Tourist Police',
+          keyFeatures: ['Heatwave Hydration Hubs', 'Crowd Density Radar', 'Historical Walking Grid'],
+        },
+        {
+          name: 'Kashi Vishwanath & Ghats',
+          state: 'Uttar Pradesh',
+          elevation: '80m',
+          terrain: 'Ganges River Corridor',
+          safetyScore: 91,
+          safetyText: 'Active Safety Grid',
+          rescueAgency: 'NDRF Varanasi Battalion',
+          keyFeatures: ['River Water Level Monitor', 'Ghat Congestion Bypass', 'Multi-Language SOS'],
+        },
+        {
+          name: 'Hampi UNESCO Ruins',
+          state: 'Karnataka',
+          elevation: '467m',
+          terrain: 'Tungabhadra Boulder Basin',
+          safetyScore: 92,
+          safetyText: 'Open & Clear',
+          rescueAgency: 'Heritage Security Unit',
+          keyFeatures: ['Rocky Trail Geofence', 'Tungabhadra Coracle Radar', 'Emergency Shelter Map'],
+        },
+      ],
     },
   ];
 
-  const currentPreview = previewDestinations.find((d) => d.name === selectedPreviewDest) || previewDestinations[0];
-
-  const handleSubscribePlan = (_planName: string) => {
-    onLaunchMap(selectedPreviewDest);
-  };
+  const activeCircuitData = circuits.find((c) => c.id === selectedCircuit) || circuits[0];
 
   const handleOpenDispatchModal = (agencyType: string) => {
     setDispatchAgency(agencyType);
@@ -130,589 +267,402 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
   return (
     <div className="min-h-screen bg-transparent text-white selection:bg-emerald-500/30 selection:text-white font-sans antialiased relative overflow-hidden">
-      {/* Hero Section */}
-      <section id="hero" className="relative mx-auto mt-14 sm:mt-20 max-w-[80rem] px-6 text-center md:px-8">
+      {/* 1. Hero Title & Summary Section */}
+      <section id="hero" className="relative mx-auto mt-12 sm:mt-16 max-w-[84rem] px-4 sm:px-6 text-center md:px-8">
         {/* Aceternity Large Ambient Background Watermark */}
         <p className="pointer-events-none select-none absolute -top-12 left-1/2 -translate-x-1/2 text-center text-[100px] sm:text-[160px] md:text-[220px] lg:text-[280px] font-extrabold tracking-tighter bg-gradient-to-b from-white/[0.08] via-white/[0.03] to-transparent bg-clip-text text-transparent -z-10 leading-none">
           IGNITE
         </p>
 
-        {/* Magic UI Shimmer Announcement Pill */}
+        {/* Shimmer Announcement Pill */}
         <div
           onClick={() => onLaunchSimulation()}
-          className="backdrop-filter-[12px] inline-flex h-8 items-center justify-between rounded-full border border-white/15 bg-white/5 px-3.5 text-xs text-white transition-all ease-in hover:cursor-pointer hover:bg-white/10 group gap-1.5 shadow-sm"
+          className="backdrop-filter-[12px] inline-flex h-8 items-center justify-between rounded-full border border-white/20 bg-white/10 px-4 text-xs text-white transition-all ease-in hover:cursor-pointer hover:bg-white/15 group gap-1.5 shadow-md"
         >
-          <p className="mx-auto max-w-md animate-shimmer bg-clip-text bg-no-repeat bg-gradient-to-r from-neutral-300 via-white via-50% to-neutral-300 inline-flex items-center justify-center font-medium">
-            <span>{language === 'hi' ? '✨ प्रस्तुत है IGNITE आपदा-प्रतिरोधी सुरक्षा मैट्रिक्स' : '✨ Introducing IGNITE Tactical Safety Matrix'}</span>
-            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" className="ml-1.5 size-3.5 transition-transform duration-300 ease-in-out group-hover:translate-x-1">
-              <path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path>
-            </svg>
+          <p className="mx-auto max-w-md animate-shimmer bg-clip-text bg-no-repeat bg-gradient-to-r from-neutral-200 via-white via-50% to-neutral-200 inline-flex items-center justify-center font-medium">
+            <span>{language === 'hi' ? '✨ प्रस्तुत है भारत की पहली स्वायत्त आपदा-प्रतिरोधी सुरक्षा प्रणाली' : '✨ Pan-India Autonomous Tourist Safety & Route Mesh'}</span>
+            <ChevronRight className="ml-1.5 size-3.5 transition-transform duration-300 ease-in-out group-hover:translate-x-1" />
           </p>
         </div>
 
-        {/* Hero Title with Gradient Text */}
-        <h1 className="bg-gradient-to-br from-white from-30% to-white/40 bg-clip-text py-6 text-4xl font-medium leading-none tracking-tighter text-transparent text-balance sm:text-6xl md:text-7xl lg:text-8xl">
+        {/* High-Contrast Hero Title */}
+        <h1 className="bg-gradient-to-br from-white via-slate-100 to-slate-400 bg-clip-text py-5 text-4xl font-bold leading-tight tracking-tight text-transparent text-balance sm:text-6xl md:text-7xl lg:text-8xl">
           {language === 'hi' ? (
             <>
-              IGNITE पर्वतीय मार्गों पर<br className="hidden md:block" /> सुरक्षित नेविगेशन का नया तरीका है।
+              भारत के हर दुर्गम मार्ग पर<br className="hidden md:block" /> सुरक्षित और स्वायत्त नेविगेशन।
             </>
           ) : (
             <>
-              IGNITE is the new way<br className="hidden md:block" /> to navigate high-risk mountain routes.
+              Navigate High-Risk Trails &<br className="hidden md:block" /> Remote India with Total Safety.
             </>
           )}
         </h1>
 
-        {/* Subtitle */}
-        <p className="mb-10 text-base tracking-tight text-gray-400 md:text-xl text-balance max-w-3xl mx-auto leading-relaxed font-normal">
+        {/* High-Visibility Subheading */}
+        <p className="mb-8 text-base font-normal tracking-tight text-slate-200 md:text-xl text-balance max-w-3xl mx-auto leading-relaxed">
           {language === 'hi' ? (
-            'वास्तविक समय उपग्रह रडार, स्वायत्त खतरा पुनर्निर्धारण, 2G ऑफलाइन लचीलापन और पूरे भारत में बहुभाषी एसडीआरएफ एसओएस आपातकालीन सहायता।'
+            'वास्तविक समय उपग्रह मौसम रडार, स्वायत्त भूस्खलन बाईपास, 2G ऑफलाइन आपातकालीन कैश और सभी 28 राज्यों व 8 केंद्र शासित प्रदेशों में एसडीआरएफ त्वरित बचाव सहायता।'
           ) : (
-            'Real-time autonomous hazard re-routing, explainable weather risk matrix, offline-first 2G cache, and SDRF multi-agency emergency rescue mesh across India.'
+            'Real-time IMD weather radar, autonomous hazard re-routing, offline-first 2G cache, and multi-agency SDRF emergency rescue coverage across all 28 States & 8 UTs.'
           )}
         </p>
 
-        {/* Hero CTA Button Group */}
-        <div className="flex flex-wrap items-center justify-center gap-4">
+        {/* Hero Action Button Group */}
+        <div className="flex flex-wrap items-center justify-center gap-3.5 mb-12">
           <button
-            onClick={() => onLaunchMap(selectedPreviewDest)}
-            className="inline-flex items-center justify-center whitespace-nowrap text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-1 bg-white text-black shadow-lg hover:bg-neutral-200 h-11 px-6 gap-2 rounded-xl cursor-pointer group"
+            onClick={() => onLaunchMap('Kedarnath Dham & Valley')}
+            className="btn-tactile inline-flex items-center justify-center whitespace-nowrap text-sm font-bold transition-all bg-white text-black shadow-2xl hover:bg-neutral-200 h-11 px-6 gap-2 rounded-xl cursor-pointer group"
           >
-            <span>{language === 'hi' ? 'मुफ्त में शुरू करें' : 'Get Started for free'}</span>
-            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" className="size-4 transition-transform duration-300 ease-in-out group-hover:translate-x-1">
-              <path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path>
-            </svg>
+            <span>{language === 'hi' ? 'नक्शा व योजना शुरू करें' : 'Launch Tactical Map & Planner'}</span>
+            <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
           </button>
 
           <button
             onClick={() => onSelectTab('simulation')}
-            className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors border border-white/15 bg-white/5 hover:bg-white/10 text-white h-11 px-5 rounded-xl cursor-pointer gap-2"
+            className="btn-tactile inline-flex items-center justify-center whitespace-nowrap text-sm font-semibold transition-colors border border-white/20 bg-white/10 hover:bg-white/15 text-white h-11 px-5 rounded-xl cursor-pointer gap-2 shadow-sm"
           >
             <Radio className="w-4 h-4 text-emerald-400" />
-            <span>{language === 'hi' ? 'आपदा बेंच डेमो' : 'Simulate Disaster'}</span>
+            <span>{language === 'hi' ? 'आपदा बेंच डेमो' : 'Simulate Disaster Bench'}</span>
           </button>
 
           <button
             onClick={onOpenSOS}
-            className="inline-flex items-center justify-center whitespace-nowrap text-sm font-bold transition-colors border border-red-500/40 bg-red-950/50 hover:bg-red-900/50 text-red-300 h-11 px-4 rounded-xl cursor-pointer gap-2"
+            className="btn-tactile inline-flex items-center justify-center whitespace-nowrap text-sm font-bold transition-colors border border-red-500/50 bg-red-950/80 hover:bg-red-900/80 text-red-200 h-11 px-4 rounded-xl cursor-pointer gap-2 shadow-lg"
           >
             <AlertTriangle className="w-4 h-4 text-red-400" />
             <span>{language === 'hi' ? 'एसओएस आपातकाल' : 'Emergency SOS'}</span>
           </button>
         </div>
 
-        {/* Hero Interactive Showcase Frame with Border Beam */}
-        <div className="relative mt-16 sm:mt-24 [perspective:2000px] after:absolute after:inset-0 after:z-30 after:[background:linear-gradient(to_top,rgba(0,0,0,0.85)_15%,transparent)]">
-          <div className="relative rounded-2xl border border-white/15 bg-white/[0.02] backdrop-blur-xl p-4 sm:p-6 text-left shadow-2xl overflow-hidden before:absolute before:bottom-1/2 before:left-0 before:top-0 before:h-full before:w-full before:opacity-30 before:[filter:blur(160px)] before:[background-image:linear-gradient(to_bottom,var(--color-one),var(--color-two),transparent_40%)]">
-            
-            {/* Luminous Border Beam Glow Strip */}
-            <div className="pointer-events-none absolute inset-0 rounded-[inherit] border border-transparent [mask-clip:padding-box,border-box] [mask-composite:intersect] [mask-image:linear-gradient(transparent,transparent),linear-gradient(#000,#000)]">
-              <div 
-                className="absolute aspect-square bg-gradient-to-l from-[#ffaa40] via-[#9c40ff] to-transparent animate-border-beam" 
-                style={{ width: '250px', offsetPath: 'rect(0 auto auto 0 round 20px)' }}
-              />
+        {/* 2. Pan-India Live Safety Grid Metric Strip */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-5xl mx-auto mb-16 text-left">
+          <div className="p-4 rounded-2xl bg-[#0e1017]/90 border border-white/15 backdrop-blur-md">
+            <div className="text-xs font-mono text-emerald-400 uppercase font-bold flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              Pan-India Mesh
+            </div>
+            <div className="text-2xl font-extrabold text-white mt-1">28 States & 8 UTs</div>
+            <div className="text-xs text-slate-300 mt-0.5">Highways, trails & pilgrimage circuits</div>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-[#0e1017]/90 border border-white/15 backdrop-blur-md">
+            <div className="text-xs font-mono text-cyan-400 uppercase font-bold flex items-center gap-1.5">
+              <Shield className="w-3.5 h-3.5" />
+              SDRF Standby
+            </div>
+            <div className="text-2xl font-extrabold text-white mt-1">500+ Rescue Posts</div>
+            <div className="text-xs text-slate-300 mt-0.5">Direct DEOC & ITBP telemetry</div>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-[#0e1017]/90 border border-white/15 backdrop-blur-md">
+            <div className="text-xs font-mono text-amber-400 uppercase font-bold flex items-center gap-1.5">
+              <WifiOff className="w-3.5 h-3.5" />
+              Offline 2G Mesh
+            </div>
+            <div className="text-2xl font-extrabold text-white mt-1">100% Signal-Free</div>
+            <div className="text-xs text-slate-300 mt-0.5">Local cache for routes & SOS</div>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-[#0e1017]/90 border border-white/15 backdrop-blur-md">
+            <div className="text-xs font-mono text-purple-400 uppercase font-bold flex items-center gap-1.5">
+              <Zap className="w-3.5 h-3.5" />
+              Auto-Failover
+            </div>
+            <div className="text-2xl font-extrabold text-white mt-1">&lt;450ms Reroute</div>
+            <div className="text-xs text-slate-300 mt-0.5">Instant bypass on cloudburst/landslide</div>
+          </div>
+        </div>
+
+        {/* 3. High-Visibility Interactive Pan-India Coverage Explorer */}
+        <div className="relative mx-auto max-w-[84rem] text-left">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 gap-3 border-b border-white/15 pb-4">
+            <div>
+              <span className="text-xs font-mono uppercase tracking-wider text-emerald-400 font-bold">
+                PAN-INDIA COVERAGE & SAFETY GRIDS
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mt-1">
+                Explore Protected Circuits Across India
+              </h2>
+              <p className="text-sm text-slate-300 mt-1">
+                Select a geographic corridor to view live safety scores, mountain elevations, and emergency force readiness.
+              </p>
             </div>
 
-            {/* Showcase Dashboard Header */}
-            <div className="relative z-20 flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4 mb-4">
-              <div className="flex items-center gap-2">
-                <div className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
-                </div>
-                <span className="ml-2 text-xs font-mono text-slate-300 font-medium flex items-center gap-1.5">
-                  <span className={`w-1.5 h-1.5 rounded-full ${isWebSocketConnected ? 'bg-emerald-500' : 'bg-amber-400 animate-pulse'}`} />
-                  IGNITE TACTICAL DASHBOARD v2.4 • PAN-INDIA MESH
-                </span>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-emerald-950/60 border border-emerald-500/30 text-emerald-300">
-                  SDRF GRID ONLINE
-                </span>
-                <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-white/10 border border-white/15 text-slate-300">
-                  {currentPreview.region}
-                </span>
-              </div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-mono px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 font-semibold">
+                ● LIVE VERIFIED CORRIDORS
+              </span>
             </div>
+          </div>
 
-            {/* Dynamic Destination Switcher Pills */}
-            <div className="relative z-20 flex items-center gap-2 overflow-x-auto pb-3 no-scrollbar">
-              {previewDestinations.map((dest) => (
+          {/* Circuit Category Navigation Buttons */}
+          <div className="flex items-center gap-2.5 overflow-x-auto pb-4 no-scrollbar">
+            {circuits.map((circuit) => {
+              const Icon = circuit.icon;
+              const isActive = selectedCircuit === circuit.id;
+              return (
                 <button
-                  key={dest.name}
-                  onClick={() => setSelectedPreviewDest(dest.name)}
-                  className={`btn-tactile shrink-0 px-3.5 py-1.5 rounded-lg text-xs font-medium cursor-pointer transition-all border ${
-                    selectedPreviewDest === dest.name
-                      ? 'bg-white/15 border-white/40 text-white font-semibold shadow-sm'
-                      : 'bg-white/[0.03] border-white/10 text-slate-400 hover:text-slate-200'
+                  key={circuit.id}
+                  onClick={() => setSelectedCircuit(circuit.id)}
+                  className={`btn-tactile shrink-0 px-4 py-2.5 rounded-xl text-xs font-bold cursor-pointer transition-all border flex items-center gap-2 ${
+                    isActive
+                      ? 'bg-white text-black border-white shadow-xl scale-[1.02]'
+                      : 'bg-[#0f121d] border-white/15 text-slate-200 hover:text-white hover:bg-white/10'
                   }`}
                 >
-                  {getLocalizedDestinationName(dest.name, language)}
+                  <Icon className={`w-4 h-4 ${isActive ? 'text-black' : 'text-emerald-400'}`} />
+                  <span>{circuit.name}</span>
                 </button>
-              ))}
-            </div>
+              );
+            })}
+          </div>
 
-            {/* Live Interactive Telemetry Preview */}
-            <div className="relative z-20 grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
-              <div className="md:col-span-2 rounded-xl bg-black/60 border border-white/10 p-4 relative overflow-hidden">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm font-bold text-white flex items-center gap-2">
-                    <MapPin className="w-4 h-4 text-emerald-400" />
-                    {getLocalizedDestinationName(currentPreview.name, language)}
-                  </span>
-                  <span className="text-xs font-mono text-emerald-400 bg-emerald-950/50 px-2 py-0.5 rounded border border-emerald-500/20">
-                    LIVE RADAR ACTIVE
-                  </span>
-                </div>
+          {/* Active Circuit Header Info */}
+          <div className="flex items-center justify-between mt-2 mb-4 px-1">
+            <span className="text-xs font-mono text-slate-300">
+              Region: <strong className="text-white">{activeCircuitData.badge}</strong>
+            </span>
+            <span className="text-xs font-mono text-emerald-400 font-semibold">
+              {activeCircuitData.destinations.length} Key Routes Active
+            </span>
+          </div>
 
-                <div className="h-44 rounded-lg bg-[#07090e] border border-white/10 p-3 relative flex flex-col justify-between overflow-hidden bg-tactical-grid">
-                  <div className="flex items-center justify-between relative z-10 text-xs font-mono">
-                    <span className="text-slate-300 font-semibold flex items-center gap-1.5">
-                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 target-beacon-pulse" />
-                      {currentPreview.base}
+          {/* Grid of Protected Destinations in Selected Circuit */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {activeCircuitData.destinations.map((dest) => (
+              <div
+                key={dest.name}
+                className="rounded-2xl border border-white/15 bg-[#0e1017]/95 p-5 backdrop-blur-xl hover:border-emerald-500/50 transition-all flex flex-col justify-between shadow-xl group hover:-translate-y-1"
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-2">
+                    <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-white/10 text-slate-200 border border-white/15">
+                      {dest.state}
                     </span>
-                    <span className="text-slate-400 font-mono">{currentPreview.distance}</span>
-                    <span className="text-slate-300 font-semibold flex items-center gap-1.5">
-                      <span className="w-2.5 h-2.5 rounded-full bg-cyan-400" />
-                      {currentPreview.summit}
+                    <span className="text-xs font-mono font-bold text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/30">
+                      {dest.safetyScore}/100 Safe
                     </span>
                   </div>
 
-                  <div className="relative my-auto py-2">
-                    <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
-                      <div className="h-full bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-400 w-3/4 rounded-full" />
+                  <h3 className="text-base font-bold text-white group-hover:text-emerald-300 transition-colors">
+                    {getLocalizedDestinationName(dest.name, language)}
+                  </h3>
+
+                  <div className="flex items-center gap-3 text-xs font-mono text-slate-300 mt-2 pb-3 border-b border-white/10">
+                    <span>🏔 {dest.elevation}</span>
+                    <span>•</span>
+                    <span className="text-slate-300 truncate">{dest.terrain}</span>
+                  </div>
+
+                  <div className="space-y-1.5 mt-3 text-xs text-slate-300">
+                    <div className="text-[11px] font-mono text-cyan-300 font-semibold flex items-center gap-1">
+                      <Shield className="w-3 h-3 text-cyan-400 shrink-0" />
+                      <span className="truncate">{dest.rescueAgency}</span>
                     </div>
-                    <div className="flex justify-between text-[10px] font-mono text-slate-400 mt-1.5">
-                      {currentPreview.waypoints.map((wp, idx) => (
-                        <span key={idx}>{wp}</span>
+
+                    <ul className="space-y-1 mt-2 text-[11px] text-slate-300 font-sans">
+                      {dest.keyFeatures.map((feat, idx) => (
+                        <li key={idx} className="flex items-start gap-1.5">
+                          <CheckCircle2 className="w-3 h-3 text-emerald-400 shrink-0 mt-0.5" />
+                          <span>{feat}</span>
+                        </li>
                       ))}
-                    </div>
-                  </div>
-
-                  <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-white/10 text-xs font-mono">
-                    <span className="text-slate-400">IMD Sensor: <span className="text-emerald-300 font-semibold">{currentPreview.weather}</span></span>
-                    <span className="text-slate-400">Slope Risk: <span className="text-emerald-300 font-semibold">{currentPreview.landslide}</span></span>
-                    <span className="text-slate-400">Emergency Unit: <span className="text-cyan-300 font-semibold">{currentPreview.sdrf}</span></span>
+                    </ul>
                   </div>
                 </div>
 
-                <div className="mt-3 flex items-center justify-between">
-                  <span className="text-xs text-slate-400">
-                    Live auto-calibrated routing with IMD radar & local SDRF posts.
-                  </span>
-                  <button
-                    onClick={() => onLaunchMap(currentPreview.name)}
-                    className="btn-tactile px-3.5 py-1.5 rounded-lg bg-white text-black hover:bg-neutral-200 font-semibold text-xs cursor-pointer flex items-center gap-1.5"
-                  >
-                    <span>{language === 'hi' ? 'यह मार्ग खोलें' : 'Open in Tactical Map'}</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
-                </div>
+                <button
+                  onClick={() => onLaunchMap(dest.name)}
+                  className="btn-tactile w-full py-2.5 rounded-xl bg-white text-black font-bold text-xs hover:bg-neutral-200 cursor-pointer flex items-center justify-center gap-1.5 mt-5 shadow-md"
+                >
+                  <span>{language === 'hi' ? 'यह मार्ग बनाएं' : 'Synthesize Route Plan'}</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
               </div>
-
-              {/* Right Intelligence Stats */}
-              <div className="space-y-3">
-                <div className="rounded-xl bg-black/60 border border-white/10 p-4">
-                  <div className="text-xs text-slate-400 font-mono uppercase mb-1">Safety Index Score</div>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-4xl font-bold font-mono text-emerald-400">{100 - currentPreview.riskScore}</span>
-                    <span className="text-xs text-emerald-400 font-medium">/ 100 • {currentPreview.riskText}</span>
-                  </div>
-                  <div className="mt-2 text-xs text-slate-400 leading-relaxed">
-                    Verified path protocol with regional shelter telemetry and medical stations.
-                  </div>
-                </div>
-
-                <div className="rounded-xl bg-black/60 border border-white/10 p-4">
-                  <div className="text-xs text-slate-400 font-mono uppercase mb-1">Autonomous Failover</div>
-                  <div className="flex items-center gap-2 text-cyan-300 text-sm font-semibold">
-                    <Zap className="w-4 h-4 text-cyan-400" />
-                    <span>Zero-Latency Reroute</span>
-                  </div>
-                  <div className="mt-1 text-xs text-slate-400 leading-relaxed">
-                    Safe bypass corridors engaged within 450ms of regional hazard alert.
-                  </div>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Social Proof / Trusted By Agencies Section */}
-      <section id="clients" className="text-center mx-auto max-w-[80rem] px-6 md:px-8 mt-12">
-        <div className="py-14">
-          <div className="mx-auto max-w-screen-xl px-4 md:px-8">
-            <h2 className="text-center text-sm font-semibold text-gray-500 uppercase tracking-wider">
-              TRUSTED & ADAPTED FOR PILGRIMAGE CORRIDORS & SEARCH-AND-RESCUE
-            </h2>
-            <div className="mt-8">
-              <ul className="flex flex-wrap items-center justify-center gap-x-10 gap-y-6 md:gap-x-16 text-slate-400 font-medium text-sm">
-                <li className="flex items-center gap-2 hover:text-white transition-colors cursor-pointer" onClick={() => onSelectTab('explainability')}>
-                  <Shield className="w-4 h-4 text-emerald-400" />
-                  <span>SDRF Uttarakhand</span>
-                </li>
-                <li className="flex items-center gap-2 hover:text-white transition-colors cursor-pointer" onClick={() => onSelectTab('simulation')}>
-                  <Shield className="w-4 h-4 text-cyan-400" />
-                  <span>NDMA India</span>
-                </li>
-                <li className="flex items-center gap-2 hover:text-white transition-colors cursor-pointer" onClick={() => onSelectTab('group')}>
-                  <Shield className="w-4 h-4 text-amber-400" />
-                  <span>ITBP High-Altitude</span>
-                </li>
-                <li className="flex items-center gap-2 hover:text-white transition-colors cursor-pointer" onClick={() => onSelectTab('map')}>
-                  <Shield className="w-4 h-4 text-emerald-400" />
-                  <span>IMD Weather Radar</span>
-                </li>
-                <li className="flex items-center gap-2 hover:text-white transition-colors cursor-pointer" onClick={() => onSelectTab('itinerary')}>
-                  <Shield className="w-4 h-4 text-cyan-400" />
-                  <span>Central Water Commission</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Features Bento Grid */}
-      <section id="features" className="relative mx-auto max-w-[80rem] px-6 md:px-8 py-16">
+      {/* 4. Core Tactical Capabilities Grid (High Visibility) */}
+      <section id="features" className="relative mx-auto max-w-[84rem] px-6 md:px-8 py-20">
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <h4 className="text-xs font-mono uppercase tracking-wider text-emerald-400 font-bold mb-2">
-            Tactical Architecture
-          </h4>
-          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white">
-            Engineered for Extreme Terrains & Zero-Connectivity
+          <span className="text-xs font-mono uppercase tracking-wider text-emerald-400 font-bold">
+            TACTICAL ARCHITECTURE
+          </span>
+          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white mt-2">
+            Engineered for Zero-Connectivity & Extreme Terrains
           </h2>
-          <p className="mt-4 text-base text-gray-400">
-            Every layer of IGNITE is built to safeguard lives during rapid weather shifts, flash floods, and remote high-altitude expeditions.
+          <p className="mt-3 text-base text-slate-300">
+            Every layer of IGNITE is designed to protect lives during flash floods, cloudbursts, and high-altitude hypoxia.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <div onClick={() => onSelectTab('map')} className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md p-6 hover:border-white/20 transition-all cursor-pointer group">
-            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-4 group-hover:scale-105 transition-transform">
-              <Zap className="w-5 h-5" />
+          <div onClick={() => onSelectTab('map')} className="rounded-2xl border border-white/15 bg-[#0e1017]/90 backdrop-blur-md p-6 hover:border-emerald-500/50 transition-all cursor-pointer group shadow-xl">
+            <div className="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-300 mb-4 group-hover:scale-105 transition-transform">
+              <Zap className="w-6 h-6" />
             </div>
             <h3 className="text-lg font-bold text-white mb-2">Autonomous Safe Rerouting</h3>
-            <p className="text-xs text-gray-400 leading-relaxed">
-              When landslides or cloudburst thresholds trigger, the engine automatically recalculates verified escape bypasses and shelter waypoints.
+            <p className="text-xs text-slate-300 leading-relaxed">
+              When landslides or cloudburst thresholds trigger, the engine automatically recalculates verified escape bypasses and shelter waypoints within 450ms.
             </p>
           </div>
 
-          <div onClick={() => onSelectTab('map')} className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md p-6 hover:border-white/20 transition-all cursor-pointer group">
-            <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 mb-4 group-hover:scale-105 transition-transform">
-              <WifiOff className="w-5 h-5" />
+          <div onClick={() => onSelectTab('map')} className="rounded-2xl border border-white/15 bg-[#0e1017]/90 backdrop-blur-md p-6 hover:border-cyan-500/50 transition-all cursor-pointer group shadow-xl">
+            <div className="w-12 h-12 rounded-xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-300 mb-4 group-hover:scale-105 transition-transform">
+              <WifiOff className="w-6 h-6" />
             </div>
             <h3 className="text-lg font-bold text-white mb-2">Offline-First 2G Cache</h3>
-            <p className="text-xs text-gray-400 leading-relaxed">
-              Complete itineraries, GPS coordinates, oxygen booth waypoints, and emergency protocols stay accessible even with zero cellular signal.
+            <p className="text-xs text-slate-300 leading-relaxed">
+              Complete itineraries, GPS coordinates, oxygen booth waypoints, and emergency protocols stay 100% accessible even with zero cellular signal.
             </p>
           </div>
 
-          <div onClick={() => onSelectTab('explainability')} className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md p-6 hover:border-white/20 transition-all cursor-pointer group">
-            <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 mb-4 group-hover:scale-105 transition-transform">
-              <Activity className="w-5 h-5" />
+          <div onClick={() => onSelectTab('explainability')} className="rounded-2xl border border-white/15 bg-[#0e1017]/90 backdrop-blur-md p-6 hover:border-amber-500/50 transition-all cursor-pointer group shadow-xl">
+            <div className="w-12 h-12 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-300 mb-4 group-hover:scale-105 transition-transform">
+              <Activity className="w-6 h-6" />
             </div>
             <h3 className="text-lg font-bold text-white mb-2">Explainable Risk Matrix</h3>
-            <p className="text-xs text-gray-400 leading-relaxed">
-              AI decomposes complex safety conditions into actionable scores: Acute Mountain Sickness (AMS), slope gradient, rainfall, and medical proximity.
+            <p className="text-xs text-slate-300 leading-relaxed">
+              AI decomposes complex safety conditions into actionable sub-scores: Acute Mountain Sickness (AMS), slope gradient, rainfall, and audio safety briefings.
             </p>
           </div>
 
-          <div onClick={onOpenSOS} className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md p-6 hover:border-red-500/30 transition-all cursor-pointer group">
-            <div className="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 mb-4 group-hover:scale-105 transition-transform">
-              <AlertTriangle className="w-5 h-5" />
+          <div onClick={onOpenSOS} className="rounded-2xl border border-white/15 bg-[#0e1017]/90 backdrop-blur-md p-6 hover:border-red-500/50 transition-all cursor-pointer group shadow-xl">
+            <div className="w-12 h-12 rounded-xl bg-red-500/20 border border-red-500/40 flex items-center justify-center text-red-300 mb-4 group-hover:scale-105 transition-transform">
+              <AlertTriangle className="w-6 h-6" />
             </div>
             <h3 className="text-lg font-bold text-white mb-2">One-Touch SDRF SOS Beacon</h3>
-            <p className="text-xs text-gray-400 leading-relaxed">
+            <p className="text-xs text-slate-300 leading-relaxed">
               Instant panic signal dispatches live coordinates, altitude, and group medical state directly to local district disaster response force units.
             </p>
           </div>
 
-          <div onClick={() => onSelectTab('simulation')} className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md p-6 hover:border-white/20 transition-all cursor-pointer group">
-            <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 mb-4 group-hover:scale-105 transition-transform">
-              <Radio className="w-5 h-5" />
+          <div onClick={() => onSelectTab('simulation')} className="rounded-2xl border border-white/15 bg-[#0e1017]/90 backdrop-blur-md p-6 hover:border-purple-500/50 transition-all cursor-pointer group shadow-xl">
+            <div className="w-12 h-12 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-300 mb-4 group-hover:scale-105 transition-transform">
+              <Radio className="w-6 h-6" />
             </div>
             <h3 className="text-lg font-bold text-white mb-2">Multi-Scenario Disaster Bench</h3>
-            <p className="text-xs text-gray-400 leading-relaxed">
+            <p className="text-xs text-slate-300 leading-relaxed">
               Stress-test expedition plans against cloudbursts, glacial surges, rockfalls, and heatwaves before you set foot on the mountain trail.
             </p>
           </div>
 
-          <div onClick={() => onSelectTab('group')} className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md p-6 hover:border-white/20 transition-all cursor-pointer group">
-            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-4 group-hover:scale-105 transition-transform">
-              <Users className="w-5 h-5" />
+          <div onClick={() => onSelectTab('group')} className="rounded-2xl border border-white/15 bg-[#0e1017]/90 backdrop-blur-md p-6 hover:border-emerald-500/50 transition-all cursor-pointer group shadow-xl">
+            <div className="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-300 mb-4 group-hover:scale-105 transition-transform">
+              <Users className="w-6 h-6" />
             </div>
             <h3 className="text-lg font-bold text-white mb-2">Group Live Mesh Radar</h3>
-            <p className="text-xs text-gray-400 leading-relaxed">
+            <p className="text-xs text-slate-300 leading-relaxed">
               Track team members within dynamic geofences. Automatically alert leaders when a member falls behind or strays outside the safe corridor.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Pricing Section with Active Plan Handlers */}
-      <section id="pricing">
-        <div className="mx-auto flex max-w-screen-xl flex-col gap-8 px-4 py-16 md:px-8">
-          <div className="mx-auto max-w-5xl text-center">
-            <h4 className="text-xl font-bold tracking-tight text-white">Pricing</h4>
-            <h2 className="text-4xl font-bold tracking-tight text-white sm:text-6xl mt-2">
-              Simple pricing for everyone.
+      {/* 5. Deployment Tiers & Enterprise Dispatch */}
+      <section id="deployment" className="relative mx-auto max-w-[84rem] px-6 md:px-8 pb-20">
+        <div className="rounded-3xl border border-white/15 bg-gradient-to-b from-[#12141f] to-black p-8 sm:p-12 backdrop-blur-2xl shadow-2xl">
+          <div className="max-w-2xl text-left">
+            <span className="text-xs font-mono uppercase text-emerald-400 font-bold">
+              DEPLOYMENT EDITIONS
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white mt-2">
+              Ready for Solo Pilgrims, Guides & Disaster Forces
             </h2>
-            <p className="mt-4 text-lg leading-8 text-gray-300 max-w-2xl mx-auto">
-              Choose an <strong>affordable plan</strong> that's packed with the best safety features for solo trekkers, guides, and disaster forces.
+            <p className="mt-2 text-sm text-slate-300 leading-relaxed">
+              Access real-time safety telemetry whether you are on a personal trek or commanding regional rescue operations.
             </p>
           </div>
 
-          {/* Annual / Monthly Toggle Switch */}
-          <div className="flex w-full items-center justify-center space-x-3">
-            <button
-              type="button"
-              role="switch"
-              aria-checked={isAnnual}
-              onClick={() => setIsAnnual(!isAnnual)}
-              className={`peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 ${
-                isAnnual ? 'bg-white' : 'bg-neutral-800'
-              }`}
-            >
-              <span
-                className={`pointer-events-none block h-5 w-5 rounded-full shadow-lg transition-transform ${
-                  isAnnual ? 'translate-x-5 bg-black' : 'translate-x-0 bg-white'
-                }`}
-              />
-            </button>
-            <span className="text-sm font-medium text-white">Annual</span>
-            <span className="inline-block whitespace-nowrap rounded-full bg-white px-2.5 py-1 text-[11px] font-semibold uppercase leading-5 tracking-wide text-black">
-              2 MONTHS FREE ✨
-            </span>
-          </div>
-
-          {/* Pricing Cards Grid */}
-          <div className="mx-auto grid w-full justify-center sm:grid-cols-2 lg:grid-cols-4 flex-col gap-4">
-            {/* Basic Tier */}
-            <div className="relative flex max-w-[400px] flex-col gap-6 rounded-2xl border border-white/10 p-6 text-white overflow-hidden bg-white/[0.02]">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8 text-left">
+            <div className="p-6 rounded-2xl bg-[#090b12] border border-white/15 flex flex-col justify-between shadow-md">
               <div>
-                <h2 className="text-base font-semibold leading-7 text-white">Basic</h2>
-                <p className="text-xs leading-5 text-gray-400 mt-1 min-h-[2.5rem]">A basic plan for solo pilgrims and individual trekkers</p>
-              </div>
-              <div className="flex flex-row items-baseline gap-1">
-                <span className="text-4xl font-bold text-white">$0</span>
-                <span className="text-xs text-gray-400">/ month</span>
+                <div className="text-xs font-mono text-emerald-400 font-bold uppercase">Individual Edition</div>
+                <div className="text-lg font-bold text-white mt-1">Solo Pilgrim & Trekker</div>
+                <p className="text-xs text-slate-300 mt-2 leading-relaxed">
+                  Pan-India 2G offline cache, one-touch SOS panic relay, and weather radar across all 28 states & 8 UTs.
+                </p>
               </div>
               <button
-                onClick={() => handleSubscribePlan('Basic')}
-                className="inline-flex items-center justify-center whitespace-nowrap rounded-lg focus-visible:outline-none bg-white text-black shadow hover:bg-neutral-200 h-10 px-4 py-2 group relative w-full gap-2 overflow-hidden text-sm font-semibold tracking-tighter transition-all cursor-pointer"
+                onClick={() => onLaunchMap('Kedarnath Dham & Valley')}
+                className="btn-tactile w-full py-2.5 rounded-xl bg-white text-black font-bold text-xs hover:bg-neutral-200 mt-6 cursor-pointer"
               >
-                <span className="absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform-gpu bg-white opacity-10 transition-all duration-1000 ease-out group-hover:-translate-x-96 dark:bg-black" />
-                <p>Start Free</p>
+                Start Free Route Plan
               </button>
-              <hr className="m-0 h-px w-full border-none bg-gradient-to-r from-neutral-200/0 via-neutral-500/30 to-neutral-200/0" />
-              <ul className="flex flex-col gap-2.5 font-normal text-xs text-gray-300">
-                <li className="flex items-center gap-3"><span className="h-4 w-4 rounded-full bg-green-400 flex items-center justify-center text-black font-bold text-[10px]">✓</span><span>Pan-India 2G offline cache</span></li>
-                <li className="flex items-center gap-3"><span className="h-4 w-4 rounded-full bg-green-400 flex items-center justify-center text-black font-bold text-[10px]">✓</span><span>One-touch SOS panic relay</span></li>
-                <li className="flex items-center gap-3"><span className="h-4 w-4 rounded-full bg-green-400 flex items-center justify-center text-black font-bold text-[10px]">✓</span><span>5 saved trail routes</span></li>
-                <li className="flex items-center gap-3"><span className="h-4 w-4 rounded-full bg-green-400 flex items-center justify-center text-black font-bold text-[10px]">✓</span><span>Basic weather radar alerts</span></li>
-              </ul>
             </div>
 
-            {/* Premium / Pro Tier */}
-            <div className="relative flex max-w-[400px] flex-col gap-6 rounded-2xl p-6 text-white overflow-hidden border-2 border-[var(--color-one)] bg-white/[0.04]">
+            <div className="p-6 rounded-2xl bg-[#131622] border-2 border-[var(--color-one)] flex flex-col justify-between relative shadow-xl">
+              <span className="absolute top-3 right-3 text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-white text-black font-extrabold">
+                RECOMMENDED
+              </span>
               <div>
-                <h2 className="text-base font-semibold leading-7 text-white">Premium</h2>
-                <p className="text-xs leading-5 text-gray-400 mt-1 min-h-[2.5rem]">A premium plan for expedition leaders and mountain guides</p>
-              </div>
-              <div className="flex flex-row items-baseline gap-1">
-                <span className="text-4xl font-bold text-white">{isAnnual ? '$16' : '$20'}</span>
-                <span className="text-xs text-gray-400">/ month</span>
+                <div className="text-xs font-mono text-amber-400 font-bold uppercase">Expedition Edition</div>
+                <div className="text-lg font-bold text-white mt-1">Mountain Guide & Group</div>
+                <p className="text-xs text-slate-300 mt-2 leading-relaxed">
+                  Autonomous hazard bypass, AI audio briefings, group radar mesh up to 25 members, and explainable AMS matrix.
+                </p>
               </div>
               <button
-                onClick={() => handleSubscribePlan('Premium')}
-                className="inline-flex items-center justify-center whitespace-nowrap rounded-lg focus-visible:outline-none bg-white text-black shadow hover:bg-neutral-200 h-10 px-4 py-2 group relative w-full gap-2 overflow-hidden text-sm font-semibold tracking-tighter transition-all cursor-pointer"
+                onClick={() => onLaunchMap('Kedarnath Dham & Valley')}
+                className="btn-tactile w-full py-2.5 rounded-xl bg-white text-black font-bold text-xs hover:bg-neutral-200 mt-6 cursor-pointer shadow-lg"
               >
-                <span className="absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform-gpu bg-white opacity-10 transition-all duration-1000 ease-out group-hover:-translate-x-96 dark:bg-black" />
-                <p>Subscribe</p>
+                Launch Pro Expedition
               </button>
-              <hr className="m-0 h-px w-full border-none bg-gradient-to-r from-neutral-200/0 via-neutral-500/30 to-neutral-200/0" />
-              <ul className="flex flex-col gap-2.5 font-normal text-xs text-gray-300">
-                <li className="flex items-center gap-3"><span className="h-4 w-4 rounded-full bg-green-400 flex items-center justify-center text-black font-bold text-[10px]">✓</span><span>Autonomous hazard bypass</span></li>
-                <li className="flex items-center gap-3"><span className="h-4 w-4 rounded-full bg-green-400 flex items-center justify-center text-black font-bold text-[10px]">✓</span><span>AI audio safety briefing (EN/HI)</span></li>
-                <li className="flex items-center gap-3"><span className="h-4 w-4 rounded-full bg-green-400 flex items-center justify-center text-black font-bold text-[10px]">✓</span><span>Group radar up to 25 members</span></li>
-                <li className="flex items-center gap-3"><span className="h-4 w-4 rounded-full bg-green-400 flex items-center justify-center text-black font-bold text-[10px]">✓</span><span>Full explainable risk matrix</span></li>
-              </ul>
             </div>
 
-            {/* Enterprise Tier */}
-            <div className="relative flex max-w-[400px] flex-col gap-6 rounded-2xl border border-white/10 p-6 text-white overflow-hidden bg-white/[0.02]">
+            <div className="p-6 rounded-2xl bg-[#090b12] border border-white/15 flex flex-col justify-between shadow-md">
               <div>
-                <h2 className="text-base font-semibold leading-7 text-white">Agency</h2>
-                <p className="text-xs leading-5 text-gray-400 mt-1 min-h-[2.5rem]">An agency plan for commercial trekking organizations</p>
-              </div>
-              <div className="flex flex-row items-baseline gap-1">
-                <span className="text-4xl font-bold text-white">{isAnnual ? '$40' : '$50'}</span>
-                <span className="text-xs text-gray-400">/ month</span>
-              </div>
-              <button
-                onClick={() => handleOpenDispatchModal('Commercial Trekking Agency')}
-                className="inline-flex items-center justify-center whitespace-nowrap rounded-lg focus-visible:outline-none bg-white text-black shadow hover:bg-neutral-200 h-10 px-4 py-2 group relative w-full gap-2 overflow-hidden text-sm font-semibold tracking-tighter transition-all cursor-pointer"
-              >
-                <span className="absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform-gpu bg-white opacity-10 transition-all duration-1000 ease-out group-hover:-translate-x-96 dark:bg-black" />
-                <p>Deploy Agency Mesh</p>
-              </button>
-              <hr className="m-0 h-px w-full border-none bg-gradient-to-r from-neutral-200/0 via-neutral-500/30 to-neutral-200/0" />
-              <ul className="flex flex-col gap-2.5 font-normal text-xs text-gray-300">
-                <li className="flex items-center gap-3"><span className="h-4 w-4 rounded-full bg-green-400 flex items-center justify-center text-black font-bold text-[10px]">✓</span><span>Multi-team fleet telemetry</span></li>
-                <li className="flex items-center gap-3"><span className="h-4 w-4 rounded-full bg-green-400 flex items-center justify-center text-black font-bold text-[10px]">✓</span><span>24/7 dedicated rescue support</span></li>
-                <li className="flex items-center gap-3"><span className="h-4 w-4 rounded-full bg-green-400 flex items-center justify-center text-black font-bold text-[10px]">✓</span><span>Custom weather alert dispatch</span></li>
-                <li className="flex items-center gap-3"><span className="h-4 w-4 rounded-full bg-green-400 flex items-center justify-center text-black font-bold text-[10px]">✓</span><span>Custom GeoJSON feeds</span></li>
-              </ul>
-            </div>
-
-            {/* Ultimate / Govt Tier */}
-            <div className="relative flex max-w-[400px] flex-col gap-6 rounded-2xl border border-white/10 p-6 text-white overflow-hidden bg-white/[0.02]">
-              <div>
-                <h2 className="text-base font-semibold leading-7 text-white">Ultimate</h2>
-                <p className="text-xs leading-5 text-gray-400 mt-1 min-h-[2.5rem]">The ultimate plan for SDRF & disaster management authorities</p>
-              </div>
-              <div className="flex flex-row items-baseline gap-1">
-                <span className="text-4xl font-bold text-white">{isAnnual ? '$65' : '$80'}</span>
-                <span className="text-xs text-gray-400">/ month</span>
+                <div className="text-xs font-mono text-cyan-400 font-bold uppercase">Government Edition</div>
+                <div className="text-lg font-bold text-white mt-1">SDRF & DEOC Command</div>
+                <p className="text-xs text-slate-300 mt-2 leading-relaxed">
+                  Multi-team fleet telemetry, state DEOC command integration, mass evacuation protocols, and emergency mesh.
+                </p>
               </div>
               <button
                 onClick={() => handleOpenDispatchModal('SDRF / National Disaster Agency')}
-                className="inline-flex items-center justify-center whitespace-nowrap rounded-lg focus-visible:outline-none bg-white text-black shadow hover:bg-neutral-200 h-10 px-4 py-2 group relative w-full gap-2 overflow-hidden text-sm font-semibold tracking-tighter transition-all cursor-pointer"
+                className="btn-tactile w-full py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white font-bold text-xs mt-6 cursor-pointer border border-white/20"
               >
-                <span className="absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform-gpu bg-white opacity-10 transition-all duration-1000 ease-out group-hover:-translate-x-96 dark:bg-black" />
-                <p>Govt DEOC Inquiries</p>
+                Request DEOC Fleet Link
               </button>
-              <hr className="m-0 h-px w-full border-none bg-gradient-to-r from-neutral-200/0 via-neutral-500/30 to-neutral-200/0" />
-              <ul className="flex flex-col gap-2.5 font-normal text-xs text-gray-300">
-                <li className="flex items-center gap-3"><span className="h-4 w-4 rounded-full bg-green-400 flex items-center justify-center text-black font-bold text-[10px]">✓</span><span>Direct DEOC command integration</span></li>
-                <li className="flex items-center gap-3"><span className="h-4 w-4 rounded-full bg-green-400 flex items-center justify-center text-black font-bold text-[10px]">✓</span><span>Mass evacuation protocols</span></li>
-                <li className="flex items-center gap-3"><span className="h-4 w-4 rounded-full bg-green-400 flex items-center justify-center text-black font-bold text-[10px]">✓</span><span>Unlimited disaster bench tests</span></li>
-                <li className="flex items-center gap-3"><span className="h-4 w-4 rounded-full bg-green-400 flex items-center justify-center text-black font-bold text-[10px]">✓</span><span>Highest data security & SLA</span></li>
-              </ul>
             </div>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section id="cta" className="relative">
-        <div className="py-20">
-          <div className="flex w-full flex-col items-center justify-center">
-            <div className="relative flex w-full flex-col items-center justify-center overflow-hidden py-16">
-              {/* Marquee Background Bands */}
-              <div className="group flex overflow-hidden p-2 gap-4 flex-row opacity-30 pointer-events-none -delay-[200ms]">
-                <div className="flex shrink-0 justify-around gap-4 animate-marquee-slow flex-row">
-                  {[...Array(8)].map((_, i) => (
-                    <span key={i} className="px-4 py-2 rounded-xl border border-white/10 bg-white/5 text-xs font-mono text-slate-400">
-                      ⚡ SATELLITE RADAR • ZERO-CELL MESH • AUTONOMOUS BYPASS •
-                    </span>
-                  ))}
-                </div>
+      {/* 6. Clean Professional Footer */}
+      <footer className="border-t border-white/15 bg-black/90 backdrop-blur-xl">
+        <div className="mx-auto w-full max-w-[84rem] px-6 sm:px-8 py-12">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-white/15">
+            <div className="flex items-center gap-3">
+              <IgniteLogo size="sm" />
+              <div>
+                <span className="text-xl font-bold text-white tracking-tight">IGNITE</span>
+                <p className="text-xs text-slate-300">Pan-India Autonomous Mountain Safety & Disaster Resilience</p>
               </div>
-              <div className="group flex overflow-hidden p-2 gap-4 flex-row opacity-20 pointer-events-none">
-                <div className="flex shrink-0 justify-around gap-4 animate-marquee-reverse flex-row">
-                  {[...Array(8)].map((_, i) => (
-                    <span key={i} className="px-4 py-2 rounded-xl border border-white/10 bg-white/5 text-xs font-mono text-slate-400">
-                      🚨 ONE-TOUCH SDRF SOS • 2G CACHE • AMS EXPLAINABILITY •
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Central Glowing CTA Glass Card */}
-              <div className="relative z-10 text-center px-4 mt-6">
-                <div className="mx-auto size-20 sm:size-24 rounded-[2rem] border border-white/20 bg-white/5 p-4 shadow-2xl backdrop-blur-md">
-                  <HeartHandshake className="mx-auto size-12 sm:size-14 text-white" />
-                </div>
-                <div className="mt-5 flex flex-col items-center text-center">
-                  <h2 className="text-3xl font-bold tracking-tight text-white lg:text-4xl">
-                    Stop wasting time on unprepared expeditions.
-                  </h2>
-                  <p className="mt-2 text-gray-400 text-sm max-w-md">
-                    Start navigating safely today. Real-time autonomous safety matrix with zero delay.
-                  </p>
-                  <button
-                    onClick={() => onLaunchMap(selectedPreviewDest)}
-                    className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors border border-white/20 bg-white text-black shadow-md hover:bg-neutral-200 h-10 group mt-6 rounded-[2rem] px-6 cursor-pointer"
-                  >
-                    <span>Get Started</span>
-                    <ChevronRight className="ml-1 size-4 transition-all duration-300 ease-out group-hover:translate-x-1" />
-                  </button>
-                </div>
-                <div className="absolute inset-0 -z-10 rounded-full bg-white/5 opacity-40 blur-2xl" />
-              </div>
-
-              <div className="absolute inset-x-0 bottom-0 h-full bg-gradient-to-b from-transparent to-black to-70%" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="border-t border-white/10 bg-black/60 backdrop-blur-xl">
-        <div className="mx-auto w-full max-w-screen-xl xl:pb-2">
-          <div className="md:flex md:justify-between px-8 p-4 py-16 sm:pb-16 gap-8">
-            <div className="mb-12 flex-col flex gap-4 max-w-xs">
-              <a className="flex items-center gap-2.5 cursor-pointer" onClick={() => onSelectTab('overview')}>
-                <IgniteLogo size="sm" />
-                <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">IGNITE</span>
-              </a>
-              <p className="text-sm text-gray-400">
-                Pan-India Autonomous Mountain Safety & Disaster Resilience Infrastructure
-              </p>
             </div>
 
-            <div className="grid grid-cols-1 gap-8 sm:gap-10 sm:grid-cols-3">
-              <div>
-                <h2 className="mb-6 text-sm tracking-tighter font-medium text-white uppercase">Product</h2>
-                <ul className="gap-2.5 grid text-sm text-gray-400">
-                  <li><a onClick={() => onSelectTab('map')} className="cursor-pointer hover:text-white duration-200">Tactical Map & Planner</a></li>
-                  <li><a onClick={() => onSelectTab('itinerary')} className="cursor-pointer hover:text-white duration-200">Safe Itinerary</a></li>
-                  <li><a onClick={() => onSelectTab('explainability')} className="cursor-pointer hover:text-white duration-200">Risk Matrix</a></li>
-                  <li><a onClick={() => onSelectTab('simulation')} className="cursor-pointer hover:text-white duration-200">Disaster Bench</a></li>
-                </ul>
-              </div>
-
-              <div>
-                <h2 className="mb-6 text-sm tracking-tighter font-medium text-white uppercase">Safety Grid</h2>
-                <ul className="gap-2.5 grid text-sm text-gray-400">
-                  <li><a onClick={onOpenSOS} className="cursor-pointer hover:text-red-400 duration-200">SDRF SOS Panic Relay</a></li>
-                  <li><a onClick={() => onSelectTab('simulation')} className="cursor-pointer hover:text-white duration-200">IMD Doppler Radar Bench</a></li>
-                  <li><a onClick={() => onSelectTab('group')} className="cursor-pointer hover:text-white duration-200">Group Live Radar</a></li>
-                  <li><a onClick={() => onSelectTab('map')} className="cursor-pointer hover:text-white duration-200">Offline P2P Mesh</a></li>
-                </ul>
-              </div>
-
-              <div>
-                <h2 className="mb-6 text-sm tracking-tighter font-medium text-white uppercase">Architecture</h2>
-                <ul className="gap-2.5 grid text-sm text-gray-400">
-                  <li><span className="text-gray-300 font-mono text-xs">Overpass QL & OSRM Engine</span></li>
-                  <li><span className="text-gray-300 font-mono text-xs">Open-Meteo Multi-Model Sensor</span></li>
-                  <li><span className="text-gray-300 font-mono text-xs">Deterministic AMS & Slope Matrix</span></li>
-                </ul>
-              </div>
+            <div className="flex flex-wrap items-center gap-5 text-xs font-medium">
+              <button onClick={() => onSelectTab('map')} className="text-slate-300 hover:text-white cursor-pointer transition-colors">Tactical Map</button>
+              <button onClick={() => onSelectTab('itinerary')} className="text-slate-300 hover:text-white cursor-pointer transition-colors">Safe Itinerary</button>
+              <button onClick={() => onSelectTab('explainability')} className="text-slate-300 hover:text-white cursor-pointer transition-colors">Risk Matrix</button>
+              <button onClick={() => onSelectTab('simulation')} className="text-slate-300 hover:text-white cursor-pointer transition-colors">Disaster Bench</button>
+              <button onClick={onOpenSOS} className="text-red-400 hover:text-red-300 cursor-pointer font-bold transition-colors">SOS Panic Relay</button>
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-t border-white/10 py-6 px-8 gap-4">
-            <span className="text-xs text-gray-500">
-              Copyright © 2026 <span className="text-white font-medium">IGNITE</span>. All Rights Reserved.
-            </span>
-            <div className="flex items-center gap-4 text-xs font-mono text-gray-500">
-              <span>PostGIS • Leaflet • Open-Meteo • Redis TTL</span>
-            </div>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pt-6 text-xs text-slate-400 gap-3 font-mono">
+            <span>Copyright © 2026 <strong className="text-white">IGNITE</strong>. All Rights Reserved.</span>
+            <span>OpenStreetMap • Open-Meteo • SDRF Multi-Agency Data Fusion</span>
           </div>
         </div>
       </footer>
 
-      {/* Interactive Agency & Govt Dispatch Modal */}
+      {/* Interactive Mission Dispatch Modal */}
       {isDispatchModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
-          <div className="relative w-full max-w-lg rounded-2xl bg-[#0e1017] border border-white/15 p-6 shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fade-in">
+          <div className="relative w-full max-w-lg rounded-2xl bg-[#0e1017] border border-white/20 p-6 shadow-2xl">
             <button
               onClick={() => setIsDispatchModalOpen(false)}
               className="absolute top-4 right-4 text-slate-400 hover:text-white p-1 rounded-lg hover:bg-white/10 cursor-pointer"
@@ -721,39 +671,39 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </button>
 
             {!dispatchSubmitted ? (
-              <div className="space-y-4">
+              <div className="space-y-4 text-left">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                  <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-300">
                     <Building className="w-5 h-5" />
                   </div>
                   <div>
                     <h3 className="text-base font-bold text-white">{dispatchAgency}</h3>
-                    <p className="text-xs text-slate-400">Deploy Dedicated Command Telemetry & Fleet Mesh</p>
+                    <p className="text-xs text-slate-300">Deploy Dedicated Command Telemetry & Fleet Mesh</p>
                   </div>
                 </div>
 
-                <div className="p-3 rounded-lg bg-white/[0.03] border border-white/[0.08] text-xs text-slate-300 space-y-1 font-mono">
-                  <div className="text-emerald-400 flex items-center gap-1.5 font-semibold">
+                <div className="p-3 rounded-lg bg-white/[0.05] border border-white/15 text-xs text-slate-200 space-y-1 font-mono">
+                  <div className="text-emerald-400 flex items-center gap-1.5 font-bold">
                     <CheckCircle2 className="w-3.5 h-3.5" />
                     <span>Multi-Agency Data Fusion Engine Active</span>
                   </div>
-                  <p className="text-slate-400 font-sans text-[11px]">
-                    Direct integration with state disaster command centers (DEOC), forest departments, and commercial expedition leaders.
+                  <p className="text-slate-300 font-sans text-[11px]">
+                    Direct integration with state disaster command centers (DEOC), ITBP, and regional search-and-rescue teams.
                   </p>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs text-slate-400 font-medium">Operation Sector / Organization Name</label>
+                  <label className="text-xs text-slate-300 font-medium">Operation Sector / Organization Name</label>
                   <input
                     type="text"
                     defaultValue="Himalayan Search & Rescue Directorate"
-                    className="w-full px-3 py-2 rounded-lg bg-black/50 border border-white/10 text-white text-xs focus:outline-none focus:border-white/30"
+                    className="w-full px-3 py-2 rounded-lg bg-black/60 border border-white/20 text-white text-xs focus:outline-none focus:border-emerald-500"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs text-slate-400 font-medium">Deployment Scale</label>
-                  <select className="w-full px-3 py-2 rounded-lg bg-[#12141d] border border-white/10 text-white text-xs focus:outline-none focus:border-white/30">
+                  <label className="text-xs text-slate-300 font-medium">Deployment Scale</label>
+                  <select className="w-full px-3 py-2 rounded-lg bg-[#12141d] border border-white/20 text-white text-xs focus:outline-none focus:border-emerald-500">
                     <option>Regional Battalion (10-50 Field Personnel)</option>
                     <option>District Emergency Command (50-250 Personnel)</option>
                     <option>State-Wide Multi-Agency Fleet (250+ Personnel)</option>
@@ -762,7 +712,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
                 <button
                   onClick={() => setDispatchSubmitted(true)}
-                  className="w-full btn-tactile py-2.5 rounded-xl bg-white text-black font-semibold text-xs hover:bg-neutral-200 cursor-pointer flex items-center justify-center gap-2 mt-4"
+                  className="w-full btn-tactile py-2.5 rounded-xl bg-white text-black font-bold text-xs hover:bg-neutral-200 cursor-pointer flex items-center justify-center gap-2 mt-4 shadow-lg"
                 >
                   <Send className="w-4 h-4" />
                   <span>Initiate Deployment Simulation</span>
@@ -771,10 +721,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             ) : (
               <div className="text-center py-6 space-y-4 animate-fade-in">
                 <div className="w-12 h-12 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 mx-auto">
-                  <Check className="w-6 h-6" />
+                  <CheckCircle2 className="w-6 h-6" />
                 </div>
                 <h3 className="text-base font-bold text-white">Mission Telemetry Link Established</h3>
-                <p className="text-xs text-slate-400 max-w-sm mx-auto leading-relaxed">
+                <p className="text-xs text-slate-300 max-w-sm mx-auto leading-relaxed">
                   Your tactical dispatch request for <strong className="text-white">{dispatchAgency}</strong> has been calibrated with the live SDRF simulation engine.
                 </p>
                 <div className="flex justify-center gap-3 pt-2">
@@ -783,7 +733,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                       setIsDispatchModalOpen(false);
                       onSelectTab('simulation');
                     }}
-                    className="btn-tactile px-4 py-2 rounded-lg bg-white text-black text-xs font-semibold hover:bg-neutral-200 cursor-pointer"
+                    className="btn-tactile px-4 py-2 rounded-lg bg-white text-black text-xs font-bold hover:bg-neutral-200 cursor-pointer"
                   >
                     Open Disaster Bench
                   </button>
