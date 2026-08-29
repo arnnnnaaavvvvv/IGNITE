@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Navbar } from './components/Navbar';
+import { LandingPage } from './components/Landing/LandingPage';
 import { TrailMap } from './components/Map/TrailMap';
 import { TripWizard } from './components/Planner/TripWizard';
 import { ItineraryView } from './components/Itinerary/ItineraryView';
@@ -20,7 +21,7 @@ import { AlertTriangle, WifiOff, MapPin } from 'lucide-react';
 import { t, getLocalizedDestinationName } from './services/i18n';
 
 export function App() {
-  const [activeTab, setActiveTab] = useState<'map' | 'itinerary' | 'explainability' | 'simulation' | 'group'>('map');
+  const [activeTab, setActiveTab] = useState<'overview' | 'map' | 'itinerary' | 'explainability' | 'simulation' | 'group'>('overview');
   const [language, setLanguage] = useState<string>(() => {
     try {
       return localStorage.getItem('ignite_lang') || 'en';
@@ -221,169 +222,206 @@ export function App() {
         isWebSocketConnected={isWebSocketConnected}
       />
 
-      {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-4 pb-24 md:pb-8 relative z-10">
-        {/* Offline Fallback Banner */}
-        {isOfflineMode && cachedTime && (
-          <div className="p-3 rounded-lg bg-amber-950/40 border border-amber-500/30 text-amber-200 text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
-            <div className="flex items-center gap-2">
-              <WifiOff className="w-4 h-4 text-amber-400 shrink-0" />
-              <span>{t('offline_banner_title', language)} <strong className="text-white font-semibold">{getLocalizedDestinationName(currentDestinationName, language)}</strong>.</span>
-            </div>
-            <span className="text-[11px] font-mono text-amber-400/90 self-end sm:self-auto bg-amber-950/60 px-2 py-0.5 rounded border border-amber-500/20">{t('cached_at', language)}: {new Date(cachedTime).toLocaleTimeString()}</span>
-          </div>
-        )}
+      {/* Overview Landing Page (Magic UI Startup Template) */}
+      {activeTab === 'overview' && (
+        <LandingPage
+          onLaunchMap={(destName) => {
+            if (destName) {
+              setCurrentDestinationName(destName);
+            }
+            setActiveTab('map');
+          }}
+          onLaunchSimulation={() => {
+            setActiveTab('simulation');
+          }}
+          onOpenSOS={() => setIsSOSOpen(true)}
+          onSelectTab={(tab) => setActiveTab(tab)}
+          language={language}
+          isWebSocketConnected={isWebSocketConnected}
+        />
+      )}
 
-        {/* Dynamic Hazard Alert Top Bar */}
-        {isBypassActive && (
-          <div className="p-3.5 rounded-lg bg-red-950/40 border border-red-500/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-md bg-red-500/20 border border-red-500/40 flex items-center justify-center text-red-400 shrink-0">
-                <AlertTriangle className="w-4 h-4 text-red-400" />
-              </div>
-              <div>
-                <div className="text-xs font-mono font-bold tracking-wide uppercase text-red-400 flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
-                  {t('critical_hazard_active', language)} ({getLocalizedDestinationName(rerouteData?.destination || currentDestinationName, language)})
+      {/* Main Tool Content Area */}
+      {activeTab !== 'overview' && (
+        <>
+          <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-4 pb-24 md:pb-8 relative z-10">
+            {/* Offline Fallback Banner */}
+            {isOfflineMode && cachedTime && (
+              <div className="p-3 rounded-lg bg-amber-950/40 border border-amber-500/30 text-amber-200 text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                <div className="flex items-center gap-2">
+                  <WifiOff className="w-4 h-4 text-amber-400 shrink-0" />
+                  <span>{t('offline_banner_title', language)} <strong className="text-white font-semibold">{getLocalizedDestinationName(currentDestinationName, language)}</strong>.</span>
                 </div>
-                <div className="text-xs text-slate-300 mt-0.5">
-                  {rerouteData?.instructions || 'Regional hazard threshold exceeded. Safe bypass trail engaged.'}
-                </div>
+                <span className="text-[11px] font-mono text-amber-400/90 self-end sm:self-auto bg-amber-950/60 px-2 py-0.5 rounded border border-amber-500/20">{t('cached_at', language)}: {new Date(cachedTime).toLocaleTimeString()}</span>
               </div>
-            </div>
+            )}
 
-            <button
-              onClick={() => setActiveTab('map')}
-              className="btn-tactile w-full sm:w-auto px-3.5 py-1.5 rounded-md bg-red-600 hover:bg-red-500 text-white font-semibold text-xs whitespace-nowrap cursor-pointer text-center"
-            >
-              {t('view_reroute_map', language)}
-            </button>
-          </div>
-        )}
-
-        {/* Tab 1: Interactive Map & Autocomplete Planner */}
-        {activeTab === 'map' && (
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-              <div className="lg:col-span-2">
-                <TrailMap
-                  checkpoints={checkpoints}
-                  hazardZones={hazardZones}
-                  shelters={shelters}
-                  mainTrailCoords={mainTrail}
-                  bypassTrailCoords={bypassTrail}
-                  isBypassActive={isBypassActive}
-                  destinationName={currentDestinationName}
-                  regionType={itinerary?.region_type}
-                  previewCoordinates={previewCoordinates}
-                  language={language}
-                  onResetToIndia={handleResetToIndia}
-                  onSelectCheckpoint={(cp) => setSelectedCheckpoint(cp)}
-                />
-              </div>
-
-              <div className="space-y-4">
-                <TripWizard
-                  onGenerate={generateItinerary}
-                  isLoading={isGenerating}
-                  selectedDestinationName={currentDestinationName}
-                  language={language}
-                  onPreviewDestination={(dest) => {
-                    setPreviewCoordinates(dest);
-                    if (dest) setCurrentDestinationName(dest.name);
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Tab 2: Safe Itinerary & Regional Budget Logistics */}
-        {activeTab === 'itinerary' && (
-          <div className="space-y-4">
-            {itinerary ? (
-              <ItineraryView
-                itinerary={itinerary}
-                language={language}
-                onSelectCheckpoint={(cp) => {
-                  setSelectedCheckpoint(cp);
-                  setActiveTab('explainability');
-                }}
-              />
-            ) : (
-              <div className="glass-panel p-10 rounded-xl text-center text-slate-300 max-w-md mx-auto space-y-3 my-8">
-                <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto text-emerald-400">
-                  <MapPin className="w-5 h-5" />
+            {/* Dynamic Hazard Alert Top Bar */}
+            {isBypassActive && (
+              <div className="p-3.5 rounded-lg bg-red-950/40 border border-red-500/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-md bg-red-500/20 border border-red-500/40 flex items-center justify-center text-red-400 shrink-0">
+                    <AlertTriangle className="w-4 h-4 text-red-400" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-mono font-bold tracking-wide uppercase text-red-400 flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
+                      {t('critical_hazard_active', language)} ({getLocalizedDestinationName(rerouteData?.destination || currentDestinationName, language)})
+                    </div>
+                    <div className="text-xs text-slate-300 mt-0.5">
+                      {rerouteData?.instructions || 'Regional hazard threshold exceeded. Safe bypass trail engaged.'}
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-sm font-bold text-white mb-1">{t('no_itinerary_title', language)}</h3>
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    {t('no_itinerary_desc', language)}
-                  </p>
-                </div>
+
                 <button
                   onClick={() => setActiveTab('map')}
-                  className="btn-tactile px-4 py-2 rounded-md bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold cursor-pointer"
+                  className="btn-tactile w-full sm:w-auto px-3.5 py-1.5 rounded-md bg-red-600 hover:bg-red-500 text-white font-semibold text-xs whitespace-nowrap cursor-pointer text-center"
                 >
-                  {t('btn_go_map', language)}
+                  {t('view_reroute_map', language)}
                 </button>
               </div>
             )}
-          </div>
-        )}
 
-        {/* Tab 3: Risk Explainability Panel */}
-        {activeTab === 'explainability' && (
-          <div className="space-y-4">
-            <ExplainabilityPanel
-              subScores={selectedCheckpoint?.sub_scores || (itinerary?.days?.[0]?.checkpoints?.[0]?.sub_scores)}
-              checkpointName={getLocalizedDestinationName(selectedCheckpoint?.name || currentDestinationName, language)}
-              totalScore={selectedCheckpoint?.total_risk_score || itinerary?.overall_safety_score || 25}
-              explanationText={
-                itinerary?.explainability?.summary_text ||
-                'Route safety verified with regional multi-agency precautions.'
-              }
-              language={language}
-              regionType={itinerary?.region_type}
-              regionName={itinerary?.region_name}
-            />
-          </div>
-        )}
+            {/* Tab 1: Interactive Map & Autocomplete Planner */}
+            {activeTab === 'map' && (
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                  <div className="lg:col-span-2">
+                    <TrailMap
+                      checkpoints={checkpoints}
+                      hazardZones={hazardZones}
+                      shelters={shelters}
+                      mainTrailCoords={mainTrail}
+                      bypassTrailCoords={bypassTrail}
+                      isBypassActive={isBypassActive}
+                      destinationName={currentDestinationName}
+                      regionType={itinerary?.region_type}
+                      previewCoordinates={previewCoordinates}
+                      language={language}
+                      onResetToIndia={handleResetToIndia}
+                      onSelectCheckpoint={(cp) => setSelectedCheckpoint(cp)}
+                    />
+                  </div>
 
-        {/* Tab 4: Disaster Bench & Multi-Region Simulator */}
-        {activeTab === 'simulation' && (
-          <div className="space-y-4">
-            <DisasterBench
-              scenarios={scenarios}
-              onTriggerScenario={handleTriggerScenario}
-              activeScenarioId={activeScenario?.id}
-              isSimulating={isBypassActive}
-              rerouteData={rerouteData}
-              selectedDestinationName={currentDestinationName}
-              language={language}
-              onSelectDestination={(destName) => {
-                setCurrentDestinationName(destName);
-              }}
-              onNavigateToMap={() => setActiveTab('map')}
-            />
-          </div>
-        )}
+                  <div className="space-y-4">
+                    <TripWizard
+                      onGenerate={generateItinerary}
+                      isLoading={isGenerating}
+                      selectedDestinationName={currentDestinationName}
+                      language={language}
+                      onPreviewDestination={(dest) => {
+                        setPreviewCoordinates(dest);
+                        if (dest) setCurrentDestinationName(dest.name);
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
 
-        {/* Tab 5: Group Live Radar */}
-        {activeTab === 'group' && (
-          <div className="space-y-4">
-            <GroupTrackerModal
-              destinationName={getLocalizedDestinationName(currentDestinationName, language)}
-              language={language}
-              leaderLocation={{
-                lat: checkpoints[0]?.lat || 28.6139,
-                lon: checkpoints[0]?.lon || 77.2090,
-                altitude_m: checkpoints[0]?.altitude_m || 210,
-              }}
-            />
-          </div>
-        )}
-      </main>
+            {/* Tab 2: Safe Itinerary & Regional Budget Logistics */}
+            {activeTab === 'itinerary' && (
+              <div className="space-y-4">
+                {itinerary ? (
+                  <ItineraryView
+                    itinerary={itinerary}
+                    language={language}
+                    onSelectCheckpoint={(cp) => {
+                      setSelectedCheckpoint(cp);
+                      setActiveTab('explainability');
+                    }}
+                  />
+                ) : (
+                  <div className="glass-panel p-10 rounded-xl text-center text-slate-300 max-w-md mx-auto space-y-3 my-8">
+                    <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto text-emerald-400">
+                      <MapPin className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-bold text-white mb-1">{t('no_itinerary_title', language)}</h3>
+                      <p className="text-xs text-slate-400 leading-relaxed">
+                        {t('no_itinerary_desc', language)}
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => setActiveTab('map')}
+                      className="btn-tactile px-4 py-2 rounded-md bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold cursor-pointer"
+                    >
+                      {t('btn_go_map', language)}
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Tab 3: Risk Explainability Panel */}
+            {activeTab === 'explainability' && (
+              <div className="space-y-4">
+                <ExplainabilityPanel
+                  subScores={selectedCheckpoint?.sub_scores || (itinerary?.days?.[0]?.checkpoints?.[0]?.sub_scores)}
+                  checkpointName={getLocalizedDestinationName(selectedCheckpoint?.name || currentDestinationName, language)}
+                  totalScore={selectedCheckpoint?.total_risk_score || itinerary?.overall_safety_score || 25}
+                  explanationText={
+                    itinerary?.explainability?.summary_text ||
+                    'Route safety verified with regional multi-agency precautions.'
+                  }
+                  language={language}
+                  regionType={itinerary?.region_type}
+                  regionName={itinerary?.region_name}
+                />
+              </div>
+            )}
+
+            {/* Tab 4: Disaster Bench & Multi-Region Simulator */}
+            {activeTab === 'simulation' && (
+              <div className="space-y-4">
+                <DisasterBench
+                  scenarios={scenarios}
+                  onTriggerScenario={handleTriggerScenario}
+                  activeScenarioId={activeScenario?.id}
+                  isSimulating={isBypassActive}
+                  rerouteData={rerouteData}
+                  selectedDestinationName={currentDestinationName}
+                  language={language}
+                  onSelectDestination={(destName) => {
+                    setCurrentDestinationName(destName);
+                  }}
+                  onNavigateToMap={() => setActiveTab('map')}
+                />
+              </div>
+            )}
+
+            {/* Tab 5: Group Live Radar */}
+            {activeTab === 'group' && (
+              <div className="space-y-4">
+                <GroupTrackerModal
+                  destinationName={getLocalizedDestinationName(currentDestinationName, language)}
+                  language={language}
+                  leaderLocation={{
+                    lat: checkpoints[0]?.lat || 28.6139,
+                    lon: checkpoints[0]?.lon || 77.2090,
+                    altitude_m: checkpoints[0]?.altitude_m || 210,
+                  }}
+                />
+              </div>
+            )}
+          </main>
+
+          {/* High-Precision Command Footer */}
+          <footer className="mt-auto border-t border-white/[0.08] bg-[#090a0f] py-3 px-6 text-xs text-slate-500">
+            <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 font-mono">
+              <span className="flex items-center gap-1.5 text-slate-400">
+                <span className="font-semibold text-slate-200">IGNITE</span>
+                <span className="text-slate-600">•</span>
+                <span>{t('footer_title', language)}</span>
+              </span>
+              <span className="text-[11px] text-slate-400">
+                {t('footer_active', language)}: <span className="text-white font-medium">{currentDestinationName ? `${getLocalizedDestinationName(currentDestinationName, language)} (${itinerary?.region_name || 'National Network'})` : t('footer_pan_india', language)}</span>
+              </span>
+            </div>
+          </footer>
+        </>
+      )}
 
       {/* Universal Emergency SOS Panic Modal */}
       <SOSModal
@@ -396,20 +434,6 @@ export function App() {
           altitude_m: checkpoints[0]?.altitude_m || 2550,
         }}
       />
-
-      {/* High-Precision Command Footer */}
-      <footer className="mt-auto border-t border-white/[0.08] bg-[#090a0f] py-3 px-6 text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 font-mono">
-          <span className="flex items-center gap-1.5 text-slate-400">
-            <span className="font-semibold text-slate-200">IGNITE</span>
-            <span className="text-slate-600">•</span>
-            <span>{t('footer_title', language)}</span>
-          </span>
-          <span className="text-[11px] text-slate-400">
-            {t('footer_active', language)}: <span className="text-white font-medium">{currentDestinationName ? `${getLocalizedDestinationName(currentDestinationName, language)} (${itinerary?.region_name || 'National Network'})` : t('footer_pan_india', language)}</span>
-          </span>
-        </div>
-      </footer>
     </div>
   );
 }

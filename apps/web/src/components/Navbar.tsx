@@ -11,8 +11,8 @@ import { IgniteLogo } from './Common/IgniteLogo';
 import { t } from '../services/i18n';
 
 interface NavbarProps {
-  activeTab: 'map' | 'itinerary' | 'explainability' | 'simulation' | 'group';
-  setActiveTab: (tab: 'map' | 'itinerary' | 'explainability' | 'simulation' | 'group') => void;
+  activeTab: 'overview' | 'map' | 'itinerary' | 'explainability' | 'simulation' | 'group';
+  setActiveTab: (tab: 'overview' | 'map' | 'itinerary' | 'explainability' | 'simulation' | 'group') => void;
   language: string;
   setLanguage: (lang: string) => void;
   onOpenSOS: () => void;
@@ -30,6 +30,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   isWebSocketConnected = true,
 }) => {
   const tabs = [
+    { id: 'overview', label: t('nav_overview', language), shortLabel: language === 'hi' ? 'होम' : 'Home', icon: Activity },
     { id: 'map', label: t('nav_map', language), shortLabel: language === 'hi' ? 'मानचित्र' : 'Map', icon: Compass },
     { id: 'itinerary', label: t('nav_itinerary', language), shortLabel: language === 'hi' ? 'यात्रा' : 'Itinerary', icon: Calendar },
     { id: 'explainability', label: t('nav_explainability', language), shortLabel: language === 'hi' ? 'जोखिम' : 'Matrix', icon: Activity },
@@ -51,11 +52,14 @@ export const Navbar: React.FC<NavbarProps> = ({
       <header className="sticky top-0 z-40 w-full border-b border-white/[0.08] bg-[#090a0f]/90 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-3">
           {/* Brand & Live Mesh Status */}
-          <div className="flex items-center gap-3 shrink-0">
+          <button 
+            onClick={() => setActiveTab('overview')}
+            className="flex items-center gap-3 shrink-0 cursor-pointer text-left bg-transparent border-0 p-0"
+          >
             <IgniteLogo size="sm" />
 
             <div className="flex items-center gap-2.5">
-              <span className="font-bold text-sm tracking-tight text-white">
+              <span className="font-bold text-sm tracking-tight text-white hover:text-emerald-400 transition-colors">
                 IGNITE
               </span>
               <span className="h-3.5 w-px bg-white/[0.12] hidden sm:inline" />
@@ -64,7 +68,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <span className="font-medium text-slate-300">{isWebSocketConnected ? t('live_mesh', language) : t('connecting', language)}</span>
               </div>
             </div>
-          </div>
+          </button>
 
           {/* Desktop Center Tabs Navigation */}
           <nav className="hidden md:flex items-center gap-1 bg-[#12141d] p-1 rounded-lg border border-white/[0.08]">
@@ -135,7 +139,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Fixed Mobile Bottom Navigation Bar */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#090a0f]/95 backdrop-blur-md border-t border-white/[0.08] px-2 pt-1.5 pb-[max(0.6rem,env(safe-area-inset-bottom))]">
-        <div className="grid grid-cols-5 items-center justify-items-center max-w-lg mx-auto">
+        <div className="grid grid-cols-6 items-center justify-items-center max-w-lg mx-auto">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -143,7 +147,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`w-full flex flex-col items-center justify-center py-1 px-1 rounded-md transition-all relative ${
+                className={`w-full flex flex-col items-center justify-center py-1 px-0.5 rounded-md transition-all relative ${
                   isActive
                     ? 'text-emerald-400 font-semibold'
                     : 'text-slate-400 hover:text-slate-200'
@@ -155,7 +159,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-red-500" />
                   )}
                 </div>
-                <span className="text-[10px] mt-0.5 font-medium tracking-tight whitespace-nowrap text-center">
+                <span className="text-[9px] mt-0.5 font-medium tracking-tight whitespace-nowrap text-center">
                   {tab.shortLabel}
                 </span>
               </button>
