@@ -262,17 +262,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       >
         {/* Inner Content Container sitting securely on top (z-10) */}
         <div className="relative z-10 max-w-5xl mx-auto">
-          {/* Badge Pill */}
-          <div
-            onClick={() => onLaunchSimulation()}
-            className="inline-flex h-8 items-center justify-between rounded-full border border-amber-400/40 bg-amber-950/60 px-4 text-xs text-amber-200 transition-all ease-in hover:cursor-pointer hover:bg-amber-900/70 group gap-2 shadow-lg mb-4 font-mono"
-          >
-            <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-            <span className="font-semibold tracking-wide">
-              {language === 'hi' ? '✦ अखिल भारतीय स्वायत्त पर्यटक सुरक्षा व मार्ग मेश' : '✦ Pan-India Autonomous Tourist Safety & Route Mesh'}
-            </span>
-          </div>
-
           {/* Plume Editorial Headline */}
           <h1 className="font-display py-4 text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-6xl md:text-7xl lg:text-8xl drop-shadow-md max-w-5xl mx-auto">
             {language === 'hi' ? (
