@@ -71,6 +71,7 @@ export const TrailMap: React.FC<TrailMapProps> = ({
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         subdomains: ['a', 'b', 'c'],
         maxZoom: 19,
+        crossOrigin: true,
       }).addTo(map);
 
       layersRef.current.trails = L.layerGroup().addTo(map);
