@@ -10,6 +10,12 @@ import {
   ChevronRight,
   HeartHandshake,
   Zap,
+  Check,
+  Building,
+  Send,
+  X,
+  MapPin,
+  CheckCircle2,
 } from 'lucide-react';
 import { IgniteLogo } from '../Common/IgniteLogo';
 import { getLocalizedDestinationName } from '../../services/i18n';
@@ -33,24 +39,101 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 }) => {
   const [isAnnual, setIsAnnual] = useState(true);
   const [selectedPreviewDest, setSelectedPreviewDest] = useState('Kedarnath Dham & Valley');
+  const [isDispatchModalOpen, setIsDispatchModalOpen] = useState(false);
+  const [dispatchAgency, setDispatchAgency] = useState('SDRF / Disaster Management Unit');
+  const [dispatchSubmitted, setDispatchSubmitted] = useState(false);
 
   const previewDestinations = [
-    { name: 'Kedarnath Dham & Valley', region: 'Himalayan Alpine', alt: '3,583m', risk: '24/100 (Safe)', color: 'text-emerald-400' },
-    { name: 'Leh, Pangong Tso & Khardung La', region: 'Trans-Himalayan', alt: '5,359m', risk: '38/100 (Moderate)', color: 'text-amber-400' },
-    { name: 'Munnar & Anamudi Highlands', region: 'Western Ghats', alt: '2,695m', risk: '15/100 (Safe)', color: 'text-emerald-400' },
-    { name: 'Vaishno Devi Shrine & Katra', region: 'Shivalik Hills', alt: '1,585m', risk: '18/100 (Safe)', color: 'text-emerald-400' },
-    { name: 'Goa Beaches & Promenade', region: 'Coastal Arabian Sea', alt: '12m', risk: '12/100 (Low)', color: 'text-emerald-400' },
+    {
+      name: 'Kedarnath Dham & Valley',
+      region: 'Himalayan Alpine Corridor',
+      base: 'Gaurikund Base (1,982m)',
+      summit: 'Kedarnath Dham (3,583m)',
+      distance: '14.2 km trail',
+      alt: '3,583m',
+      riskScore: 24,
+      riskText: 'Low Risk • Safe Corridor',
+      weather: 'Clear Skies (11°C)',
+      landslide: 'Low (8%)',
+      sdrf: 'Post #4 Standby',
+      waypoints: ['Jungle Chatti [Safe]', 'Bheembali [Shelter Active]', 'Linchauli [Oxygen Booth]', 'Sanctuary'],
+    },
+    {
+      name: 'Leh, Pangong Tso & Khardung La',
+      region: 'Trans-Himalayan High Altitude',
+      base: 'Leh Town Base (3,500m)',
+      summit: 'Khardung La Pass (5,359m)',
+      distance: '39.8 km trail',
+      alt: '5,359m',
+      riskScore: 38,
+      riskText: 'Moderate AMS Vigilance',
+      weather: 'Sub-Zero Dry (-2°C)',
+      landslide: 'Glacial Scree (18%)',
+      sdrf: 'ITBP High-Altitude Unit',
+      waypoints: ['South Pullu Checkpost', 'Rinchen Base Camp', 'Khardung Summit (O2 Mandatory)', 'North Nubra'],
+    },
+    {
+      name: 'Munnar & Anamudi Highlands',
+      region: 'Western Ghats Bio-Corridor',
+      base: 'Munnar Base (1,532m)',
+      summit: 'Anamudi Peak (2,695m)',
+      distance: '18.5 km trail',
+      alt: '2,695m',
+      riskScore: 15,
+      riskText: 'Low Risk • Favorable',
+      weather: 'Misty Rainforest (19°C)',
+      landslide: 'Slope Stable (4%)',
+      sdrf: 'Kerala Forest Patrol',
+      waypoints: ['Eravikulam Gate', 'Rajamalai Sanctuary', 'Tea Highlands Valley', 'Anamudi Ridge'],
+    },
+    {
+      name: 'Vaishno Devi Shrine & Katra',
+      region: 'Shivalik Pilgrimage Network',
+      base: 'Katra Base Camp (750m)',
+      summit: 'Bhavan Sanctuary (1,585m)',
+      distance: '12.8 km trail',
+      alt: '1,585m',
+      riskScore: 18,
+      riskText: 'Low Risk • Well Paved',
+      weather: 'Clear & Mild (22°C)',
+      landslide: 'Fencing Verified (5%)',
+      sdrf: 'Shrine Board Command',
+      waypoints: ['Banganga Gate', 'Charan Paduka', 'Adhkuwari Gufa Complex', 'Bhavan Complex'],
+    },
+    {
+      name: 'Goa Beaches & Promenade',
+      region: 'Coastal Arabian Sea Corridor',
+      base: 'Panaji Promenade (4m)',
+      summit: 'Arambol & Chapora (65m)',
+      distance: '26.4 km coastal route',
+      alt: '12m',
+      riskScore: 12,
+      riskText: 'Low Risk • Leisure',
+      weather: 'Warm Sea Breeze (29°C)',
+      landslide: 'Zero Hazard (1%)',
+      sdrf: 'Drishti Marine Rescue',
+      waypoints: ['Miramar Beach Promenade', 'Calangute Coastal Strip', 'Anjuna Rocks', 'Chapora Fort'],
+    },
   ];
 
-  return (
-    <div className="min-h-screen bg-black text-white selection:bg-emerald-500/30 selection:text-white font-sans antialiased relative overflow-hidden">
-      {/* Magic UI Ambient Top Radial Glow */}
-      <div className="ambient-glow-top" />
+  const currentPreview = previewDestinations.find((d) => d.name === selectedPreviewDest) || previewDestinations[0];
 
+  const handleSubscribePlan = (_planName: string) => {
+    onLaunchMap(selectedPreviewDest);
+  };
+
+  const handleOpenDispatchModal = (agencyType: string) => {
+    setDispatchAgency(agencyType);
+    setDispatchSubmitted(false);
+    setIsDispatchModalOpen(true);
+  };
+
+  return (
+    <div className="min-h-screen bg-transparent text-white selection:bg-emerald-500/30 selection:text-white font-sans antialiased relative overflow-hidden">
       {/* Hero Section */}
-      <section id="hero" className="relative mx-auto mt-16 sm:mt-24 max-w-[80rem] px-6 text-center md:px-8">
-        {/* Aceternity Large Ambient Watermark */}
-        <p className="pointer-events-none select-none absolute -top-12 left-1/2 -translate-x-1/2 text-center text-[110px] sm:text-[160px] md:text-[220px] lg:text-[280px] font-extrabold tracking-tighter bg-gradient-to-b from-white/[0.08] via-white/[0.03] to-transparent bg-clip-text text-transparent -z-10 leading-none">
+      <section id="hero" className="relative mx-auto mt-14 sm:mt-20 max-w-[80rem] px-6 text-center md:px-8">
+        {/* Aceternity Large Ambient Background Watermark */}
+        <p className="pointer-events-none select-none absolute -top-12 left-1/2 -translate-x-1/2 text-center text-[100px] sm:text-[160px] md:text-[220px] lg:text-[280px] font-extrabold tracking-tighter bg-gradient-to-b from-white/[0.08] via-white/[0.03] to-transparent bg-clip-text text-transparent -z-10 leading-none">
           IGNITE
         </p>
 
@@ -67,7 +150,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </p>
         </div>
 
-        {/* Magic UI Hero Title with Gradient Text */}
+        {/* Hero Title with Gradient Text */}
         <h1 className="bg-gradient-to-br from-white from-30% to-white/40 bg-clip-text py-6 text-4xl font-medium leading-none tracking-tighter text-transparent text-balance sm:text-6xl md:text-7xl lg:text-8xl">
           {language === 'hi' ? (
             <>
@@ -92,7 +175,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         {/* Hero CTA Button Group */}
         <div className="flex flex-wrap items-center justify-center gap-4">
           <button
-            onClick={() => onLaunchMap()}
+            onClick={() => onLaunchMap(selectedPreviewDest)}
             className="inline-flex items-center justify-center whitespace-nowrap text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-1 bg-white text-black shadow-lg hover:bg-neutral-200 h-11 px-6 gap-2 rounded-xl cursor-pointer group"
           >
             <span>{language === 'hi' ? 'मुफ्त में शुरू करें' : 'Get Started for free'}</span>
@@ -118,7 +201,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </button>
         </div>
 
-        {/* Hero Interactive Showcase Frame with Magic UI Border Beam & Glow */}
+        {/* Hero Interactive Showcase Frame with Border Beam */}
         <div className="relative mt-16 sm:mt-24 [perspective:2000px] after:absolute after:inset-0 after:z-30 after:[background:linear-gradient(to_top,rgba(0,0,0,0.85)_15%,transparent)]">
           <div className="relative rounded-2xl border border-white/15 bg-white/[0.02] backdrop-blur-xl p-4 sm:p-6 text-left shadow-2xl overflow-hidden before:absolute before:bottom-1/2 before:left-0 before:top-0 before:h-full before:w-full before:opacity-30 before:[filter:blur(160px)] before:[background-image:linear-gradient(to_bottom,var(--color-one),var(--color-two),transparent_40%)]">
             
@@ -149,12 +232,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   SDRF GRID ONLINE
                 </span>
                 <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-white/10 border border-white/15 text-slate-300">
-                  28 STATES • 8 UTS
+                  {currentPreview.region}
                 </span>
               </div>
             </div>
 
-            {/* Quick Destination Switcher Pills */}
+            {/* Dynamic Destination Switcher Pills */}
             <div className="relative z-20 flex items-center gap-2 overflow-x-auto pb-3 no-scrollbar">
               {previewDestinations.map((dest) => (
                 <button
@@ -171,12 +254,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               ))}
             </div>
 
-            {/* Simulated Live Radar Container */}
+            {/* Live Interactive Telemetry Preview */}
             <div className="relative z-20 grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
               <div className="md:col-span-2 rounded-xl bg-black/60 border border-white/10 p-4 relative overflow-hidden">
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm font-bold text-white">
-                    {getLocalizedDestinationName(selectedPreviewDest, language)}
+                  <span className="text-sm font-bold text-white flex items-center gap-2">
+                    <MapPin className="w-4 h-4 text-emerald-400" />
+                    {getLocalizedDestinationName(currentPreview.name, language)}
                   </span>
                   <span className="text-xs font-mono text-emerald-400 bg-emerald-950/50 px-2 py-0.5 rounded border border-emerald-500/20">
                     LIVE RADAR ACTIVE
@@ -187,12 +271,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   <div className="flex items-center justify-between relative z-10 text-xs font-mono">
                     <span className="text-slate-300 font-semibold flex items-center gap-1.5">
                       <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 target-beacon-pulse" />
-                      Gaurikund (1,982m)
+                      {currentPreview.base}
                     </span>
-                    <span className="text-slate-400">14.2 km trail</span>
+                    <span className="text-slate-400 font-mono">{currentPreview.distance}</span>
                     <span className="text-slate-300 font-semibold flex items-center gap-1.5">
                       <span className="w-2.5 h-2.5 rounded-full bg-cyan-400" />
-                      Kedarnath Dham (3,583m)
+                      {currentPreview.summit}
                     </span>
                   </div>
 
@@ -201,26 +285,25 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                       <div className="h-full bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-400 w-3/4 rounded-full" />
                     </div>
                     <div className="flex justify-between text-[10px] font-mono text-slate-400 mt-1.5">
-                      <span>Jungle Chatti</span>
-                      <span>Bheembali Shelter</span>
-                      <span>Linchauli Oxygen Booth</span>
-                      <span>Sanctuary</span>
+                      {currentPreview.waypoints.map((wp, idx) => (
+                        <span key={idx}>{wp}</span>
+                      ))}
                     </div>
                   </div>
 
                   <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-white/10 text-xs font-mono">
-                    <span className="text-slate-400">IMD Sensor: <span className="text-emerald-300 font-semibold">Clear Skies (11°C)</span></span>
-                    <span className="text-slate-400">Landslide Risk: <span className="text-emerald-300 font-semibold">Low (8%)</span></span>
-                    <span className="text-slate-400">SDRF Team: <span className="text-cyan-300 font-semibold">Post #4 Active</span></span>
+                    <span className="text-slate-400">IMD Sensor: <span className="text-emerald-300 font-semibold">{currentPreview.weather}</span></span>
+                    <span className="text-slate-400">Slope Risk: <span className="text-emerald-300 font-semibold">{currentPreview.landslide}</span></span>
+                    <span className="text-slate-400">Emergency Unit: <span className="text-cyan-300 font-semibold">{currentPreview.sdrf}</span></span>
                   </div>
                 </div>
 
                 <div className="mt-3 flex items-center justify-between">
                   <span className="text-xs text-slate-400">
-                    Auto-calibrated with IMD Doppler & CWC hydro-stations.
+                    Live auto-calibrated routing with IMD radar & local SDRF posts.
                   </span>
                   <button
-                    onClick={() => onLaunchMap(selectedPreviewDest)}
+                    onClick={() => onLaunchMap(currentPreview.name)}
                     className="btn-tactile px-3.5 py-1.5 rounded-lg bg-white text-black hover:bg-neutral-200 font-semibold text-xs cursor-pointer flex items-center gap-1.5"
                   >
                     <span>{language === 'hi' ? 'यह मार्ग खोलें' : 'Open in Tactical Map'}</span>
@@ -234,11 +317,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 <div className="rounded-xl bg-black/60 border border-white/10 p-4">
                   <div className="text-xs text-slate-400 font-mono uppercase mb-1">Safety Index Score</div>
                   <div className="flex items-baseline gap-2">
-                    <span className="text-4xl font-bold font-mono text-emerald-400">92</span>
-                    <span className="text-xs text-emerald-400 font-medium">/ 100 • Safe Trail</span>
+                    <span className="text-4xl font-bold font-mono text-emerald-400">{100 - currentPreview.riskScore}</span>
+                    <span className="text-xs text-emerald-400 font-medium">/ 100 • {currentPreview.riskText}</span>
                   </div>
                   <div className="mt-2 text-xs text-slate-400 leading-relaxed">
-                    Verified safe with mandatory acclimatization checkpoint at 2,800m.
+                    Verified path protocol with regional shelter telemetry and medical stations.
                   </div>
                 </div>
 
@@ -249,7 +332,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                     <span>Zero-Latency Reroute</span>
                   </div>
                   <div className="mt-1 text-xs text-slate-400 leading-relaxed">
-                    Safe bypass paths engaged within 450ms of regional hazard alert.
+                    Safe bypass corridors engaged within 450ms of regional hazard alert.
                   </div>
                 </div>
               </div>
@@ -257,9 +340,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </div>
         </div>
       </section>
-
-      {/* Magic UI Sphere Horizon Glow Arc */}
-      <div className="[--color:var(--color-one)] pointer-events-none relative -z-[2] mx-auto h-[45rem] overflow-hidden [mask-image:radial-gradient(ellipse_at_center_center,#000,transparent_50%)] my-[-16rem] before:absolute before:inset-0 before:h-full before:w-full before:opacity-40 before:[background-image:radial-gradient(circle_at_bottom_center,var(--color),transparent_70%)] after:absolute after:-left-1/2 after:top-1/2 after:aspect-[1/0.7] after:w-[200%] after:rounded-[50%] after:border-t after:border-white/15 after:bg-black" />
 
       {/* Social Proof / Trusted By Agencies Section */}
       <section id="clients" className="text-center mx-auto max-w-[80rem] px-6 md:px-8 mt-12">
@@ -270,23 +350,23 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </h2>
             <div className="mt-8">
               <ul className="flex flex-wrap items-center justify-center gap-x-10 gap-y-6 md:gap-x-16 text-slate-400 font-medium text-sm">
-                <li className="flex items-center gap-2 hover:text-white transition-colors">
+                <li className="flex items-center gap-2 hover:text-white transition-colors cursor-pointer" onClick={() => onSelectTab('explainability')}>
                   <Shield className="w-4 h-4 text-emerald-400" />
                   <span>SDRF Uttarakhand</span>
                 </li>
-                <li className="flex items-center gap-2 hover:text-white transition-colors">
+                <li className="flex items-center gap-2 hover:text-white transition-colors cursor-pointer" onClick={() => onSelectTab('simulation')}>
                   <Shield className="w-4 h-4 text-cyan-400" />
                   <span>NDMA India</span>
                 </li>
-                <li className="flex items-center gap-2 hover:text-white transition-colors">
+                <li className="flex items-center gap-2 hover:text-white transition-colors cursor-pointer" onClick={() => onSelectTab('group')}>
                   <Shield className="w-4 h-4 text-amber-400" />
                   <span>ITBP High-Altitude</span>
                 </li>
-                <li className="flex items-center gap-2 hover:text-white transition-colors">
+                <li className="flex items-center gap-2 hover:text-white transition-colors cursor-pointer" onClick={() => onSelectTab('map')}>
                   <Shield className="w-4 h-4 text-emerald-400" />
                   <span>IMD Weather Radar</span>
                 </li>
-                <li className="flex items-center gap-2 hover:text-white transition-colors">
+                <li className="flex items-center gap-2 hover:text-white transition-colors cursor-pointer" onClick={() => onSelectTab('itinerary')}>
                   <Shield className="w-4 h-4 text-cyan-400" />
                   <span>Central Water Commission</span>
                 </li>
@@ -311,8 +391,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <div className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md p-6 hover:border-white/20 transition-all">
-            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-4">
+          <div onClick={() => onSelectTab('map')} className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md p-6 hover:border-white/20 transition-all cursor-pointer group">
+            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-4 group-hover:scale-105 transition-transform">
               <Zap className="w-5 h-5" />
             </div>
             <h3 className="text-lg font-bold text-white mb-2">Autonomous Safe Rerouting</h3>
@@ -321,8 +401,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </p>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md p-6 hover:border-white/20 transition-all">
-            <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 mb-4">
+          <div onClick={() => onSelectTab('map')} className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md p-6 hover:border-white/20 transition-all cursor-pointer group">
+            <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 mb-4 group-hover:scale-105 transition-transform">
               <WifiOff className="w-5 h-5" />
             </div>
             <h3 className="text-lg font-bold text-white mb-2">Offline-First 2G Cache</h3>
@@ -331,8 +411,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </p>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md p-6 hover:border-white/20 transition-all">
-            <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 mb-4">
+          <div onClick={() => onSelectTab('explainability')} className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md p-6 hover:border-white/20 transition-all cursor-pointer group">
+            <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 mb-4 group-hover:scale-105 transition-transform">
               <Activity className="w-5 h-5" />
             </div>
             <h3 className="text-lg font-bold text-white mb-2">Explainable Risk Matrix</h3>
@@ -341,8 +421,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </p>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md p-6 hover:border-white/20 transition-all">
-            <div className="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 mb-4">
+          <div onClick={onOpenSOS} className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md p-6 hover:border-red-500/30 transition-all cursor-pointer group">
+            <div className="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 mb-4 group-hover:scale-105 transition-transform">
               <AlertTriangle className="w-5 h-5" />
             </div>
             <h3 className="text-lg font-bold text-white mb-2">One-Touch SDRF SOS Beacon</h3>
@@ -351,8 +431,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </p>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md p-6 hover:border-white/20 transition-all">
-            <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 mb-4">
+          <div onClick={() => onSelectTab('simulation')} className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md p-6 hover:border-white/20 transition-all cursor-pointer group">
+            <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 mb-4 group-hover:scale-105 transition-transform">
               <Radio className="w-5 h-5" />
             </div>
             <h3 className="text-lg font-bold text-white mb-2">Multi-Scenario Disaster Bench</h3>
@@ -361,8 +441,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </p>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md p-6 hover:border-white/20 transition-all">
-            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-4">
+          <div onClick={() => onSelectTab('group')} className="rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md p-6 hover:border-white/20 transition-all cursor-pointer group">
+            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-4 group-hover:scale-105 transition-transform">
               <Users className="w-5 h-5" />
             </div>
             <h3 className="text-lg font-bold text-white mb-2">Group Live Mesh Radar</h3>
@@ -373,7 +453,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         </div>
       </section>
 
-      {/* Magic UI Pricing Section (Exact Matching Startup Template Design) */}
+      {/* Pricing Section with Active Plan Handlers */}
       <section id="pricing">
         <div className="mx-auto flex max-w-screen-xl flex-col gap-8 px-4 py-16 md:px-8">
           <div className="mx-auto max-w-5xl text-center">
@@ -422,7 +502,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 <span className="text-xs text-gray-400">/ month</span>
               </div>
               <button
-                onClick={() => onLaunchMap()}
+                onClick={() => handleSubscribePlan('Basic')}
                 className="inline-flex items-center justify-center whitespace-nowrap rounded-lg focus-visible:outline-none bg-white text-black shadow hover:bg-neutral-200 h-10 px-4 py-2 group relative w-full gap-2 overflow-hidden text-sm font-semibold tracking-tighter transition-all cursor-pointer"
               >
                 <span className="absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform-gpu bg-white opacity-10 transition-all duration-1000 ease-out group-hover:-translate-x-96 dark:bg-black" />
@@ -437,7 +517,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               </ul>
             </div>
 
-            {/* Premium / Pro Tier (Border Beam Highlight) */}
+            {/* Premium / Pro Tier */}
             <div className="relative flex max-w-[400px] flex-col gap-6 rounded-2xl p-6 text-white overflow-hidden border-2 border-[var(--color-one)] bg-white/[0.04]">
               <div>
                 <h2 className="text-base font-semibold leading-7 text-white">Premium</h2>
@@ -448,7 +528,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 <span className="text-xs text-gray-400">/ month</span>
               </div>
               <button
-                onClick={() => onLaunchMap()}
+                onClick={() => handleSubscribePlan('Premium')}
                 className="inline-flex items-center justify-center whitespace-nowrap rounded-lg focus-visible:outline-none bg-white text-black shadow hover:bg-neutral-200 h-10 px-4 py-2 group relative w-full gap-2 overflow-hidden text-sm font-semibold tracking-tighter transition-all cursor-pointer"
               >
                 <span className="absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform-gpu bg-white opacity-10 transition-all duration-1000 ease-out group-hover:-translate-x-96 dark:bg-black" />
@@ -474,11 +554,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 <span className="text-xs text-gray-400">/ month</span>
               </div>
               <button
-                onClick={() => onLaunchMap()}
+                onClick={() => handleOpenDispatchModal('Commercial Trekking Agency')}
                 className="inline-flex items-center justify-center whitespace-nowrap rounded-lg focus-visible:outline-none bg-white text-black shadow hover:bg-neutral-200 h-10 px-4 py-2 group relative w-full gap-2 overflow-hidden text-sm font-semibold tracking-tighter transition-all cursor-pointer"
               >
                 <span className="absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform-gpu bg-white opacity-10 transition-all duration-1000 ease-out group-hover:-translate-x-96 dark:bg-black" />
-                <p>Subscribe</p>
+                <p>Deploy Agency Mesh</p>
               </button>
               <hr className="m-0 h-px w-full border-none bg-gradient-to-r from-neutral-200/0 via-neutral-500/30 to-neutral-200/0" />
               <ul className="flex flex-col gap-2.5 font-normal text-xs text-gray-300">
@@ -500,11 +580,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 <span className="text-xs text-gray-400">/ month</span>
               </div>
               <button
-                onClick={() => onLaunchMap()}
+                onClick={() => handleOpenDispatchModal('SDRF / National Disaster Agency')}
                 className="inline-flex items-center justify-center whitespace-nowrap rounded-lg focus-visible:outline-none bg-white text-black shadow hover:bg-neutral-200 h-10 px-4 py-2 group relative w-full gap-2 overflow-hidden text-sm font-semibold tracking-tighter transition-all cursor-pointer"
               >
                 <span className="absolute right-0 -mt-12 h-32 w-8 translate-x-12 rotate-12 transform-gpu bg-white opacity-10 transition-all duration-1000 ease-out group-hover:-translate-x-96 dark:bg-black" />
-                <p>Contact Us</p>
+                <p>Govt DEOC Inquiries</p>
               </button>
               <hr className="m-0 h-px w-full border-none bg-gradient-to-r from-neutral-200/0 via-neutral-500/30 to-neutral-200/0" />
               <ul className="flex flex-col gap-2.5 font-normal text-xs text-gray-300">
@@ -518,7 +598,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         </div>
       </section>
 
-      {/* Magic UI CTA Section with Animated Marquee & Glow Card */}
+      {/* CTA Section */}
       <section id="cta" className="relative">
         <div className="py-20">
           <div className="flex w-full flex-col items-center justify-center">
@@ -553,10 +633,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                     Stop wasting time on unprepared expeditions.
                   </h2>
                   <p className="mt-2 text-gray-400 text-sm max-w-md">
-                    Start navigating safely today. No credit card or pre-configuration required.
+                    Start navigating safely today. Real-time autonomous safety matrix with zero delay.
                   </p>
                   <button
-                    onClick={() => onLaunchMap()}
+                    onClick={() => onLaunchMap(selectedPreviewDest)}
                     className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors border border-white/20 bg-white text-black shadow-md hover:bg-neutral-200 h-10 group mt-6 rounded-[2rem] px-6 cursor-pointer"
                   >
                     <span>Get Started</span>
@@ -572,8 +652,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         </div>
       </section>
 
-      {/* Magic UI Footer Matching Original Template */}
-      <footer className="border-t border-white/10 bg-black">
+      {/* Footer */}
+      <footer className="border-t border-white/10 bg-black/60 backdrop-blur-xl">
         <div className="mx-auto w-full max-w-screen-xl xl:pb-2">
           <div className="md:flex md:justify-between px-8 p-4 py-16 sm:pb-16 gap-8">
             <div className="mb-12 flex-col flex gap-4 max-w-xs">
@@ -600,19 +680,19 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               <div>
                 <h2 className="mb-6 text-sm tracking-tighter font-medium text-white uppercase">Safety Grid</h2>
                 <ul className="gap-2.5 grid text-sm text-gray-400">
-                  <li><span className="hover:text-white duration-200">SDRF Emergency Relay</span></li>
-                  <li><span className="hover:text-white duration-200">IMD Doppler Radar</span></li>
-                  <li><span className="hover:text-white duration-200">CWC Flood Stations</span></li>
-                  <li><span className="hover:text-white duration-200">Offline P2P Mesh</span></li>
+                  <li><a onClick={onOpenSOS} className="cursor-pointer hover:text-red-400 duration-200">SDRF SOS Panic Relay</a></li>
+                  <li><a onClick={() => onSelectTab('simulation')} className="cursor-pointer hover:text-white duration-200">IMD Doppler Radar Bench</a></li>
+                  <li><a onClick={() => onSelectTab('group')} className="cursor-pointer hover:text-white duration-200">Group Live Radar</a></li>
+                  <li><a onClick={() => onSelectTab('map')} className="cursor-pointer hover:text-white duration-200">Offline P2P Mesh</a></li>
                 </ul>
               </div>
 
               <div>
-                <h2 className="mb-6 text-sm tracking-tighter font-medium text-white uppercase">Legal</h2>
+                <h2 className="mb-6 text-sm tracking-tighter font-medium text-white uppercase">Architecture</h2>
                 <ul className="gap-2.5 grid text-sm text-gray-400">
-                  <li><span className="hover:text-white duration-200">Terms of Service</span></li>
-                  <li><span className="hover:text-white duration-200">Privacy Policy</span></li>
-                  <li><span className="hover:text-white duration-200">OpenStreetMap Attribution</span></li>
+                  <li><span className="text-gray-300 font-mono text-xs">Overpass QL & OSRM Engine</span></li>
+                  <li><span className="text-gray-300 font-mono text-xs">Open-Meteo Multi-Model Sensor</span></li>
+                  <li><span className="text-gray-300 font-mono text-xs">Deterministic AMS & Slope Matrix</span></li>
                 </ul>
               </div>
             </div>
@@ -623,11 +703,102 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               Copyright © 2026 <span className="text-white font-medium">IGNITE</span>. All Rights Reserved.
             </span>
             <div className="flex items-center gap-4 text-xs font-mono text-gray-500">
-              <span>PostGIS • Overpass QL • Redis TTL</span>
+              <span>PostGIS • Leaflet • Open-Meteo • Redis TTL</span>
             </div>
           </div>
         </div>
       </footer>
+
+      {/* Interactive Agency & Govt Dispatch Modal */}
+      {isDispatchModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
+          <div className="relative w-full max-w-lg rounded-2xl bg-[#0e1017] border border-white/15 p-6 shadow-2xl">
+            <button
+              onClick={() => setIsDispatchModalOpen(false)}
+              className="absolute top-4 right-4 text-slate-400 hover:text-white p-1 rounded-lg hover:bg-white/10 cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {!dispatchSubmitted ? (
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                    <Building className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold text-white">{dispatchAgency}</h3>
+                    <p className="text-xs text-slate-400">Deploy Dedicated Command Telemetry & Fleet Mesh</p>
+                  </div>
+                </div>
+
+                <div className="p-3 rounded-lg bg-white/[0.03] border border-white/[0.08] text-xs text-slate-300 space-y-1 font-mono">
+                  <div className="text-emerald-400 flex items-center gap-1.5 font-semibold">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span>Multi-Agency Data Fusion Engine Active</span>
+                  </div>
+                  <p className="text-slate-400 font-sans text-[11px]">
+                    Direct integration with state disaster command centers (DEOC), forest departments, and commercial expedition leaders.
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-xs text-slate-400 font-medium">Operation Sector / Organization Name</label>
+                  <input
+                    type="text"
+                    defaultValue="Himalayan Search & Rescue Directorate"
+                    className="w-full px-3 py-2 rounded-lg bg-black/50 border border-white/10 text-white text-xs focus:outline-none focus:border-white/30"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-xs text-slate-400 font-medium">Deployment Scale</label>
+                  <select className="w-full px-3 py-2 rounded-lg bg-[#12141d] border border-white/10 text-white text-xs focus:outline-none focus:border-white/30">
+                    <option>Regional Battalion (10-50 Field Personnel)</option>
+                    <option>District Emergency Command (50-250 Personnel)</option>
+                    <option>State-Wide Multi-Agency Fleet (250+ Personnel)</option>
+                  </select>
+                </div>
+
+                <button
+                  onClick={() => setDispatchSubmitted(true)}
+                  className="w-full btn-tactile py-2.5 rounded-xl bg-white text-black font-semibold text-xs hover:bg-neutral-200 cursor-pointer flex items-center justify-center gap-2 mt-4"
+                >
+                  <Send className="w-4 h-4" />
+                  <span>Initiate Deployment Simulation</span>
+                </button>
+              </div>
+            ) : (
+              <div className="text-center py-6 space-y-4 animate-fade-in">
+                <div className="w-12 h-12 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 mx-auto">
+                  <Check className="w-6 h-6" />
+                </div>
+                <h3 className="text-base font-bold text-white">Mission Telemetry Link Established</h3>
+                <p className="text-xs text-slate-400 max-w-sm mx-auto leading-relaxed">
+                  Your tactical dispatch request for <strong className="text-white">{dispatchAgency}</strong> has been calibrated with the live SDRF simulation engine.
+                </p>
+                <div className="flex justify-center gap-3 pt-2">
+                  <button
+                    onClick={() => {
+                      setIsDispatchModalOpen(false);
+                      onSelectTab('simulation');
+                    }}
+                    className="btn-tactile px-4 py-2 rounded-lg bg-white text-black text-xs font-semibold hover:bg-neutral-200 cursor-pointer"
+                  >
+                    Open Disaster Bench
+                  </button>
+                  <button
+                    onClick={() => setIsDispatchModalOpen(false)}
+                    className="btn-tactile px-4 py-2 rounded-lg bg-white/10 hover:bg-white/15 text-white text-xs font-semibold cursor-pointer"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
