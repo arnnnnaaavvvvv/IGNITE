@@ -66,9 +66,10 @@ export const TrailMap: React.FC<TrailMapProps> = ({
 
       L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-      // OpenStreetMap standard crisp tiles (100% Free, No API Key Required)
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      // CartoDB Voyager English map tiles (100% Free, Global English Place Names & Crisp Typography)
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        subdomains: 'abcd',
         maxZoom: 19,
       }).addTo(map);
 
@@ -308,8 +309,8 @@ export const TrailMap: React.FC<TrailMapProps> = ({
   const isPreviewing = previewCoordinates && previewCoordinates.lat;
 
   return (
-    <div className="relative w-full h-[360px] sm:h-[480px] lg:h-[600px] rounded-xl overflow-hidden border border-white/[0.08] glass-panel">
-      <div ref={mapContainerRef} className="w-full h-full z-0" />
+    <div className="relative w-full h-full min-h-[520px] lg:min-h-full flex-1 rounded-xl overflow-hidden border border-white/[0.08] glass-panel flex flex-col">
+      <div ref={mapContainerRef} className="w-full h-full min-h-[520px] flex-1 z-0" />
 
       {/* Layer Toggle Controls Floating Bar */}
       <div className="absolute top-3 left-3 z-10 flex flex-wrap gap-1.5 max-w-[70%] sm:max-w-none">

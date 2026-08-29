@@ -418,7 +418,7 @@ export const TripWizard: React.FC<TripWizardProps> = ({
   const activeCatData = PAN_INDIA_CATEGORIES.find((c) => c.id === activeCategory) || PAN_INDIA_CATEGORIES[0];
 
   return (
-    <div className="glass-panel p-4 sm:p-5 rounded-xl border border-white/[0.08] relative">
+    <div className="glass-panel p-4 sm:p-5 rounded-xl border border-white/[0.08] relative h-full flex flex-col justify-between">
       {/* Header */}
       <div className="flex items-center justify-between pb-3.5 mb-4 border-b border-white/[0.08]">
         <div>
@@ -572,26 +572,20 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                 );
                 const badge = getRegionBadge(place.regionType);
                 const displayName = isHi ? getLocalizedDestinationName(place.name, language) : place.name;
-                const displayTag = isHi && place.tag_hi ? place.tag_hi : place.tag;
 
                 return (
                   <button
                     key={place.name}
                     type="button"
                     onClick={() => handleQuickPick(place.name, place.lat, place.lon)}
-                    onMouseEnter={() => {
-                      if (place.lat && place.lon) {
-                        onPreviewDestination?.({ lat: place.lat, lon: place.lon, name: place.name });
-                      }
-                    }}
                     className={`btn-tactile p-2 rounded-lg text-left border cursor-pointer flex flex-col justify-between transition-all ${
                       isSelected
-                        ? 'bg-emerald-950/40 border-emerald-500/50 text-white'
+                        ? 'bg-emerald-950/40 border-emerald-500/60 ring-1 ring-emerald-500/50 text-white'
                         : 'bg-[#0e1017] hover:bg-[#161924] border-white/[0.06] text-slate-300'
                     }`}
                   >
                     <div className="space-y-0.5">
-                      <div className={`text-xs font-semibold line-clamp-1 ${isSelected ? 'text-emerald-300' : 'text-slate-200'}`}>
+                      <div className={`text-xs font-semibold line-clamp-1 ${isSelected ? 'text-emerald-300 font-bold' : 'text-slate-200'}`}>
                         {displayName.split(',')[0]}
                       </div>
                       <div className="text-[10px] text-slate-400 truncate">
@@ -599,9 +593,8 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                       </div>
                     </div>
                     
-                    <div className="mt-1.5 pt-1 border-t border-white/[0.04] flex items-center justify-between text-[9px]">
-                      <span className="text-slate-400 font-mono truncate">{displayTag}</span>
-                      <span className={`px-1 rounded font-mono ${badge.color}`}>
+                    <div className="mt-1.5 pt-1 border-t border-white/[0.04] flex items-center justify-end text-[9px]">
+                      <span className={`px-1.5 py-0.5 rounded font-mono font-medium ${badge.color}`}>
                         {badge.label}
                       </span>
                     </div>

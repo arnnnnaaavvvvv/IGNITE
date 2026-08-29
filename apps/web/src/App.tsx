@@ -95,6 +95,11 @@ export function App() {
     };
   }, [language]);
 
+  // Scroll to top whenever tab or view changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [activeTab]);
+
   // Universal Itinerary Generation Handler
   const generateItinerary = async (params: {
     destination: string;
@@ -290,8 +295,8 @@ export function App() {
             {/* Tab 1: Interactive Map & Autocomplete Planner */}
             {activeTab === 'map' && (
               <div className="space-y-4">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                  <div className="lg:col-span-2">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
+                  <div className="lg:col-span-7 flex flex-col min-h-[560px] lg:min-h-[680px] h-full">
                     <TrailMap
                       checkpoints={checkpoints}
                       hazardZones={hazardZones}
@@ -308,7 +313,7 @@ export function App() {
                     />
                   </div>
 
-                  <div className="space-y-4">
+                  <div className="lg:col-span-5 flex flex-col min-h-[560px] lg:min-h-[680px] h-full">
                     <TripWizard
                       onGenerate={generateItinerary}
                       isLoading={isGenerating}
