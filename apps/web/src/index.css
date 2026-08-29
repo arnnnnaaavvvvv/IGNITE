@@ -327,3 +327,70 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 .leaflet-popup-tip {
   background: #0e1017 !important;
 }
+
+/* Hero Ambient Background Living Animations */
+@keyframes hero-orb-1 {
+  0% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.28; }
+  33% { transform: translate3d(50px, -35px, 0) scale(1.18); opacity: 0.38; }
+  66% { transform: translate3d(-35px, 25px, 0) scale(0.92); opacity: 0.26; }
+  100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.28; }
+}
+
+@keyframes hero-orb-2 {
+  0% { transform: translate3d(0, 0, 0) scale(1.1); opacity: 0.25; }
+  33% { transform: translate3d(-60px, 30px, 0) scale(0.88); opacity: 0.20; }
+  66% { transform: translate3d(45px, -20px, 0) scale(1.22); opacity: 0.34; }
+  100% { transform: translate3d(0, 0, 0) scale(1.1); opacity: 0.25; }
+}
+
+@keyframes hero-orb-3 {
+  0% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.20; }
+  50% { transform: translate3d(-25px, -40px, 0) scale(1.15); opacity: 0.32; }
+  100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.20; }
+}
+
+@keyframes hero-radar-sweep {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes hero-contour-drift {
+  0% { transform: scale(1) translateY(0); }
+  50% { transform: scale(1.03) translateY(-8px); }
+  100% { transform: scale(1) translateY(0); }
+}
+
+.animate-hero-orb-1 {
+  animation: hero-orb-1 20s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.animate-hero-orb-2 {
+  animation: hero-orb-2 24s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.animate-hero-orb-3 {
+  animation: hero-orb-3 18s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.animate-hero-radar {
+  animation: hero-radar-sweep 28s linear infinite;
+  will-change: transform;
+}
+
+.animate-hero-contour {
+  animation: hero-contour-drift 22s ease-in-out infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-hero-orb-1,
+  .animate-hero-orb-2,
+  .animate-hero-orb-3,
+  .animate-hero-radar,
+  .animate-hero-contour {
+    animation: none !important;
+  }
+}
