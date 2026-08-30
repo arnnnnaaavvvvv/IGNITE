@@ -451,6 +451,10 @@ export const TripWizard: React.FC<TripWizardProps> = ({
               }}
               onFocus={() => setShowDropdown(true)}
               placeholder={t('search_placeholder', language)}
+              autoComplete="off"
+              autoCorrect="off"
+              spellCheck={false}
+              enterKeyHint="search"
               className="w-full bg-[#12141d] border border-white/[0.08] rounded-lg pl-9 pr-9 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/60 transition-all font-medium"
             />
             <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-3 group-focus-within:text-emerald-400 transition-colors" />
