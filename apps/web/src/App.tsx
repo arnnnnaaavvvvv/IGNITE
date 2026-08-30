@@ -5,6 +5,7 @@ import { AceternityBackground } from './components/Common/AceternityBackground';
 import { TrailMap } from './components/Map/TrailMap';
 import { TripWizard } from './components/Planner/TripWizard';
 import { ItineraryView } from './components/Itinerary/ItineraryView';
+import { ItineraryModal } from './components/Itinerary/ItineraryModal';
 import { ExplainabilityPanel } from './components/Explainability/ExplainabilityPanel';
 import { DisasterBench } from './components/Simulation/DisasterBench';
 import { SOSModal } from './components/Emergency/SOSModal';
@@ -31,6 +32,7 @@ export function App() {
     }
   });
   const [isSOSOpen, setIsSOSOpen] = useState(false);
+  const [isItineraryModalOpen, setIsItineraryModalOpen] = useState(false);
 
   // Core Destination & Map Data States
   const [currentDestinationName, setCurrentDestinationName] = useState('');
@@ -114,6 +116,7 @@ export function App() {
       return;
     }
     setIsGenerating(true);
+    setIsItineraryModalOpen(true);
     try {
       const res = await fetch('/api/v1/itinerary/generate', {
         method: 'POST',
@@ -278,7 +281,7 @@ export function App() {
                       {t('critical_hazard_active', language)} ({getLocalizedDestinationName(rerouteData?.destination || currentDestinationName, language)})
                     </div>
                     <div className="text-xs text-slate-300 mt-0.5">
-                      {rerouteData?.instructions || 'Regional hazard threshold exceeded. Safe bypass trail engaged.'}
+                      {language === 'hi' && rerouteData?.instructions_hi ? rerouteData.instructions_hi : (rerouteData?.instructions || (language === 'hi' ? 'खतरे की सीमा पार। सुरक्षित बाईपास मार्ग सक्रिय।' : 'Hazard threshold exceeded. Safe detour route active.'))}
                     </div>
                   </div>
                 </div>
@@ -442,6 +445,17 @@ export function App() {
           lon: checkpoints[0]?.lon || 79.0700,
           altitude_m: checkpoints[0]?.altitude_m || 2550,
         }}
+      />
+
+      {/* In-Place Safe Itinerary & Risk Matrix Modal */}
+      <ItineraryModal
+        isOpen={isItineraryModalOpen}
+        isLoading={isGenerating}
+        itinerary={itinerary}
+        language={language}
+        selectedCheckpoint={selectedCheckpoint}
+        onSelectCheckpoint={(cp) => setSelectedCheckpoint(cp)}
+        onClose={() => setIsItineraryModalOpen(false)}
       />
     </div>
   );

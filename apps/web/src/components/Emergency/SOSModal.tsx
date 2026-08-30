@@ -93,20 +93,20 @@ export const SOSModal: React.FC<SOSModalProps> = ({
           </div>
           <div>
             <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-red-400">
-              LIFE SAFETY PROTOCOL
+              {language === 'hi' ? 'आपातकालीन सहायता' : 'EMERGENCY ASSISTANCE'}
             </div>
             <h2 className="text-sm sm:text-base font-bold text-white">
-              {language === 'hi' ? 'खोज एवं बचाव पैनिक बीकन' : 'Search & Rescue Emergency Beacon'}
+              {language === 'hi' ? 'आपातकालीन एसओएस' : 'Emergency SOS'}
             </h2>
           </div>
         </div>
 
-        {/* SOS Telemetry Card */}
+        {/* SOS Location Card */}
         <div className="p-3 rounded-lg bg-[#12141d] border border-white/[0.06] space-y-2.5">
           <div className="flex items-center justify-between text-xs">
             <span className="text-slate-400 flex items-center gap-1.5">
               <MapPin className="w-3.5 h-3.5 text-emerald-400" />
-              <span>{language === 'hi' ? 'जीपीएस निर्देशांक:' : 'Current Telemetry:'}</span>
+              <span>{language === 'hi' ? 'जीपीएस स्थान:' : 'Current Location:'}</span>
             </span>
             <span className="font-mono font-semibold text-white">
               {userCoords.lat.toFixed(4)}°N, {userCoords.lon.toFixed(4)}°E ({userCoords.altitude_m}m)

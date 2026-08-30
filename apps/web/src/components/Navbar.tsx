@@ -30,10 +30,10 @@ export const Navbar: React.FC<NavbarProps> = ({
 }) => {
   const tabs = [
     { id: 'overview', label: t('nav_overview', language), shortLabel: language === 'hi' ? 'होम' : 'Home', icon: Activity },
-    { id: 'map', label: t('nav_map', language), shortLabel: language === 'hi' ? 'मानचित्र' : 'Map', icon: Compass },
-    { id: 'itinerary', label: t('nav_itinerary', language), shortLabel: language === 'hi' ? 'यात्रा' : 'Itinerary', icon: Calendar },
-    { id: 'explainability', label: t('nav_explainability', language), shortLabel: language === 'hi' ? 'जोखिम' : 'Matrix', icon: Activity },
-    { id: 'simulation', label: t('nav_simulation', language), shortLabel: language === 'hi' ? 'आपदा' : 'Disaster', icon: Radio },
+    { id: 'map', label: t('nav_map', language), shortLabel: language === 'hi' ? 'नक्शा' : 'Map', icon: Compass },
+    { id: 'itinerary', label: t('nav_itinerary', language), shortLabel: language === 'hi' ? 'प्लान' : 'Plan', icon: Calendar },
+    { id: 'explainability', label: t('nav_explainability', language), shortLabel: language === 'hi' ? 'सुरक्षा' : 'Safety', icon: Activity },
+    { id: 'simulation', label: t('nav_simulation', language), shortLabel: language === 'hi' ? 'सिमुलेटर' : 'Simulator', icon: Radio },
     { id: 'group', label: t('nav_group', language), shortLabel: language === 'hi' ? 'समूह' : 'Group', icon: Users },
   ];
 

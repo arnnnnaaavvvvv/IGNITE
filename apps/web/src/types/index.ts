@@ -51,6 +51,8 @@ export interface Checkpoint {
   nearest_hospital_dist_km?: number;
   has_oxygen_booth?: boolean;
   has_helipad?: boolean;
+  sub_scores?: SubScores;
+  total_risk_score?: number;
 }
 
 export interface HazardZone {
@@ -178,10 +180,13 @@ export interface IncidentHistoryRecord {
   id: string;
   year_or_date: string;
   title: string;
+  title_hi?: string;
   category: string;
   severity: 'LOW' | 'MODERATE' | 'HIGH' | 'CRITICAL' | string;
   description: string;
+  description_hi?: string;
   mitigation_taken: string;
+  mitigation_taken_hi?: string;
   reporting_agency: string;
 }
 
@@ -204,6 +209,7 @@ export interface SimulationScenario {
   zone_name?: string;
   region_type: string;
   description: string;
+  description_hi?: string;
   weather: {
     precipitation_mm_hr: number;
     wind_speed_kmh: number;

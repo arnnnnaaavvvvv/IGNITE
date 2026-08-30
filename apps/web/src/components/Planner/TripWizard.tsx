@@ -383,34 +383,34 @@ export const TripWizard: React.FC<TripWizardProps> = ({
       return {
         badge: isHi ? 'एक दिवसीय' : 'Day Trip',
         color: 'text-amber-400 border-amber-500/30 bg-amber-500/10',
-        desc: isHi ? 'सघन एक दिवसीय कार्यक्रम। अधिकतम दर्शनीय स्थलों को देखने के लिए जल्दी शुरुआत करें।' : 'Concentrated full-day schedule. Early start advised to maximize sight-seeing.',
+        desc: isHi ? 'पूरे दिन की यात्रा। समय का सही उपयोग करने के लिए जल्दी निकलें।' : 'Full-day schedule. Start early to make the most of your day.',
       };
     }
     if (days === 2) {
       return {
         badge: isHi ? 'सप्ताहांत' : 'Weekend Route',
         color: 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10',
-        desc: isHi ? 'रात के ठहराव और संतुलित अंतराल के साथ आदर्श 2 दिवसीय यात्रा योजना।' : 'Optimal 2-day baseline split with overnight stay and balanced intervals.',
+        desc: isHi ? 'रात के ठहराव के साथ सबसे अच्छी 2 दिवसीय यात्रा योजना।' : 'Best 2-day plan with an overnight stay.',
       };
     }
     if (days <= 4) {
       return {
-        badge: isHi ? 'सुरक्षित गति' : 'Acclimatized Pacing',
+        badge: isHi ? 'सुरक्षित गति' : 'Easy Pacing',
         color: 'text-sky-400 border-sky-500/30 bg-sky-500/10',
-        desc: isHi ? 'ऊंचाई और भूभाग के लिए सुरक्षित अनुकूलन। न्यूनतम यात्रा थकान।' : 'Gradual altitude & terrain adaptation with low travel fatigue.',
+        desc: isHi ? 'धीमी व आसान गति, ताकि थकान न हो।' : 'Easy, relaxed pace with plenty of time to rest.',
       };
     }
     if (days <= 7) {
       return {
-        badge: isHi ? 'अवकाश सर्किट' : 'Holiday Circuit',
+        badge: isHi ? 'अवकाश सर्किट' : 'Holiday Trip',
         color: 'text-slate-300 border-slate-500/30 bg-slate-500/10',
-        desc: isHi ? 'नियमित विश्राम, सांस्कृतिक पड़ावों और मौसम बफर के साथ व्यापक यात्रा कार्यक्रम।' : 'Comprehensive multi-sector circuit with scheduled rest intervals & weather buffers.',
+        desc: isHi ? 'आरामदायक छुट्टी की योजना जिसमें सभी प्रमुख स्थल शामिल हैं।' : 'Relaxed holiday plan covering all main spots.',
       };
     }
     return {
-      badge: isHi ? 'राष्ट्रीय अभियान' : 'Grand Expedition',
+      badge: isHi ? 'लंबी यात्रा' : 'Extended Trip',
       color: 'text-slate-300 border-slate-500/30 bg-slate-500/10',
-      desc: isHi ? 'गहन बहु-चरणीय क्षेत्रीय यात्रा जिसमें समर्पित विश्राम पड़ाव शामिल हैं।' : 'Deep multi-stage regional traverse with dedicated acclimatization rest halts.',
+      desc: isHi ? 'लंबी यात्रा जिसमें आराम के लिए पर्याप्त समय शामिल है।' : 'Extended trip with built-in rest days.',
     };
   };
 
@@ -830,8 +830,8 @@ export const TripWizard: React.FC<TripWizardProps> = ({
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
             {[
               { key: 'BEGINNER', label: isHi ? 'सरल / पारिवारिक' : 'Gentle / Family', tag: isHi ? 'आराम से चलना' : 'Leisure pace' },
-              { key: 'MODERATE', label: isHi ? 'मध्यम सक्रिय' : 'Moderate Active', tag: isHi ? 'मानक गति' : 'Standard pace' },
-              { key: 'EXPERIENCED', label: isHi ? 'उच्च सहनशक्ति' : 'High-Endurance', tag: isHi ? 'अनुभवी गति' : 'Fast trekker' },
+              { key: 'MODERATE', label: isHi ? 'मध्यम' : 'Moderate', tag: isHi ? 'सामान्य गति' : 'Steady pace' },
+              { key: 'EXPERIENCED', label: isHi ? 'अनुभवी' : 'Experienced', tag: isHi ? 'तेज गति' : 'Brisk pace' },
             ].map((f) => (
               <button
                 type="button"

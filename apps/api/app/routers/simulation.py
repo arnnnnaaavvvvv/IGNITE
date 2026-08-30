@@ -15,6 +15,7 @@ PAN_INDIA_SIMULATION_SCENARIOS = [
         "zone_name": "Himalayan North Zone",
         "region_type": "HILL_MOUNTAIN",
         "description": "Intense 42mm/hr flash rainfall with IMD Red Alert. Landslide breach triggers emergency reroute to Upper Ridge bypass.",
+        "description_hi": "आईएमडी रेड अलर्ट के साथ 42 मिमी/घंटा की भारी वर्षा। भूस्खलन के कारण यात्रियों को सुरक्षित ऊपरी बाईपास मार्ग पर मोड़ा गया।",
         "weather": {
             "precipitation_mm_hr": 42.0,
             "wind_speed_kmh": 45.0,
@@ -35,6 +36,7 @@ PAN_INDIA_SIMULATION_SCENARIOS = [
         "zone_name": "Bay of Bengal Coastal Zone",
         "region_type": "COASTAL_MARINE",
         "description": "INCOIS High Wave alert (3.8m storm surge) and 65km/h gale winds. Marine police enforce mandatory beach evacuation to Multi-Purpose Cyclone Shelter.",
+        "description_hi": "3.8 मीटर ऊंची समुद्री लहरें और 65 किमी/घंटा की तेज आंधी। तटीय पुलिस ने बीच खाली कराकर चक्रवात आश्रय में शरण लेने का निर्देश दिया।",
         "weather": {
             "precipitation_mm_hr": 35.0,
             "wind_speed_kmh": 68.0,
@@ -55,6 +57,7 @@ PAN_INDIA_SIMULATION_SCENARIOS = [
         "zone_name": "Arabian Sea Coastal Zone",
         "region_type": "COASTAL_MARINE",
         "description": "INCOIS High Swell Warning (3.2m waves) with sudden 58km/h monsoon squalls. Coastal police hoist double red flags; watersports halted.",
+        "description_hi": "3.2 मीटर ऊंची लहरों और 58 किमी/घंटा की तूफानी हवाओं की चेतावनी। समुद्र में वॉटर स्पोर्ट्स पर रोक और लाल झंडे लगाए गए।",
         "weather": {
             "precipitation_mm_hr": 29.0,
             "wind_speed_kmh": 58.0,
@@ -75,6 +78,7 @@ PAN_INDIA_SIMULATION_SCENARIOS = [
         "zone_name": "Northeast Wildlife Corridor",
         "region_type": "FOREST_WILDLIFE",
         "description": "Central Water Commission flood level breach. Safari routes diverted to artificial high-ground ridges with armed forest escort.",
+        "description_hi": "नदी का जलस्तर बढ़ने से निचले सफारी रास्ते जलमग्न। सफारी को सुरक्षित ऊंचे टीलों की ओर वन रक्षकों की निगरानी में मोड़ा गया।",
         "weather": {
             "precipitation_mm_hr": 28.0,
             "wind_speed_kmh": 24.0,
@@ -95,6 +99,7 @@ PAN_INDIA_SIMULATION_SCENARIOS = [
         "zone_name": "Thar Arid & Desert Zone",
         "region_type": "DESERT_ARID",
         "description": "IMD Severe Heatwave Red Alert (46°C) with 40km/h blinding sandstorm. Outdoor dune traversal halted; tourists guided to RTDC emergency shelter.",
+        "description_hi": "46°C की भीषण लू और धूल भरी आंधी। खुले रेगिस्तान में आवागमन रोका गया और पर्यटकों को वातानुकूलित आश्रय में रुकने की सलाह दी गई।",
         "weather": {
             "precipitation_mm_hr": 0.0,
             "wind_speed_kmh": 44.0,
@@ -115,6 +120,7 @@ PAN_INDIA_SIMULATION_SCENARIOS = [
         "zone_name": "Gangetic Riverine & Heritage Zone",
         "region_type": "URBAN_HERITAGE",
         "description": "CWC river level breach near Dashashwamedh Ghat with peak aarti crowd bottlenecks. Police initiate one-way corridor diversion.",
+        "description_hi": "गंगा नदी का जलस्तर खतरे के निशान के पास और आरती के समय भारी भीड़। पुलिस द्वारा एकतरफा सुरक्षित मार्ग व्यवस्था लागू।",
         "weather": {
             "precipitation_mm_hr": 22.0,
             "wind_speed_kmh": 32.0,
@@ -135,6 +141,7 @@ PAN_INDIA_SIMULATION_SCENARIOS = [
         "zone_name": "Trans-Himalayan High Altitude",
         "region_type": "HILL_MOUNTAIN",
         "description": "Sudden sub-zero blizzard (-12°C) at 3,500m+ with rapid whiteout. ITBP halts high-pass traffic and activates oxygen resuscitation pods.",
+        "description_hi": "-12°C तापमान के साथ बर्फीला तूफान और शून्य दृश्यता। आईटीबीपी द्वारा ऊंचे दर्रों पर यातायात रोककर ऑक्सीजन सहायता केंद्र सक्रिय।",
         "weather": {
             "precipitation_mm_hr": 14.0,
             "wind_speed_kmh": 52.0,
@@ -155,6 +162,7 @@ PAN_INDIA_SIMULATION_SCENARIOS = [
         "zone_name": "Western Ghats Ecological Belt",
         "region_type": "HILL_MOUNTAIN",
         "description": "Continuous 38mm/hr precipitation triggering steep slope soil saturation. State Highways department shuts landslide-prone gap road.",
+        "description_hi": "38 मिमी/घंटा की निरंतर बारिश से पहाड़ी ढलान पर भूस्खलन का खतरा। लोक निर्माण विभाग द्वारा जोखिम वाले पहाड़ी मार्ग को अस्थायी रूप से बंद किया गया।",
         "weather": {
             "precipitation_mm_hr": 38.0,
             "wind_speed_kmh": 40.0,
@@ -175,6 +183,7 @@ PAN_INDIA_SIMULATION_SCENARIOS = [
         "zone_name": "National Baseline",
         "region_type": "ALL",
         "description": "Ideal meteorological baseline across the Indian subcontinent. Clear skies, normal temperatures, zero active government disaster alerts.",
+        "description_hi": "संपूर्ण भारत में मौसम साफ और अनुकूल। सामान्य तापमान, सुगम मार्ग और कोई आपदा चेतावनी सक्रिय नहीं है।",
         "weather": {
             "precipitation_mm_hr": 0.0,
             "wind_speed_kmh": 10.0,
@@ -240,30 +249,39 @@ CURATED_INCIDENT_HISTORY: Dict[str, List[Dict[str, Any]]] = {
             "id": "inc_kedar_2013",
             "year_or_date": "Historical Precedent (2013)",
             "title": "Chorabari Lake Outburst & Mandakini Flash Flood",
+            "title_hi": "चौराबाड़ी झील टूटना एवं मंदाकिनी बाढ़",
             "category": "GLACIAL_LAKE_BURST",
             "severity": "CRITICAL",
             "description": "Multi-day 350mm cloudburst triggered Chorabari moraine dam collapse and severe mudflow down the valley.",
+            "description_hi": "350 मिमी की भारी वर्षा से चौराबाड़ी हिमनद झील का तटबंध टूटा और घाटी में भारी जलप्रवाह हुआ।",
             "mitigation_taken": "Constructed 3-tier concrete flood retention barrier, upper ridge bypass trail, and real-time radar siren towers.",
+            "mitigation_taken_hi": "तीन स्तरीय कंक्रीट सुरक्षा दीवार, ऊपरी रिज बाईपास मार्ग और सायरन टावर स्थापित किए गए।",
             "reporting_agency": "Geological Survey of India (GSI) & SDRF"
         },
         {
             "id": "inc_kedar_2023",
             "year_or_date": "Recent Incident (2023)",
             "title": "Junglechatti Slope Breach & Landslip",
+            "title_hi": "जंगलचट्टी पहाड़ी भूस्खलन",
             "category": "LANDSLIDE",
             "severity": "HIGH",
             "description": "Continuous 48mm/hr downpour triggered localized debris rockfall across the central trekking trail.",
+            "description_hi": "48 मिमी/घंटा की निरंतर बारिश से मुख्य ट्रेक मार्ग पर मलबा और पत्थर गिरे।",
             "mitigation_taken": "Automated geo-sensor tripwire activated, diverting 1,400 pilgrims to Bheembali emergency shelters within 15 minutes.",
+            "mitigation_taken_hi": "सेंसर चेतावनी से 1,400 यात्रियों को 15 मिनट के भीतर भीमबली सुरक्षित आश्रय में भेजा गया।",
             "reporting_agency": "Uttarakhand SDRF & District Administration"
         },
         {
             "id": "inc_kedar_2024",
             "year_or_date": "Season Protocol (2024)",
             "title": "Lincheli Frost & Hypothermia Alert",
+            "title_hi": "लिंचोली अत्यधिक ठंड व हाइपोथर्मिया चेतावनी",
             "category": "ALTITUDE_AMS",
             "severity": "MODERATE",
             "description": "Sudden evening temperature drop to -4°C during pilgrim surge causing acute mountain sickness (AMS) cases.",
+            "description_hi": "शाम को तापमान गिरकर -4°C पहुंचने से ऊंचाई की बीमारी के मामले सामने आए।",
             "mitigation_taken": "Deployed portable hyperbaric oxygen chambers and enforced 17:30 IST strict curfew at Gaurikund base.",
+            "mitigation_taken_hi": "पोर्टेबल ऑक्सीजन चैंबर लगाए गए और गौरीकुंड में शाम 5:30 बजे के बाद आवागमन रोका गया।",
             "reporting_agency": "Six Sigma High Altitude Medical Service"
         }
     ],
@@ -713,17 +731,21 @@ def _get_historical_incident_records(dest_data: Dict[str, Any], region_type: str
             return records
 
     # Extract historical incidents from destination's own hazard zones and pilgrimage metadata if present
+    name_hi = dest_data.get("name_hi", name)
     records = []
     hz_list = dest_data.get("hazard_zones", [])
     for idx, hz in enumerate(hz_list[:2]):
         records.append({
             "id": f"inc_dyn_{idx}_{dest_data.get('id', 'item')}",
-            "year_or_date": "Regional Hazard Baseline",
-            "title": f"{hz.get('category', 'ENVIRONMENTAL').replace('_', ' ').title()} Vulnerability Belt ({name})",
+            "year_or_date": "Regional Safety Record",
+            "title": f"{hz.get('category', 'ENVIRONMENTAL').replace('_', ' ').title()} Zone ({name})",
+            "title_hi": f"{name_hi} - {hz.get('category', 'ENVIRONMENTAL')} सुरक्षा क्षेत्र",
             "category": hz.get("category", "ENVIRONMENTAL"),
             "severity": hz.get("severity", "HIGH"),
             "description": hz.get("historical_incident", f"Monitored hazard zone in {name}, {state}."),
+            "description_hi": f"{name_hi}, {state} में स्थित निगरानी क्षेत्र।",
             "mitigation_taken": f"Monitored by {agency} with safe bypass corridors and automated siren alerts.",
+            "mitigation_taken_hi": f"{agency} द्वारा सुरक्षित बाईपास और चेतावनी प्रणाली स्थापित।",
             "reporting_agency": agency
         })
 
@@ -733,11 +755,14 @@ def _get_historical_incident_records(dest_data: Dict[str, Any], region_type: str
         records.append({
             "id": f"inc_dyn_crowd_{dest_data.get('id', 'item')}",
             "year_or_date": "Peak Season Crowd History",
-            "title": f"Visitor Density & Access Corridor Chokepoints ({name})",
+            "title": f"Visitor Flow & Route Points ({name})",
+            "title_hi": f"{name_hi} - तीर्थ दर्शन भीड़ नियंत्रण व्यवस्था",
             "category": "CROWD_SURGE",
             "severity": pilgrim_meta.get("crowd_crush_risk_level", "HIGH"),
             "description": pilgrim_meta["historical_crowd_crush_incidents"],
-            "mitigation_taken": "Biometric holding gates and staggered batch release channels.",
+            "description_hi": f"{name_hi} में प्रमुख पर्वों के दौरान व्यवस्थित भीड़ नियंत्रण।",
+            "mitigation_taken": "Holding gates and staggered entry channels.",
+            "mitigation_taken_hi": "कतार प्रबंधन और एकतरफा निकास द्वार व्यवस्था।",
             "reporting_agency": f"{agency} & District Police"
         })
 
@@ -745,12 +770,15 @@ def _get_historical_incident_records(dest_data: Dict[str, Any], region_type: str
         primary_haz = profile.get("primary_hazards", ["WEATHER_SQUALL"])[0]
         records.append({
             "id": f"inc_dyn_std_{dest_data.get('id', 'item')}",
-            "year_or_date": "National Safety Atlas Record",
-            "title": f"{primary_haz.replace('_', ' ').title()} Safety Benchmark ({name})",
+            "year_or_date": "Safety Record",
+            "title": f"{primary_haz.replace('_', ' ').title()} Safety Guidelines ({name})",
+            "title_hi": f"{name_hi} - क्षेत्रीय सुरक्षा दिशानिर्देश",
             "category": primary_haz,
             "severity": "MODERATE",
-            "description": f"Standard {region_type.replace('_', ' ').lower()} incident mitigation protocols active for {name}, {state}.",
+            "description": f"Standard safety protocols active for {name}, {state}.",
+            "description_hi": f"{name_hi}, {state} के लिए मानक सुरक्षा दिशानिर्देश सक्रिय।",
             "mitigation_taken": f"Rapid response team coverage via {agency}.",
+            "mitigation_taken_hi": f"{agency} द्वारा त्वरित सहायता दल तैनात।",
             "reporting_agency": agency
         })
 

@@ -24,15 +24,24 @@ class LLMItineraryService:
             # Deterministic rule-based synthesizer is already attached
             return base_itinerary
 
+        is_hi = language == "hi"
+        lang_instruction = (
+            "Write the response in simple, fluent Hindi (Devanagari script) with reassuring and clear words."
+            if is_hi
+            else "Write the response in plain, simple everyday English. Avoid complex jargon."
+        )
+
         prompt = f"""
-        Act as an elite Indian Search and Rescue (SDRF) operations commander.
+        Act as a helpful Indian tourist safety advisor and rescue coordinator.
         Review this tourist itinerary:
         Destination: {base_itinerary.get('destination')} ({base_itinerary.get('state_ut')})
         Region Type: {base_itinerary.get('region_type')}
-        Overall Risk Score: {base_itinerary.get('overall_safety_score')}/100 ({base_itinerary.get('overall_risk_category')})
+        Overall Safety Score: {base_itinerary.get('overall_safety_score')}/100 ({base_itinerary.get('overall_risk_category')})
         Emergency Agency: {base_itinerary.get('emergency_agency')}
 
-        Generate a concise, authoritative natural language safety briefing and 2 positive route factors and 2 key watchpoints.
+        {lang_instruction}
+
+        Generate a concise natural language safety briefing (summary_text), 2 positive good route factors (key_positives), and 2 things to watch out for (watchpoints).
         Respond ONLY in JSON format:
         {{
             "summary_text": "...",

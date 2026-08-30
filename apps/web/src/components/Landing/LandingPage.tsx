@@ -348,7 +348,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               onClick={() => onLaunchMap('Kedarnath Dham & Valley')}
               className="btn-tactile inline-flex items-center justify-center whitespace-nowrap text-sm font-bold transition-all bg-[#FF6B35] hover:bg-[#E85D04] text-white shadow-2xl shadow-[#FF6B35]/40 h-11 px-6 gap-2 rounded-xl cursor-pointer group"
             >
-              <span>{language === 'hi' ? 'नक्शा व योजना शुरू करें' : 'Launch Tactical Map & Planner'}</span>
+              <span>{language === 'hi' ? 'नक्शा व योजना शुरू करें' : 'Explore Map & Planner'}</span>
               <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
             </button>
 
@@ -360,7 +360,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               className="btn-tactile inline-flex items-center justify-center whitespace-nowrap text-sm font-semibold transition-colors border border-white/25 bg-black/50 hover:bg-white/15 text-white h-11 px-5 rounded-xl cursor-pointer gap-2 shadow-md font-mono backdrop-blur-sm"
             >
               <Radio className="w-4 h-4 text-amber-400" />
-              <span>{language === 'hi' ? 'आपदा सिमुलेटर' : 'Simulate Disaster Bench'}</span>
+              <span>{language === 'hi' ? 'आपदा सिमुलेटर' : 'Try Hazard Simulator'}</span>
             </button>
 
             <button
@@ -511,7 +511,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   onClick={() => onLaunchMap(dest.name)}
                   className="btn-tactile w-full py-2.5 rounded-xl bg-white text-black font-bold text-xs hover:bg-[#FF6B35] hover:text-white cursor-pointer flex items-center justify-center gap-1.5 mt-5 shadow-md transition-colors"
                 >
-                  <span>{language === 'hi' ? 'यह मार्ग बनाएं' : 'Synthesize Route Plan'}</span>
+                  <span>{language === 'hi' ? 'यह मार्ग देखें' : 'View Safe Route'}</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
@@ -520,11 +520,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         </div>
       </section>
 
-      {/* 4. Core Tactical Capabilities Grid (High Visibility) */}
+      {/* 4. Core Safety Capabilities Grid (High Visibility) */}
       <section id="features" className="relative mx-auto max-w-[84rem] px-6 md:px-8 py-20">
         <div className="text-center max-w-3xl mx-auto mb-14">
           <span className="text-xs font-mono uppercase tracking-wider text-[#FF6B35] font-bold">
-            TACTICAL ARCHITECTURE
+            SAFETY ARCHITECTURE
           </span>
           <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white mt-2 font-display">
             Engineered for Zero-Connectivity & Extreme Terrains
@@ -931,16 +931,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               <IgniteLogo size="sm" />
               <div>
                 <span className="text-xl font-bold text-white tracking-tight">IGNITE</span>
-                <p className="text-xs text-slate-300">Pan-India Autonomous Mountain Safety & Disaster Resilience</p>
+                <p className="text-xs text-slate-300">All-India Tourist Safety & Smart Route Guide</p>
               </div>
             </div>
 
             <div className="flex flex-wrap items-center gap-5 text-xs font-medium">
-              <button onClick={() => onSelectTab('map')} className="text-slate-300 hover:text-white cursor-pointer transition-colors">Tactical Map</button>
-              <button onClick={() => onSelectTab('itinerary')} className="text-slate-300 hover:text-white cursor-pointer transition-colors">Safe Itinerary</button>
-              <button onClick={() => onSelectTab('explainability')} className="text-slate-300 hover:text-white cursor-pointer transition-colors">Risk Matrix</button>
-              <button onClick={() => onSelectTab('simulation')} className="text-slate-300 hover:text-white cursor-pointer transition-colors">Disaster Bench</button>
-              <button onClick={onOpenSOS} className="text-red-400 hover:text-red-300 cursor-pointer font-bold transition-colors">SOS Panic Relay</button>
+              <button onClick={() => onSelectTab('map')} className="text-slate-300 hover:text-white cursor-pointer transition-colors">Map & Places</button>
+              <button onClick={() => onSelectTab('itinerary')} className="text-slate-300 hover:text-white cursor-pointer transition-colors">Trip Plan</button>
+              <button onClick={() => onSelectTab('explainability')} className="text-slate-300 hover:text-white cursor-pointer transition-colors">Safety Check</button>
+              <button onClick={() => onSelectTab('simulation')} className="text-slate-300 hover:text-white cursor-pointer transition-colors">Safety Simulator</button>
+              <button onClick={onOpenSOS} className="text-red-400 hover:text-red-300 cursor-pointer font-bold transition-colors">Emergency SOS</button>
             </div>
           </div>
 

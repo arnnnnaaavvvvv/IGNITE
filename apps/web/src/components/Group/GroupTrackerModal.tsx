@@ -107,13 +107,13 @@ export const GroupTrackerModal: React.FC<GroupTrackerModalProps> = ({
           <div>
             <div className="flex items-center gap-2 mb-0.5">
               <span className="text-xs font-mono font-semibold uppercase tracking-wider text-emerald-400">
-                {language === 'hi' ? 'परिवार एवं समूह मेश रडार' : 'FAMILY & GROUP MESH RADAR'}
+                {language === 'hi' ? 'परिवार एवं समूह ट्रैकर' : 'FAMILY & GROUP TRACKER'}
               </span>
               <span className="text-slate-600">•</span>
               <span className="text-xs text-slate-400">{destinationName}</span>
             </div>
             <h2 className="text-sm sm:text-base font-bold text-white">
-              {language === 'hi' ? 'रीयल-टाइम सदस्य ट्रैकिंग' : 'Real-Time Group Telemetry & Separation Radar'}
+              {language === 'hi' ? 'रीयल-टाइम सदस्य ट्रैकिंग' : 'Real-Time Member Tracking'}
             </h2>
           </div>
 
@@ -123,7 +123,7 @@ export const GroupTrackerModal: React.FC<GroupTrackerModalProps> = ({
             className="btn-tactile flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[#12141d] hover:bg-[#181b26] text-emerald-300 border border-emerald-500/30 text-xs font-medium cursor-pointer"
           >
             <Radio className={`w-3.5 h-3.5 ${simulatingMove ? 'animate-spin' : ''}`} />
-            <span>{simulatingMove ? (language === 'hi' ? 'सिंक हो रहा है...' : 'Syncing...') : (language === 'hi' ? 'मेश सिंक करें' : 'Poll Telemetry')}</span>
+            <span>{simulatingMove ? (language === 'hi' ? 'अपडेट हो रहा है...' : 'Updating...') : (language === 'hi' ? 'लोकेशन अपडेट करें' : 'Refresh Locations')}</span>
           </button>
         </div>
 
