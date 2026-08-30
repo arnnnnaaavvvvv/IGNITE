@@ -200,8 +200,8 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
             </div>
             <h2 className="text-sm sm:text-base font-bold text-white">
               {isPanIndia
-                ? (isHi ? 'भारत में सक्रिय मौसम व आपदा अलर्ट' : 'Live Safety & Weather Alerts across India')
-                : `${isHi ? 'सुरक्षा अलर्ट व रिकॉर्ड — ' : 'Safety Alerts & Records — '}${getLocalizedDestinationName(simData?.destination || currentPlace, language)}`}
+                ? (isHi ? 'भारत में सक्रिय मौसम अलर्ट व स्थान अपडेट्स' : 'Live Weather Alerts & Place News across India')
+                : `${isHi ? 'ताज़ा स्थान अपडेट्स व अलर्ट — ' : 'Live Place Updates & Alerts — '}${getLocalizedDestinationName(simData?.destination || currentPlace, language)}`}
             </h2>
           </div>
 
@@ -238,7 +238,7 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2">
             <div className="text-xs font-medium text-slate-300 flex items-center gap-1.5">
               <MapPin className="w-3.5 h-3.5 text-emerald-400" />
-              <span>{isHi ? 'विशिष्ट स्थान के लिए परिदृश्य चुनें:' : 'Select Location for Weather & Hazard Scenarios:'}</span>
+              <span>{isHi ? 'स्थान के लिए ताज़ा अपडेट्स व अलर्ट देखें:' : 'Select Place for Live News & Weather Updates:'}</span>
             </div>
 
             {currentPlace && (

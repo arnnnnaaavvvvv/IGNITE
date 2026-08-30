@@ -14,7 +14,7 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     'nav_map': 'Map & Places',
     'nav_itinerary': 'Trip Plan',
     'nav_explainability': 'Safety Check',
-    'nav_simulation': 'Emergency Simulation',
+    'nav_simulation': 'Live Updates',
     'nav_group': 'Group Tracker',
 
     // App Shell & Banners
@@ -110,16 +110,16 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     'elevation_factor': 'Elevation & Breathing Comfort',
 
     // Disaster Bench & Simulation
-    'disaster_heading': 'Emergency Simulation & Live Alerts',
-    'disaster_subtitle': 'Test how the app finds safe detours during bad weather or emergencies',
-    'btn_trigger_hazard': 'Simulate Hazard',
+    'disaster_heading': 'Live Place Updates & Alerts',
+    'disaster_subtitle': 'Real-time weather bulletins, place updates, emergency alerts, and safe detour simulations',
+    'btn_trigger_hazard': 'Simulate Alert',
     'btn_reset_simulation': 'Reset to Normal',
-    'simulation_active_badge': 'Hazard Simulation Active',
+    'simulation_active_badge': 'Live Alert Active',
     'bypass_reroute_active': 'Safe Detour Active',
-    'tab_scenarios': 'Hazard Scenarios',
-    'tab_history': 'Past Incident Records',
+    'tab_scenarios': 'Place Scenarios & Alerts',
+    'tab_history': 'Past Incident Reports',
     'tab_shelters': 'Emergency Shelters',
-    'tab_bulletins': 'Weather Alerts',
+    'tab_bulletins': 'Live Weather News & Bulletins',
 
     // Group Tracker
     'group_heading': 'Live Group Tracker',
@@ -148,7 +148,7 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     'nav_map': 'नक्शा व स्थान',
     'nav_itinerary': 'यात्रा प्लान',
     'nav_explainability': 'सुरक्षा जांच',
-    'nav_simulation': 'आपातकालीन सिमुलेशन',
+    'nav_simulation': 'लाइव अपडेट्स',
     'nav_group': 'समूह ट्रैकर',
 
     // App Shell & Banners
@@ -244,7 +244,7 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     'elevation_factor': 'ऊंचाई एवं सांस लेने में सहजता',
 
     // Disaster Bench & Simulation
-    'disaster_heading': 'आपातकालीन सिमुलेशन एवं मौसम अलर्ट',
+    'disaster_heading': 'लाइव स्थान अपडेट्स एवं मौसम अलर्ट',
     'disaster_subtitle': 'खराब मौसम या आपातकाल में सुरक्षित वैकल्पिक मार्ग का परीक्षण करें',
     'btn_trigger_hazard': 'खतरा सिमुलेट करें',
     'btn_reset_simulation': 'सामान्य स्थिति पर रीसेट करें',

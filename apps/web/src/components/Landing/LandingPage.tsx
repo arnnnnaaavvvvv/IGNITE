@@ -360,7 +360,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               className="btn-tactile inline-flex items-center justify-center whitespace-nowrap text-sm font-semibold transition-colors border border-white/25 bg-black/50 hover:bg-white/15 text-white h-11 px-5 rounded-xl cursor-pointer gap-2 shadow-md font-mono backdrop-blur-sm"
             >
               <Radio className="w-4 h-4 text-amber-400" />
-              <span>{language === 'hi' ? 'आपातकालीन सिमुलेशन' : 'Emergency Simulation'}</span>
+              <span>{language === 'hi' ? 'स्थान के ताज़ा अपडेट्स' : 'Place News & Live Updates'}</span>
             </button>
 
             <button
@@ -939,7 +939,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               <button onClick={() => onSelectTab('map')} className="text-slate-300 hover:text-white cursor-pointer transition-colors">Map & Places</button>
               <button onClick={() => onSelectTab('itinerary')} className="text-slate-300 hover:text-white cursor-pointer transition-colors">Trip Plan</button>
               <button onClick={() => onSelectTab('explainability')} className="text-slate-300 hover:text-white cursor-pointer transition-colors">Safety Check</button>
-              <button onClick={() => onSelectTab('simulation')} className="text-slate-300 hover:text-white cursor-pointer transition-colors">Emergency Simulation</button>
+              <button onClick={() => onSelectTab('simulation')} className="text-slate-300 hover:text-white cursor-pointer transition-colors">Live Updates</button>
               <button onClick={onOpenSOS} className="text-red-400 hover:text-red-300 cursor-pointer font-bold transition-colors">Emergency SOS</button>
             </div>
           </div>

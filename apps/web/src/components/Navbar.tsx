@@ -33,7 +33,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'map', label: t('nav_map', language), shortLabel: language === 'hi' ? 'नक्शा' : 'Map', icon: Compass },
     { id: 'itinerary', label: t('nav_itinerary', language), shortLabel: language === 'hi' ? 'प्लान' : 'Plan', icon: Calendar },
     { id: 'explainability', label: t('nav_explainability', language), shortLabel: language === 'hi' ? 'सुरक्षा' : 'Safety', icon: Activity },
-    { id: 'simulation', label: t('nav_simulation', language), shortLabel: language === 'hi' ? 'सिमुलेशन' : 'Simulation', icon: Radio },
+    { id: 'simulation', label: t('nav_simulation', language), shortLabel: language === 'hi' ? 'अपडेट्स' : 'Updates', icon: Radio },
     { id: 'group', label: t('nav_group', language), shortLabel: language === 'hi' ? 'समूह' : 'Group', icon: Users },
   ];
 
