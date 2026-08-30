@@ -118,6 +118,14 @@ export interface DayPlan {
   acclimatization_safety: string;
   checkpoints: ItineraryItem[];
   day_risk_score: number;
+  traffic_level?: 'LOW' | 'MODERATE' | 'HIGH';
+  traffic_summary?: string;
+  traffic_summary_hi?: string;
+  suggested_route?: string;
+  suggested_route_hi?: string;
+  alternate_route?: string;
+  alternate_route_hi?: string;
+  is_alternate_recommended?: boolean;
 }
 
 export interface BudgetBreakdown {
