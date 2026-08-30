@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import type { ItineraryResponse } from '../../types';
-import { Activity, Wallet, Info, HeartPulse, ShieldCheck, Compass, Navigation, CheckCircle2 } from 'lucide-react';
+import { Activity, Wallet, Info, HeartPulse, ShieldCheck, Compass, Navigation, CheckCircle2, Clock, Sun, Sparkles, MapPin } from 'lucide-react';
 import { t, getLocalizedDestinationName } from '../../services/i18n';
 
 interface ItineraryViewProps {
@@ -147,6 +147,21 @@ export const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary, languag
             </div>
           </div>
 
+          {/* Where to Visit Today Suggestion Card */}
+          {activeDayPlan.day_highlight && (
+            <div className="p-3.5 rounded-xl bg-gradient-to-r from-emerald-950/30 to-[#12141d] border border-emerald-500/25 flex items-start gap-2.5">
+              <Sparkles className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+              <div className="text-xs space-y-0.5">
+                <span className="font-semibold text-emerald-300">
+                  {isHi ? 'आज का दर्शनीय भ्रमण सुझाव' : 'Where to Visit Today'}:
+                </span>
+                <p className="text-slate-200">
+                  {isHi && activeDayPlan.day_highlight_hi ? activeDayPlan.day_highlight_hi : activeDayPlan.day_highlight}
+                </p>
+              </div>
+            </div>
+          )}
+
           {/* Route & Traffic Forecast for the Day */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {/* Primary Safe Route */}
@@ -186,16 +201,21 @@ export const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary, languag
             )}
           </div>
 
-          {/* Timeline of Checkpoints & Sights */}
+          {/* Detailed Stops, Opening Hours & Best View Timings */}
           <div className="space-y-2 pt-2">
             <div className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
-              <span>{isHi ? 'दिन के मुख्य पड़ाव व दर्शनीय स्थल' : 'Key Stops & Attractions for the Day'}:</span>
+              <MapPin className="w-3.5 h-3.5 text-emerald-400" />
+              <span>{isHi ? 'स्थान, खुलने का समय एवं देखने का सर्वोत्तम समय' : 'Stops, Opening Hours & Best View Timings'}:</span>
             </div>
 
-            <div className="relative pl-5 border-l border-white/[0.1] space-y-3">
+            <div className="relative pl-5 border-l border-white/[0.1] space-y-3.5">
               {activeDayPlan.checkpoints.map((cp, idx) => {
                 const badge = getRiskBadge(cp.total_risk_score);
                 const cpName = isHi && cp.name_hi ? cp.name_hi : cp.name;
+                const opening = isHi && cp.opening_hours_hi ? cp.opening_hours_hi : (cp.opening_hours || '08:00 AM – 06:00 PM');
+                const bestTime = isHi && cp.best_view_time_hi ? cp.best_view_time_hi : (cp.best_view_time || '07:30 AM – 10:30 AM');
+                const viewTip = isHi && cp.best_view_tip_hi ? cp.best_view_tip_hi : cp.best_view_tip;
+                const whyVisit = isHi && cp.why_visit_hi ? cp.why_visit_hi : cp.why_visit;
 
                 return (
                   <div
@@ -204,16 +224,17 @@ export const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary, languag
                     className="relative group cursor-pointer"
                   >
                     {/* Timeline Dot */}
-                    <div className="absolute -left-[25px] top-2.5 w-2.5 h-2.5 rounded-full bg-[#090a0f] border-2 border-emerald-400 group-hover:scale-125 transition-transform" />
+                    <div className="absolute -left-[25px] top-3 w-2.5 h-2.5 rounded-full bg-[#090a0f] border-2 border-emerald-400 group-hover:scale-125 transition-transform" />
 
-                    <div className="bg-[#12141d] border border-white/[0.06] group-hover:border-white/[0.14] p-3.5 rounded-xl transition-all">
+                    <div className="bg-[#12141d] border border-white/[0.06] group-hover:border-white/[0.14] p-4 rounded-xl transition-all space-y-3">
+                      {/* Top Row: Name, Altitude, Risk */}
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <div className="flex items-center gap-2 flex-wrap">
                           <span className="text-xs font-mono font-bold text-emerald-400">{idx + 1}.</span>
-                          <span className="text-xs font-semibold text-white group-hover:text-emerald-300 transition-colors">{cpName}</span>
+                          <span className="text-sm font-semibold text-white group-hover:text-emerald-300 transition-colors">{cpName}</span>
                           {cp.has_oxygen_booth && (
-                            <span className="text-[10px] px-1.5 py-0.2 rounded bg-sky-500/10 text-sky-400 border border-sky-500/20 flex items-center gap-1 font-mono">
-                              <HeartPulse className="w-2.5 h-2.5" />
+                            <span className="text-[10px] px-2 py-0.5 rounded bg-sky-500/10 text-sky-400 border border-sky-500/20 flex items-center gap-1 font-mono">
+                              <HeartPulse className="w-3 h-3" />
                               <span>{isHi ? 'ऑक्सीजन सहायता' : 'O2 Support'}</span>
                             </span>
                           )}
@@ -227,8 +248,52 @@ export const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary, languag
                         </div>
                       </div>
 
+                      {/* Brief Why Visit Description */}
+                      {whyVisit && (
+                        <p className="text-xs text-slate-300 leading-relaxed">
+                          {whyVisit}
+                        </p>
+                      )}
+
+                      {/* Timings & Best View Box */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 pt-1 border-t border-white/[0.06]">
+                        {/* Opening & Closing Hours */}
+                        <div className="flex items-start gap-2 p-2.5 rounded-lg bg-black/30 border border-white/[0.04]">
+                          <Clock className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
+                          <div className="text-xs space-y-0.5">
+                            <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+                              {isHi ? 'खुलने व बंद होने का समय' : 'Opening & Closing'}:
+                            </span>
+                            <div className="text-xs font-medium text-amber-300">
+                              {opening}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Best View Timing */}
+                        <div className="flex items-start gap-2 p-2.5 rounded-lg bg-black/30 border border-white/[0.04]">
+                          <Sun className="w-3.5 h-3.5 text-sky-400 shrink-0 mt-0.5" />
+                          <div className="text-xs space-y-0.5">
+                            <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+                              {isHi ? 'सर्वोत्तम दृश्य का समय' : 'Best View Timing'}:
+                            </span>
+                            <div className="text-xs font-medium text-sky-300">
+                              {bestTime}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Best View Tip / Lighting */}
+                      {viewTip && (
+                        <div className="text-[11px] text-slate-300 bg-emerald-950/15 border border-emerald-500/20 px-3 py-1.5 rounded-lg flex items-center gap-2">
+                          <span className="font-semibold text-emerald-300 shrink-0">{isHi ? 'दृश्यकला टिप:' : 'Scenic Tip:'}</span>
+                          <span className="text-slate-300">{viewTip}</span>
+                        </div>
+                      )}
+
                       {/* Clean Friendly Facilities Tags */}
-                      <div className="flex flex-wrap gap-1.5 mt-2.5">
+                      <div className="flex flex-wrap gap-1.5 pt-1">
                         {cp.facilities.map((fac, fIdx) => (
                           <span key={fIdx} className="text-[10px] px-2 py-0.5 rounded-md bg-white/[0.04] text-slate-300 border border-white/[0.06] flex items-center gap-1">
                             <CheckCircle2 className="w-2.5 h-2.5 text-emerald-400" />

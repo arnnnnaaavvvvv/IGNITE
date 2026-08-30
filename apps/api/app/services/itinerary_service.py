@@ -7,8 +7,12 @@ from app.core.region_rules import RegionRuleManager
 class ItineraryService:
     """
     Generalized Pan-India Itinerary & Logistics Optimization Service.
-    Generates multi-day safety plans for any destination in India with custom dates,
-    date-aware traffic and route safety analysis, and alternate low-traffic routes.
+    Generates multi-day safety plans for any destination in India with:
+    - Clear daily visit suggestions ("Where to visit today")
+    - Best view timings & photography / lighting recommendations
+    - Opening and closing hours for every attraction
+    - Date-aware traffic and route safety analysis
+    - Alternate detour suggestions
     """
 
     @classmethod
@@ -26,7 +30,7 @@ class ItineraryService:
     ) -> Dict[str, Any]:
         """
         Dynamically resolves place and generates safety-weighted itinerary with custom date ranges,
-        live traffic assessment, and recommended alternate routes.
+        live traffic assessment, opening/closing hours, and best view timings.
         """
         dest = await DestinationResolver.resolve(destination_query)
         region_type = dest.get("region_type", "HILL_MOUNTAIN")
@@ -71,13 +75,11 @@ class ItineraryService:
             date_iso = cur_date.strftime("%Y-%m-%d")
             date_display = cur_date.strftime("%a, %d %b %Y")
             short_date = cur_date.strftime("%d %b")
-            day_name = cur_date.strftime("%A")
-            is_weekend = day_name in ["Saturday", "Sunday"]
 
             # Partition checkpoints for this day and build friendly plain English titles
             if days_count == 1:
                 day_cps = checkpoints
-                title = f"Day 1 ({short_date}): Full-Day Sightseeing & Top Attractions in {dest_name}"
+                title = f"Day 1 ({short_date}): Full-Day Sightseeing across {dest_name}"
                 title_hi = f"दिन 1 ({short_date}): {dest_name} के प्रमुख दर्शनीय स्थल"
                 dist_km = 12.0
                 elev_gain = 350 if region_type == "HILL_MOUNTAIN" else 40
@@ -162,6 +164,18 @@ class ItineraryService:
             # Dynamic Date-Aware Traffic & Alternate Route Calculation
             traffic_route_info = cls._generate_day_traffic_and_routes(cur_date, dest_name, region_type, day_score)
 
+            # Build where to visit highlight for this day
+            cp_names = [cp["name"] for cp in day_items]
+            if len(cp_names) >= 2:
+                day_highlight = f"Visit {cp_names[0]} during morning hours, then continue to {cp_names[-1]} for scenic views and photography."
+                day_highlight_hi = f"सुबह के समय {day_items[0].get('name_hi', cp_names[0])} जाएं, फिर सुंदर दृश्यों के लिए {day_items[-1].get('name_hi', cp_names[-1])} का भ्रमण करें।"
+            elif len(cp_names) == 1:
+                day_highlight = f"Explore {cp_names[0]} with plenty of time for sightseeing, photography, and local dining."
+                day_highlight_hi = f"{day_items[0].get('name_hi', cp_names[0])} का इत्मीनान से भ्रमण करें और आसपास के नजारों का आनंद लें।"
+            else:
+                day_highlight = f"Explore key sights and scenic viewpoints across {dest_name}."
+                day_highlight_hi = f"{dest_name} के प्रमुख दर्शनीय स्थलों और मनोरम दृश्यों का आनंद लें।"
+
             days_plan.append({
                 "day_number": day_idx,
                 "date": date_iso,
@@ -171,6 +185,8 @@ class ItineraryService:
                 "distance_km": dist_km,
                 "elevation_gain_m": elev_gain,
                 "acclimatization_safety": pacing_note,
+                "day_highlight": day_highlight,
+                "day_highlight_hi": day_highlight_hi,
                 "checkpoints": day_items,
                 "day_risk_score": day_score,
                 "traffic_level": traffic_route_info["traffic_level"],
@@ -250,12 +266,17 @@ class ItineraryService:
             suggested_route_hi = "मुख्य मार्ग: नदी किनारे मुख्य तीर्थ यात्रा ट्रेक"
             alternate_route = "Alternate Route (Safer / Less Crowded): Take Upper Ridge Bypass Trail via Bheembali — gradual slope and avoids riverbank congestion."
             alternate_route_hi = "वैकल्पिक मार्ग (सुरक्षित व कम भीड़): भीमबली से ऊपरी रिज बाईपास मार्ग लें — चढ़ाई आसान और संकरे रास्तों से बचाव।"
+        elif "leh" in name_lower or "ladakh" in name_lower or "khardung" in name_lower:
+            suggested_route = "Primary Route: Leh-Manali / Leh-Srinagar Highway & Khardung La Pass Road"
+            suggested_route_hi = "मुख्य मार्ग: लेह हाईवे एवं खारदुंग ला दर्रा मार्ग"
+            alternate_route = "Alternate Route (Scenic Bypass): Upper Choglamsar Scenic By-road — avoids city junction congestion."
+            alternate_route_hi = "वैकल्पिक मार्ग (सुगम बाईपास): ऊपरी चोगलमसार बाईपास मार्ग — शहर के ट्रैफिक से बचाव।"
         elif "puri" in name_lower or "goa" in name_lower or "digha" in name_lower or region_type == "COASTAL_MARINE":
             suggested_route = "Primary Route: Main Beach Boulevard & Temple Grand Road"
             suggested_route_hi = "मुख्य मार्ग: मुख्य बीच रोड एवं ग्रैंड रोड"
             alternate_route = "Alternate Route (Less Congested): Marine Drive Coastal Link Road — smooth movement with direct parking access."
             alternate_route_hi = "वैकल्पिक मार्ग (कम जाम): मरीन ड्राइव कोस्टल लिंक रोड — बिना जाम के सुगम आवागमन व पार्किंग सुविधा।"
-        elif "manali" in name_lower or "leh" in name_lower or "munnar" in name_lower or region_type == "HILL_MOUNTAIN":
+        elif "manali" in name_lower or "munnar" in name_lower or region_type == "HILL_MOUNTAIN":
             suggested_route = "Primary Route: Main Highway Corridor (NH-3 / State Highway)"
             suggested_route_hi = "मुख्य मार्ग: मुख्य हाईवे एवं पर्यटन मार्ग"
             alternate_route = "Alternate Route (Scenic & Quiet): Left Bank Valley By-road — avoids tourist bus queues and steep chokepoints."
@@ -305,13 +326,19 @@ class ItineraryService:
                 "Drink plenty of water and take brief rest stops above 2,700m elevation.",
                 "Keep warm thermal layers and basic personal first-aid in your day pack."
             ]
+        elif "leh" in name_lower or "ladakh" in name_lower or "khardung" in name_lower:
+            return [
+                "Spend your first 24–48 hours resting in Leh to allow your body to adjust to high altitude.",
+                "Visit Khardung La Pass between 08:30 AM and 11:30 AM before weather becomes windy and cold.",
+                "Drink 3–4 litres of water daily and carry portable oxygen canisters."
+            ]
         elif "puri" in name_lower or "goa" in name_lower:
             return [
                 "Swim only in lifeguard-patrolled zones with green flags.",
                 "Follow evening beach safety guidelines and avoid swimming after sunset.",
                 "Stay hydrated and carry sunscreen during sunny hours."
             ]
-        elif "manali" in name_lower or "leh" in name_lower:
+        elif "manali" in name_lower:
             return [
                 "Start early to cross mountain passes and avoid peak tourist vehicle queues.",
                 "Take time on Day 1 to rest and adjust to the mountain air.",
@@ -331,6 +358,101 @@ class ItineraryService:
             ]
 
     @classmethod
+    def _generate_checkpoint_timings_and_views(cls, cp_name: str, region_type: str, altitude_m: int, idx: int) -> Dict[str, str]:
+        """
+        Generates realistic opening/closing hours, optimal viewing timings, and photography tips.
+        """
+        name_l = cp_name.lower()
+
+        # 1. Temples, Mandirs, Dhams, Ashrams, Ghats
+        if any(w in name_l for w in ["temple", "mandir", "dham", "shrine", "jyotirlinga", "ghat", "aarti", "gurudwara", "monastery", "gompa", "math", "dargah"]):
+            opening = "04:30 AM – 09:30 PM"
+            opening_hi = "प्रातः 04:30 – रात्रि 09:30"
+            best_time = "06:00 AM – 08:30 AM"
+            best_time_hi = "सुबह 06:00 – 08:30"
+            best_tip = "Morning prayers and serene aarti before the peak rush of devotees"
+            best_tip_hi = "प्रातःकालीन आरती एवं शांत वातावरण (दिन की भीड़ से पहले)"
+            why_visit = "Spiritual centerpiece with serene ambiance and rich heritage."
+            why_visit_hi = "आध्यात्मिक शांति और भव्य भक्तिमय वातावरण।"
+
+        # 2. Forts, Palaces, Museums, Monolithic monuments
+        elif any(w in name_l for w in ["fort", "palace", "mahal", "museum", "monument", "memorial", "qila", "ruins", "haveli"]):
+            opening = "08:30 AM – 05:30 PM"
+            opening_hi = "सुबह 08:30 – शाम 05:30"
+            best_time = "09:00 AM – 11:00 AM" if idx == 0 else "03:30 PM – 05:30 PM"
+            best_time_hi = "सुबह 09:00 – 11:00" if idx == 0 else "दोपहर 03:30 – शाम 05:30"
+            best_tip = "Golden sunlight on ancient architecture with great lighting for photography"
+            best_tip_hi = "ऐतिहासिक स्थापत्य कला पर सुनहरी धूप और फोटोग्राफी के लिए सबसे अच्छा समय"
+            why_visit = "Iconic historical landmark with panoramic courtyard views and royal architecture."
+            why_visit_hi = "भव्य वास्तुकला एवं मनोरम दृश्य वाला प्रसिद्ध ऐतिहासिक स्थल।"
+
+        # 3. High Mountain Passes, Peaks, Ridges, Treks, Lakes
+        elif any(w in name_l for w in ["pass", "la", "peak", "ridge", "lake", "glacier", "tal", "kund", "meadow", "bugyal", "valley", "viewpoint", "point"]) or (region_type == "HILL_MOUNTAIN" and altitude_m > 2500):
+            opening = "Open 24/7 (Safe Daylight: 06:00 AM – 05:00 PM)"
+            opening_hi = "24 घंटे खुला (दिन का सुरक्षित समय: प्रातः 06:00 – शाम 05:00)"
+            best_time = "07:30 AM – 10:30 AM"
+            best_time_hi = "सुबह 07:30 – 10:30"
+            best_tip = "Crystal clear mountain views before high-altitude clouds and winds gather"
+            best_tip_hi = "बादलों और तेज हवाओं से पहले बर्फ से ढकी चोटियों का स्पष्ट मनमोहक दृश्य"
+            why_visit = "Breathtaking natural panorama, crisp mountain air, and dramatic snow-capped vistas."
+            why_visit_hi = "बर्फ से ढकी चोटियों का अद्भुत दृश्य और शांत प्राकृतिक वातावरण।"
+
+        # 4. Beaches, Promenades, Marine Drives, Coasts
+        elif any(w in name_l for w in ["beach", "sea", "coast", "promenade", "marine", "cove", "lighthouse", "island"]):
+            opening = "06:00 AM – 07:30 PM"
+            opening_hi = "सुबह 06:00 – शाम 07:30"
+            best_time = "04:30 PM – 06:45 PM"
+            best_time_hi = "शाम 04:30 – 06:45"
+            best_tip = "Spectacular sunset horizon with gentle sea breeze and active lifeguard patrol"
+            best_tip_hi = "समुद्र तट पर मनमोहक सूर्यास्त एवं सुहावनी समुद्री हवा"
+            why_visit = "Vibrant shoreline experience with stunning ocean views and relaxed coastal breeze."
+            why_visit_hi = "शानदार समुद्री लहरों और सुहावने वातावरण का आनंद।"
+
+        # 5. National Parks, Wildlife Sanctuaries, Safaris, Reserves
+        elif any(w in name_l for w in ["safari", "national park", "sanctuary", "forest", "reserve", "wildlife", "zoo"]):
+            opening = "06:00 AM – 10:30 AM & 02:30 PM – 05:30 PM"
+            opening_hi = "प्रातः 06:00 – 10:30 एवं दोपहर 02:30 – शाम 05:30"
+            best_time = "06:30 AM – 09:00 AM"
+            best_time_hi = "सुबह 06:30 – 09:00"
+            best_tip = "Early morning safari slot when animals and birds are most active around waterholes"
+            best_tip_hi = "प्रातःकालीन सफारी जब वन्यजीव जलस्रोतों के पास सर्वाधिक सक्रिय रहते हैं"
+            why_visit = "Thrilling wildlife encounters, pristine jungle trails, and exotic birdwatching."
+            why_visit_hi = "रोमांचक जंगल सफारी और दुर्लभ वन्यजीवों को करीब से देखने का अवसर।"
+
+        # 6. Transit Hubs, Acclimatization Centers, Base Camps
+        elif any(w in name_l for w in ["transit", "hub", "station", "stand", "base", "acclimatization", "reception", "entry"]):
+            opening = "24 Hours (Helpdesks: 07:00 AM – 09:00 PM)"
+            opening_hi = "24 घंटे (सहायता केंद्र: सुबह 07:00 – रात 09:00)"
+            best_time = "08:00 AM – 11:00 AM"
+            best_time_hi = "सुबह 08:00 – 11:00"
+            best_tip = "Get permits, verify health metrics, and collect updated local route advisories"
+            best_tip_hi = "परमिट सत्यापन, स्वास्थ्य जांच एवं स्थानीय रूट जानकारी प्राप्त करने का सर्वोत्तम समय"
+            why_visit = "Essential arrival base for orientation, gear checks, and local assistance."
+            why_visit_hi = "यात्रा की तैयारी, स्वास्थ्य जांच और आवश्यक जानकारी प्राप्त करने का मुख्य केंद्र।"
+
+        # 7. General Urban, Markets, Bazaars, Gardens
+        else:
+            opening = "09:00 AM – 08:00 PM"
+            opening_hi = "सुबह 09:00 – रात 08:00"
+            best_time = "04:00 PM – 06:30 PM"
+            best_time_hi = "शाम 04:00 – 06:30"
+            best_tip = "Pleasant evening temperatures with vibrant local culture and photography spots"
+            best_tip_hi = "शाम का सुहावना मौसम, जीवंत संस्कृति और बेहतरीन तस्वीरें लेने का समय"
+            why_visit = "Lively local destination with authentic regional atmosphere and scenic surroundings."
+            why_visit_hi = "स्थानीय संस्कृति और सुंदर वातावरण का सुखद अनुभव।"
+
+        return {
+            "opening_hours": opening,
+            "opening_hours_hi": opening_hi,
+            "best_view_time": best_time,
+            "best_view_time_hi": best_time_hi,
+            "best_view_tip": best_tip,
+            "best_view_tip_hi": best_tip_hi,
+            "why_visit": why_visit,
+            "why_visit_hi": why_visit_hi
+        }
+
+    @classmethod
     def _evaluate_items(cls, checkpoints, region_type, hazard_zones, weather, pilgrimage_metadata=None):
         items = []
         for idx, cp in enumerate(checkpoints):
@@ -345,11 +467,19 @@ class ItineraryService:
             # Simplify facility labels to everyday language
             cleaned_facs = [
                 f.replace("Archaeological Medical Wing", "Medical Wing")
+                 .replace("SNM Hospital Helpdesk", "Medical Help Desk")
+                 .replace("Oxygen Parlour", "Oxygen Booth")
+                 .replace("Army Medical Post", "Military Medical Post")
+                 .replace("Hyperbaric Chamber", "Emergency Oxygen Chamber")
+                 .replace("BRO Rescue", "Mountain Rescue Post")
                  .replace("Tourist Police Helpdesk", "Tourist Help Desk")
                  .replace("Tourist Security Post", "Safety Post")
                  .replace("Information Kiosk", "Information Desk")
                 for f in raw_facs
             ]
+
+            timing_info = cls._generate_checkpoint_timings_and_views(cp["name"], region_type, cp.get("altitude_m", 100), idx)
+
             items.append({
                 "sequence": idx + 1,
                 "checkpoint_id": cp["id"],
@@ -364,7 +494,15 @@ class ItineraryService:
                 "risk_level": risk_eval["risk_level"],
                 "badge_color": risk_eval["badge_color"],
                 "sub_scores": risk_eval["sub_scores"],
-                "reroute_needed": risk_eval["reroute_needed"]
+                "reroute_needed": risk_eval["reroute_needed"],
+                "opening_hours": timing_info["opening_hours"],
+                "opening_hours_hi": timing_info["opening_hours_hi"],
+                "best_view_time": timing_info["best_view_time"],
+                "best_view_time_hi": timing_info["best_view_time_hi"],
+                "best_view_tip": timing_info["best_view_tip"],
+                "best_view_tip_hi": timing_info["best_view_tip_hi"],
+                "why_visit": timing_info["why_visit"],
+                "why_visit_hi": timing_info["why_visit_hi"]
             })
         return items
 

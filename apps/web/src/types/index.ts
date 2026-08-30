@@ -105,6 +105,14 @@ export interface ItineraryItem {
   badge_color: string;
   sub_scores: SubScores;
   reroute_needed: boolean;
+  opening_hours?: string;
+  opening_hours_hi?: string;
+  best_view_time?: string;
+  best_view_time_hi?: string;
+  best_view_tip?: string;
+  best_view_tip_hi?: string;
+  why_visit?: string;
+  why_visit_hi?: string;
 }
 
 export interface DayPlan {
@@ -116,6 +124,8 @@ export interface DayPlan {
   distance_km: number;
   elevation_gain_m: number;
   acclimatization_safety: string;
+  day_highlight?: string;
+  day_highlight_hi?: string;
   checkpoints: ItineraryItem[];
   day_risk_score: number;
   traffic_level?: 'LOW' | 'MODERATE' | 'HIGH';
