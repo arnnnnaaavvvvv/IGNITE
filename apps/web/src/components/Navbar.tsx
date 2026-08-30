@@ -33,7 +33,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'map', label: t('nav_map', language), shortLabel: language === 'hi' ? 'नक्शा' : 'Map', icon: Compass },
     { id: 'itinerary', label: t('nav_itinerary', language), shortLabel: language === 'hi' ? 'प्लान' : 'Plan', icon: Calendar },
     { id: 'explainability', label: t('nav_explainability', language), shortLabel: language === 'hi' ? 'सुरक्षा' : 'Safety', icon: Activity },
-    { id: 'simulation', label: t('nav_simulation', language), shortLabel: language === 'hi' ? 'सिमुलेटर' : 'Simulator', icon: Radio },
+    { id: 'simulation', label: t('nav_simulation', language), shortLabel: language === 'hi' ? 'सिमुलेशन' : 'Simulation', icon: Radio },
     { id: 'group', label: t('nav_group', language), shortLabel: language === 'hi' ? 'समूह' : 'Group', icon: Users },
   ];
 
@@ -67,19 +67,17 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Desktop Center Tabs Navigation */}
           <nav className="hidden md:flex items-center gap-1 bg-white/[0.05] p-1 rounded-lg border border-white/10">
             {tabs.map((tab) => {
-              const Icon = tab.icon;
               const isActive = activeTab === tab.id;
               return (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as any)}
-                  className={`btn-tactile flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-medium cursor-pointer relative transition-all ${
+                  className={`btn-tactile flex items-center px-3.5 py-1.5 rounded-md text-xs font-medium cursor-pointer relative transition-all ${
                     isActive
                       ? 'bg-white/15 text-white font-semibold shadow-sm'
                       : 'text-slate-400 hover:text-white hover:bg-white/[0.05]'
                   }`}
                 >
-                  <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-white' : 'text-slate-400'}`} />
                   <span>{tab.label}</span>
                   {tab.id === 'simulation' && isSimulatingHazard && (
                     <span className="w-1.5 h-1.5 rounded-full bg-red-500 absolute top-1 right-1" />

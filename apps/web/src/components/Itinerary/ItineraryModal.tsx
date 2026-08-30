@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import type { ItineraryResponse, Checkpoint } from '../../types';
 import { ItineraryView } from './ItineraryView';
 import { ExplainabilityPanel } from '../Explainability/ExplainabilityPanel';
-import { ArrowLeft, X, ShieldCheck, Compass, Activity, Loader2, Sparkles, MapPin } from 'lucide-react';
+import { ArrowLeft, X, ShieldCheck, Compass, Activity, Loader2, MapPin } from 'lucide-react';
 import { t, getLocalizedDestinationName } from '../../services/i18n';
 
 interface ItineraryModalProps {
@@ -81,8 +81,7 @@ export const ItineraryModal: React.FC<ItineraryModalProps> = ({
               </div>
               <div className="min-w-0">
                 <div className="flex items-center gap-2 text-[10px] font-mono text-emerald-400">
-                  <span className="font-bold uppercase tracking-wider flex items-center gap-1">
-                    <Sparkles className="w-3 h-3" />
+                  <span className="font-bold uppercase tracking-wider">
                     {isHi ? 'सत्यापित योजना' : 'VERIFIED PLAN'}
                   </span>
                   {itinerary?.duration_days && (

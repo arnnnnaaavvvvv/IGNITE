@@ -14,7 +14,7 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     'nav_map': 'Map & Places',
     'nav_itinerary': 'Trip Plan',
     'nav_explainability': 'Safety Check',
-    'nav_simulation': 'Safety Simulator',
+    'nav_simulation': 'Emergency Simulation',
     'nav_group': 'Group Tracker',
 
     // App Shell & Banners
@@ -110,7 +110,7 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     'elevation_factor': 'Elevation & Breathing Comfort',
 
     // Disaster Bench & Simulation
-    'disaster_heading': 'Safety Simulator & Weather Alerts',
+    'disaster_heading': 'Emergency Simulation & Live Alerts',
     'disaster_subtitle': 'Test how the app finds safe detours during bad weather or emergencies',
     'btn_trigger_hazard': 'Simulate Hazard',
     'btn_reset_simulation': 'Reset to Normal',
@@ -148,7 +148,7 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     'nav_map': 'नक्शा व स्थान',
     'nav_itinerary': 'यात्रा प्लान',
     'nav_explainability': 'सुरक्षा जांच',
-    'nav_simulation': 'सुरक्षा सिमुलेटर',
+    'nav_simulation': 'आपातकालीन सिमुलेशन',
     'nav_group': 'समूह ट्रैकर',
 
     // App Shell & Banners
@@ -244,7 +244,7 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     'elevation_factor': 'ऊंचाई एवं सांस लेने में सहजता',
 
     // Disaster Bench & Simulation
-    'disaster_heading': 'सुरक्षा सिमुलेटर एवं मौसम अलर्ट',
+    'disaster_heading': 'आपातकालीन सिमुलेशन एवं मौसम अलर्ट',
     'disaster_subtitle': 'खराब मौसम या आपातकाल में सुरक्षित वैकल्पिक मार्ग का परीक्षण करें',
     'btn_trigger_hazard': 'खतरा सिमुलेट करें',
     'btn_reset_simulation': 'सामान्य स्थिति पर रीसेट करें',
