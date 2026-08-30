@@ -233,10 +233,8 @@ export const TripWizard: React.FC<TripWizardProps> = ({
 
   // Sync prop changes
   useEffect(() => {
-    if (selectedDestinationName) {
-      setSearchQuery(selectedDestinationName);
-      setSelectedPlaceName(selectedDestinationName);
-    }
+    setSearchQuery(selectedDestinationName || '');
+    setSelectedPlaceName(selectedDestinationName || '');
   }, [selectedDestinationName]);
 
   // Live Place Autocomplete Search

@@ -238,8 +238,9 @@ export function App() {
       {activeTab === 'overview' && (
         <LandingPage
           onLaunchMap={(destName) => {
-            if (destName) {
-              setCurrentDestinationName(destName);
+            setCurrentDestinationName(destName || '');
+            if (!destName) {
+              setPreviewCoordinates(null);
             }
             setActiveTab('map');
           }}

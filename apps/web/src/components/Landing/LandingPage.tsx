@@ -345,7 +345,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           {/* Plume Hero Action Button Group */}
           <div className="flex flex-wrap items-center justify-center gap-3.5 mb-10">
             <button
-              onClick={() => onLaunchMap('Kedarnath Dham & Valley')}
+              onClick={() => onLaunchMap('')}
               className="btn-tactile inline-flex items-center justify-center whitespace-nowrap text-sm font-bold transition-all bg-[#FF6B35] hover:bg-[#E85D04] text-white shadow-2xl shadow-[#FF6B35]/40 h-11 px-6 gap-2 rounded-xl cursor-pointer group"
             >
               <span>{language === 'hi' ? 'नक्शा व योजना शुरू करें' : 'Explore Map & Planner'}</span>
