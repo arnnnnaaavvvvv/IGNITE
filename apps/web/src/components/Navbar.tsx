@@ -130,38 +130,36 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
       </header>
 
-      {/* Fixed Mobile Bottom Navigation Bar - Only active in dashboard views */}
-      {!isLandingPage && (
-        <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-black/90 backdrop-blur-[16px] border-t border-white/15 px-3 pt-2 pb-[max(0.8rem,env(safe-area-inset-bottom))] shadow-2xl animate-in slide-in-from-bottom-2 duration-200">
-          <div className="grid grid-cols-4 items-center justify-items-center max-w-lg mx-auto gap-1">
-            {tabs.map((tab) => {
-              const Icon = tab.icon;
-              const isActive = activeTab === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id as any)}
-                  className={`w-full flex flex-col items-center justify-center py-1.5 px-1 rounded-xl transition-all relative ${
-                    isActive
-                      ? 'text-emerald-400 bg-white/[0.08] font-bold shadow-inner'
-                      : 'text-slate-400 hover:text-slate-200'
-                  }`}
-                >
-                  <div className="relative">
-                    <Icon className={`w-5 h-5 ${isActive ? 'text-emerald-400' : 'text-slate-400'}`} />
-                    {tab.id === 'simulation' && isSimulatingHazard && (
-                      <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-                    )}
-                  </div>
-                  <span className="text-[11px] mt-1 font-medium tracking-tight whitespace-nowrap text-center">
-                    {tab.shortLabel}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </nav>
-      )}
+      {/* Fixed Mobile Bottom Navigation Bar - Effortless 1-tap navigation on all mobile devices */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-black/90 backdrop-blur-[16px] border-t border-white/15 px-3 pt-2 pb-[max(0.8rem,env(safe-area-inset-bottom))] shadow-2xl">
+        <div className="grid grid-cols-4 items-center justify-items-center max-w-lg mx-auto gap-1">
+          {tabs.map((tab) => {
+            const Icon = tab.icon;
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as any)}
+                className={`w-full flex flex-col items-center justify-center py-1.5 px-1 rounded-xl transition-all relative ${
+                  isActive
+                    ? 'text-emerald-400 bg-white/[0.08] font-bold shadow-inner'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                <div className="relative">
+                  <Icon className={`w-5 h-5 ${isActive ? 'text-emerald-400' : 'text-slate-400'}`} />
+                  {tab.id === 'simulation' && isSimulatingHazard && (
+                    <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                  )}
+                </div>
+                <span className="text-[11px] mt-1 font-medium tracking-tight whitespace-nowrap text-center">
+                  {tab.shortLabel}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </nav>
     </>
   );
 };

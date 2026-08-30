@@ -19,12 +19,11 @@ import type {
   ItineraryResponse,
   SimulationScenario,
 } from './types';
-import { AlertTriangle, WifiOff, MapPin, Compass, Search } from 'lucide-react';
+import { AlertTriangle, WifiOff, MapPin } from 'lucide-react';
 import { t, getLocalizedDestinationName } from './services/i18n';
 
 export function App() {
   const [activeTab, setActiveTab] = useState<'overview' | 'map' | 'itinerary' | 'explainability' | 'simulation' | 'group'>('overview');
-  const [mobileViewMode, setMobileViewMode] = useState<'plan' | 'map'>('plan');
   const [language, setLanguage] = useState<string>(() => {
     try {
       return localStorage.getItem('ignite_lang') || 'en';
@@ -299,37 +298,9 @@ export function App() {
             {/* Tab 1: Interactive Map & Autocomplete Planner */}
             {activeTab === 'map' && (
               <div className="space-y-4">
-                {/* Mobile View Toggle: Available on small/medium screens (< lg) */}
-                <div className="flex lg:hidden items-center justify-center p-1 bg-[#0e1017] rounded-xl border border-white/[0.08] max-w-sm mx-auto shadow-md">
-                  <button
-                    type="button"
-                    onClick={() => setMobileViewMode('plan')}
-                    className={`flex-1 py-2 px-3 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                      mobileViewMode === 'plan'
-                        ? 'bg-emerald-600 text-white shadow-md'
-                        : 'text-slate-400 hover:text-white'
-                    }`}
-                  >
-                    <Search className="w-3.5 h-3.5" />
-                    <span>{language === 'hi' ? 'स्थान खोजें व प्लान' : 'Search & Plan'}</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setMobileViewMode('map')}
-                    className={`flex-1 py-2 px-3 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                      mobileViewMode === 'map'
-                        ? 'bg-emerald-600 text-white shadow-md'
-                        : 'text-slate-400 hover:text-white'
-                    }`}
-                  >
-                    <Compass className="w-3.5 h-3.5" />
-                    <span>{language === 'hi' ? 'नक्शा देखें' : 'Map View'}</span>
-                  </button>
-                </div>
-
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
-                  {/* Map Column: Full height on desktop, visible on mobile when mobileViewMode === 'map' */}
-                  <div className={`lg:col-span-7 flex flex-col h-[380px] sm:h-[480px] lg:h-full min-h-[340px] lg:min-h-[680px] ${mobileViewMode === 'plan' ? 'hidden lg:flex' : 'flex'}`}>
+                  {/* Map Column: Stacks gracefully on mobile, side-by-side on desktop */}
+                  <div className="lg:col-span-7 flex flex-col h-[360px] sm:h-[460px] lg:h-full min-h-[320px] lg:min-h-[680px]">
                     <TrailMap
                       checkpoints={checkpoints}
                       hazardZones={hazardZones}
@@ -343,12 +314,11 @@ export function App() {
                       language={language}
                       onResetToIndia={handleResetToIndia}
                       onSelectCheckpoint={(cp) => setSelectedCheckpoint(cp)}
-                      onSwitchToPlan={() => setMobileViewMode('plan')}
                     />
                   </div>
 
-                  {/* TripWizard Column: Full height on desktop, visible on mobile when mobileViewMode === 'plan' */}
-                  <div className={`lg:col-span-5 flex flex-col min-h-[480px] lg:min-h-[680px] h-full ${mobileViewMode === 'map' ? 'hidden lg:flex' : 'flex'}`}>
+                  {/* TripWizard Column: Full access on all mobile & desktop screens */}
+                  <div className="lg:col-span-5 flex flex-col min-h-[480px] lg:min-h-[680px] h-full">
                     <TripWizard
                       onGenerate={generateItinerary}
                       isLoading={isGenerating}
@@ -358,7 +328,6 @@ export function App() {
                         setPreviewCoordinates(dest);
                         if (dest) setCurrentDestinationName(dest.name);
                       }}
-                      onSwitchToMap={() => setMobileViewMode('map')}
                     />
                   </div>
                 </div>
