@@ -37,6 +37,7 @@ interface TripWizardProps {
   selectedDestinationName?: string;
   language?: string;
   onPreviewDestination?: (dest: { lat: number; lon: number; name: string } | null) => void;
+  onSwitchToMap?: () => void;
 }
 
 // Date helpers
@@ -206,6 +207,7 @@ export const TripWizard: React.FC<TripWizardProps> = ({
   selectedDestinationName = '',
   language = 'en',
   onPreviewDestination,
+  onSwitchToMap,
 }) => {
   const isHi = language === 'hi';
   const [searchQuery, setSearchQuery] = useState(selectedDestinationName || '');
@@ -550,6 +552,16 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                     {isHi ? 'गंतव्य:' : 'Selected:'} <strong className="text-white font-semibold">{getLocalizedDestinationName(selectedPlaceName, language)}</strong>
                   </span>
                 </div>
+                {onSwitchToMap && (
+                  <button
+                    type="button"
+                    onClick={onSwitchToMap}
+                    className="lg:hidden ml-2 px-2.5 py-1 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-[11px] shrink-0 flex items-center gap-1 shadow-sm cursor-pointer"
+                  >
+                    <Compass className="w-3 h-3" />
+                    <span>{isHi ? 'नक्शा देखें' : 'View on Map'}</span>
+                  </button>
+                )}
               </div>
             )}
 

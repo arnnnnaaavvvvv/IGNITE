@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import type { Checkpoint, HazardZone, EmergencyShelter } from '../../types';
-import { ShieldCheck, AlertOctagon, Compass, MapPin, Globe, X } from 'lucide-react';
+import { ShieldCheck, AlertOctagon, Compass, MapPin, Globe, X, Search } from 'lucide-react';
 import { t, getLocalizedDestinationName } from '../../services/i18n';
 
 interface TrailMapProps {
@@ -19,6 +19,7 @@ interface TrailMapProps {
   previewCoordinates?: { lat: number; lon: number; name?: string } | null;
   language?: string;
   onResetToIndia?: () => void;
+  onSwitchToPlan?: () => void;
 }
 
 export const TrailMap: React.FC<TrailMapProps> = ({
@@ -36,6 +37,7 @@ export const TrailMap: React.FC<TrailMapProps> = ({
   previewCoordinates = null,
   language = 'en',
   onResetToIndia,
+  onSwitchToPlan,
 }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
@@ -387,6 +389,17 @@ export const TrailMap: React.FC<TrailMapProps> = ({
           >
             <Globe className="w-3 h-3 text-emerald-400" />
             <span>{t('btn_reset_india', language)}</span>
+          </button>
+        )}
+
+        {onSwitchToPlan && (
+          <button
+            type="button"
+            onClick={onSwitchToPlan}
+            className="lg:hidden btn-tactile flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold bg-emerald-600 hover:bg-emerald-500 text-white shadow-md cursor-pointer"
+          >
+            <Search className="w-3 h-3" />
+            <span>{language === 'hi' ? 'स्थान खोजें' : 'Select Place'}</span>
           </button>
         )}
       </div>
