@@ -936,10 +936,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </div>
 
             <div className="flex flex-wrap items-center gap-5 text-xs font-medium">
+              <button onClick={() => onSelectTab('overview')} className="text-slate-300 hover:text-white cursor-pointer transition-colors">Home</button>
               <button onClick={() => onSelectTab('map')} className="text-slate-300 hover:text-white cursor-pointer transition-colors">Map & Places</button>
-              <button onClick={() => onSelectTab('itinerary')} className="text-slate-300 hover:text-white cursor-pointer transition-colors">Trip Plan</button>
-              <button onClick={() => onSelectTab('explainability')} className="text-slate-300 hover:text-white cursor-pointer transition-colors">Safety Check</button>
               <button onClick={() => onSelectTab('simulation')} className="text-slate-300 hover:text-white cursor-pointer transition-colors">Live Updates</button>
+              <button onClick={() => onSelectTab('group')} className="text-slate-300 hover:text-white cursor-pointer transition-colors">Group Tracker</button>
               <button onClick={onOpenSOS} className="text-red-400 hover:text-red-300 cursor-pointer font-bold transition-colors">Emergency SOS</button>
             </div>
           </div>

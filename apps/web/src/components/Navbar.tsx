@@ -2,7 +2,6 @@ import React from 'react';
 import {
   ShieldAlert,
   Compass,
-  Calendar,
   Activity,
   Radio,
   Users,
@@ -31,8 +30,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   const tabs = [
     { id: 'overview', label: t('nav_overview', language), shortLabel: language === 'hi' ? 'होम' : 'Home', icon: Activity },
     { id: 'map', label: t('nav_map', language), shortLabel: language === 'hi' ? 'नक्शा' : 'Map', icon: Compass },
-    { id: 'itinerary', label: t('nav_itinerary', language), shortLabel: language === 'hi' ? 'प्लान' : 'Plan', icon: Calendar },
-    { id: 'explainability', label: t('nav_explainability', language), shortLabel: language === 'hi' ? 'सुरक्षा' : 'Safety', icon: Activity },
     { id: 'simulation', label: t('nav_simulation', language), shortLabel: language === 'hi' ? 'अपडेट्स' : 'Updates', icon: Radio },
     { id: 'group', label: t('nav_group', language), shortLabel: language === 'hi' ? 'समूह' : 'Group', icon: Users },
   ];
@@ -131,7 +128,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Fixed Mobile Bottom Navigation Bar */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-black/80 backdrop-blur-[12px] border-t border-white/10 px-2 pt-1.5 pb-[max(0.6rem,env(safe-area-inset-bottom))]">
-        <div className="grid grid-cols-6 items-center justify-items-center max-w-lg mx-auto">
+        <div className="grid grid-cols-4 items-center justify-items-center max-w-lg mx-auto">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
