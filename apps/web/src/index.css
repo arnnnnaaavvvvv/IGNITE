@@ -1,11 +1,17 @@
 @import "tailwindcss";
 @import "leaflet/dist/leaflet.css";
 
+@theme {
+  --font-sans: 'Plus Jakarta Sans', 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Outfit', 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Space Mono', ui-monospace, monospace;
+}
+
 @layer base {
   :root {
-    --font-sans: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --font-display: 'Space Grotesk', sans-serif;
-    --font-mono: 'Space Mono', 'JetBrains Mono', ui-monospace, monospace;
+    --font-sans: 'Plus Jakarta Sans', 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-display: 'Outfit', 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Space Mono', ui-monospace, monospace;
     
     /* Plume Editorial SaaS Tokens */
     --plume-bg: #F5F2EB;
@@ -60,7 +66,7 @@
 
   body {
     background-color: var(--surface-canvas);
-    color: #f1f5f9;
+    color: #f8fafc;
     font-family: var(--font-sans);
     overflow-x: clip;
     min-height: 100vh;
@@ -69,12 +75,29 @@
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     letter-spacing: -0.015em;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   }
 
   button, input, select, textarea {
     touch-action: manipulation;
     font-family: inherit;
   }
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.03em;
+  font-feature-settings: 'ss01', 'cv01', 'cv02';
+}
+
+.font-sans {
+  font-family: var(--font-sans);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+  letter-spacing: -0.01em;
+  font-feature-settings: 'zero', 'ss01';
 }
 
 /* Linear & Vercel Style Surface Panels */
