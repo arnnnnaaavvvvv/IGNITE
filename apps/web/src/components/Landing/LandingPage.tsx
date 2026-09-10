@@ -278,47 +278,47 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   <path
                     d="M0 45 Q 45 15, 90 45 T 180 45 M0 90 Q 45 60, 90 90 T 180 90 M0 135 Q 45 105, 90 135 T 180 135"
                     fill="none"
-                    stroke="rgba(255, 255, 255, 0.6)"
+                    stroke="rgba(255, 255, 255, 0.5)"
                     strokeWidth="0.8"
                   />
-                  <circle cx="90" cy="90" r="30" fill="none" stroke="rgba(255, 107, 53, 0.4)" strokeWidth="0.6" strokeDasharray="4 4" />
+                  <circle cx="90" cy="90" r="30" fill="none" stroke="rgba(255, 255, 255, 0.15)" strokeWidth="0.6" strokeDasharray="4 4" />
                 </pattern>
               </defs>
               <rect width="100%" height="100%" fill="url(#contour-pattern)" />
             </svg>
           </div>
 
-          {/* B. Morphing Amber / Orange / Red Living Orbs (High Luminance) */}
-          {/* Orb 1: Warm Amber (Center-Left) */}
+          {/* B. Morphing Minimal Ethereal Living Orbs (Subtle Cool Luminescence) */}
+          {/* Orb 1: Subtle Emerald/Teal (Center-Left) */}
           <div
-            className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[550px] sm:w-[700px] h-[350px] sm:h-[450px] rounded-full blur-[70px] animate-hero-orb-1 opacity-70"
+            className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[550px] sm:w-[700px] h-[350px] sm:h-[450px] rounded-full blur-[90px] animate-hero-orb-1 opacity-40"
             style={{
-              background: 'radial-gradient(circle, rgba(255, 107, 53, 0.65) 0%, rgba(232, 93, 4, 0.30) 45%, transparent 70%)',
+              background: 'radial-gradient(circle, rgba(16, 185, 129, 0.35) 0%, rgba(13, 148, 136, 0.15) 45%, transparent 70%)',
             }}
           />
 
-          {/* Orb 2: Radiant Flame Orange (Center-Right) */}
+          {/* Orb 2: Deep Cyan / Slate (Center-Right) */}
           <div
-            className="absolute top-1/3 right-1/4 translate-x-1/2 -translate-y-1/2 w-[500px] sm:w-[650px] h-[320px] sm:h-[420px] rounded-full blur-[70px] animate-hero-orb-2 opacity-65"
+            className="absolute top-1/3 right-1/4 translate-x-1/2 -translate-y-1/2 w-[500px] sm:w-[650px] h-[320px] sm:h-[420px] rounded-full blur-[90px] animate-hero-orb-2 opacity-35"
             style={{
-              background: 'radial-gradient(circle, rgba(255, 140, 0, 0.60) 0%, rgba(255, 87, 34, 0.25) 45%, transparent 70%)',
+              background: 'radial-gradient(circle, rgba(6, 182, 212, 0.30) 0%, rgba(14, 116, 144, 0.12) 45%, transparent 70%)',
             }}
           />
 
-          {/* Orb 3: Deep Warm Crimson Low-Center */}
+          {/* Orb 3: Soft Indigo/White Glow Low-Center */}
           <div
-            className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[650px] sm:w-[850px] h-[280px] sm:h-[360px] rounded-full blur-[80px] animate-hero-orb-3 opacity-60"
+            className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[650px] sm:w-[850px] h-[280px] sm:h-[360px] rounded-full blur-[100px] animate-hero-orb-3 opacity-30"
             style={{
-              background: 'radial-gradient(ellipse, rgba(230, 57, 70, 0.50) 0%, rgba(255, 107, 53, 0.20) 45%, transparent 70%)',
+              background: 'radial-gradient(ellipse, rgba(99, 102, 241, 0.25) 0%, rgba(255, 255, 255, 0.06) 45%, transparent 70%)',
             }}
           />
 
           {/* C. Faint Rotating Radar-Sweep Line / Wedge */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[800px] h-[600px] sm:h-[800px] pointer-events-none opacity-40">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[800px] h-[600px] sm:h-[800px] pointer-events-none opacity-25">
             <div
               className="w-full h-full rounded-full animate-hero-radar"
               style={{
-                background: 'conic-gradient(from 0deg, transparent 0deg, transparent 290deg, rgba(255, 107, 53, 0.15) 320deg, rgba(255, 180, 0, 0.65) 360deg)',
+                background: 'conic-gradient(from 0deg, transparent 0deg, transparent 290deg, rgba(255, 255, 255, 0.05) 320deg, rgba(16, 185, 129, 0.4) 360deg)',
                 maskImage: 'radial-gradient(circle at center, black 15%, transparent 68%)',
                 WebkitMaskImage: 'radial-gradient(circle at center, black 15%, transparent 68%)',
               }}
@@ -335,11 +335,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           >
             {language === 'hi' ? (
               <>
-                भारत के हर दुर्गम मार्ग पर<br className="hidden md:block" /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF7A45] via-[#FF9E66] to-[#FF6B35] italic">स्वायत्त व सुरक्षित</span> नेविगेशन।
+                भारत के हर दुर्गम मार्ग पर<br className="hidden md:block" /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-300 italic">स्वायत्त व सुरक्षित</span> नेविगेशन।
               </>
             ) : (
               <>
-                Navigate High-Risk Trails &<br className="hidden md:block" /> Remote India with <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF7A45] via-[#FF9E66] to-[#FF6B35] italic">Total Safety.</span>
+                Navigate High-Risk Trails &<br className="hidden md:block" /> Remote India with <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-300 italic">Total Safety.</span>
               </>
             )}
           </h1>
@@ -365,7 +365,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           >
             <button
               onClick={() => onLaunchMap('')}
-              className="btn-tactile inline-flex items-center justify-center whitespace-nowrap text-sm font-semibold tracking-tight transition-all bg-[#FF6B35] hover:bg-[#E85D04] text-white shadow-xl shadow-[#FF6B35]/30 h-11 px-6 gap-2 rounded-xl cursor-pointer group"
+              className="btn-tactile inline-flex items-center justify-center whitespace-nowrap text-sm font-semibold tracking-tight transition-all bg-white hover:bg-neutral-100 text-black shadow-xl shadow-white/10 h-11 px-6 gap-2 rounded-xl cursor-pointer group"
             >
               <span>{language === 'hi' ? 'नक्शा व योजना शुरू करें' : 'Explore Map & Planner'}</span>
               <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -378,7 +378,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               }}
               className="btn-tactile inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors border border-white/15 bg-white/[0.03] hover:bg-white/[0.08] text-neutral-200 h-11 px-5 rounded-xl cursor-pointer gap-2 shadow-md font-mono backdrop-blur-sm tracking-tight"
             >
-              <Radio className="w-4 h-4 text-amber-400" />
+              <Radio className="w-4 h-4 text-cyan-400" />
               <span>{language === 'hi' ? 'स्थान के ताज़ा अपडेट्स' : 'Place News & Live Updates'}</span>
             </button>
 
@@ -402,8 +402,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             data-reveal-delay="50"
             className="p-4 rounded-2xl bg-neutral-950/70 border border-white/[0.08] backdrop-blur-xl hover:border-white/20 transition-all shadow-xl"
           >
-            <div className="text-[10px] font-mono text-[#FF7A45] uppercase font-semibold tracking-[0.18em] flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#FF7A45] animate-pulse" />
+            <div className="text-[10px] font-mono text-emerald-400 uppercase font-semibold tracking-[0.18em] flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
               Pan-India Grid
             </div>
             <div className="text-2xl font-extrabold text-white mt-1.5 font-display tracking-tight">28 States & 8 UTs</div>
@@ -441,12 +441,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             data-reveal-delay="350"
             className="p-4 rounded-2xl bg-neutral-950/70 border border-white/[0.08] backdrop-blur-xl hover:border-white/20 transition-all shadow-xl"
           >
-            <div className="text-[10px] font-mono text-emerald-400/90 uppercase font-semibold tracking-[0.18em] flex items-center gap-1.5">
-              <Zap className="w-3 h-3 text-emerald-400" />
-              Terrain Radar
+            <div className="text-[10px] font-mono text-emerald-400 uppercase font-semibold tracking-[0.18em] flex items-center gap-1.5">
+              <Radio className="w-3 h-3 text-emerald-400" />
+              Mesh Protocol
             </div>
-            <div className="text-2xl font-extrabold text-white mt-1.5 font-display tracking-tight">Auto Bypass</div>
-            <div className="text-xs text-neutral-400 mt-0.5 font-sans leading-snug">Instant reroute on cloudburst/hazard</div>
+            <div className="text-2xl font-extrabold text-white mt-1.5 font-display tracking-tight">Zero-Cell</div>
+            <div className="text-xs text-neutral-400 mt-0.5 font-sans leading-snug">BLE & 2G emergency broadcast</div>
           </div>
         </div>
 
@@ -454,7 +454,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         <div className="relative mx-auto max-w-[84rem] text-left">
           <div data-reveal="fade-up" className="flex flex-col md:flex-row md:items-end justify-between mb-6 gap-3 border-b border-white/[0.08] pb-4">
             <div>
-              <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-[#FF7A45] font-semibold">
+              <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-zinc-400 font-semibold">
                 PAN-INDIA COVERAGE & SAFETY GRIDS
               </span>
               <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-[-0.03em] mt-1 font-display">
@@ -477,11 +477,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   onClick={() => setSelectedCircuit(circuit.id)}
                   className={`btn-tactile shrink-0 px-4 py-2.5 rounded-xl text-xs cursor-pointer transition-all border flex items-center gap-2 font-mono ${
                     isActive
-                      ? 'bg-[#FF6B35] text-white border-[#FF6B35] shadow-lg shadow-[#FF6B35]/25 scale-[1.02] font-bold'
+                      ? 'bg-white text-black border-white shadow-lg shadow-white/10 scale-[1.02] font-bold'
                       : 'bg-white/[0.03] border-white/[0.08] text-neutral-300 hover:text-white hover:bg-white/[0.08] hover:border-white/20 font-medium'
                   }`}
                 >
-                  <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-white' : 'text-[#FF7A45]'}`} />
+                  <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-black' : 'text-zinc-400'}`} />
                   <span>{circuit.name}</span>
                 </button>
               );
@@ -493,7 +493,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             <span className="text-xs font-mono text-neutral-400">
               Region: <strong className="text-neutral-200 font-medium">{activeCircuitData.badge}</strong>
             </span>
-            <span className="text-xs font-mono text-[#FF7A45] font-semibold">
+            <span className="text-xs font-mono text-emerald-400 font-semibold">
               {activeCircuitData.destinations.length} Key Routes Active
             </span>
           </div>
@@ -505,7 +505,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 key={dest.name}
                 data-reveal="fade-up"
                 data-reveal-delay={`${(idx % 4) * 100 + 50}`}
-                className="rounded-2xl border border-white/[0.08] bg-neutral-950/70 p-5 backdrop-blur-xl hover:border-[#FF6B35]/50 transition-all flex flex-col justify-between shadow-xl group hover:-translate-y-1"
+                className="rounded-2xl border border-white/[0.08] bg-neutral-950/70 p-5 backdrop-blur-xl hover:border-white/30 transition-all flex flex-col justify-between shadow-xl group hover:-translate-y-1"
               >
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-2">
@@ -517,7 +517,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                     </span>
                   </div>
 
-                  <h3 className="text-base font-bold text-white group-hover:text-[#FF7A45] transition-colors font-display tracking-tight">
+                  <h3 className="text-base font-bold text-white group-hover:text-emerald-300 transition-colors font-display tracking-tight">
                     {getLocalizedDestinationName(dest.name, language)}
                   </h3>
 
@@ -546,7 +546,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
                 <button
                   onClick={() => onLaunchMap(dest.name)}
-                  className="btn-tactile w-full py-2.5 rounded-xl bg-white/[0.08] hover:bg-[#FF6B35] text-neutral-200 hover:text-white font-medium hover:font-bold text-xs cursor-pointer flex items-center justify-center gap-1.5 mt-5 border border-white/10 hover:border-[#FF6B35] shadow-sm transition-all"
+                  className="btn-tactile w-full py-2.5 rounded-xl bg-white/[0.08] hover:bg-white text-neutral-200 hover:text-black font-medium hover:font-bold text-xs cursor-pointer flex items-center justify-center gap-1.5 mt-5 border border-white/10 hover:border-white shadow-sm transition-all"
                 >
                   <span>{language === 'hi' ? 'यह मार्ग देखें' : 'View Safe Route'}</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -560,7 +560,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       {/* 4. Core Safety Capabilities Grid (High Visibility) */}
       <section id="features" className="relative mx-auto max-w-[84rem] px-6 md:px-8 py-20">
         <div data-reveal="fade-up" className="text-center max-w-3xl mx-auto mb-14">
-          <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-[#FF7A45] font-semibold">
+          <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-zinc-400 font-semibold">
             SAFETY ARCHITECTURE
           </span>
           <h2 className="text-3xl sm:text-5xl font-extrabold tracking-[-0.03em] text-white mt-1.5 font-display">
@@ -576,12 +576,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             data-reveal="fade-up"
             data-reveal-delay="50"
             onClick={() => onSelectTab('map')}
-            className="rounded-2xl border border-white/[0.08] bg-neutral-950/70 backdrop-blur-xl p-6 hover:border-[#FF6B35]/40 hover:bg-neutral-950/90 transition-all cursor-pointer group shadow-xl"
+            className="rounded-2xl border border-white/[0.08] bg-neutral-950/70 backdrop-blur-xl p-6 hover:border-emerald-500/30 hover:bg-neutral-950/90 transition-all cursor-pointer group shadow-xl"
           >
-            <div className="w-11 h-11 rounded-xl bg-[#FF6B35]/10 border border-[#FF6B35]/25 flex items-center justify-center text-[#FF6B35] mb-4 group-hover:scale-105 transition-transform">
+            <div className="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-4 group-hover:scale-105 transition-transform">
               <Zap className="w-5 h-5" />
             </div>
-            <h3 className="text-base sm:text-lg font-bold text-white mb-2 font-display tracking-tight group-hover:text-[#FF7A45] transition-colors">Autonomous Safe Rerouting</h3>
+            <h3 className="text-base sm:text-lg font-bold text-white mb-2 font-display tracking-tight group-hover:text-emerald-300 transition-colors">Autonomous Safe Rerouting</h3>
             <p className="text-xs sm:text-[13px] text-neutral-400 leading-relaxed font-sans">
               When landslides or cloudburst thresholds trigger, the engine automatically recalculates verified escape bypasses and shelter waypoints within 450ms.
             </p>
@@ -598,7 +598,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </div>
             <h3 className="text-base sm:text-lg font-bold text-white mb-2 font-display tracking-tight group-hover:text-cyan-300 transition-colors">Offline-First 2G Cache</h3>
             <p className="text-xs sm:text-[13px] text-neutral-400 leading-relaxed font-sans">
-              Complete itineraries, GPS coordinates, oxygen booth waypoints, and emergency protocols stay 100% accessible even with zero cellular signal.
+              Critical topographical maps, shelter locations, and emergency contacts are pre-cached locally so you stay safe without cellular service.
             </p>
           </div>
 
@@ -667,8 +667,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       {/* 5. Sliding Reviews & Social Proof Section */}
       <section id="reviews" className="relative mx-auto max-w-[100vw] overflow-hidden py-16">
         <div data-reveal="fade-up" className="max-w-[84rem] mx-auto px-6 md:px-8 mb-10 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF7A45]/10 border border-[#FF7A45]/25 text-[#FF7A45] text-[10px] font-mono font-semibold tracking-[0.16em] uppercase mb-3 shadow-sm">
-            <Star className="w-3.5 h-3.5 fill-[#FF7A45] text-[#FF7A45]" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.05] border border-white/15 text-zinc-300 text-[10px] font-mono font-semibold tracking-[0.16em] uppercase mb-3 shadow-sm">
+            <Star className="w-3.5 h-3.5 fill-emerald-400 text-emerald-400" />
             <span>TRUSTED BY 28,400+ EXPEDITIONS & PILGRIMS</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-extrabold tracking-[-0.03em] text-white font-display">
@@ -976,7 +976,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 </div>
 
                 <div className="flex items-center gap-3 mt-4 pt-3 border-t border-white/[0.06]">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-amber-500 to-purple-500 flex items-center justify-center font-bold text-xs text-black font-display">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-emerald-500 to-cyan-500 flex items-center justify-center font-bold text-xs text-black font-display">
                     {rev.avatar}
                   </div>
                   <div className="text-left">
