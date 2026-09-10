@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { IgniteLogo } from '../Common/IgniteLogo';
 import { getLocalizedDestinationName } from '../../services/i18n';
+import { useScrollReveal } from '../../hooks/useScrollReveal';
 
 interface LandingPageProps {
   onLaunchMap: (destinationName?: string) => void;
@@ -36,6 +37,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   language,
 }) => {
   const [selectedCircuit, setSelectedCircuit] = useState('himalayan');
+
+  // Trigger scroll reveal animations live both on scrolling down and scrolling up
+  useScrollReveal({
+    deps: [selectedCircuit],
+    threshold: 0.08,
+    rootMargin: '0px 0px -30px 0px',
+  });
 
   // Curated Pan-India Coverage by Geographic & Risk Terrain
   const circuits = [
@@ -321,7 +329,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         {/* Inner Content Container sitting securely on top (z-10) */}
         <div className="relative z-10 max-w-5xl mx-auto">
           {/* Plume Editorial Headline */}
-          <h1 className="font-display py-4 text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-6xl md:text-7xl lg:text-8xl drop-shadow-md max-w-5xl mx-auto">
+          <h1
+            data-reveal="fade-up"
+            className="font-display py-4 text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-6xl md:text-7xl lg:text-8xl drop-shadow-md max-w-5xl mx-auto"
+          >
             {language === 'hi' ? (
               <>
                 भारत के हर दुर्गम मार्ग पर<br className="hidden md:block" /> <span className="text-[#FF6B35] italic">स्वायत्त व सुरक्षित</span> नेविगेशन।
@@ -334,7 +345,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </h1>
 
           {/* Plume Editorial Subheading */}
-          <p className="mb-8 text-base font-normal tracking-tight text-slate-200 md:text-xl text-balance max-w-3xl mx-auto leading-relaxed font-sans">
+          <p
+            data-reveal="fade-up"
+            data-reveal-delay="100"
+            className="mb-8 text-base font-normal tracking-tight text-slate-200 md:text-xl text-balance max-w-3xl mx-auto leading-relaxed font-sans"
+          >
             {language === 'hi' ? (
               'वास्तविक समय उपग्रह मौसम रडार, स्वायत्त भूस्खलन बाईपास, एएमएस हाइपोक्सिया विश्लेषण और सभी 28 राज्यों व 8 केंद्र शासित प्रदेशों में बहु-एजेंसी आपातकालीन बचाव सहायता।'
             ) : (
@@ -343,7 +358,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </p>
 
           {/* Plume Hero Action Button Group */}
-          <div className="flex flex-wrap items-center justify-center gap-3.5 mb-10">
+          <div
+            data-reveal="fade-up"
+            data-reveal-delay="200"
+            className="flex flex-wrap items-center justify-center gap-3.5 mb-10"
+          >
             <button
               onClick={() => onLaunchMap('')}
               className="btn-tactile inline-flex items-center justify-center whitespace-nowrap text-sm font-bold transition-all bg-[#FF6B35] hover:bg-[#E85D04] text-white shadow-2xl shadow-[#FF6B35]/40 h-11 px-6 gap-2 rounded-xl cursor-pointer group"
@@ -378,7 +397,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       <section id="coverage" className="relative mx-auto max-w-[84rem] px-4 sm:px-6 md:px-8 mt-12">
         {/* 2.1 Metric Strip */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-5xl mx-auto mb-16 text-left">
-          <div className="p-4 rounded-2xl bg-[#0e1017]/95 border border-white/15 backdrop-blur-md shadow-lg">
+          <div
+            data-reveal="fade-up"
+            data-reveal-delay="50"
+            className="p-4 rounded-2xl bg-[#0e1017]/95 border border-white/15 backdrop-blur-md shadow-lg"
+          >
             <div className="text-xs font-mono text-[#FF6B35] uppercase font-bold flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-[#FF6B35] animate-pulse" />
               Pan-India Grid
@@ -387,7 +410,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             <div className="text-xs text-slate-300 mt-0.5">Highways, trails & pilgrimages</div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-[#0e1017]/95 border border-white/15 backdrop-blur-md shadow-lg">
+          <div
+            data-reveal="fade-up"
+            data-reveal-delay="150"
+            className="p-4 rounded-2xl bg-[#0e1017]/95 border border-white/15 backdrop-blur-md shadow-lg"
+          >
             <div className="text-xs font-mono text-cyan-400 uppercase font-bold flex items-center gap-1.5">
               <Shield className="w-3.5 h-3.5" />
               SDRF Standby
@@ -396,7 +423,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             <div className="text-xs text-slate-300 mt-0.5">Direct DEOC & ITBP telemetry</div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-[#0e1017]/95 border border-white/15 backdrop-blur-md shadow-lg">
+          <div
+            data-reveal="fade-up"
+            data-reveal-delay="250"
+            className="p-4 rounded-2xl bg-[#0e1017]/95 border border-white/15 backdrop-blur-md shadow-lg"
+          >
             <div className="text-xs font-mono text-purple-400 uppercase font-bold flex items-center gap-1.5">
               <Activity className="w-3.5 h-3.5" />
               AI Physiology
@@ -405,7 +436,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             <div className="text-xs text-slate-300 mt-0.5">Altitude & oxygen risk scoring</div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-[#0e1017]/95 border border-white/15 backdrop-blur-md shadow-lg">
+          <div
+            data-reveal="fade-up"
+            data-reveal-delay="350"
+            className="p-4 rounded-2xl bg-[#0e1017]/95 border border-white/15 backdrop-blur-md shadow-lg"
+          >
             <div className="text-xs font-mono text-emerald-400 uppercase font-bold flex items-center gap-1.5">
               <Zap className="w-3.5 h-3.5" />
               Terrain Radar
@@ -417,7 +452,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
         {/* 2.2 Interactive Pan-India Coverage Explorer */}
         <div className="relative mx-auto max-w-[84rem] text-left">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 gap-3 border-b border-white/15 pb-4">
+          <div data-reveal="fade-up" className="flex flex-col md:flex-row md:items-end justify-between mb-6 gap-3 border-b border-white/15 pb-4">
             <div>
               <span className="text-xs font-mono uppercase tracking-wider text-[#FF6B35] font-bold">
                 PAN-INDIA COVERAGE & SAFETY GRIDS
@@ -432,7 +467,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </div>
 
           {/* Circuit Category Navigation Buttons */}
-          <div className="flex items-center gap-2.5 overflow-x-auto pb-4 no-scrollbar">
+          <div data-reveal="fade-right" data-reveal-delay="100" className="flex items-center gap-2.5 overflow-x-auto pb-4 no-scrollbar">
             {circuits.map((circuit) => {
               const Icon = circuit.icon;
               const isActive = selectedCircuit === circuit.id;
@@ -454,7 +489,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </div>
 
           {/* Active Circuit Header Info */}
-          <div className="flex items-center justify-between mt-2 mb-4 px-1">
+          <div data-reveal="fade-up" data-reveal-delay="150" className="flex items-center justify-between mt-2 mb-4 px-1">
             <span className="text-xs font-mono text-slate-300">
               Region: <strong className="text-white">{activeCircuitData.badge}</strong>
             </span>
@@ -465,9 +500,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
           {/* Grid of Protected Destinations in Selected Circuit */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {activeCircuitData.destinations.map((dest) => (
+            {activeCircuitData.destinations.map((dest, idx) => (
               <div
                 key={dest.name}
+                data-reveal="fade-up"
+                data-reveal-delay={`${(idx % 4) * 100 + 50}`}
                 className="rounded-2xl border border-white/15 bg-[#0e1017]/95 p-5 backdrop-blur-xl hover:border-[#FF6B35]/60 transition-all flex flex-col justify-between shadow-xl group hover:-translate-y-1"
               >
                 <div>
@@ -522,7 +559,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
       {/* 4. Core Safety Capabilities Grid (High Visibility) */}
       <section id="features" className="relative mx-auto max-w-[84rem] px-6 md:px-8 py-20">
-        <div className="text-center max-w-3xl mx-auto mb-14">
+        <div data-reveal="fade-up" className="text-center max-w-3xl mx-auto mb-14">
           <span className="text-xs font-mono uppercase tracking-wider text-[#FF6B35] font-bold">
             SAFETY ARCHITECTURE
           </span>
@@ -535,7 +572,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <div onClick={() => onSelectTab('map')} className="rounded-2xl border border-white/15 bg-[#0e1017]/90 backdrop-blur-md p-6 hover:border-[#FF6B35]/60 transition-all cursor-pointer group shadow-xl">
+          <div
+            data-reveal="fade-up"
+            data-reveal-delay="50"
+            onClick={() => onSelectTab('map')}
+            className="rounded-2xl border border-white/15 bg-[#0e1017]/90 backdrop-blur-md p-6 hover:border-[#FF6B35]/60 transition-all cursor-pointer group shadow-xl"
+          >
             <div className="w-12 h-12 rounded-xl bg-[#FF6B35]/20 border border-[#FF6B35]/40 flex items-center justify-center text-[#FF6B35] mb-4 group-hover:scale-105 transition-transform">
               <Zap className="w-6 h-6" />
             </div>
@@ -545,7 +587,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </p>
           </div>
 
-          <div onClick={() => onSelectTab('map')} className="rounded-2xl border border-white/15 bg-[#0e1017]/90 backdrop-blur-md p-6 hover:border-cyan-500/50 transition-all cursor-pointer group shadow-xl">
+          <div
+            data-reveal="fade-up"
+            data-reveal-delay="150"
+            onClick={() => onSelectTab('map')}
+            className="rounded-2xl border border-white/15 bg-[#0e1017]/90 backdrop-blur-md p-6 hover:border-cyan-500/50 transition-all cursor-pointer group shadow-xl"
+          >
             <div className="w-12 h-12 rounded-xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-300 mb-4 group-hover:scale-105 transition-transform">
               <WifiOff className="w-6 h-6" />
             </div>
@@ -555,7 +602,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </p>
           </div>
 
-          <div onClick={() => onSelectTab('explainability')} className="rounded-2xl border border-white/15 bg-[#0e1017]/90 backdrop-blur-md p-6 hover:border-amber-500/50 transition-all cursor-pointer group shadow-xl">
+          <div
+            data-reveal="fade-up"
+            data-reveal-delay="250"
+            onClick={() => onSelectTab('explainability')}
+            className="rounded-2xl border border-white/15 bg-[#0e1017]/90 backdrop-blur-md p-6 hover:border-amber-500/50 transition-all cursor-pointer group shadow-xl"
+          >
             <div className="w-12 h-12 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-300 mb-4 group-hover:scale-105 transition-transform">
               <Activity className="w-6 h-6" />
             </div>
@@ -565,7 +617,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </p>
           </div>
 
-          <div onClick={onOpenSOS} className="rounded-2xl border border-white/15 bg-[#0e1017]/90 backdrop-blur-md p-6 hover:border-red-500/50 transition-all cursor-pointer group shadow-xl">
+          <div
+            data-reveal="fade-up"
+            data-reveal-delay="100"
+            onClick={onOpenSOS}
+            className="rounded-2xl border border-white/15 bg-[#0e1017]/90 backdrop-blur-md p-6 hover:border-red-500/50 transition-all cursor-pointer group shadow-xl"
+          >
             <div className="w-12 h-12 rounded-xl bg-red-500/20 border border-red-500/40 flex items-center justify-center text-red-300 mb-4 group-hover:scale-105 transition-transform">
               <AlertTriangle className="w-6 h-6" />
             </div>
@@ -575,7 +632,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </p>
           </div>
 
-          <div onClick={() => onSelectTab('simulation')} className="rounded-2xl border border-white/15 bg-[#0e1017]/90 backdrop-blur-md p-6 hover:border-purple-500/50 transition-all cursor-pointer group shadow-xl">
+          <div
+            data-reveal="fade-up"
+            data-reveal-delay="200"
+            onClick={() => onSelectTab('simulation')}
+            className="rounded-2xl border border-white/15 bg-[#0e1017]/90 backdrop-blur-md p-6 hover:border-purple-500/50 transition-all cursor-pointer group shadow-xl"
+          >
             <div className="w-12 h-12 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-300 mb-4 group-hover:scale-105 transition-transform">
               <Radio className="w-6 h-6" />
             </div>
@@ -585,7 +647,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </p>
           </div>
 
-          <div onClick={() => onSelectTab('group')} className="rounded-2xl border border-white/15 bg-[#0e1017]/90 backdrop-blur-md p-6 hover:border-emerald-500/50 transition-all cursor-pointer group shadow-xl">
+          <div
+            data-reveal="fade-up"
+            data-reveal-delay="300"
+            onClick={() => onSelectTab('group')}
+            className="rounded-2xl border border-white/15 bg-[#0e1017]/90 backdrop-blur-md p-6 hover:border-emerald-500/50 transition-all cursor-pointer group shadow-xl"
+          >
             <div className="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-300 mb-4 group-hover:scale-105 transition-transform">
               <Users className="w-6 h-6" />
             </div>
@@ -599,7 +666,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
       {/* 5. Sliding Reviews & Social Proof Section */}
       <section id="reviews" className="relative mx-auto max-w-[100vw] overflow-hidden py-16">
-        <div className="max-w-[84rem] mx-auto px-6 md:px-8 mb-10 text-center">
+        <div data-reveal="fade-up" className="max-w-[84rem] mx-auto px-6 md:px-8 mb-10 text-center">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FF6B35]/15 border border-[#FF6B35]/40 text-[#FF6B35] text-xs font-mono font-bold mb-3 shadow-sm">
             <Star className="w-3.5 h-3.5 fill-[#FF6B35] text-[#FF6B35]" />
             <span>TRUSTED BY 28,400+ EXPEDITIONS & PILGRIMS</span>
@@ -611,7 +678,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             From Kedarnath cloudbursts and Khardung La blizzards to coastal marine squalls, hear from pilgrims, mountain guides, and SDRF rescue forces.
           </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-6 mt-6 text-xs font-mono text-slate-300">
+          <div data-reveal="fade-up" data-reveal-delay="100" className="flex flex-wrap items-center justify-center gap-6 mt-6 text-xs font-mono text-slate-300">
             <span className="flex items-center gap-1.5">
               <span className="text-amber-400 font-bold text-sm">★ 4.96 / 5.0</span> Rating
             </span>
@@ -623,7 +690,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         </div>
 
         {/* Sliding Marquee Row 1 (Forward) */}
-        <div className="group relative flex overflow-hidden py-2 hover-pause">
+        <div data-reveal="fade-left" data-reveal-delay="150" className="group relative flex overflow-hidden py-2 hover-pause">
           <div className="flex shrink-0 gap-5 animate-marquee flex-row">
             {[
               {
@@ -773,7 +840,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         </div>
 
         {/* Sliding Marquee Row 2 (Reverse) */}
-        <div className="group relative flex overflow-hidden py-3 hover-pause">
+        <div data-reveal="fade-right" data-reveal-delay="200" className="group relative flex overflow-hidden py-3 hover-pause">
           <div className="flex shrink-0 gap-5 animate-marquee-reverse flex-row">
             {[
               {
@@ -925,7 +992,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
       {/* 6. Clean Professional Footer */}
       <footer className="border-t border-white/15 bg-black/90 backdrop-blur-xl">
-        <div className="mx-auto w-full max-w-[84rem] px-6 sm:px-8 py-12">
+        <div data-reveal="fade-up" className="mx-auto w-full max-w-[84rem] px-6 sm:px-8 py-12">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-white/15">
             <div className="flex items-center gap-3">
               <IgniteLogo size="sm" />

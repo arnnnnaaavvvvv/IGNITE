@@ -394,3 +394,67 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
     animation: none !important;
   }
 }
+
+/* ==========================================================================
+   Scroll-Triggered Live Reveal Animations (Bidirectional, 60fps GPU Accelerated)
+   ========================================================================== */
+
+[data-reveal] {
+  opacity: 0;
+  will-change: transform, opacity;
+  transition-property: transform, opacity;
+  transition-duration: 650ms;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-reveal="fade-up"] {
+  transform: translate3d(0, 32px, 0);
+}
+
+[data-reveal="fade-down"] {
+  transform: translate3d(0, -32px, 0);
+}
+
+[data-reveal="fade-left"] {
+  transform: translate3d(36px, 0, 0);
+}
+
+[data-reveal="fade-right"] {
+  transform: translate3d(-36px, 0, 0);
+}
+
+[data-reveal="zoom-in"] {
+  transform: scale3d(0.94, 0.94, 1);
+}
+
+/* Active State when in Viewport */
+[data-reveal].reveal-active {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+}
+
+/* Fine-tuned Stagger Delays for Grids and Sequences */
+[data-reveal-delay="50"] { transition-delay: 50ms; }
+[data-reveal-delay="100"] { transition-delay: 100ms; }
+[data-reveal-delay="150"] { transition-delay: 150ms; }
+[data-reveal-delay="200"] { transition-delay: 200ms; }
+[data-reveal-delay="250"] { transition-delay: 250ms; }
+[data-reveal-delay="300"] { transition-delay: 300ms; }
+[data-reveal-delay="350"] { transition-delay: 350ms; }
+[data-reveal-delay="400"] { transition-delay: 400ms; }
+[data-reveal-delay="450"] { transition-delay: 450ms; }
+[data-reveal-delay="500"] { transition-delay: 500ms; }
+
+/* Custom Durations */
+[data-reveal-duration="500"] { transition-duration: 500ms; }
+[data-reveal-duration="750"] { transition-duration: 750ms; }
+[data-reveal-duration="900"] { transition-duration: 900ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
