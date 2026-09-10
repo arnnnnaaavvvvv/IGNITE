@@ -19,6 +19,7 @@ import {
 import { IgniteLogo } from '../Common/IgniteLogo';
 import { getLocalizedDestinationName } from '../../services/i18n';
 import { useScrollReveal } from '../../hooks/useScrollReveal';
+import { HeroBackground } from './HeroBackground';
 
 interface LandingPageProps {
   onLaunchMap: (destinationName?: string) => void;
@@ -268,63 +269,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         id="hero"
         className="relative mx-auto mt-6 sm:mt-10 max-w-[88rem] px-4 sm:px-6 text-center md:px-8 pt-10 pb-14 rounded-3xl overflow-hidden"
       >
-        {/* Animated Background Layers (Strictly z-0 behind content) */}
-        <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
-          {/* A. Topographic Contour Line Terrain Mesh */}
-          <div className="absolute inset-0 opacity-15 animate-hero-contour">
-            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <pattern id="contour-pattern" width="180" height="180" patternUnits="userSpaceOnUse">
-                  <path
-                    d="M0 45 Q 45 15, 90 45 T 180 45 M0 90 Q 45 60, 90 90 T 180 90 M0 135 Q 45 105, 90 135 T 180 135"
-                    fill="none"
-                    stroke="rgba(255, 255, 255, 0.5)"
-                    strokeWidth="0.8"
-                  />
-                  <circle cx="90" cy="90" r="30" fill="none" stroke="rgba(255, 255, 255, 0.15)" strokeWidth="0.6" strokeDasharray="4 4" />
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#contour-pattern)" />
-            </svg>
-          </div>
-
-          {/* B. Morphing Minimal Ethereal Living Orbs (Subtle Cool Luminescence) */}
-          {/* Orb 1: Subtle Emerald/Teal (Center-Left) */}
-          <div
-            className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[550px] sm:w-[700px] h-[350px] sm:h-[450px] rounded-full blur-[90px] animate-hero-orb-1 opacity-40"
-            style={{
-              background: 'radial-gradient(circle, rgba(16, 185, 129, 0.35) 0%, rgba(13, 148, 136, 0.15) 45%, transparent 70%)',
-            }}
-          />
-
-          {/* Orb 2: Deep Cyan / Slate (Center-Right) */}
-          <div
-            className="absolute top-1/3 right-1/4 translate-x-1/2 -translate-y-1/2 w-[500px] sm:w-[650px] h-[320px] sm:h-[420px] rounded-full blur-[90px] animate-hero-orb-2 opacity-35"
-            style={{
-              background: 'radial-gradient(circle, rgba(6, 182, 212, 0.30) 0%, rgba(14, 116, 144, 0.12) 45%, transparent 70%)',
-            }}
-          />
-
-          {/* Orb 3: Soft Indigo/White Glow Low-Center */}
-          <div
-            className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[650px] sm:w-[850px] h-[280px] sm:h-[360px] rounded-full blur-[100px] animate-hero-orb-3 opacity-30"
-            style={{
-              background: 'radial-gradient(ellipse, rgba(99, 102, 241, 0.25) 0%, rgba(255, 255, 255, 0.06) 45%, transparent 70%)',
-            }}
-          />
-
-          {/* C. Faint Rotating Radar-Sweep Line / Wedge */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[800px] h-[600px] sm:h-[800px] pointer-events-none opacity-25">
-            <div
-              className="w-full h-full rounded-full animate-hero-radar"
-              style={{
-                background: 'conic-gradient(from 0deg, transparent 0deg, transparent 290deg, rgba(255, 255, 255, 0.05) 320deg, rgba(16, 185, 129, 0.4) 360deg)',
-                maskImage: 'radial-gradient(circle at center, black 15%, transparent 68%)',
-                WebkitMaskImage: 'radial-gradient(circle at center, black 15%, transparent 68%)',
-              }}
-            />
-          </div>
-        </div>
+        {/* Enhanced 60FPS Living Topographic Telemetry & Radar Background */}
+        <HeroBackground />
 
         {/* Inner Content Container sitting securely on top (z-10) */}
         <div className="relative z-10 max-w-5xl mx-auto">
