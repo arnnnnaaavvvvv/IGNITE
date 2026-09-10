@@ -62,7 +62,7 @@
     background-color: var(--surface-canvas);
     color: #f1f5f9;
     font-family: var(--font-sans);
-    overflow-x: hidden;
+    overflow-x: clip;
     min-height: 100vh;
     min-height: 100dvh;
     -webkit-font-smoothing: antialiased;
