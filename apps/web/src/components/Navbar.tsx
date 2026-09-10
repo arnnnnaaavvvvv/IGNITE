@@ -43,8 +43,6 @@ export const Navbar: React.FC<NavbarProps> = ({
     }
   };
 
-  const isLandingPage = activeTab === 'overview';
-
   return (
     <>
       <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-black/85 backdrop-blur-[16px] shadow-sm">
@@ -63,30 +61,28 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
           </button>
 
-          {/* Desktop Center Tabs Navigation - Appears on Dashboard views */}
-          {!isLandingPage && (
-            <nav className="hidden md:flex items-center gap-1.5 bg-white/[0.08] p-1.5 rounded-xl border border-white/15 shadow-lg backdrop-blur-md animate-in fade-in zoom-in-95 duration-200">
-              {tabs.map((tab) => {
-                const isActive = activeTab === tab.id;
-                return (
-                  <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id as any)}
-                    className={`btn-tactile flex items-center px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg text-sm sm:text-base font-semibold cursor-pointer relative transition-all ${
-                      isActive
-                        ? 'bg-white/20 text-white font-bold shadow-md ring-1 ring-white/30'
-                        : 'text-slate-300 hover:text-white hover:bg-white/[0.08]'
-                    }`}
-                  >
-                    <span>{tab.label}</span>
-                    {tab.id === 'simulation' && isSimulatingHazard && (
-                      <span className="w-2 h-2 rounded-full bg-red-500 absolute top-1.5 right-1.5 animate-pulse" />
-                    )}
-                  </button>
-                );
-              })}
-            </nav>
-          )}
+          {/* Desktop Center Tabs Navigation - Always visible on desktop across all views */}
+          <nav className="hidden md:flex items-center gap-1.5 bg-white/[0.08] p-1.5 rounded-xl border border-white/15 shadow-lg backdrop-blur-md">
+            {tabs.map((tab) => {
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id as any)}
+                  className={`btn-tactile flex items-center px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg text-sm sm:text-base font-semibold cursor-pointer relative transition-all ${
+                    isActive
+                      ? 'bg-white/20 text-white font-bold shadow-md ring-1 ring-white/30'
+                      : 'text-slate-300 hover:text-white hover:bg-white/[0.08]'
+                  }`}
+                >
+                  <span>{tab.label}</span>
+                  {tab.id === 'simulation' && isSimulatingHazard && (
+                    <span className="w-2 h-2 rounded-full bg-red-500 absolute top-1.5 right-1.5 animate-pulse" />
+                  )}
+                </button>
+              );
+            })}
+          </nav>
 
           {/* Right Action Controls: Lang Switcher & SOS */}
           <div className="flex items-center gap-2.5 sm:gap-3.5 shrink-0">
