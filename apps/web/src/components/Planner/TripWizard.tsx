@@ -418,14 +418,14 @@ export const TripWizard: React.FC<TripWizardProps> = ({
   const activeCatData = PAN_INDIA_CATEGORIES.find((c) => c.id === activeCategory) || PAN_INDIA_CATEGORIES[0];
 
   return (
-    <div className="glass-panel p-4 sm:p-5 rounded-xl border border-white/[0.08] relative h-full flex flex-col justify-between">
+    <div className="glass-panel p-4 sm:p-5 rounded-xl border border-[#1E3440] relative h-full flex flex-col justify-between">
       {/* Header */}
-      <div className="flex items-center justify-between pb-3.5 mb-4 border-b border-white/[0.08]">
+      <div className="flex items-center justify-between pb-3.5 mb-4 border-b border-[#1E3440]">
         <div>
-          <h2 className="text-sm font-bold text-white tracking-tight">
+          <h2 className="text-sm font-bold text-[#F1F5F9] tracking-tight">
             {t('wizard_title', language)}
           </h2>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-[#94A3B8]">
             {t('wizard_subtitle', language)}
           </p>
         </div>
@@ -455,9 +455,9 @@ export const TripWizard: React.FC<TripWizardProps> = ({
               autoCorrect="off"
               spellCheck={false}
               enterKeyHint="search"
-              className="w-full bg-[#12141d] border border-white/[0.08] rounded-lg pl-9 pr-9 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/60 transition-all font-medium"
+              className="w-full bg-[#0D202B] border border-[#1E3440] rounded-lg pl-9 pr-9 py-2.5 text-xs text-[#F1F5F9] placeholder-slate-500 focus:outline-none focus:border-[#10B981] transition-all font-medium"
             />
-            <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-3 group-focus-within:text-emerald-400 transition-colors" />
+            <Search className="w-3.5 h-3.5 text-[#94A3B8] absolute left-3 top-3 group-focus-within:text-emerald-400 transition-colors" />
             
             {searchQuery && !isSearching && (
               <button
@@ -467,7 +467,7 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                   setSearchResults([]);
                   onPreviewDestination?.(null);
                 }}
-                className="absolute right-3 top-3 text-slate-400 hover:text-white transition-colors cursor-pointer"
+                className="absolute right-3 top-3 text-[#94A3B8] hover:text-[#F1F5F9] transition-colors cursor-pointer"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -480,7 +480,7 @@ export const TripWizard: React.FC<TripWizardProps> = ({
 
           {/* Autocomplete Dropdown List */}
           {showDropdown && searchResults.length > 0 && (
-            <div className="absolute top-full left-0 right-0 z-50 mt-1 max-h-72 overflow-y-auto rounded-lg bg-[#0e1017] border border-white/[0.12] shadow-xl p-1.5 space-y-1 backdrop-blur-xl">
+            <div className="absolute top-full left-0 right-0 z-50 mt-1 max-h-72 overflow-y-auto rounded-lg bg-[#07141F] border border-[#1E3440] shadow-xl p-1.5 space-y-1 backdrop-blur-xl">
               {searchResults.map((item) => {
                 const badge = getRegionBadge(item.region_type);
                 const isPilgrimage = item.category === 'pilgrimage' || !!item.pilgrimage_metadata;
@@ -493,10 +493,10 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                     className="w-full p-2 rounded-md text-left hover:bg-white/[0.06] transition-all flex items-center justify-between gap-2 cursor-pointer group"
                   >
                     <div className="space-y-0.5 min-w-0">
-                      <div className="text-xs font-semibold text-white group-hover:text-emerald-300 transition-colors flex items-center gap-1.5 flex-wrap">
+                      <div className="text-xs font-semibold text-[#F1F5F9] group-hover:text-emerald-300 transition-colors flex items-center gap-1.5 flex-wrap">
                         <span>{isHi && item.name_hi ? item.name_hi : item.canonical_name}</span>
                         {!isHi && item.name_hi && (
-                          <span className="text-[10px] text-slate-400 font-normal">({item.name_hi})</span>
+                          <span className="text-[10px] text-[#94A3B8] font-normal">({item.name_hi})</span>
                         )}
                         {isPilgrimage && (
                           <span className="text-[9px] px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20 font-medium">
@@ -504,10 +504,10 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                           </span>
                         )}
                       </div>
-                      <div className="flex items-center gap-1.5 text-[10px] text-slate-400">
+                      <div className="flex items-center gap-1.5 text-[10px] text-[#94A3B8]">
                         <span className="text-slate-300">{item.state_ut}</span>
                         {item.elevation_m && item.elevation_m > 500 && (
-                          <span className="font-mono text-slate-400">• {item.elevation_m}m</span>
+                          <span className="font-mono text-[#94A3B8]">• {item.elevation_m}m</span>
                         )}
                       </div>
                     </div>
@@ -521,7 +521,7 @@ export const TripWizard: React.FC<TripWizardProps> = ({
           )}
 
           {/* Destination Explorer & Curated Cards */}
-          <div className="mt-3 p-3 rounded-lg bg-[#12141d] border border-white/[0.06] space-y-2.5">
+          <div className="mt-3 p-3 rounded-lg bg-[#0D202B] border border-[#1E3440] space-y-2.5">
             {/* Category Selector Tabs */}
             <div className="flex items-center gap-1 overflow-x-auto no-scrollbar pb-0.5">
               {PAN_INDIA_CATEGORIES.map((cat) => {
@@ -535,8 +535,8 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                     onClick={() => setActiveCategory(cat.id)}
                     className={`btn-tactile flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-medium whitespace-nowrap cursor-pointer shrink-0 border transition-all ${
                       isActive
-                        ? 'bg-white/[0.12] text-white border-white/[0.16]'
-                        : 'bg-transparent text-slate-400 border-transparent hover:text-slate-200'
+                        ? 'bg-[#10B981]/20 text-[#F1F5F9] border-[#1E3440]'
+                        : 'bg-transparent text-[#94A3B8] border-transparent hover:text-slate-200'
                     }`}
                   >
                     <Icon className="w-3 h-3" />
@@ -547,18 +547,18 @@ export const TripWizard: React.FC<TripWizardProps> = ({
             </div>
 
             {selectedPlaceName && (
-              <div className="flex items-center justify-between p-2 rounded-md bg-emerald-950/30 border border-emerald-500/30 text-xs text-emerald-300">
+              <div className="flex items-center justify-between p-2 rounded-md bg-[#10B981]/15 border border-emerald-500/30 text-xs text-emerald-300">
                 <div className="flex items-center gap-2 min-w-0">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
                   <span className="truncate">
-                    {isHi ? 'गंतव्य:' : 'Selected:'} <strong className="text-white font-semibold">{getLocalizedDestinationName(selectedPlaceName, language)}</strong>
+                    {isHi ? 'गंतव्य:' : 'Selected:'} <strong className="text-[#F1F5F9] font-semibold">{getLocalizedDestinationName(selectedPlaceName, language)}</strong>
                   </span>
                 </div>
                 {onSwitchToMap && (
                   <button
                     type="button"
                     onClick={onSwitchToMap}
-                    className="lg:hidden ml-2 px-2.5 py-1 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-[11px] shrink-0 flex items-center gap-1 shadow-sm cursor-pointer"
+                    className="lg:hidden ml-2 px-2.5 py-1 rounded bg-[#10B981] hover:bg-[#059669] text-[#07141F] font-bold font-semibold text-[11px] shrink-0 flex items-center gap-1 shadow-sm cursor-pointer"
                   >
                     <Compass className="w-3 h-3" />
                     <span>{isHi ? 'नक्शा देखें' : 'View on Map'}</span>
@@ -594,20 +594,20 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                     onClick={() => handleQuickPick(place.name, place.lat, place.lon)}
                     className={`btn-tactile p-2 rounded-lg text-left border cursor-pointer flex flex-col justify-between transition-all ${
                       isSelected
-                        ? 'bg-emerald-950/40 border-emerald-500/60 ring-1 ring-emerald-500/50 text-white'
-                        : 'bg-[#0e1017] hover:bg-[#161924] border-white/[0.06] text-slate-300'
+                        ? 'bg-[#10B981]/20 border-emerald-500/60 ring-1 ring-emerald-500/50 text-[#F1F5F9]'
+                        : 'bg-[#07141F] hover:bg-[#132A38] border-[#1E3440] text-slate-300'
                     }`}
                   >
                     <div className="space-y-0.5">
                       <div className={`text-xs font-semibold line-clamp-1 ${isSelected ? 'text-emerald-300 font-bold' : 'text-slate-200'}`}>
                         {displayName.split(',')[0]}
                       </div>
-                      <div className="text-[10px] text-slate-400 truncate">
+                      <div className="text-[10px] text-[#94A3B8] truncate">
                         {place.state}
                       </div>
                     </div>
                     
-                    <div className="mt-1.5 pt-1 border-t border-white/[0.04] flex items-center justify-end text-[9px]">
+                    <div className="mt-1.5 pt-1 border-t border-[#1E3440] flex items-center justify-end text-[9px]">
                       <span className={`px-1.5 py-0.5 rounded font-mono font-medium ${badge.color}`}>
                         {badge.label}
                       </span>
@@ -620,7 +620,7 @@ export const TripWizard: React.FC<TripWizardProps> = ({
         </div>
 
         {/* Trip Duration & Dates */}
-        <div className="bg-[#12141d] border border-white/[0.08] p-3.5 rounded-xl space-y-3">
+        <div className="bg-[#0D202B] border border-[#1E3440] p-3.5 rounded-xl space-y-3">
           <div className="flex items-center justify-between gap-2 flex-wrap">
             <label className="text-xs font-semibold text-slate-200 flex items-center gap-1.5">
               <Calendar className="w-3.5 h-3.5 text-emerald-400" />
@@ -628,14 +628,14 @@ export const TripWizard: React.FC<TripWizardProps> = ({
             </label>
 
             {/* Duration Mode Switcher */}
-            <div className="flex items-center p-0.5 bg-[#0e1017] rounded-md border border-white/[0.06] text-xs">
+            <div className="flex items-center p-0.5 bg-[#07141F] rounded-md border border-[#1E3440] text-xs">
               <button
                 type="button"
                 onClick={() => setDurationMode('dates')}
                 className={`btn-tactile px-2 py-0.5 rounded text-[11px] cursor-pointer ${
                   durationMode === 'dates'
-                    ? 'bg-white/[0.12] text-white font-semibold'
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-[#10B981]/20 text-[#F1F5F9] font-semibold'
+                    : 'text-[#94A3B8] hover:text-slate-200'
                 }`}
               >
                 <span>{isHi ? 'तिथियां' : 'Dates'}</span>
@@ -645,8 +645,8 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                 onClick={() => setDurationMode('custom_days')}
                 className={`btn-tactile px-2 py-0.5 rounded text-[11px] cursor-pointer ${
                   durationMode === 'custom_days'
-                    ? 'bg-white/[0.12] text-white font-semibold'
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-[#10B981]/20 text-[#F1F5F9] font-semibold'
+                    : 'text-[#94A3B8] hover:text-slate-200'
                 }`}
               >
                 <span>{isHi ? 'सटीक दिन' : 'Exact Days'}</span>
@@ -669,7 +669,7 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                 className={`btn-tactile px-2.5 py-1 rounded text-[11px] font-mono cursor-pointer shrink-0 border ${
                   durationDays === preset.days
                     ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40 font-semibold'
-                    : 'bg-[#0e1017] text-slate-400 border-white/[0.06] hover:text-slate-200'
+                    : 'bg-[#07141F] text-[#94A3B8] border-[#1E3440] hover:text-slate-200'
                 }`}
               >
                 {preset.label}
@@ -680,27 +680,27 @@ export const TripWizard: React.FC<TripWizardProps> = ({
           {/* Custom Date Range Picker Mode */}
           {durationMode === 'dates' && (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              <div className="bg-[#0e1017] p-2.5 rounded-lg border border-white/[0.06] space-y-1">
+              <div className="bg-[#07141F] p-2.5 rounded-lg border border-[#1E3440] space-y-1">
                 <div className="flex items-center justify-between">
                   <label className="text-[11px] font-medium text-slate-300 flex items-center gap-1">
-                    <Clock className="w-3 h-3 text-slate-400" />
+                    <Clock className="w-3 h-3 text-[#94A3B8]" />
                     <span>{t('start_date', language)}</span>
                   </label>
-                  <span className="text-[10px] font-mono text-slate-400">{isHi ? 'दिन 1' : 'Day 1'}</span>
+                  <span className="text-[10px] font-mono text-[#94A3B8]">{isHi ? 'दिन 1' : 'Day 1'}</span>
                 </div>
                 <input
                   type="date"
                   value={startDate}
                   min={getTodayIso()}
                   onChange={(e) => handleStartDateChange(e.target.value)}
-                  className="w-full bg-[#12141d] border border-white/[0.08] rounded-md px-2.5 py-1.5 text-xs font-mono text-white focus:outline-none focus:border-emerald-500/60"
+                  className="w-full bg-[#0D202B] border border-[#1E3440] rounded-md px-2.5 py-1.5 text-xs font-mono text-[#F1F5F9] focus:outline-none focus:border-[#10B981]"
                 />
               </div>
 
-              <div className="bg-[#0e1017] p-2.5 rounded-lg border border-white/[0.06] space-y-1">
+              <div className="bg-[#07141F] p-2.5 rounded-lg border border-[#1E3440] space-y-1">
                 <div className="flex items-center justify-between">
                   <label className="text-[11px] font-medium text-slate-300 flex items-center gap-1">
-                    <Clock className="w-3 h-3 text-slate-400" />
+                    <Clock className="w-3 h-3 text-[#94A3B8]" />
                     <span>{t('end_date', language)}</span>
                   </label>
                   <span className="text-[10px] font-mono text-emerald-400 font-semibold">
@@ -712,7 +712,7 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                   value={endDate}
                   min={startDate}
                   onChange={(e) => handleEndDateChange(e.target.value)}
-                  className="w-full bg-[#12141d] border border-white/[0.08] rounded-md px-2.5 py-1.5 text-xs font-mono text-white focus:outline-none focus:border-emerald-500/60"
+                  className="w-full bg-[#0D202B] border border-[#1E3440] rounded-md px-2.5 py-1.5 text-xs font-mono text-[#F1F5F9] focus:outline-none focus:border-[#10B981]"
                 />
               </div>
             </div>
@@ -720,7 +720,7 @@ export const TripWizard: React.FC<TripWizardProps> = ({
 
           {/* Exact Days Stepper Mode */}
           {durationMode === 'custom_days' && (
-            <div className="space-y-2.5 bg-[#0e1017] p-3 rounded-lg border border-white/[0.06]">
+            <div className="space-y-2.5 bg-[#07141F] p-3 rounded-lg border border-[#1E3440]">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <button
@@ -728,13 +728,13 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                     onClick={() => handleDurationPreset(durationDays - 1)}
                     disabled={durationDays <= 1}
                     aria-label="Decrease duration"
-                    className="btn-tactile w-7 h-7 rounded-md bg-[#12141d] border border-white/[0.08] text-slate-300 flex items-center justify-center disabled:opacity-30 cursor-pointer"
+                    className="btn-tactile w-7 h-7 rounded-md bg-[#0D202B] border border-[#1E3440] text-slate-300 flex items-center justify-center disabled:opacity-30 cursor-pointer"
                   >
                     <Minus className="w-3.5 h-3.5" />
                   </button>
 
-                  <div className="px-3 py-1 rounded-md bg-[#12141d] border border-white/[0.08] text-center min-w-[90px]">
-                    <span className="text-sm font-mono font-bold text-white">{durationDays}</span>
+                  <div className="px-3 py-1 rounded-md bg-[#0D202B] border border-[#1E3440] text-center min-w-[90px]">
+                    <span className="text-sm font-mono font-bold text-[#F1F5F9]">{durationDays}</span>
                     <span className="text-xs text-slate-300 ml-1">
                       {durationDays === 1 ? t('day', language) : t('days', language)}
                     </span>
@@ -745,16 +745,16 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                     onClick={() => handleDurationPreset(durationDays + 1)}
                     disabled={durationDays >= 30}
                     aria-label="Increase duration"
-                    className="btn-tactile w-7 h-7 rounded-md bg-[#12141d] border border-white/[0.08] text-slate-300 flex items-center justify-center disabled:opacity-30 cursor-pointer"
+                    className="btn-tactile w-7 h-7 rounded-md bg-[#0D202B] border border-[#1E3440] text-slate-300 flex items-center justify-center disabled:opacity-30 cursor-pointer"
                   >
                     <Plus className="w-3.5 h-3.5" />
                   </button>
                 </div>
 
-                <div className="text-right text-[11px] text-slate-400 font-mono">
+                <div className="text-right text-[11px] text-[#94A3B8] font-mono">
                   <span>{formatReadableDate(startDate, language)}</span>
                   <span className="text-slate-600 mx-1">→</span>
-                  <span className="text-white font-medium">{formatReadableDate(endDate, language)}</span>
+                  <span className="text-[#F1F5F9] font-medium">{formatReadableDate(endDate, language)}</span>
                 </div>
               </div>
 
@@ -771,7 +771,7 @@ export const TripWizard: React.FC<TripWizardProps> = ({
           )}
 
           {/* Acclimatization Status Card */}
-          <div className="p-2.5 rounded-lg bg-[#0e1017] border border-white/[0.06] space-y-1.5">
+          <div className="p-2.5 rounded-lg bg-[#07141F] border border-[#1E3440] space-y-1.5">
             <div className="flex items-center justify-between gap-2 flex-wrap">
               <span className={`text-[11px] px-2 py-0.5 rounded font-medium border flex items-center gap-1 ${pacing.color}`}>
                 <ShieldCheck className="w-3 h-3 shrink-0" />
@@ -780,11 +780,11 @@ export const TripWizard: React.FC<TripWizardProps> = ({
               <div className="text-[11px] font-mono text-slate-300 flex items-center gap-1">
                 <span>{formatReadableDate(startDate, language)}</span>
                 <ArrowRight className="w-2.5 h-2.5 text-slate-500" />
-                <span className="text-white font-semibold">{formatReadableDate(endDate, language)}</span>
+                <span className="text-[#F1F5F9] font-semibold">{formatReadableDate(endDate, language)}</span>
               </div>
             </div>
-            <div className="text-[11px] text-slate-400 leading-normal flex items-start gap-1.5 pt-1 border-t border-white/[0.04]">
-              <Info className="w-3 h-3 text-slate-400 shrink-0 mt-0.5" />
+            <div className="text-[11px] text-[#94A3B8] leading-normal flex items-start gap-1.5 pt-1 border-t border-[#1E3440]">
+              <Info className="w-3 h-3 text-[#94A3B8] shrink-0 mt-0.5" />
               <span>{pacing.desc}</span>
             </div>
           </div>
@@ -814,12 +814,12 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                 onClick={() => handleTierChange(tItem.tier as any)}
                 className={`btn-tactile p-2.5 rounded-lg text-left border cursor-pointer ${
                   budgetTier === tItem.tier
-                    ? 'bg-emerald-950/30 border-emerald-500/50 text-white'
-                    : 'bg-[#12141d] border-white/[0.06] text-slate-400 hover:border-white/[0.12]'
+                    ? 'bg-[#10B981]/15 border-emerald-500/50 text-[#F1F5F9]'
+                    : 'bg-[#0D202B] border-[#1E3440] text-[#94A3B8] hover:border-[#1E3440]'
                 }`}
               >
                 <div className="text-xs font-semibold text-slate-200">{tItem.label}</div>
-                <div className="text-[10px] text-slate-400 mt-0.5">{tItem.desc}</div>
+                <div className="text-[10px] text-[#94A3B8] mt-0.5">{tItem.desc}</div>
               </button>
             ))}
           </div>
@@ -853,12 +853,12 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                 onClick={() => setFitnessLevel(f.key as any)}
                 className={`btn-tactile p-2.5 rounded-lg text-left border cursor-pointer ${
                   fitnessLevel === f.key
-                    ? 'bg-emerald-950/30 border-emerald-500/50 text-white'
-                    : 'bg-[#12141d] border-white/[0.06] text-slate-400 hover:border-white/[0.12]'
+                    ? 'bg-[#10B981]/15 border-emerald-500/50 text-[#F1F5F9]'
+                    : 'bg-[#0D202B] border-[#1E3440] text-[#94A3B8] hover:border-[#1E3440]'
                 }`}
               >
                 <div className="text-xs font-semibold text-slate-200">{f.label}</div>
-                <div className="text-[10px] text-slate-400 mt-0.5">{f.tag}</div>
+                <div className="text-[10px] text-[#94A3B8] mt-0.5">{f.tag}</div>
               </button>
             ))}
           </div>
@@ -868,7 +868,7 @@ export const TripWizard: React.FC<TripWizardProps> = ({
         <button
           type="submit"
           disabled={isLoading || !searchQuery.trim()}
-          className="btn-tactile w-full py-2.5 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold tracking-wide uppercase flex items-center justify-center gap-1.5 disabled:opacity-50 cursor-pointer shadow-sm"
+          className="btn-tactile w-full py-2.5 px-4 rounded-lg bg-[#10B981] hover:bg-[#059669] text-[#07141F] font-bold text-xs font-bold tracking-wide uppercase flex items-center justify-center gap-1.5 disabled:opacity-50 cursor-pointer shadow-sm"
         >
           {isLoading ? (
             <>

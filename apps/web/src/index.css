@@ -26,32 +26,34 @@
     --plume-orange-hover: #059669;
     --plume-orange-light: #ecfdf5;
 
-    --background: #000000;
-    --foreground: #ffffff;
-    --primary: #ffffff;
-    --primary-foreground: #000000;
-    --secondary: #1a1d28;
-    --secondary-foreground: #ffffff;
-    --muted: #11141f;
-    --muted-foreground: #9ca3af;
-    --border: rgba(255, 255, 255, 0.1);
-    --input: rgba(255, 255, 255, 0.15);
+    --background: #07141F;
+    --foreground: #F1F5F9;
+    --primary: #10B981;
+    --primary-foreground: #07141F;
+    --secondary: #0D202B;
+    --secondary-foreground: #F1F5F9;
+    --muted: #0D202B;
+    --muted-foreground: #94A3B8;
+    --border: #1E3440;
+    --input: #1E3440;
     
     /* Surface Tokens */
-    --surface-canvas: #000000;
-    --surface-panel: #0a0c10;
-    --surface-card: #10131c;
-    --surface-elevated: #161924;
-    --surface-hover: #1c202e;
+    --surface-canvas: #07141F;
+    --surface-panel: #0D202B;
+    --surface-card: #0D202B;
+    --surface-elevated: #132A38;
+    --surface-hover: #193344;
     
     /* Border Tokens */
-    --border-hairline: rgba(255, 255, 255, 0.07);
-    --border-subtle: rgba(255, 255, 255, 0.12);
-    --border-medium: rgba(255, 255, 255, 0.2);
-    --border-focus: rgba(16, 185, 129, 0.5);
+    --border-hairline: rgba(30, 52, 64, 0.7);
+    --border-subtle: #1E3440;
+    --border-medium: rgba(52, 211, 153, 0.25);
+    --border-focus: rgba(16, 185, 129, 0.6);
 
     /* Restrained Semantic Accents */
-    --accent-emerald: #10b981;
+    --accent-emerald: #10B981;
+    --accent-jade: #059669;
+    --accent-mint: #34D399;
     --accent-amber: #f59e0b;
     --accent-red: #ef4444;
     --accent-sky: #0ea5e9;
@@ -102,31 +104,31 @@
 
 /* Linear & Vercel Style Surface Panels */
 .glass-panel {
-  background: rgba(14, 16, 23, 0.88);
+  background: rgba(13, 32, 43, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border-subtle);
-  box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.6), inset 0 1px 0 0 rgba(255, 255, 255, 0.04);
+  border: 1px solid #1E3440;
+  box-shadow: 0 8px 32px -4px rgba(7, 20, 31, 0.6), inset 0 1px 0 0 rgba(52, 211, 153, 0.05);
 }
 
 .glass-panel-subtle {
-  background: rgba(18, 20, 29, 0.75);
+  background: rgba(13, 32, 43, 0.75);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border-hairline);
-  box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.4);
+  border: 1px solid #1E3440;
+  box-shadow: 0 4px 16px -2px rgba(7, 20, 31, 0.4);
 }
 
 .glass-card {
-  background: #12141d;
-  border: 1px solid var(--border-subtle);
-  box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.3);
+  background: #0D202B;
+  border: 1px solid #1E3440;
+  box-shadow: 0 2px 8px -2px rgba(7, 20, 31, 0.3);
   transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
 }
 
 .glass-card:hover {
-  background: #181b26;
-  border-color: var(--border-medium);
+  background: #132A38;
+  border-color: #10B981;
 }
 
 /* Micro-interaction & Tactile Buttons */

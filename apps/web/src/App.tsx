@@ -219,7 +219,7 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col selection:bg-emerald-500/30 selection:text-white font-sans antialiased relative">
+    <div className="min-h-screen bg-black text-[#F1F5F9] flex flex-col selection:bg-emerald-500/30 selection:text-[#F1F5F9] font-sans antialiased relative">
       {/* Landing Page Amber Glow & Dot-Grid Background (Landing Only) */}
       {activeTab === 'overview' && <AceternityBackground />}
 
@@ -263,7 +263,7 @@ export function App() {
               <div className="p-3 rounded-lg bg-amber-950/40 border border-amber-500/30 text-amber-200 text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
                   <WifiOff className="w-4 h-4 text-amber-400 shrink-0" />
-                  <span>{t('offline_banner_title', language)} <strong className="text-white font-semibold">{getLocalizedDestinationName(currentDestinationName, language)}</strong>.</span>
+                  <span>{t('offline_banner_title', language)} <strong className="text-[#F1F5F9] font-semibold">{getLocalizedDestinationName(currentDestinationName, language)}</strong>.</span>
                 </div>
                 <span className="text-[11px] font-mono text-amber-400/90 self-end sm:self-auto bg-amber-950/60 px-2 py-0.5 rounded border border-amber-500/20">{t('cached_at', language)}: {new Date(cachedTime).toLocaleTimeString()}</span>
               </div>
@@ -289,7 +289,7 @@ export function App() {
 
                 <button
                   onClick={() => setActiveTab('map')}
-                  className="btn-tactile w-full sm:w-auto px-3.5 py-1.5 rounded-md bg-red-600 hover:bg-red-500 text-white font-semibold text-xs whitespace-nowrap cursor-pointer text-center"
+                  className="btn-tactile w-full sm:w-auto px-3.5 py-1.5 rounded-md bg-red-600 hover:bg-red-500 text-[#F1F5F9] font-semibold text-xs whitespace-nowrap cursor-pointer text-center"
                 >
                   {t('view_reroute_map', language)}
                 </button>
@@ -353,14 +353,14 @@ export function App() {
                       <MapPin className="w-5 h-5" />
                     </div>
                     <div>
-                      <h3 className="text-sm font-bold text-white mb-1">{t('no_itinerary_title', language)}</h3>
-                      <p className="text-xs text-slate-400 leading-relaxed">
+                      <h3 className="text-sm font-bold text-[#F1F5F9] mb-1">{t('no_itinerary_title', language)}</h3>
+                      <p className="text-xs text-[#94A3B8] leading-relaxed">
                         {t('no_itinerary_desc', language)}
                       </p>
                     </div>
                     <button
                       onClick={() => setActiveTab('map')}
-                      className="btn-tactile px-4 py-2 rounded-md bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold cursor-pointer"
+                      className="btn-tactile px-4 py-2 rounded-md bg-[#10B981] hover:bg-[#059669] text-[#07141F] font-bold text-xs font-semibold cursor-pointer"
                     >
                       {t('btn_go_map', language)}
                     </button>
@@ -423,15 +423,15 @@ export function App() {
           </main>
 
           {/* High-Precision Command Footer */}
-          <footer className="mt-auto border-t border-white/[0.08] bg-[#090a0f] py-3 px-6 text-xs text-slate-500">
+          <footer className="mt-auto border-t border-[#1E3440] bg-[#090a0f] py-3 px-6 text-xs text-slate-500">
             <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 font-mono">
-              <span className="flex items-center gap-1.5 text-slate-400">
+              <span className="flex items-center gap-1.5 text-[#94A3B8]">
                 <span className="font-semibold text-slate-200">IGNITE</span>
                 <span className="text-slate-600">•</span>
                 <span>{t('footer_title', language)}</span>
               </span>
-              <span className="text-[11px] text-slate-400">
-                {t('footer_active', language)}: <span className="text-white font-medium">{currentDestinationName ? `${getLocalizedDestinationName(currentDestinationName, language)} (${itinerary?.region_name || 'National Network'})` : t('footer_pan_india', language)}</span>
+              <span className="text-[11px] text-[#94A3B8]">
+                {t('footer_active', language)}: <span className="text-[#F1F5F9] font-medium">{currentDestinationName ? `${getLocalizedDestinationName(currentDestinationName, language)} (${itinerary?.region_name || 'National Network'})` : t('footer_pan_india', language)}</span>
               </span>
             </div>
           </footer>

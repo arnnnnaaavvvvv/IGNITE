@@ -185,8 +185,8 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
   return (
     <div className="space-y-4">
       {/* Top Control Deck */}
-      <div className="glass-panel p-4 sm:p-5 rounded-xl border border-white/[0.08] bg-[#0e1017] space-y-4">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 pb-3.5 border-b border-white/[0.08]">
+      <div className="glass-panel p-4 sm:p-5 rounded-xl border border-[#1E3440] bg-[#07141F] space-y-4">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 pb-3.5 border-b border-[#1E3440]">
           <div>
             <div className="flex items-center gap-2 mb-0.5 flex-wrap">
               <span className="text-xs font-mono font-semibold uppercase tracking-wider text-amber-400 flex items-center gap-1">
@@ -194,11 +194,11 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
                 {t('disaster_heading', language)}
               </span>
               <span className="text-slate-600">•</span>
-              <span className="text-xs text-slate-400">
+              <span className="text-xs text-[#94A3B8]">
                 {isPanIndia ? (isHi ? 'संपूर्ण भारत' : 'All India') : `${isHi ? 'चयनित:' : 'Target:'} ${getLocalizedDestinationName(simData?.destination || currentPlace, language)}`}
               </span>
             </div>
-            <h2 className="text-sm sm:text-base font-bold text-white">
+            <h2 className="text-sm sm:text-base font-bold text-[#F1F5F9]">
               {isPanIndia
                 ? (isHi ? 'भारत में सक्रिय मौसम अलर्ट व स्थान अपडेट्स' : 'Live Weather Alerts & Place News across India')
                 : `${isHi ? 'ताज़ा स्थान अपडेट्स व अलर्ट — ' : 'Live Place Updates & Alerts — '}${getLocalizedDestinationName(simData?.destination || currentPlace, language)}`}
@@ -207,13 +207,13 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
 
           <div className="flex items-center gap-2 flex-wrap">
             {isLoading && (
-              <div className="flex items-center gap-1.5 bg-[#12141d] px-2 py-0.5 rounded border border-white/[0.08] text-[10px] text-sky-300 font-mono">
+              <div className="flex items-center gap-1.5 bg-[#0D202B] px-2 py-0.5 rounded border border-[#1E3440] text-[10px] text-sky-300 font-mono">
                 <Loader2 className="w-3 h-3 animate-spin text-sky-400" />
                 <span>{isHi ? 'अपडेट हो रहा है...' : 'Syncing...'}</span>
               </div>
             )}
-            <div className="flex items-center gap-1.5 bg-[#12141d] px-2.5 py-1 rounded border border-white/[0.08]">
-              <span className="text-[10px] text-slate-400">{isHi ? 'स्थिति:' : 'Status:'}</span>
+            <div className="flex items-center gap-1.5 bg-[#0D202B] px-2.5 py-1 rounded border border-[#1E3440]">
+              <span className="text-[10px] text-[#94A3B8]">{isHi ? 'स्थिति:' : 'Status:'}</span>
               <span className={`text-[10px] px-1.5 py-0.2 rounded font-mono font-semibold border ${
                 isSimulating
                   ? 'bg-red-500/20 text-red-300 border-red-500/40'
@@ -224,10 +224,10 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
             </div>
 
             {simData?.elevation_m && (
-              <div className="hidden sm:flex items-center gap-1 bg-[#12141d] px-2.5 py-1 rounded border border-white/[0.08] text-[11px] font-mono">
+              <div className="hidden sm:flex items-center gap-1 bg-[#0D202B] px-2.5 py-1 rounded border border-[#1E3440] text-[11px] font-mono">
                 <Mountain className="w-3 h-3 text-emerald-400" />
-                <span className="text-slate-400">{isHi ? 'ऊंचाई:' : 'Alt:'}</span>
-                <span className="text-white font-medium">{simData.elevation_m}m</span>
+                <span className="text-[#94A3B8]">{isHi ? 'ऊंचाई:' : 'Alt:'}</span>
+                <span className="text-[#F1F5F9] font-medium">{simData.elevation_m}m</span>
               </div>
             )}
           </div>
@@ -244,7 +244,7 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
             {currentPlace && (
               <button
                 onClick={handleClearPlace}
-                className="btn-tactile text-[11px] font-semibold px-2.5 py-1 rounded bg-[#12141d] hover:bg-[#181b26] text-amber-300 border border-amber-500/30 flex items-center gap-1 self-start sm:self-auto cursor-pointer"
+                className="btn-tactile text-[11px] font-semibold px-2.5 py-1 rounded bg-[#0D202B] hover:bg-[#132A38] text-amber-300 border border-amber-500/30 flex items-center gap-1 self-start sm:self-auto cursor-pointer"
               >
                 <X className="w-3 h-3" />
                 <span>{isHi ? 'संपूर्ण भारत पर रीसेट करें' : 'Reset to All India'}</span>
@@ -264,13 +264,13 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
                 }}
                 onFocus={() => setIsSearchOpen(true)}
                 placeholder={currentPlace ? `${isHi ? 'चयनित: ' : 'Target: '}${getLocalizedDestinationName(currentPlace, language)} (${isHi ? 'बदलने के लिए खोजें...' : 'Search to change...'})` : (isHi ? 'कोई भी भारतीय शहर या तीर्थ खोजें...' : 'Search any destination in India...')}
-                className="w-full pl-9 pr-9 py-2 rounded-lg bg-[#12141d] border border-white/[0.08] text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/60 font-sans"
+                className="w-full pl-9 pr-9 py-2 rounded-lg bg-[#0D202B] border border-[#1E3440] text-xs text-[#F1F5F9] placeholder-slate-500 focus:outline-none focus:border-[#10B981] font-sans"
               />
-              <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <Search className="w-3.5 h-3.5 text-[#94A3B8] absolute left-3 top-1/2 -translate-y-1/2" />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#94A3B8] hover:text-[#F1F5F9]"
                 >
                   <X className="w-3 h-3" />
                 </button>
@@ -279,9 +279,9 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
 
             {/* Dropdown Suggestions */}
             {isSearchOpen && (searchQuery.trim().length >= 2 || searchResults.length > 0) && (
-              <div className="absolute z-50 left-0 right-0 top-full mt-1 bg-[#0e1017] border border-white/[0.12] rounded-lg shadow-xl overflow-hidden max-h-60 overflow-y-auto">
+              <div className="absolute z-50 left-0 right-0 top-full mt-1 bg-[#07141F] border border-[#1E3440] rounded-lg shadow-xl overflow-hidden max-h-60 overflow-y-auto">
                 {isSearching ? (
-                  <div className="p-2.5 text-center text-xs text-slate-400 font-mono">
+                  <div className="p-2.5 text-center text-xs text-[#94A3B8] font-mono">
                     {isHi ? 'स्थान खोजा जा रहा है...' : 'Searching destination atlas...'}
                   </div>
                 ) : searchResults.length > 0 ? (
@@ -290,21 +290,21 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
                       <button
                         key={res.id}
                         onClick={() => handleSelectPlace(res.canonical_name)}
-                        className="w-full text-left px-2.5 py-1.5 rounded hover:bg-white/[0.06] flex items-center justify-between text-xs cursor-pointer"
+                        className="w-full text-left px-2.5 py-1.5 rounded hover:bg-[#132A38] flex items-center justify-between text-xs cursor-pointer"
                       >
                         <div className="flex items-center gap-1.5">
                           <MapPin className="w-3 h-3 text-emerald-400" />
-                          <span className="font-semibold text-white">{getLocalizedDestinationName(res.canonical_name, language)}</span>
-                          <span className="text-[10px] text-slate-400">({res.state_ut})</span>
+                          <span className="font-semibold text-[#F1F5F9]">{getLocalizedDestinationName(res.canonical_name, language)}</span>
+                          <span className="text-[10px] text-[#94A3B8]">({res.state_ut})</span>
                         </div>
-                        <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-white/[0.04] text-slate-400">
+                        <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-white/[0.04] text-[#94A3B8]">
                           {res.region_type}
                         </span>
                       </button>
                     ))}
                   </div>
                 ) : (
-                  <div className="p-2.5 text-center text-xs text-slate-400">
+                  <div className="p-2.5 text-center text-xs text-[#94A3B8]">
                     {isHi ? 'कोई स्थान नहीं मिला' : 'No destinations found'}
                   </div>
                 )}
@@ -324,7 +324,7 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
                   className={`btn-tactile px-2.5 py-1 rounded-full text-[11px] font-medium whitespace-nowrap transition-all border cursor-pointer ${
                     isSelected
                       ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
-                      : 'bg-[#12141d] text-slate-400 hover:text-white border-white/[0.06] hover:border-white/[0.12]'
+                      : 'bg-[#0D202B] text-[#94A3B8] hover:text-[#F1F5F9] border-[#1E3440] hover:border-[#1E3440]'
                   }`}
                 >
                   {isHi ? dest.label_hi : dest.label}
@@ -336,14 +336,14 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
       </div>
 
       {/* Navigation Sub-Tabs */}
-      <div className="flex items-center justify-between border-b border-white/[0.08] pb-1 gap-2 overflow-x-auto">
+      <div className="flex items-center justify-between border-b border-[#1E3440] pb-1 gap-2 overflow-x-auto">
         <div className="flex items-center gap-2">
           <button
             onClick={() => setActiveTab('scenarios')}
             className={`btn-tactile px-3 py-1.5 rounded-t-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer border-b-2 ${
               activeTab === 'scenarios'
-                ? 'text-amber-400 border-amber-400 bg-[#12141d]/80'
-                : 'text-slate-400 border-transparent hover:text-slate-200'
+                ? 'text-amber-400 border-amber-400 bg-[#0D202B]/80'
+                : 'text-[#94A3B8] border-transparent hover:text-slate-200'
             }`}
           >
             <AlertTriangle className="w-3.5 h-3.5" />
@@ -358,8 +358,8 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
               onClick={() => setActiveTab('history')}
               className={`btn-tactile px-3 py-1.5 rounded-t-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer border-b-2 ${
                 activeTab === 'history'
-                  ? 'text-sky-400 border-sky-400 bg-[#12141d]/80'
-                  : 'text-slate-400 border-transparent hover:text-slate-200'
+                  ? 'text-sky-400 border-sky-400 bg-[#0D202B]/80'
+                  : 'text-[#94A3B8] border-transparent hover:text-slate-200'
               }`}
             >
               <History className="w-3.5 h-3.5" />
@@ -375,8 +375,8 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
               onClick={() => setActiveTab('shelters')}
               className={`btn-tactile px-3 py-1.5 rounded-t-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer border-b-2 ${
                 activeTab === 'shelters'
-                  ? 'text-emerald-400 border-emerald-400 bg-[#12141d]/80'
-                  : 'text-slate-400 border-transparent hover:text-slate-200'
+                  ? 'text-emerald-400 border-emerald-400 bg-[#0D202B]/80'
+                  : 'text-[#94A3B8] border-transparent hover:text-slate-200'
               }`}
             >
               <Building2 className="w-3.5 h-3.5" />
@@ -391,8 +391,8 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
             onClick={() => setActiveTab('bulletins')}
             className={`btn-tactile px-3 py-1.5 rounded-t-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer border-b-2 ${
               activeTab === 'bulletins'
-                ? 'text-red-400 border-red-400 bg-[#12141d]/80'
-                : 'text-slate-400 border-transparent hover:text-slate-200'
+                ? 'text-red-400 border-red-400 bg-[#0D202B]/80'
+                : 'text-[#94A3B8] border-transparent hover:text-slate-200'
             }`}
           >
             <ShieldAlert className="w-3.5 h-3.5" />
@@ -409,7 +409,7 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
               value={zoneFilter}
               onChange={(e) => setZoneFilter(e.target.value)}
               aria-label="Filter scenarios by zone"
-              className="bg-[#12141d] border border-white/[0.08] rounded text-xs text-slate-200 px-2 py-0.5 font-mono"
+              className="bg-[#0D202B] border border-[#1E3440] rounded text-xs text-slate-200 px-2 py-0.5 font-mono"
             >
               <option value="ALL">{isHi ? 'सभी 6 प्राकृतिक क्षेत्र' : 'All 6 Environmental Zones'}</option>
               <option value="HILL_MOUNTAIN">{isHi ? 'पर्वतीय एवं हिमालयी' : 'Himalayan & Mountain'}</option>
@@ -441,7 +441,7 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
                       ? isCritical
                         ? 'border-red-500/60 bg-red-950/20'
                         : 'border-amber-500/60 bg-amber-950/20'
-                      : 'border-white/[0.06] hover:border-white/[0.12] bg-[#12141d]'
+                      : 'border-[#1E3440] hover:border-[#1E3440] bg-[#0D202B]'
                   }`}
                 >
                   <div>
@@ -457,8 +457,8 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
                           {isCritical ? <CloudLightning className="w-4 h-4" /> : isHigh ? <AlertTriangle className="w-4 h-4" /> : <CheckCircle className="w-4 h-4" />}
                         </div>
                         <div>
-                          <h3 className="text-xs font-semibold text-white">{titleText}</h3>
-                          <div className="text-[10px] text-slate-400">{isHi ? sc.title : sc.title_hi}</div>
+                          <h3 className="text-xs font-semibold text-[#F1F5F9]">{titleText}</h3>
+                          <div className="text-[10px] text-[#94A3B8]">{isHi ? sc.title : sc.title_hi}</div>
                         </div>
                       </div>
 
@@ -481,7 +481,7 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
                     </p>
 
                     {/* Meteorological Parameters */}
-                    <div className="flex flex-wrap items-center gap-2 text-[10px] font-mono text-slate-400 mb-2.5 bg-[#0e1017] p-2 rounded border border-white/[0.04]">
+                    <div className="flex flex-wrap items-center gap-2 text-[10px] font-mono text-[#94A3B8] mb-2.5 bg-[#07141F] p-2 rounded border border-[#1E3440]">
                       <span className="flex items-center gap-1">
                         <Droplets className="w-3 h-3 text-sky-400" />
                         {isHi ? 'वर्षा:' : 'Rain:'} {sc.weather.precipitation_mm_hr}mm/h
@@ -503,8 +503,8 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
                     </div>
 
                     {sc.primary_agency && (
-                      <div className="text-[10px] text-slate-400 mb-2 flex items-center justify-between bg-[#0e1017] px-2 py-0.5 rounded border border-white/[0.04]">
-                        <span className="text-slate-400">{isHi ? 'सुरक्षा एजेंसी:' : 'Response:'} {sc.primary_agency}</span>
+                      <div className="text-[10px] text-[#94A3B8] mb-2 flex items-center justify-between bg-[#07141F] px-2 py-0.5 rounded border border-[#1E3440]">
+                        <span className="text-[#94A3B8]">{isHi ? 'सुरक्षा एजेंसी:' : 'Response:'} {sc.primary_agency}</span>
                         {sc.evacuation_target && (
                           <span className="text-amber-400 font-mono">{isHi ? 'आश्रय:' : 'Shelter:'} {sc.evacuation_target}</span>
                         )}
@@ -516,8 +516,8 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
                     onClick={() => onTriggerScenario(sc)}
                     className={`btn-tactile w-full py-1.5 px-3 rounded text-xs font-semibold transition-all flex items-center justify-center gap-1.5 cursor-pointer mt-1 ${
                       isActive
-                        ? 'bg-red-600 hover:bg-red-500 text-white'
-                        : 'bg-[#181b26] hover:bg-[#202434] text-slate-200 border border-white/[0.08]'
+                        ? 'bg-red-600 hover:bg-red-500 text-[#F1F5F9]'
+                        : 'bg-[#181b26] hover:bg-[#202434] text-slate-200 border border-[#1E3440]'
                     }`}
                   >
                     {isActive ? (
@@ -542,7 +542,7 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
       {/* TAB 2: Official Incident History Records */}
       {activeTab === 'history' && !isPanIndia && (
         <div className="space-y-3">
-          <div className="flex items-center justify-between text-xs text-slate-400">
+          <div className="flex items-center justify-between text-xs text-[#94A3B8]">
             <span>
               {isHi ? 'ऐतिहासिक आपदा रिकॉर्ड — ' : 'Disaster Records for '}<strong>{getLocalizedDestinationName(simData?.destination || currentPlace, language)}</strong> ({incidentHistory.length} {isHi ? 'रिकॉर्ड' : 'records'}):
             </span>
@@ -559,15 +559,15 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
               return (
                 <div
                   key={inc.id}
-                  className="glass-panel p-4 rounded-xl border border-white/[0.06] bg-[#12141d] space-y-2"
+                  className="glass-panel p-4 rounded-xl border border-[#1E3440] bg-[#0D202B] space-y-2"
                 >
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 pb-1.5 border-b border-white/[0.06]">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 pb-1.5 border-b border-[#1E3440]">
                     <div className="flex items-center gap-2">
-                      <div className="w-6 h-6 rounded flex items-center justify-center shrink-0 bg-[#0e1017]">
+                      <div className="w-6 h-6 rounded flex items-center justify-center shrink-0 bg-[#07141F]">
                         <History className="w-3.5 h-3.5 text-sky-400" />
                       </div>
                       <div>
-                        <h4 className="text-xs font-semibold text-white">{incTitle}</h4>
+                        <h4 className="text-xs font-semibold text-[#F1F5F9]">{incTitle}</h4>
                         <div className="text-[10px] font-mono text-sky-400">{inc.year_or_date}</div>
                       </div>
                     </div>
@@ -582,7 +582,7 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
                       }`}>
                         {inc.severity}
                       </span>
-                      <span className="text-[9px] font-mono text-slate-400 bg-[#0e1017] px-1.5 py-0.2 rounded border border-white/[0.04]">
+                      <span className="text-[9px] font-mono text-[#94A3B8] bg-[#07141F] px-1.5 py-0.2 rounded border border-[#1E3440]">
                         {inc.category}
                       </span>
                     </div>
@@ -593,11 +593,11 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
                   </p>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 text-xs">
-                    <div className="bg-[#0e1017] p-2 rounded border border-white/[0.04]">
+                    <div className="bg-[#07141F] p-2 rounded border border-[#1E3440]">
                       <div className="text-slate-500 text-[9px] font-mono uppercase">{isHi ? 'सुरक्षा उपाय' : 'Mitigation Taken'}</div>
                       <div className="text-emerald-300 text-[11px] mt-0.5">{incMitigation}</div>
                     </div>
-                    <div className="bg-[#0e1017] p-2 rounded border border-white/[0.04]">
+                    <div className="bg-[#07141F] p-2 rounded border border-[#1E3440]">
                       <div className="text-slate-500 text-[9px] font-mono uppercase">{isHi ? 'रिपोर्टिंग एजेंसी' : 'Reporting Agency'}</div>
                       <div className="text-slate-300 text-[11px] mt-0.5 font-mono">{inc.reporting_agency}</div>
                     </div>
@@ -616,7 +616,7 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
             {shelters.map((sh) => (
               <div
                 key={sh.id}
-                className="glass-panel p-4 rounded-xl border border-white/[0.06] bg-[#12141d] space-y-2"
+                className="glass-panel p-4 rounded-xl border border-[#1E3440] bg-[#0D202B] space-y-2"
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex items-center gap-2">
@@ -624,8 +624,8 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
                       <Building2 className="w-3.5 h-3.5" />
                     </div>
                     <div>
-                      <h4 className="text-xs font-semibold text-white">{sh.name}</h4>
-                      <div className="text-[10px] text-slate-400 font-mono">GPS: {sh.lat.toFixed(4)}, {sh.lon.toFixed(4)}</div>
+                      <h4 className="text-xs font-semibold text-[#F1F5F9]">{sh.name}</h4>
+                      <div className="text-[10px] text-[#94A3B8] font-mono">GPS: {sh.lat.toFixed(4)}, {sh.lon.toFixed(4)}</div>
                     </div>
                   </div>
 
@@ -635,11 +635,11 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
                 </div>
 
                 <div className="grid grid-cols-2 gap-1.5 text-xs font-mono">
-                  <div className="bg-[#0e1017] p-2 rounded border border-white/[0.04]">
+                  <div className="bg-[#07141F] p-2 rounded border border-[#1E3440]">
                     <span className="text-slate-500 text-[9px]">{isHi ? 'क्षमता:' : 'Capacity:'}</span>
                     <div className="font-semibold text-sky-400">{sh.capacity_persons || 1000} {isHi ? 'व्यक्ति' : 'Persons'}</div>
                   </div>
-                  <div className="bg-[#0e1017] p-2 rounded border border-white/[0.04]">
+                  <div className="bg-[#07141F] p-2 rounded border border-[#1E3440]">
                     <span className="text-slate-500 text-[9px]">{isHi ? 'फोन:' : 'Phone:'}</span>
                     <div className="font-semibold text-amber-400">{sh.contact_phone || '112'}</div>
                   </div>
@@ -673,7 +673,7 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
                   <div className="flex items-start justify-between gap-1 mb-1">
                     <div className="flex items-center gap-1.5">
                       <ShieldAlert className={`w-3.5 h-3.5 ${isRed ? 'text-red-400' : isOrange ? 'text-amber-400' : 'text-emerald-400'}`} />
-                      <span className="text-xs font-semibold text-white">{nb.agency}</span>
+                      <span className="text-xs font-semibold text-[#F1F5F9]">{nb.agency}</span>
                     </div>
 
                     <span className={`text-[9px] px-1.5 py-0.2 rounded font-mono font-medium border ${
@@ -688,13 +688,13 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
                   </div>
 
                   <h4 className="text-xs font-medium text-slate-100 mb-1">{headlineText}</h4>
-                  <div className="text-[10px] text-slate-400 mb-2">{isHi ? nb.headline : nb.headline_hi}</div>
+                  <div className="text-[10px] text-[#94A3B8] mb-2">{isHi ? nb.headline : nb.headline_hi}</div>
 
-                  <div className="pt-1.5 border-t border-white/[0.04] flex items-center justify-between text-[9px] font-mono text-slate-400">
+                  <div className="pt-1.5 border-t border-[#1E3440] flex items-center justify-between text-[9px] font-mono text-[#94A3B8]">
                     <div className="flex items-center gap-1 flex-wrap">
                       <span>{isHi ? 'प्रभावित क्षेत्र:' : 'Impact:'}</span>
                       {nb.impact_regions.map((reg) => (
-                        <span key={reg} className="px-1 py-0.2 rounded bg-[#0e1017] text-slate-300 border border-white/[0.04]">
+                        <span key={reg} className="px-1 py-0.2 rounded bg-[#07141F] text-slate-300 border border-[#1E3440]">
                           {reg}
                         </span>
                       ))}
@@ -710,21 +710,21 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
 
       {/* Reroute Evaluation Output Card */}
       {rerouteData && (
-        <div className="glass-panel p-4 sm:p-5 rounded-xl border border-amber-500/40 bg-[#12141d] space-y-3">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2.5 border-b border-white/[0.08]">
+        <div className="glass-panel p-4 sm:p-5 rounded-xl border border-amber-500/40 bg-[#0D202B] space-y-3">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2.5 border-b border-[#1E3440]">
             <div className="flex items-center gap-2">
               <div className="w-7 h-7 rounded bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
                 <Navigation className="w-3.5 h-3.5" />
               </div>
               <div>
-                <h3 className="text-xs font-bold text-white">{isHi ? 'सुरक्षित बाईपास निर्देश' : 'Safe Detour Directive'} ({getLocalizedDestinationName(rerouteData.destination, language)})</h3>
-                <div className="text-[10px] text-slate-400 font-mono">Action: {rerouteData.action_type} • Region: {rerouteData.region_type}</div>
+                <h3 className="text-xs font-bold text-[#F1F5F9]">{isHi ? 'सुरक्षित बाईपास निर्देश' : 'Safe Detour Directive'} ({getLocalizedDestinationName(rerouteData.destination, language)})</h3>
+                <div className="text-[10px] text-[#94A3B8] font-mono">Action: {rerouteData.action_type} • Region: {rerouteData.region_type}</div>
               </div>
             </div>
 
             <div className="flex items-center gap-2">
               <div className="flex items-center gap-1.5">
-                <span className="text-xs text-slate-400">{isHi ? 'जोखिम:' : 'Risk:'}</span>
+                <span className="text-xs text-[#94A3B8]">{isHi ? 'जोखिम:' : 'Risk:'}</span>
                 <span className="font-mono text-xs font-bold text-red-400">
                   {rerouteData.current_risk_score}/100
                 </span>
@@ -733,7 +733,7 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
               {onNavigateToMap && (
                 <button
                   onClick={onNavigateToMap}
-                  className="btn-tactile px-2.5 py-1 rounded bg-amber-600 hover:bg-amber-500 text-white font-semibold text-xs transition-all flex items-center gap-1 cursor-pointer"
+                  className="btn-tactile px-2.5 py-1 rounded bg-amber-600 hover:bg-amber-500 text-[#F1F5F9] font-semibold text-xs transition-all flex items-center gap-1 cursor-pointer"
                 >
                   <span>{t('view_reroute_map', language)}</span>
                   <ArrowRight className="w-3 h-3" />
@@ -754,16 +754,16 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
 
           {rerouteData.nearest_shelter && (
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
-              <div className="bg-[#0e1017] p-2.5 rounded border border-white/[0.04]">
-                <div className="text-slate-400 text-[10px]">{isHi ? 'आश्रय स्थल' : 'Shelter'}</div>
-                <div className="font-semibold text-white mt-0.5 truncate">{rerouteData.nearest_shelter.name}</div>
+              <div className="bg-[#07141F] p-2.5 rounded border border-[#1E3440]">
+                <div className="text-[#94A3B8] text-[10px]">{isHi ? 'आश्रय स्थल' : 'Shelter'}</div>
+                <div className="font-semibold text-[#F1F5F9] mt-0.5 truncate">{rerouteData.nearest_shelter.name}</div>
               </div>
-              <div className="bg-[#0e1017] p-2.5 rounded border border-white/[0.04]">
-                <div className="text-slate-400 text-[10px]">{isHi ? 'दूरी' : 'Distance'}</div>
+              <div className="bg-[#07141F] p-2.5 rounded border border-[#1E3440]">
+                <div className="text-[#94A3B8] text-[10px]">{isHi ? 'दूरी' : 'Distance'}</div>
                 <div className="font-mono font-semibold text-sky-400 mt-0.5">{rerouteData.nearest_shelter.distance_m || 480}m</div>
               </div>
-              <div className="bg-[#0e1017] p-2.5 rounded border border-white/[0.04]">
-                <div className="text-slate-400 text-[10px]">{isHi ? 'हेल्पलाइन' : 'Helpline'}</div>
+              <div className="bg-[#07141F] p-2.5 rounded border border-[#1E3440]">
+                <div className="text-[#94A3B8] text-[10px]">{isHi ? 'हेल्पलाइन' : 'Helpline'}</div>
                 <div className="font-mono font-semibold text-amber-400 mt-0.5">{rerouteData.nearest_shelter.contact_phone || '112'}</div>
               </div>
             </div>

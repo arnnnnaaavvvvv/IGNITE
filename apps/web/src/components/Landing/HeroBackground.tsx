@@ -153,17 +153,17 @@ export const HeroBackground: React.FC<HeroBackgroundProps> = ({ className = '' }
 
         // Color & stroke styling
         if (isHighlight) {
-          // Highlight contour with pure silver-white shimmer
+          // Highlight contour with Emerald (#10B981) and Mint (#34D399) shimmer
           const grad = ctx.createLinearGradient(0, baseY, width, baseY);
-          grad.addColorStop(0, 'rgba(255, 255, 255, 0.04)');
-          grad.addColorStop(0.3, 'rgba(255, 255, 255, 0.45)');
-          grad.addColorStop(0.7, 'rgba(255, 255, 255, 0.45)');
-          grad.addColorStop(1, 'rgba(255, 255, 255, 0.04)');
+          grad.addColorStop(0, 'rgba(16, 185, 129, 0.04)');
+          grad.addColorStop(0.3, 'rgba(16, 185, 129, 0.45)');
+          grad.addColorStop(0.7, 'rgba(52, 211, 153, 0.5)');
+          grad.addColorStop(1, 'rgba(16, 185, 129, 0.04)');
           ctx.strokeStyle = grad;
           ctx.lineWidth = 1.3;
         } else {
-          // Subtle titanium contour line
-          ctx.strokeStyle = `rgba(255, 255, 255, ${0.08 + (i % 3 === 0 ? 0.06 : 0.02)})`;
+          // Subtle Dark Teal contour line
+          ctx.strokeStyle = `rgba(30, 52, 64, ${0.4 + (i % 3 === 0 ? 0.2 : 0.1)})`;
           ctx.lineWidth = 0.85;
         }
 
@@ -175,10 +175,10 @@ export const HeroBackground: React.FC<HeroBackgroundProps> = ({ className = '' }
           const pulsePos = ((time * pulseSpeed) % 1) * width;
           const pulseWaveY = baseY + Math.sin(pulsePos * 0.0042 + time * 0.8 + i * 0.65) * (16 + i * 1.5);
 
-          // Glowing pulse head
+          // Glowing pulse head in Mint & Emerald
           const radGrad = ctx.createRadialGradient(pulsePos, pulseWaveY, 0, pulsePos, pulseWaveY, 24);
           radGrad.addColorStop(0, 'rgba(255, 255, 255, 0.95)');
-          radGrad.addColorStop(0.3, 'rgba(255, 255, 255, 0.4)');
+          radGrad.addColorStop(0.3, 'rgba(52, 211, 153, 0.6)');
           radGrad.addColorStop(1, 'transparent');
 
           ctx.fillStyle = radGrad;
@@ -186,7 +186,7 @@ export const HeroBackground: React.FC<HeroBackgroundProps> = ({ className = '' }
           ctx.arc(pulsePos, pulseWaveY, 18, 0, Math.PI * 2);
           ctx.fill();
 
-          ctx.fillStyle = '#ffffff';
+          ctx.fillStyle = '#34D399';
           ctx.beginPath();
           ctx.arc(pulsePos, pulseWaveY, 2.2, 0, Math.PI * 2);
           ctx.fill();
@@ -201,18 +201,23 @@ export const HeroBackground: React.FC<HeroBackgroundProps> = ({ className = '' }
         // Expanding sonar wave ring
         const sonarCycle = (time * 0.6 + idx * 0.25) % 1;
         const sonarRadius = sonarCycle * 32;
-        const sonarAlpha = (1 - sonarCycle) * 0.35;
+        const sonarAlpha = (1 - sonarCycle) * 0.4;
 
-        ctx.strokeStyle = `rgba(255, 255, 255, ${sonarAlpha})`;
+        ctx.strokeStyle = `rgba(16, 185, 129, ${sonarAlpha})`;
         ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.arc(bx, by, sonarRadius, 0, Math.PI * 2);
         ctx.stroke();
 
         // Core dot
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = '#10B981';
         ctx.beginPath();
-        ctx.arc(bx, by, 2.5, 0, Math.PI * 2);
+        ctx.arc(bx, by, 3, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#F1F5F9';
+        ctx.beginPath();
+        ctx.arc(bx, by, 1.2, 0, Math.PI * 2);
         ctx.fill();
       });
 
@@ -221,7 +226,7 @@ export const HeroBackground: React.FC<HeroBackgroundProps> = ({ className = '' }
         ctx.save();
         ctx.setLineDash([4, 6]);
         ctx.lineDashOffset = -time * 15;
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+        ctx.strokeStyle = 'rgba(16, 185, 129, 0.25)';
         ctx.lineWidth = 1;
 
         ctx.beginPath();
@@ -257,41 +262,41 @@ export const HeroBackground: React.FC<HeroBackgroundProps> = ({ className = '' }
       className={`absolute inset-0 pointer-events-none overflow-hidden select-none ${className}`}
       aria-hidden="true"
     >
-      {/* 1. Deep Atmospheric Luminous Ambient Glow (Monochrome Titanium orbs) */}
+      {/* 1. Deep Atmospheric Luminous Ambient Glow (Emerald & Deep Slate orbs) */}
       <div
         className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[850px] h-[380px] sm:h-[520px] rounded-full blur-[110px] animate-hero-orb-1 opacity-35"
         style={{
-          background: 'radial-gradient(ellipse at center, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.03) 45%, transparent 72%)',
+          background: 'radial-gradient(ellipse at center, rgba(16, 185, 129, 0.22) 0%, rgba(5, 150, 105, 0.08) 45%, transparent 72%)',
         }}
       />
       <div
         className="absolute top-1/3 right-1/4 translate-x-1/2 -translate-y-1/2 w-[550px] sm:w-[780px] h-[360px] sm:h-[480px] rounded-full blur-[110px] animate-hero-orb-2 opacity-30"
         style={{
-          background: 'radial-gradient(ellipse at center, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.02) 45%, transparent 72%)',
+          background: 'radial-gradient(ellipse at center, rgba(52, 211, 153, 0.16) 0%, rgba(16, 185, 129, 0.06) 45%, transparent 72%)',
         }}
       />
       <div
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[700px] sm:w-[980px] h-[280px] sm:h-[400px] rounded-full blur-[120px] animate-hero-orb-3 opacity-25"
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[700px] sm:w-[980px] h-[280px] sm:h-[400px] rounded-full blur-[120px] animate-hero-orb-3 opacity-30"
         style={{
-          background: 'radial-gradient(ellipse at center, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.02) 50%, transparent 75%)',
+          background: 'radial-gradient(ellipse at center, rgba(13, 32, 43, 0.7) 0%, rgba(7, 20, 31, 0.4) 50%, transparent 75%)',
         }}
       />
 
       {/* 2. Concentric Tactical Radar Sweep Rings (Center Screen) */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] sm:w-[950px] h-[650px] sm:h-[950px] opacity-25">
         <svg className="w-full h-full" viewBox="0 0 800 800" fill="none">
-          <circle cx="400" cy="400" r="160" stroke="rgba(255, 255, 255, 0.15)" strokeWidth="0.8" strokeDasharray="6 6" />
-          <circle cx="400" cy="400" r="280" stroke="rgba(255, 255, 255, 0.12)" strokeWidth="0.8" />
-          <circle cx="400" cy="400" r="390" stroke="rgba(255, 255, 255, 0.15)" strokeWidth="1" strokeDasharray="3 9" />
-          <line x1="400" y1="20" x2="400" y2="780" stroke="rgba(255, 255, 255, 0.06)" strokeWidth="0.8" strokeDasharray="4 8" />
-          <line x1="20" y1="400" x2="780" y2="400" stroke="rgba(255, 255, 255, 0.06)" strokeWidth="0.8" strokeDasharray="4 8" />
+          <circle cx="400" cy="400" r="160" stroke="#1E3440" strokeWidth="0.8" strokeDasharray="6 6" />
+          <circle cx="400" cy="400" r="280" stroke="#1E3440" strokeWidth="0.8" />
+          <circle cx="400" cy="400" r="390" stroke="rgba(16, 185, 129, 0.25)" strokeWidth="1" strokeDasharray="3 9" />
+          <line x1="400" y1="20" x2="400" y2="780" stroke="#1E3440" strokeWidth="0.8" strokeDasharray="4 8" />
+          <line x1="20" y1="400" x2="780" y2="400" stroke="#1E3440" strokeWidth="0.8" strokeDasharray="4 8" />
         </svg>
 
         {/* Rotating Radar Sweep Light Beam */}
         <div
           className="absolute inset-0 rounded-full animate-hero-radar"
           style={{
-            background: 'conic-gradient(from 0deg, transparent 0deg, transparent 290deg, rgba(255, 255, 255, 0.03) 330deg, rgba(255, 255, 255, 0.22) 360deg)',
+            background: 'conic-gradient(from 0deg, transparent 0deg, transparent 290deg, rgba(16, 185, 129, 0.04) 330deg, rgba(16, 185, 129, 0.35) 360deg)',
             maskImage: 'radial-gradient(circle at center, black 20%, transparent 68%)',
             WebkitMaskImage: 'radial-gradient(circle at center, black 20%, transparent 68%)',
           }}

@@ -271,24 +271,24 @@ export const ExplainabilityPanel: React.FC<ExplainabilityPanelProps> = ({
   return (
     <div className="space-y-4">
       {/* 1. Main Header & Verdict Card */}
-      <div className="glass-panel p-4 sm:p-5 rounded-xl border border-white/[0.08] bg-[#0e1017]">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-4 border-b border-white/[0.08]">
+      <div className="glass-panel p-4 sm:p-5 rounded-xl border border-[#1E3440] bg-[#0D202B]">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-4 border-b border-[#1E3440]">
           <div className="space-y-1">
             <div className="flex items-center gap-2 flex-wrap">
               <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
                 {isHi ? 'सुरक्षा विश्लेषण' : 'SAFETY UPDATE'}
               </span>
               <span className="text-slate-600 hidden sm:inline">•</span>
-              <span className="text-xs text-slate-400 font-medium flex items-center gap-1">
-                <MapPin className="w-3.5 h-3.5 text-slate-400" />
+              <span className="text-xs text-[#94A3B8] font-medium flex items-center gap-1">
+                <MapPin className="w-3.5 h-3.5 text-[#94A3B8]" />
                 {regionName}
               </span>
             </div>
-            <h1 className="text-base sm:text-lg font-bold text-white tracking-tight">
+            <h1 className="text-base sm:text-lg font-bold text-[#F1F5F9] tracking-tight">
               {t('explainability_heading', language)}
             </h1>
             <p className="text-xs text-slate-300">
-              {isHi ? 'स्थान:' : 'Location:'} <strong className="text-white font-semibold">{checkpointName}</strong>
+              {isHi ? 'स्थान:' : 'Location:'} <strong className="text-[#F1F5F9] font-semibold">{checkpointName}</strong>
             </p>
           </div>
 
@@ -299,7 +299,7 @@ export const ExplainabilityPanel: React.FC<ExplainabilityPanelProps> = ({
               className={`btn-tactile flex items-center gap-1.5 px-3 py-1.5 rounded-md border text-xs font-semibold cursor-pointer ${
                 isSpeaking
                   ? 'bg-red-500/10 text-red-300 border-red-500/40'
-                  : 'bg-[#12141d] hover:bg-[#181b26] text-slate-200 border-white/[0.08]'
+                  : 'bg-[#0D202B] hover:bg-[#132A38] text-slate-200 border-[#1E3440]'
               }`}
             >
               <Volume2 className={`w-3.5 h-3.5 ${isSpeaking ? 'text-red-400 animate-spin' : 'text-emerald-400'}`} />
@@ -307,10 +307,10 @@ export const ExplainabilityPanel: React.FC<ExplainabilityPanelProps> = ({
             </button>
 
             {/* Overall Score Meter */}
-            <div className="flex items-center gap-2.5 bg-[#12141d] border border-white/[0.08] px-3 py-1.5 rounded-md">
+            <div className="flex items-center gap-2.5 bg-[#0D202B] border border-[#1E3440] px-3 py-1.5 rounded-md">
               <div className="text-right">
-                <div className="text-[10px] uppercase font-mono text-slate-400">{t('safety_index', language)}</div>
-                <div className="text-xs font-semibold text-white">{verdict.levelText.split('•')[0]}</div>
+                <div className="text-[10px] uppercase font-mono text-[#94A3B8]">{t('safety_index', language)}</div>
+                <div className="text-xs font-semibold text-[#F1F5F9]">{verdict.levelText.split('•')[0]}</div>
               </div>
               <div className="flex items-center justify-center w-8 h-8 rounded bg-emerald-500/10 border border-emerald-500/20">
                 <span className="font-mono text-xs font-bold text-emerald-400">{totalScore}</span>
@@ -320,18 +320,18 @@ export const ExplainabilityPanel: React.FC<ExplainabilityPanelProps> = ({
         </div>
 
         {/* 2. Plain Summary */}
-        <div className="mt-3.5 p-3.5 rounded-lg bg-[#12141d] border border-white/[0.06] space-y-2.5">
+        <div className="mt-3.5 p-3.5 rounded-lg bg-[#0D202B] border border-[#1E3440] space-y-2.5">
           <div className="flex items-center justify-between gap-2 flex-wrap">
             <div className="flex items-center gap-2">
               <span className={`w-2 h-2 rounded-full ${verdict.dotColor}`} />
-              <span className="text-xs font-bold text-white tracking-wide uppercase">
+              <span className="text-xs font-bold text-[#F1F5F9] tracking-wide uppercase">
                 {isHi ? 'सुरक्षा स्थिति:' : 'Safety Status:'}
               </span>
               <span className={`text-[10px] font-mono font-semibold px-2 py-0.2 rounded border ${verdict.badgeBg}`}>
                 {verdict.badge}
               </span>
             </div>
-            <span className="text-[11px] text-slate-400 font-mono hidden sm:inline">
+            <span className="text-[11px] text-[#94A3B8] font-mono hidden sm:inline">
               {isHi ? 'मौसम व राहत दलों द्वारा सत्यापित' : 'Verified with Weather & Safety Grid'}
             </span>
           </div>
@@ -341,33 +341,33 @@ export const ExplainabilityPanel: React.FC<ExplainabilityPanelProps> = ({
           </p>
 
           {/* Quick 4 Status Cards */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 border-t border-white/[0.04] text-xs">
-            <div className="p-2 rounded-md bg-[#0e1017] border border-white/[0.04]">
-              <div className="text-slate-400 text-[10px] flex items-center gap-1">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 border-t border-[#1E3440] text-xs">
+            <div className="p-2 rounded-md bg-[#0D202B] border border-[#1E3440]">
+              <div className="text-[#94A3B8] text-[10px] flex items-center gap-1">
                 <Mountain className="w-3 h-3 text-emerald-400" />
                 <span>{isHi ? 'धरातल / ढलान' : 'Ground / Slope'}</span>
               </div>
               <div className="font-semibold text-slate-200 mt-0.5">{isHi ? 'स्थिर व सुरक्षित' : 'Stable & Safe'}</div>
             </div>
 
-            <div className="p-2 rounded-md bg-[#0e1017] border border-white/[0.04]">
-              <div className="text-slate-400 text-[10px] flex items-center gap-1">
+            <div className="p-2 rounded-md bg-[#0D202B] border border-[#1E3440]">
+              <div className="text-[#94A3B8] text-[10px] flex items-center gap-1">
                 <CloudSun className="w-3 h-3 text-sky-400" />
                 <span>{isHi ? 'मौसम' : 'Weather'}</span>
               </div>
               <div className="font-semibold text-slate-200 mt-0.5">{isHi ? 'साफ (22°C)' : 'Clear (22°C)'}</div>
             </div>
 
-            <div className="p-2 rounded-md bg-[#0e1017] border border-white/[0.04]">
-              <div className="text-slate-400 text-[10px] flex items-center gap-1">
+            <div className="p-2 rounded-md bg-[#0D202B] border border-[#1E3440]">
+              <div className="text-[#94A3B8] text-[10px] flex items-center gap-1">
                 <HeartPulse className="w-3 h-3 text-emerald-400" />
                 <span>{isHi ? 'ऑक्सीजन स्तर' : 'Oxygen Level'}</span>
               </div>
               <div className="font-semibold text-slate-200 mt-0.5">{isHi ? 'सामान्य (98%+)' : 'Normal (98%+)'}</div>
             </div>
 
-            <div className="p-2 rounded-md bg-[#0e1017] border border-white/[0.04]">
-              <div className="text-slate-400 text-[10px] flex items-center gap-1">
+            <div className="p-2 rounded-md bg-[#0D202B] border border-[#1E3440]">
+              <div className="text-[#94A3B8] text-[10px] flex items-center gap-1">
                 <Building2 className="w-3 h-3 text-sky-400" />
                 <span>{isHi ? 'चिकित्सा सुविधा' : 'Medical Help'}</span>
               </div>
@@ -384,7 +384,7 @@ export const ExplainabilityPanel: React.FC<ExplainabilityPanelProps> = ({
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
             <span>{isHi ? 'सुरक्षा कारक विवरण' : 'Safety Factors'}</span>
           </h2>
-          <span className="text-[11px] text-slate-400">{isHi ? 'विवरण देखने के लिए क्लिक करें' : 'Click to see details'}</span>
+          <span className="text-[11px] text-[#94A3B8]">{isHi ? 'विवरण देखने के लिए क्लिक करें' : 'Click to see details'}</span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -398,19 +398,19 @@ export const ExplainabilityPanel: React.FC<ExplainabilityPanelProps> = ({
                 <div
                   key={key}
                   onClick={() => toggleExpand(key)}
-                  className="glass-panel p-3.5 rounded-lg border border-white/[0.06] hover:border-white/[0.12] bg-[#12141d] transition-all cursor-pointer space-y-2.5"
+                  className="glass-panel p-3.5 rounded-lg border border-[#1E3440] hover:border-[#1E3440] bg-[#0D202B] transition-all cursor-pointer space-y-2.5"
                 >
                   {/* Card Header */}
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex items-center gap-2.5">
-                      <div className="w-8 h-8 rounded-md bg-[#0e1017] border border-white/[0.06] flex items-center justify-center text-emerald-400 shrink-0">
+                      <div className="w-8 h-8 rounded-md bg-[#0D202B] border border-[#1E3440] flex items-center justify-center text-emerald-400 shrink-0">
                         <Icon className="w-4 h-4" />
                       </div>
                       <div>
-                        <h3 className="text-xs font-semibold text-white">
+                        <h3 className="text-xs font-semibold text-[#F1F5F9]">
                           {interpreted.simpleTitle}
                         </h3>
-                        <div className="text-[10px] text-slate-400 font-mono">
+                        <div className="text-[10px] text-[#94A3B8] font-mono">
                           {item.details}
                         </div>
                       </div>
@@ -422,7 +422,7 @@ export const ExplainabilityPanel: React.FC<ExplainabilityPanelProps> = ({
                   </div>
 
                   {/* Visual Meter */}
-                  <div className="w-full h-1.5 bg-[#0e1017] rounded-full overflow-hidden border border-white/[0.04]">
+                  <div className="w-full h-1.5 bg-[#0D202B] rounded-full overflow-hidden border border-[#1E3440]">
                     <div
                       className={`h-full rounded-full transition-all duration-300 ${
                         item.score > 65 ? 'bg-red-500' : item.score > 35 ? 'bg-amber-500' : 'bg-emerald-500'
@@ -432,7 +432,7 @@ export const ExplainabilityPanel: React.FC<ExplainabilityPanelProps> = ({
                   </div>
 
                   {/* Plain Meaning */}
-                  <div className="text-[11px] text-slate-300 leading-relaxed bg-[#0e1017] p-2 rounded border border-white/[0.04]">
+                  <div className="text-[11px] text-slate-300 leading-relaxed bg-[#0D202B] p-2 rounded border border-[#1E3440]">
                     {interpreted.plainExplanation}
                   </div>
 
@@ -444,7 +444,7 @@ export const ExplainabilityPanel: React.FC<ExplainabilityPanelProps> = ({
                     </div>
                     <button
                       type="button"
-                      className="text-slate-400 hover:text-white transition-colors"
+                      className="text-[#94A3B8] hover:text-[#F1F5F9] transition-colors"
                       aria-label="Toggle details"
                     >
                       {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
@@ -453,7 +453,7 @@ export const ExplainabilityPanel: React.FC<ExplainabilityPanelProps> = ({
 
                   {/* Expanded Details */}
                   {isExpanded && (
-                    <div className="pt-2 border-t border-white/[0.06] text-[10px] text-slate-400 space-y-1">
+                    <div className="pt-2 border-t border-[#1E3440] text-[10px] text-[#94A3B8] space-y-1">
                       <div className="flex justify-between">
                         <span className="text-slate-500">{isHi ? 'स्रोत:' : 'Source:'}</span>
                         <span className="font-medium text-slate-300 text-right">{interpreted.agency}</span>
@@ -468,7 +468,7 @@ export const ExplainabilityPanel: React.FC<ExplainabilityPanelProps> = ({
               );
             })
           ) : (
-            <div className="col-span-2 glass-panel p-6 rounded-lg text-center text-slate-400 text-xs">
+            <div className="col-span-2 glass-panel p-6 rounded-lg text-center text-[#94A3B8] text-xs">
               {isHi
                 ? 'विस्तृत सुरक्षा गेज देखने के लिए किसी पड़ाव का चयन करें।'
                 : 'Select any stop from your itinerary to view detailed safety gauges.'}
@@ -478,58 +478,58 @@ export const ExplainabilityPanel: React.FC<ExplainabilityPanelProps> = ({
       </div>
 
       {/* 4. Actionable Tourist Safety Guide */}
-      <div className="glass-panel p-4 sm:p-5 rounded-xl border border-white/[0.08] bg-[#0e1017] space-y-3">
+      <div className="glass-panel p-4 sm:p-5 rounded-xl border border-[#1E3440] bg-[#0D202B] space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5">
             <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-            <h2 className="text-xs font-bold text-white">{isHi ? 'यात्रियों के लिए तैयारी और सुरक्षा सुझाव' : 'Helpful Travel Tips & Advice'}</h2>
+            <h2 className="text-xs font-bold text-[#F1F5F9]">{isHi ? 'यात्रियों के लिए तैयारी और सुरक्षा सुझाव' : 'Helpful Travel Tips & Advice'}</h2>
           </div>
-          <span className="text-[10px] text-slate-400 font-mono">{isHi ? 'सलाह' : 'Guideline'}</span>
+          <span className="text-[10px] text-[#94A3B8] font-mono">{isHi ? 'सलाह' : 'Guideline'}</span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 text-xs">
-          <div className="p-2.5 rounded-lg bg-[#12141d] border border-white/[0.06] space-y-0.5">
+          <div className="p-2.5 rounded-lg bg-[#0D202B] border border-[#1E3440] space-y-0.5">
             <div className="flex items-center gap-1.5 font-semibold text-slate-200">
               <Shirt className="w-3.5 h-3.5 text-sky-400" />
               <span>{isHi ? 'पोशाक व जूते' : 'Recommended Gear'}</span>
             </div>
-            <p className="text-[10px] text-slate-400 leading-normal">
+            <p className="text-[10px] text-[#94A3B8] leading-normal">
               {isHi
                 ? 'हल्के गर्म कपड़े, आरामदायक जूते और धूप का चश्मा साथ रखें।'
                 : 'Light layer, comfortable walking shoes with good grip, and sunglasses.'}
             </p>
           </div>
 
-          <div className="p-2.5 rounded-lg bg-[#12141d] border border-white/[0.06] space-y-0.5">
+          <div className="p-2.5 rounded-lg bg-[#0D202B] border border-[#1E3440] space-y-0.5">
             <div className="flex items-center gap-1.5 font-semibold text-slate-200">
               <Droplets className="w-3.5 h-3.5 text-emerald-400" />
               <span>{isHi ? 'पानी व गति' : 'Hydration & Pacing'}</span>
             </div>
-            <p className="text-[10px] text-slate-400 leading-normal">
+            <p className="text-[10px] text-[#94A3B8] leading-normal">
               {isHi
                 ? 'दिनभर में 2-3 लीटर पानी पिएं। बिना किसी हड़बड़ी के सामान्य गति से चलें।'
                 : 'Drink at least 2 liters of water across the day. Walk at an easy, steady pace.'}
             </p>
           </div>
 
-          <div className="p-2.5 rounded-lg bg-[#12141d] border border-white/[0.06] space-y-0.5">
+          <div className="p-2.5 rounded-lg bg-[#0D202B] border border-[#1E3440] space-y-0.5">
             <div className="flex items-center gap-1.5 font-semibold text-slate-200">
               <Clock className="w-3.5 h-3.5 text-amber-400" />
               <span>{isHi ? 'घूमने का समय' : 'Best Visiting Hours'}</span>
             </div>
-            <p className="text-[10px] text-slate-400 leading-normal">
+            <p className="text-[10px] text-[#94A3B8] leading-normal">
               {isHi
                 ? 'उत्तम समय: सुबह 07:30 से शाम 06:00 बजे तक, अंधेरा होने से पहले।'
                 : 'Best outdoor window: 07:30 AM to 06:00 PM before nightfall.'}
             </p>
           </div>
 
-          <div className="p-2.5 rounded-lg bg-[#12141d] border border-white/[0.06] space-y-0.5">
+          <div className="p-2.5 rounded-lg bg-[#0D202B] border border-[#1E3440] space-y-0.5">
             <div className="flex items-center gap-1.5 font-semibold text-slate-200">
               <PhoneCall className="w-3.5 h-3.5 text-red-400" />
               <span>{isHi ? 'तत्काल सहायता' : 'Emergency Help'}</span>
             </div>
-            <p className="text-[10px] text-slate-400 leading-normal">
+            <p className="text-[10px] text-[#94A3B8] leading-normal">
               {isHi
                 ? 'आपातकालीन कॉल: 112 (राष्ट्रीय हेल्पलाइन) या 108 (एंबुलेंस)।'
                 : 'Emergency: Dial 112 (National Helpline) or 108 (Ambulance).'}

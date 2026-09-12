@@ -102,17 +102,17 @@ export const GroupTrackerModal: React.FC<GroupTrackerModalProps> = ({
   return (
     <div className="space-y-4">
       {/* Top Banner */}
-      <div className="glass-panel p-4 sm:p-5 rounded-xl border border-white/[0.08]">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 border-b border-white/[0.08]">
+      <div className="glass-panel p-4 sm:p-5 rounded-xl border border-[#1E3440]">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 border-b border-[#1E3440]">
           <div>
             <div className="flex items-center gap-2 mb-0.5">
               <span className="text-xs font-mono font-semibold uppercase tracking-wider text-emerald-400">
                 {language === 'hi' ? 'परिवार एवं समूह ट्रैकर' : 'FAMILY & GROUP TRACKER'}
               </span>
               <span className="text-slate-600">•</span>
-              <span className="text-xs text-slate-400">{destinationName}</span>
+              <span className="text-xs text-[#94A3B8]">{destinationName}</span>
             </div>
-            <h2 className="text-sm sm:text-base font-bold text-white">
+            <h2 className="text-sm sm:text-base font-bold text-[#F1F5F9]">
               {language === 'hi' ? 'रीयल-टाइम सदस्य ट्रैकिंग' : 'Real-Time Member Tracking'}
             </h2>
           </div>
@@ -120,7 +120,7 @@ export const GroupTrackerModal: React.FC<GroupTrackerModalProps> = ({
           <button
             onClick={simulateGroupSync}
             disabled={simulatingMove}
-            className="btn-tactile flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[#12141d] hover:bg-[#181b26] text-emerald-300 border border-emerald-500/30 text-xs font-medium cursor-pointer"
+            className="btn-tactile flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[#0D202B] hover:bg-[#132A38] text-emerald-300 border border-emerald-500/30 text-xs font-medium cursor-pointer"
           >
             <Radio className={`w-3.5 h-3.5 ${simulatingMove ? 'animate-spin' : ''}`} />
             <span>{simulatingMove ? (language === 'hi' ? 'अपडेट हो रहा है...' : 'Updating...') : (language === 'hi' ? 'लोकेशन अपडेट करें' : 'Refresh Locations')}</span>
@@ -151,14 +151,14 @@ export const GroupTrackerModal: React.FC<GroupTrackerModalProps> = ({
       {/* Leader & Member Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
         {/* Leader Card */}
-        <div className="glass-panel p-4 rounded-xl border border-emerald-500/30 bg-[#12141d]">
+        <div className="glass-panel p-4 rounded-xl border border-emerald-500/30 bg-[#0D202B]">
           <div className="flex items-center justify-between mb-2.5">
             <div className="flex items-center gap-2">
               <div className="w-7 h-7 rounded-md bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
                 <User className="w-3.5 h-3.5" />
               </div>
               <div>
-                <div className="text-xs font-semibold text-white">Arnav Sharma</div>
+                <div className="text-xs font-semibold text-[#F1F5F9]">Arnav Sharma</div>
                 <div className="text-[10px] text-emerald-400 font-mono">LEADER</div>
               </div>
             </div>
@@ -166,10 +166,10 @@ export const GroupTrackerModal: React.FC<GroupTrackerModalProps> = ({
               0.0m
             </span>
           </div>
-          <div className="text-xs text-slate-400 space-y-0.5 font-mono">
+          <div className="text-xs text-[#94A3B8] space-y-0.5 font-mono">
             <div className="flex justify-between">
               <span>Altitude:</span>
-              <span className="text-white">2,730m</span>
+              <span className="text-[#F1F5F9]">2,730m</span>
             </div>
             <div className="flex justify-between">
               <span>Battery:</span>
@@ -189,33 +189,33 @@ export const GroupTrackerModal: React.FC<GroupTrackerModalProps> = ({
             className={`glass-panel p-4 rounded-xl border transition-all ${
               m.is_separated
                 ? 'border-red-500/40 bg-red-950/15'
-                : 'border-white/[0.06] bg-[#12141d]'
+                : 'border-[#1E3440] bg-[#0D202B]'
             }`}
           >
             <div className="flex items-center justify-between mb-2.5">
               <div className="flex items-center gap-2">
                 <div className={`w-7 h-7 rounded-md flex items-center justify-center ${
-                  m.is_separated ? 'bg-red-500/10 text-red-400' : 'bg-[#0e1017] text-slate-300'
+                  m.is_separated ? 'bg-red-500/10 text-red-400' : 'bg-[#07141F] text-slate-300'
                 }`}>
                   <User className="w-3.5 h-3.5" />
                 </div>
                 <div>
-                  <div className="text-xs font-semibold text-white truncate max-w-[110px]">{m.name}</div>
-                  <div className="text-[10px] text-slate-400 font-mono">{m.role}</div>
+                  <div className="text-xs font-semibold text-[#F1F5F9] truncate max-w-[110px]">{m.name}</div>
+                  <div className="text-[10px] text-[#94A3B8] font-mono">{m.role}</div>
                 </div>
               </div>
 
               <span className={`text-[10px] px-1.5 py-0.2 rounded font-mono font-medium ${
-                m.is_separated ? 'bg-red-500/15 text-red-300 border border-red-500/30' : 'bg-[#0e1017] text-slate-300'
+                m.is_separated ? 'bg-red-500/15 text-red-300 border border-red-500/30' : 'bg-[#07141F] text-slate-300'
               }`}>
                 {m.distance_from_leader_m}m
               </span>
             </div>
 
-            <div className="text-xs text-slate-400 space-y-0.5 font-mono">
+            <div className="text-xs text-[#94A3B8] space-y-0.5 font-mono">
               <div className="flex justify-between">
                 <span>Altitude:</span>
-                <span className="text-white">{m.altitude_m}m</span>
+                <span className="text-[#F1F5F9]">{m.altitude_m}m</span>
               </div>
               <div className="flex justify-between">
                 <span>Battery:</span>

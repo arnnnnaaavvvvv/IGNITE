@@ -31,8 +31,8 @@ export const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary, languag
   return (
     <div className="space-y-4">
       {/* Top Header Card with Overall Score & Summary */}
-      <div className="glass-panel p-4 sm:p-5 rounded-2xl border border-white/[0.08] bg-[#0e1017]">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-4 border-b border-white/[0.08]">
+      <div className="glass-panel p-4 sm:p-5 rounded-2xl border border-[#1E3440] bg-[#0D202B]">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-4 border-b border-[#1E3440]">
           <div className="space-y-1">
             <div className="flex items-center gap-2 flex-wrap">
               <span className="text-xs font-mono font-semibold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
@@ -44,20 +44,20 @@ export const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary, languag
               {itinerary.start_date && (
                 <>
                   <span className="text-slate-600">•</span>
-                  <span className="text-xs font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-slate-300">
+                  <span className="text-xs font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-[#1E3440] text-slate-300">
                     {itinerary.start_date} {itinerary.end_date ? `→ ${itinerary.end_date}` : ''}
                   </span>
                 </>
               )}
             </div>
-            <h1 className="text-lg sm:text-xl font-bold text-white tracking-tight">
+            <h1 className="text-lg sm:text-xl font-bold text-[#F1F5F9] tracking-tight">
               {itinerary.duration_days}-{isHi ? 'दिवसीय यात्रा प्लान' : 'Day Trip Plan'} ({itinerary.fitness_level.toLowerCase()} {isHi ? 'गति' : 'pace'})
             </h1>
           </div>
 
-          <div className="flex items-center gap-3 bg-[#12141d] border border-white/[0.08] p-2.5 rounded-xl shrink-0">
+          <div className="flex items-center gap-3 bg-[#0D202B] border border-[#1E3440] p-2.5 rounded-xl shrink-0">
             <div className="text-right">
-              <div className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">{t('safety_index', language)}</div>
+              <div className="text-[10px] text-[#94A3B8] uppercase tracking-wider font-semibold">{t('safety_index', language)}</div>
               <div className="text-xs font-bold text-slate-200">
                 {itinerary.overall_risk_category} {isHi ? 'स्तर' : 'LEVEL'}
               </div>
@@ -71,10 +71,10 @@ export const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary, languag
         </div>
 
         {/* Friendly Destination Advice Banner */}
-        <div className="mt-3.5 p-3.5 rounded-xl bg-[#12141d] border border-white/[0.06] flex items-start gap-2.5">
+        <div className="mt-3.5 p-3.5 rounded-xl bg-[#0D202B] border border-[#1E3440] flex items-start gap-2.5">
           <Info className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
           <div className="text-xs text-slate-300 space-y-1.5">
-            <div className="font-semibold text-white flex items-center gap-1.5">
+            <div className="font-semibold text-[#F1F5F9] flex items-center gap-1.5">
               <span>{isHi ? 'उपयोगी यात्रा सुझाव एवं सलाह' : 'Helpful Travel Advice & Tips'}:</span>
             </div>
             <ul className="list-disc list-inside text-xs text-slate-300 space-y-1">
@@ -100,8 +100,8 @@ export const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary, languag
               onClick={() => setSelectedDay(day.day_number)}
               className={`btn-tactile flex-1 min-w-[200px] p-3 rounded-xl border text-left cursor-pointer transition-all ${
                 isSelected
-                  ? 'bg-[#12141d] border-emerald-500/50 shadow-md ring-1 ring-emerald-500/20'
-                  : 'bg-[#0e1017] border-white/[0.06] hover:border-white/[0.12]'
+                  ? 'bg-[#0D202B] border-emerald-500/50 shadow-md ring-1 ring-emerald-500/20'
+                  : 'bg-[#0D202B] border-[#1E3440] hover:border-[#1E3440]'
               }`}
             >
               <div className="flex items-center justify-between mb-1">
@@ -113,7 +113,7 @@ export const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary, languag
                 </span>
               </div>
               <div className="text-xs text-slate-300 font-medium truncate">{dayTitle}</div>
-              <div className="flex items-center gap-2 text-[10px] text-slate-400 font-mono mt-1.5">
+              <div className="flex items-center gap-2 text-[10px] text-[#94A3B8] font-mono mt-1.5">
                 <span>{day.distance_km} km</span>
                 <span>•</span>
                 <span>+{day.elevation_gain_m}m {isHi ? 'चढ़ाई' : 'climb'}</span>
@@ -127,20 +127,20 @@ export const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary, languag
 
       {/* Active Day Detail Card */}
       {activeDayPlan && (
-        <div className="glass-panel p-4 sm:p-5 rounded-2xl border border-white/[0.08] bg-[#0e1017] space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-white/[0.08]">
+        <div className="glass-panel p-4 sm:p-5 rounded-2xl border border-[#1E3440] bg-[#0D202B] space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-[#1E3440]">
             <div>
               <div className="flex items-center gap-2 flex-wrap">
-                <h2 className="text-sm sm:text-base font-bold text-white tracking-tight">
+                <h2 className="text-sm sm:text-base font-bold text-[#F1F5F9] tracking-tight">
                   {isHi && activeDayPlan.title_hi ? activeDayPlan.title_hi : activeDayPlan.title}
                 </h2>
                 {activeDayPlan.date_display && (
-                  <span className="text-[11px] font-mono text-emerald-400 bg-[#12141d] px-2 py-0.5 rounded border border-white/[0.06]">
+                  <span className="text-[11px] font-mono text-emerald-400 bg-[#0D202B] px-2 py-0.5 rounded border border-[#1E3440]">
                     {activeDayPlan.date_display}
                   </span>
                 )}
               </div>
-              <div className="flex items-center gap-1.5 text-xs text-slate-400 mt-1">
+              <div className="flex items-center gap-1.5 text-xs text-[#94A3B8] mt-1">
                 <Activity className="w-3.5 h-3.5 text-emerald-400" />
                 <span>{activeDayPlan.acclimatization_safety}</span>
               </div>
@@ -165,7 +165,7 @@ export const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary, languag
           {/* Route & Traffic Forecast for the Day */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {/* Primary Safe Route */}
-            <div className="p-3.5 rounded-xl bg-[#12141d] border border-white/[0.06] space-y-1.5">
+            <div className="p-3.5 rounded-xl bg-[#0D202B] border border-[#1E3440] space-y-1.5">
               <div className="flex items-center justify-between text-xs font-semibold text-slate-200">
                 <span className="flex items-center gap-1.5 text-slate-300">
                   <Compass className="w-4 h-4 text-emerald-400" />
@@ -175,7 +175,7 @@ export const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary, languag
                   {isHi && activeDayPlan.traffic_summary_hi ? activeDayPlan.traffic_summary_hi : (activeDayPlan.traffic_summary || 'Normal Traffic Flow')}
                 </span>
               </div>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-[#94A3B8]">
                 {isHi && activeDayPlan.suggested_route_hi ? activeDayPlan.suggested_route_hi : activeDayPlan.suggested_route}
               </p>
             </div>
@@ -226,12 +226,12 @@ export const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary, languag
                     {/* Timeline Dot */}
                     <div className="absolute -left-[25px] top-3 w-2.5 h-2.5 rounded-full bg-[#090a0f] border-2 border-emerald-400 group-hover:scale-125 transition-transform" />
 
-                    <div className="bg-[#12141d] border border-white/[0.06] group-hover:border-white/[0.14] p-4 rounded-xl transition-all space-y-3">
+                    <div className="bg-[#0D202B] border border-[#1E3440] group-hover:border-white/[0.14] p-4 rounded-xl transition-all space-y-3">
                       {/* Top Row: Name, Altitude, Risk */}
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <div className="flex items-center gap-2 flex-wrap">
                           <span className="text-xs font-mono font-bold text-emerald-400">{idx + 1}.</span>
-                          <span className="text-sm font-semibold text-white group-hover:text-emerald-300 transition-colors">{cpName}</span>
+                          <span className="text-sm font-semibold text-[#F1F5F9] group-hover:text-emerald-300 transition-colors">{cpName}</span>
                           {cp.has_oxygen_booth && (
                             <span className="text-[10px] px-2 py-0.5 rounded bg-sky-500/10 text-sky-400 border border-sky-500/20 flex items-center gap-1 font-mono">
                               <HeartPulse className="w-3 h-3" />
@@ -241,7 +241,7 @@ export const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary, languag
                         </div>
 
                         <div className="flex items-center gap-2">
-                          <span className="text-xs font-mono text-slate-400">{cp.altitude_m}m</span>
+                          <span className="text-xs font-mono text-[#94A3B8]">{cp.altitude_m}m</span>
                           <span className={`text-[10px] px-2 py-0.5 rounded font-mono font-medium border ${badge.bg}`}>
                             {badge.label}
                           </span>
@@ -256,12 +256,12 @@ export const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary, languag
                       )}
 
                       {/* Timings & Best View Box */}
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 pt-1 border-t border-white/[0.06]">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 pt-1 border-t border-[#1E3440]">
                         {/* Opening & Closing Hours */}
-                        <div className="flex items-start gap-2 p-2.5 rounded-lg bg-black/30 border border-white/[0.04]">
+                        <div className="flex items-start gap-2 p-2.5 rounded-lg bg-black/30 border border-[#1E3440]">
                           <Clock className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
                           <div className="text-xs space-y-0.5">
-                            <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+                            <span className="text-[10px] font-semibold uppercase tracking-wider text-[#94A3B8]">
                               {isHi ? 'खुलने व बंद होने का समय' : 'Opening & Closing'}:
                             </span>
                             <div className="text-xs font-medium text-amber-300">
@@ -271,10 +271,10 @@ export const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary, languag
                         </div>
 
                         {/* Best View Timing */}
-                        <div className="flex items-start gap-2 p-2.5 rounded-lg bg-black/30 border border-white/[0.04]">
+                        <div className="flex items-start gap-2 p-2.5 rounded-lg bg-black/30 border border-[#1E3440]">
                           <Sun className="w-3.5 h-3.5 text-sky-400 shrink-0 mt-0.5" />
                           <div className="text-xs space-y-0.5">
-                            <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+                            <span className="text-[10px] font-semibold uppercase tracking-wider text-[#94A3B8]">
                               {isHi ? 'सर्वोत्तम दृश्य का समय' : 'Best View Timing'}:
                             </span>
                             <div className="text-xs font-medium text-sky-300">
@@ -295,7 +295,7 @@ export const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary, languag
                       {/* Clean Friendly Facilities Tags */}
                       <div className="flex flex-wrap gap-1.5 pt-1">
                         {cp.facilities.map((fac, fIdx) => (
-                          <span key={fIdx} className="text-[10px] px-2 py-0.5 rounded-md bg-white/[0.04] text-slate-300 border border-white/[0.06] flex items-center gap-1">
+                          <span key={fIdx} className="text-[10px] px-2 py-0.5 rounded-md bg-white/[0.04] text-slate-300 border border-[#1E3440] flex items-center gap-1">
                             <CheckCircle2 className="w-2.5 h-2.5 text-emerald-400" />
                             <span>{fac}</span>
                           </span>
@@ -311,11 +311,11 @@ export const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary, languag
       )}
 
       {/* Budget Breakdown Summary */}
-      <div className="glass-panel p-4 sm:p-5 rounded-2xl border border-white/[0.08] bg-[#0e1017] space-y-3">
+      <div className="glass-panel p-4 sm:p-5 rounded-2xl border border-[#1E3440] bg-[#0D202B] space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Wallet className="w-4 h-4 text-emerald-400" />
-            <h3 className="text-xs font-bold text-white tracking-tight">{t('budget_breakdown_title', language)}</h3>
+            <h3 className="text-xs font-bold text-[#F1F5F9] tracking-tight">{t('budget_breakdown_title', language)}</h3>
           </div>
           <span className="text-xs font-mono font-bold text-emerald-400">
             {isHi ? 'कुल अनुमानित खर्च:' : 'Estimated Total:'} ₹{itinerary.budget_breakdown.allocated_total_inr.toLocaleString('en-IN')}
@@ -323,26 +323,26 @@ export const ItineraryView: React.FC<ItineraryViewProps> = ({ itinerary, languag
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 text-xs">
-          <div className="bg-[#12141d] p-2.5 rounded-xl border border-white/[0.06]">
-            <div className="text-slate-400 text-[10px]">{t('budget_transport', language)}</div>
+          <div className="bg-[#0D202B] p-2.5 rounded-xl border border-[#1E3440]">
+            <div className="text-[#94A3B8] text-[10px]">{t('budget_transport', language)}</div>
             <div className="font-mono font-semibold text-slate-200 mt-0.5">
               ₹{(itinerary.budget_breakdown.categories.local_transit_taxi_inr ?? itinerary.budget_breakdown.categories.transit_taxi_inr ?? 0).toLocaleString('en-IN')}
             </div>
           </div>
-          <div className="bg-[#12141d] p-2.5 rounded-xl border border-white/[0.06]">
-            <div className="text-slate-400 text-[10px]">{t('budget_stay', language)}</div>
+          <div className="bg-[#0D202B] p-2.5 rounded-xl border border-[#1E3440]">
+            <div className="text-[#94A3B8] text-[10px]">{t('budget_stay', language)}</div>
             <div className="font-mono font-semibold text-slate-200 mt-0.5">
               ₹{(itinerary.budget_breakdown.categories.accommodation_inr ?? 0).toLocaleString('en-IN')}
             </div>
           </div>
-          <div className="bg-[#12141d] p-2.5 rounded-xl border border-white/[0.06]">
-            <div className="text-slate-400 text-[10px]">{t('budget_food', language)}</div>
+          <div className="bg-[#0D202B] p-2.5 rounded-xl border border-[#1E3440]">
+            <div className="text-[#94A3B8] text-[10px]">{t('budget_food', language)}</div>
             <div className="font-mono font-semibold text-slate-200 mt-0.5">
               ₹{(itinerary.budget_breakdown.categories.food_and_hydration_inr ?? 0).toLocaleString('en-IN')}
             </div>
           </div>
-          <div className="bg-[#12141d] p-2.5 rounded-xl border border-white/[0.06]">
-            <div className="text-slate-400 text-[10px]">{isHi ? 'परमिट व प्रवेश शुल्क' : 'Permits & Entry Passes'}</div>
+          <div className="bg-[#0D202B] p-2.5 rounded-xl border border-[#1E3440]">
+            <div className="text-[#94A3B8] text-[10px]">{isHi ? 'परमिट व प्रवेश शुल्क' : 'Permits & Entry Passes'}</div>
             <div className="font-mono font-semibold text-slate-200 mt-0.5">
               ₹{(itinerary.budget_breakdown.categories.permits_safari_darshan_inr ?? itinerary.budget_breakdown.categories.porter_mule_optional_inr ?? 0).toLocaleString('en-IN')}
             </div>

@@ -45,7 +45,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-black/85 backdrop-blur-[16px] shadow-sm">
+      <header className="sticky top-0 z-50 w-full border-b border-[#1E3440] bg-[#07141F]/90 backdrop-blur-[16px] shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between gap-3">
           {/* Brand & Logo */}
           <button 
@@ -55,14 +55,14 @@ export const Navbar: React.FC<NavbarProps> = ({
             <IgniteLogo size="md" />
 
             <div className="flex items-center gap-2.5">
-              <span className="font-bold text-base sm:text-lg tracking-tight text-white group-hover:text-neutral-200 transition-colors font-sans">
+              <span className="font-bold text-base sm:text-lg tracking-tight text-[#F1F5F9] group-hover:text-[#34D399] transition-colors font-sans">
                 IGNITE
               </span>
             </div>
           </button>
 
           {/* Desktop Center Tabs Navigation - Always visible on desktop across all views */}
-          <nav className="hidden md:flex items-center gap-1.5 bg-white/[0.08] p-1.5 rounded-xl border border-white/15 shadow-lg backdrop-blur-md">
+          <nav className="hidden md:flex items-center gap-1.5 bg-[#0D202B]/80 p-1.5 rounded-xl border border-[#1E3440] shadow-lg backdrop-blur-md">
             {tabs.map((tab) => {
               const isActive = activeTab === tab.id;
               return (
@@ -71,8 +71,8 @@ export const Navbar: React.FC<NavbarProps> = ({
                   onClick={() => setActiveTab(tab.id as any)}
                   className={`btn-tactile flex items-center px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg text-sm sm:text-base font-semibold cursor-pointer relative transition-all ${
                     isActive
-                      ? 'bg-white/20 text-white font-bold shadow-md ring-1 ring-white/30'
-                      : 'text-slate-300 hover:text-white hover:bg-white/[0.08]'
+                      ? 'bg-[#10B981]/15 text-[#34D399] font-bold shadow-md ring-1 ring-[#10B981]/40 border border-[#10B981]/30'
+                      : 'text-[#94A3B8] hover:text-[#F1F5F9] hover:bg-[#1E3440]/50'
                   }`}
                 >
                   <span>{tab.label}</span>
@@ -86,16 +86,16 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Right Action Controls: Lang Switcher & SOS */}
           <div className="flex items-center gap-2.5 sm:gap-3.5 shrink-0">
-            {/* Larger High-Precision Segmented Language Switcher */}
-            <div className="flex items-center bg-white/[0.08] border border-white/15 rounded-xl p-1 text-xs sm:text-sm shadow-sm">
+            {/* High-Precision Segmented Language Switcher */}
+            <div className="flex items-center bg-[#0D202B] border border-[#1E3440] rounded-xl p-1 text-xs sm:text-sm shadow-sm">
               <button
                 type="button"
                 onClick={() => handleLanguageChange('en')}
                 aria-label="Switch to English"
                 className={`btn-tactile px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-lg text-xs sm:text-sm font-mono font-bold cursor-pointer transition-all ${
                   language === 'en'
-                    ? 'bg-white/25 text-white shadow-sm'
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-[#10B981]/20 text-[#34D399] border border-[#10B981]/30 shadow-sm'
+                    : 'text-[#94A3B8] hover:text-[#F1F5F9]'
                 }`}
               >
                 EN
@@ -106,28 +106,29 @@ export const Navbar: React.FC<NavbarProps> = ({
                 aria-label="हिंदी में बदलें"
                 className={`btn-tactile px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-lg text-xs sm:text-sm font-mono font-bold cursor-pointer transition-all ${
                   language === 'hi'
-                    ? 'bg-white/25 text-white shadow-sm'
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-[#10B981]/20 text-[#34D399] border border-[#10B981]/30 shadow-sm'
+                    : 'text-[#94A3B8] hover:text-[#F1F5F9]'
                 }`}
               >
                 HI
               </button>
             </div>
 
-            {/* Larger High Priority Emergency SOS Button */}
+            {/* Emergency SOS Button */}
             <button
               onClick={onOpenSOS}
-              className="btn-tactile flex items-center justify-center gap-2 px-4 sm:px-5 h-9 sm:h-10 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-xs sm:text-sm cursor-pointer border border-red-400 shadow-lg shadow-red-600/30 transition-all hover:scale-105"
+              aria-label="Emergency SOS trigger"
+              className="btn-tactile flex items-center justify-center gap-2 bg-gradient-to-r from-red-600 via-rose-600 to-red-700 hover:from-red-500 hover:to-rose-600 text-white font-extrabold px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl shadow-lg shadow-red-950/50 border border-red-400/30 cursor-pointer animate-pulse-subtle"
             >
-              <ShieldAlert className="w-4 h-4 shrink-0" />
-              <span className="tracking-wider font-mono">{t('sos', language)}</span>
+              <ShieldAlert className="w-4 h-4 text-white" />
+              <span className="font-mono text-xs sm:text-sm tracking-wider font-bold">{t('sos', language)}</span>
             </button>
           </div>
         </div>
       </header>
 
-      {/* Fixed Mobile Bottom Navigation Bar - Effortless 1-tap navigation on all mobile devices */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-black/90 backdrop-blur-[16px] border-t border-white/15 px-3 pt-2 pb-[max(0.8rem,env(safe-area-inset-bottom))] shadow-2xl">
+      {/* Mobile Bottom Navigation Bar */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#07141F]/95 backdrop-blur-[16px] border-t border-[#1E3440] px-3 pt-2 pb-[max(0.8rem,env(safe-area-inset-bottom))] shadow-2xl">
         <div className="grid grid-cols-4 items-center justify-items-center max-w-lg mx-auto gap-1">
           {tabs.map((tab) => {
             const Icon = tab.icon;
@@ -138,12 +139,12 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onClick={() => setActiveTab(tab.id as any)}
                 className={`w-full flex flex-col items-center justify-center py-1.5 px-1 rounded-xl transition-all relative ${
                   isActive
-                    ? 'text-white bg-white/[0.12] font-bold shadow-inner'
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'text-[#34D399] bg-[#10B981]/15 font-bold shadow-inner border border-[#10B981]/25'
+                    : 'text-[#94A3B8] hover:text-[#F1F5F9]'
                 }`}
               >
                 <div className="relative">
-                  <Icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+                  <Icon className={`w-5 h-5 ${isActive ? 'text-[#34D399]' : 'text-[#94A3B8]'}`} />
                   {tab.id === 'simulation' && isSimulatingHazard && (
                     <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-red-500 animate-pulse" />
                   )}

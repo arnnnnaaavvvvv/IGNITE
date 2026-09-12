@@ -120,7 +120,7 @@ export const TrailMap: React.FC<TrailMapProps> = ({
       });
       trailPolyline.bindTooltip(isBypassActive ? 'Main Route (Degraded)' : `Verified Safe Route • ${destinationName}`, {
         sticky: true,
-        className: 'bg-[#0e1017] text-white text-xs font-semibold px-2.5 py-1 rounded-md border border-emerald-500/40 shadow-xl',
+        className: 'bg-[#0e1017] text-[#F1F5F9] text-xs font-semibold px-2.5 py-1 rounded-md border border-emerald-500/40 shadow-xl',
       });
       layersRef.current.trails.addLayer(trailPolyline);
 
@@ -292,7 +292,7 @@ export const TrailMap: React.FC<TrailMapProps> = ({
         marker.bindTooltip(`📍 ${cp.name} (${cp.altitude_m}m)`, {
           direction: 'top',
           offset: [0, -12],
-          className: 'bg-[#0e1017] text-white text-xs font-medium px-2.5 py-1 rounded-md border border-white/20 shadow-lg',
+          className: 'bg-[#0e1017] text-[#F1F5F9] text-xs font-medium px-2.5 py-1 rounded-md border border-white/20 shadow-lg',
         });
         layersRef.current.checkpoints.addLayer(marker);
       });
@@ -336,7 +336,7 @@ export const TrailMap: React.FC<TrailMapProps> = ({
   const isPreviewing = previewCoordinates && previewCoordinates.lat;
 
   return (
-    <div className="relative w-full h-full min-h-[520px] lg:min-h-full flex-1 rounded-xl overflow-hidden border border-white/[0.08] glass-panel flex flex-col">
+    <div className="relative w-full h-full min-h-[520px] lg:min-h-full flex-1 rounded-xl overflow-hidden border border-[#1E3440] glass-panel flex flex-col">
       <div ref={mapContainerRef} className="w-full h-full min-h-[520px] flex-1 z-0" />
 
       {/* Layer Toggle Controls Floating Bar */}
@@ -348,7 +348,7 @@ export const TrailMap: React.FC<TrailMapProps> = ({
               className={`btn-tactile flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-medium backdrop-blur-md cursor-pointer border ${
                 showHazards
                   ? 'bg-orange-950/80 text-orange-200 border-orange-500/40'
-                  : 'bg-[#090a0f]/90 text-slate-400 border-white/[0.08]'
+                  : 'bg-[#0D202B]/95 text-[#94A3B8] border-[#1E3440]'
               }`}
             >
               <AlertOctagon className="w-3 h-3 text-orange-400" />
@@ -360,7 +360,7 @@ export const TrailMap: React.FC<TrailMapProps> = ({
               className={`btn-tactile flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-medium backdrop-blur-md cursor-pointer border ${
                 showShelters
                   ? 'bg-sky-950/80 text-sky-200 border-sky-500/40'
-                  : 'bg-[#090a0f]/90 text-slate-400 border-white/[0.08]'
+                  : 'bg-[#0D202B]/95 text-[#94A3B8] border-[#1E3440]'
               }`}
             >
               <ShieldCheck className="w-3 h-3 text-sky-400" />
@@ -372,7 +372,7 @@ export const TrailMap: React.FC<TrailMapProps> = ({
               className={`btn-tactile flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-medium backdrop-blur-md cursor-pointer border ${
                 showCheckpoints
                   ? 'bg-emerald-950/80 text-emerald-200 border-emerald-500/40'
-                  : 'bg-[#090a0f]/90 text-slate-400 border-white/[0.08]'
+                  : 'bg-[#0D202B]/95 text-[#94A3B8] border-[#1E3440]'
               }`}
             >
               <Compass className="w-3 h-3 text-emerald-400" />
@@ -385,7 +385,7 @@ export const TrailMap: React.FC<TrailMapProps> = ({
           <button
             type="button"
             onClick={onResetToIndia}
-            className="btn-tactile flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-medium bg-[#090a0f]/95 hover:bg-[#151928] text-slate-200 border border-white/[0.08] backdrop-blur-md cursor-pointer"
+            className="btn-tactile flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-medium bg-[#0D202B]/95 hover:bg-[#132A38] text-slate-200 border border-[#1E3440] backdrop-blur-md cursor-pointer"
           >
             <Globe className="w-3 h-3 text-emerald-400" />
             <span>{t('btn_reset_india', language)}</span>
@@ -396,7 +396,7 @@ export const TrailMap: React.FC<TrailMapProps> = ({
           <button
             type="button"
             onClick={onSwitchToPlan}
-            className="lg:hidden btn-tactile flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold bg-emerald-600 hover:bg-emerald-500 text-white shadow-md cursor-pointer"
+            className="lg:hidden btn-tactile flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold bg-[#10B981] hover:bg-[#059669] text-[#07141F] font-bold shadow-md cursor-pointer"
           >
             <Search className="w-3 h-3" />
             <span>{language === 'hi' ? 'स्थान खोजें' : 'Select Place'}</span>
@@ -414,17 +414,17 @@ export const TrailMap: React.FC<TrailMapProps> = ({
             </div>
           </div>
         ) : hasActiveTrail ? (
-          <div className="bg-[#090a0f]/90 border border-white/[0.08] text-slate-200 px-3 py-1.5 rounded-md flex items-center gap-2 text-xs backdrop-blur-md">
+          <div className="bg-[#0D202B]/95 border border-[#1E3440] text-slate-200 px-3 py-1.5 rounded-md flex items-center gap-2 text-xs backdrop-blur-md">
             <MapPin className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
             <span className="truncate max-w-[120px] font-medium">{getLocalizedDestinationName(destinationName, language)}</span>
           </div>
         ) : isPreviewing ? (
-          <div className="bg-[#090a0f]/90 border border-sky-500/40 text-sky-200 px-3 py-1.5 rounded-md flex items-center gap-2 text-xs backdrop-blur-md">
+          <div className="bg-[#0D202B]/95 border border-sky-500/40 text-sky-200 px-3 py-1.5 rounded-md flex items-center gap-2 text-xs backdrop-blur-md">
             <MapPin className="w-3.5 h-3.5 text-sky-400 shrink-0" />
-            <span className="font-semibold text-white truncate">{getLocalizedDestinationName(previewCoordinates?.name || '', language)}</span>
+            <span className="font-semibold text-[#F1F5F9] truncate">{getLocalizedDestinationName(previewCoordinates?.name || '', language)}</span>
           </div>
         ) : (
-          <div className="bg-[#090a0f]/90 border border-white/[0.08] text-slate-300 px-3 py-1.5 rounded-md flex items-center gap-1.5 text-xs backdrop-blur-md">
+          <div className="bg-[#0D202B]/95 border border-[#1E3440] text-slate-300 px-3 py-1.5 rounded-md flex items-center gap-1.5 text-xs backdrop-blur-md">
             <Globe className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
             <span>{language === 'hi' ? 'अखिल भारतीय' : 'Pan-India Grid'}</span>
           </div>
@@ -433,17 +433,17 @@ export const TrailMap: React.FC<TrailMapProps> = ({
 
       {/* Selection Details Floating Modal Card */}
       {selectedItem && (
-        <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-auto sm:max-w-sm w-auto z-20 bg-[#0e1017]/95 border border-white/[0.12] p-3 rounded-lg shadow-xl text-slate-200 backdrop-blur-xl animate-in slide-in-from-bottom-2">
-          <div className="flex items-start justify-between gap-2 border-b border-white/[0.08] pb-2 mb-2">
+        <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-auto sm:max-w-sm w-auto z-20 bg-[#0D202B]/95 border border-[#1E3440] p-3 rounded-lg shadow-xl text-slate-200 backdrop-blur-xl animate-in slide-in-from-bottom-2">
+          <div className="flex items-start justify-between gap-2 border-b border-[#1E3440] pb-2 mb-2">
             <div className="flex items-center gap-2 min-w-0">
               {selectedItem.type === 'HAZARD' && <AlertOctagon className="w-4 h-4 text-red-400 shrink-0" />}
               {selectedItem.type === 'SHELTER' && <ShieldCheck className="w-4 h-4 text-sky-400 shrink-0" />}
               {selectedItem.type === 'CHECKPOINT' && <Compass className="w-4 h-4 text-emerald-400 shrink-0" />}
-              <span className="font-semibold text-xs text-white truncate">{selectedItem.data.name}</span>
+              <span className="font-semibold text-xs text-[#F1F5F9] truncate">{selectedItem.data.name}</span>
             </div>
             <button
               onClick={() => setSelectedItem(null)}
-              className="text-slate-400 hover:text-white p-0.5 rounded cursor-pointer shrink-0"
+              className="text-[#94A3B8] hover:text-[#F1F5F9] p-0.5 rounded cursor-pointer shrink-0"
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -452,20 +452,20 @@ export const TrailMap: React.FC<TrailMapProps> = ({
           {selectedItem.type === 'CHECKPOINT' && (
             <div className="space-y-1 text-xs text-slate-300">
               <div className="flex justify-between">
-                <span className="text-slate-400">Altitude:</span>
+                <span className="text-[#94A3B8]">Altitude:</span>
                 <span className="font-mono font-medium text-emerald-400">{selectedItem.data.altitude_m}m</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-400">Oxygen Booth:</span>
+                <span className="text-[#94A3B8]">Oxygen Booth:</span>
                 <span className={selectedItem.data.has_oxygen_booth ? 'text-emerald-400' : 'text-slate-500'}>
                   {selectedItem.data.has_oxygen_booth ? 'Available (24x7)' : 'None'}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-400">Emergency Unit:</span>
+                <span className="text-[#94A3B8]">Emergency Unit:</span>
                 <span className="font-mono text-slate-300">{selectedItem.data.nearest_hospital_dist_km || 0.5} km</span>
               </div>
-              <div className="mt-2 pt-1 border-t border-white/[0.06] flex flex-wrap gap-1">
+              <div className="mt-2 pt-1 border-t border-[#1E3440] flex flex-wrap gap-1">
                 {(selectedItem.data.facilities || []).map((fac: string, i: number) => (
                   <span key={i} className="text-[10px] px-1.5 py-0.5 rounded bg-white/[0.06] text-slate-300">
                     {fac}
@@ -478,11 +478,11 @@ export const TrailMap: React.FC<TrailMapProps> = ({
           {selectedItem.type === 'HAZARD' && (
             <div className="space-y-1 text-xs text-slate-300">
               <div className="flex justify-between">
-                <span className="text-slate-400">Category:</span>
+                <span className="text-[#94A3B8]">Category:</span>
                 <span className="font-medium text-orange-400">{selectedItem.data.category}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-400">Severity:</span>
+                <span className="text-[#94A3B8]">Severity:</span>
                 <span className="font-medium text-red-400">{selectedItem.data.severity}</span>
               </div>
               <p className="text-[11px] text-slate-300 bg-red-950/30 p-1.5 rounded border border-red-900/40 mt-1">
@@ -494,11 +494,11 @@ export const TrailMap: React.FC<TrailMapProps> = ({
           {selectedItem.type === 'SHELTER' && (
             <div className="space-y-1 text-xs text-slate-300">
               <div className="flex justify-between">
-                <span className="text-slate-400">Capacity:</span>
+                <span className="text-[#94A3B8]">Capacity:</span>
                 <span className="font-mono font-medium text-sky-400">{selectedItem.data.capacity_persons} Persons</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-400">Helpline:</span>
+                <span className="text-[#94A3B8]">Helpline:</span>
                 <span className="font-mono text-slate-300">{selectedItem.data.contact_phone}</span>
               </div>
             </div>

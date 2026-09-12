@@ -68,7 +68,7 @@ export const ItineraryModal: React.FC<ItineraryModalProps> = ({
             <button
               onClick={onClose}
               aria-label={t('back_to_map', language)}
-              className="btn-tactile flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/15 text-white border border-white/15 text-xs font-semibold cursor-pointer shrink-0 transition-colors shadow-sm"
+              className="btn-tactile flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/15 text-[#F1F5F9] border border-white/15 text-xs font-semibold cursor-pointer shrink-0 transition-colors shadow-sm"
             >
               <ArrowLeft className="w-4 h-4 text-emerald-400" />
               <span className="hidden sm:inline">{t('back_to_map', language)}</span>
@@ -85,17 +85,17 @@ export const ItineraryModal: React.FC<ItineraryModalProps> = ({
                     {isHi ? 'सत्यापित योजना' : 'VERIFIED PLAN'}
                   </span>
                   {itinerary?.duration_days && (
-                    <span className="text-slate-400">
+                    <span className="text-[#94A3B8]">
                       • {itinerary.duration_days} {t('days', language)}
                     </span>
                   )}
                   {itinerary?.region_name && (
-                    <span className="text-slate-400 hidden lg:inline">
+                    <span className="text-[#94A3B8] hidden lg:inline">
                       • {itinerary.region_name}
                     </span>
                   )}
                 </div>
-                <h1 id="itinerary-modal-title" className="text-sm sm:text-base md:text-lg font-bold text-white tracking-tight truncate">
+                <h1 id="itinerary-modal-title" className="text-sm sm:text-base md:text-lg font-bold text-[#F1F5F9] tracking-tight truncate">
                   {destinationTitle}
                 </h1>
               </div>
@@ -111,8 +111,8 @@ export const ItineraryModal: React.FC<ItineraryModalProps> = ({
                   onClick={() => setModalTab('itinerary')}
                   className={`btn-tactile px-3 sm:px-4 py-1.5 rounded-md text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
                     modalTab === 'itinerary'
-                      ? 'bg-emerald-600 text-white shadow-md font-bold'
-                      : 'text-slate-400 hover:text-slate-200'
+                      ? 'bg-emerald-600 text-[#F1F5F9] shadow-md font-bold'
+                      : 'text-[#94A3B8] hover:text-slate-200'
                   }`}
                 >
                   <Compass className="w-3.5 h-3.5" />
@@ -123,8 +123,8 @@ export const ItineraryModal: React.FC<ItineraryModalProps> = ({
                   onClick={() => setModalTab('risk')}
                   className={`btn-tactile px-3 sm:px-4 py-1.5 rounded-md text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
                     modalTab === 'risk'
-                      ? 'bg-emerald-600 text-white shadow-md font-bold'
-                      : 'text-slate-400 hover:text-slate-200'
+                      ? 'bg-emerald-600 text-[#F1F5F9] shadow-md font-bold'
+                      : 'text-[#94A3B8] hover:text-slate-200'
                   }`}
                 >
                   <Activity className="w-3.5 h-3.5" />
@@ -137,7 +137,7 @@ export const ItineraryModal: React.FC<ItineraryModalProps> = ({
             <button
               onClick={onClose}
               aria-label={t('close', language)}
-              className="btn-tactile p-2 rounded-lg bg-white/5 hover:bg-white/15 border border-white/10 text-slate-400 hover:text-white transition-colors cursor-pointer"
+              className="btn-tactile p-2 rounded-lg bg-white/5 hover:bg-white/15 border border-white/10 text-[#94A3B8] hover:text-[#F1F5F9] transition-colors cursor-pointer"
             >
               <X className="w-4 h-4" />
             </button>
@@ -157,7 +157,7 @@ export const ItineraryModal: React.FC<ItineraryModalProps> = ({
               </div>
 
               {/* Header Skeleton */}
-              <div className="p-6 rounded-2xl bg-[#12141d]/70 border border-white/10 animate-pulse space-y-4">
+              <div className="p-6 rounded-2xl bg-[#0D202B]/70 border border-white/10 animate-pulse space-y-4">
                 <div className="flex justify-between items-center">
                   <div className="space-y-2">
                     <div className="h-4 w-40 bg-white/10 rounded" />
@@ -175,19 +175,19 @@ export const ItineraryModal: React.FC<ItineraryModalProps> = ({
 
               {/* Day Cards Skeleton */}
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 animate-pulse">
-                <div className="p-5 rounded-2xl bg-[#12141d]/50 border border-white/10 space-y-3">
+                <div className="p-5 rounded-2xl bg-[#0D202B]/50 border border-white/10 space-y-3">
                   <div className="h-4 w-24 bg-white/10 rounded" />
                   <div className="h-5 w-44 bg-white/15 rounded" />
                   <div className="h-3 w-32 bg-white/10 rounded" />
                   <div className="h-20 bg-white/5 rounded-xl" />
                 </div>
-                <div className="p-5 rounded-2xl bg-[#12141d]/50 border border-white/10 space-y-3">
+                <div className="p-5 rounded-2xl bg-[#0D202B]/50 border border-white/10 space-y-3">
                   <div className="h-4 w-24 bg-white/10 rounded" />
                   <div className="h-5 w-44 bg-white/15 rounded" />
                   <div className="h-3 w-32 bg-white/10 rounded" />
                   <div className="h-20 bg-white/5 rounded-xl" />
                 </div>
-                <div className="p-5 rounded-2xl bg-[#12141d]/50 border border-white/10 space-y-3 hidden md:block">
+                <div className="p-5 rounded-2xl bg-[#0D202B]/50 border border-white/10 space-y-3 hidden md:block">
                   <div className="h-4 w-24 bg-white/10 rounded" />
                   <div className="h-5 w-44 bg-white/15 rounded" />
                   <div className="h-3 w-32 bg-white/10 rounded" />
@@ -239,12 +239,12 @@ export const ItineraryModal: React.FC<ItineraryModalProps> = ({
               )}
             </>
           ) : (
-            <div className="p-12 text-center text-slate-400 text-sm bg-[#12141d]/50 rounded-2xl border border-white/10">
+            <div className="p-12 text-center text-[#94A3B8] text-sm bg-[#0D202B]/50 rounded-2xl border border-white/10">
               <MapPin className="w-8 h-8 text-slate-500 mx-auto mb-2" />
               <p>{t('no_itinerary_title', language)}</p>
               <button
                 onClick={onClose}
-                className="mt-4 btn-tactile px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs cursor-pointer"
+                className="mt-4 btn-tactile px-4 py-2 rounded-xl bg-[#10B981] hover:bg-[#059669] text-[#07141F] font-bold font-semibold text-xs cursor-pointer"
               >
                 {t('btn_go_map', language)}
               </button>
