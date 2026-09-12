@@ -33,7 +33,7 @@
       "destination": "/api/index.py"
     },
     {
-      "source": "/(.*)",
+      "source": "/((?!.*\\.(?:png|svg|ico|webp|json|txt|jpg|jpeg|css|js)$).*)",
       "destination": "/index.html"
     }
   ]
