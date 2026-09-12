@@ -189,8 +189,8 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 pb-3.5 border-b border-[#1E3440]">
           <div>
             <div className="flex items-center gap-2 mb-0.5 flex-wrap">
-              <span className="text-xs font-mono font-semibold uppercase tracking-wider text-amber-400 flex items-center gap-1">
-                <Radio className="w-3 h-3 text-amber-400" />
+              <span className="text-xs font-mono font-semibold uppercase tracking-wider text-[#34D399] flex items-center gap-1">
+                <Radio className="w-3 h-3 text-[#34D399]" />
                 {t('disaster_heading', language)}
               </span>
               <span className="text-slate-600">•</span>
@@ -207,8 +207,8 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
 
           <div className="flex items-center gap-2 flex-wrap">
             {isLoading && (
-              <div className="flex items-center gap-1.5 bg-[#0D202B] px-2 py-0.5 rounded border border-[#1E3440] text-[10px] text-sky-300 font-mono">
-                <Loader2 className="w-3 h-3 animate-spin text-sky-400" />
+              <div className="flex items-center gap-1.5 bg-[#0D202B] px-2 py-0.5 rounded border border-[#1E3440] text-[10px] text-[#34D399] font-mono">
+                <Loader2 className="w-3 h-3 animate-spin text-[#34D399]" />
                 <span>{isHi ? 'अपडेट हो रहा है...' : 'Syncing...'}</span>
               </div>
             )}
@@ -236,7 +236,7 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
         {/* Location Selection Bar */}
         <div className="space-y-2.5">
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2">
-            <div className="text-xs font-medium text-slate-300 flex items-center gap-1.5">
+            <div className="text-xs font-medium text-[#94A3B8] flex items-center gap-1.5">
               <MapPin className="w-3.5 h-3.5 text-emerald-400" />
               <span>{isHi ? 'स्थान के लिए ताज़ा अपडेट्स व अलर्ट देखें:' : 'Select Place for Live News & Weather Updates:'}</span>
             </div>
@@ -244,7 +244,7 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
             {currentPlace && (
               <button
                 onClick={handleClearPlace}
-                className="btn-tactile text-[11px] font-semibold px-2.5 py-1 rounded bg-[#0D202B] hover:bg-[#132A38] text-amber-300 border border-amber-500/30 flex items-center gap-1 self-start sm:self-auto cursor-pointer"
+                className="btn-tactile text-[11px] font-semibold px-2.5 py-1 rounded bg-[#0D202B] hover:bg-[#132A38] text-[#94A3B8] hover:text-[#F1F5F9] border border-[#1E3440] flex items-center gap-1 self-start sm:self-auto cursor-pointer"
               >
                 <X className="w-3 h-3" />
                 <span>{isHi ? 'संपूर्ण भारत पर रीसेट करें' : 'Reset to All India'}</span>
@@ -323,8 +323,8 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
                   onClick={() => dest.isAll ? handleClearPlace() : handleSelectPlace(dest.name)}
                   className={`btn-tactile px-2.5 py-1 rounded-full text-[11px] font-medium whitespace-nowrap transition-all border cursor-pointer ${
                     isSelected
-                      ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
-                      : 'bg-[#0D202B] text-[#94A3B8] hover:text-[#F1F5F9] border-[#1E3440] hover:border-[#1E3440]'
+                      ? 'bg-[#10B981]/15 text-[#34D399] border-[#10B981]/40'
+                      : 'bg-[#07141F] text-[#94A3B8] hover:text-[#F1F5F9] border-[#1E3440] hover:border-[#10B981]/50'
                   }`}
                 >
                   {isHi ? dest.label_hi : dest.label}
@@ -341,14 +341,12 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
           <button
             onClick={() => setActiveTab('scenarios')}
             className={`btn-tactile px-3 py-1.5 rounded-t-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer border-b-2 ${
-              activeTab === 'scenarios'
-                ? 'text-amber-400 border-amber-400 bg-[#0D202B]/80'
-                : 'text-[#94A3B8] border-transparent hover:text-slate-200'
+              activeTab === 'scenarios' ? 'text-[#34D399] border-[#10B981] bg-[#07141F]' : 'text-[#94A3B8] border-transparent hover:text-[#F1F5F9]'
             }`}
           >
             <AlertTriangle className="w-3.5 h-3.5" />
             <span>{t('tab_scenarios', language)}</span>
-            <span className="text-[10px] font-mono px-1 rounded bg-white/[0.06] text-slate-300">
+            <span className="text-[10px] font-mono px-1 rounded bg-[#07141F] text-[#94A3B8] border border-[#1E3440]">
               {displayedScenarios.length}
             </span>
           </button>
@@ -357,14 +355,12 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
             <button
               onClick={() => setActiveTab('history')}
               className={`btn-tactile px-3 py-1.5 rounded-t-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer border-b-2 ${
-                activeTab === 'history'
-                  ? 'text-sky-400 border-sky-400 bg-[#0D202B]/80'
-                  : 'text-[#94A3B8] border-transparent hover:text-slate-200'
+                activeTab === 'history' ? 'text-[#34D399] border-[#10B981] bg-[#07141F]' : 'text-[#94A3B8] border-transparent hover:text-[#F1F5F9]'
               }`}
             >
               <History className="w-3.5 h-3.5" />
               <span>{t('tab_history', language)}</span>
-              <span className="text-[10px] font-mono px-1 rounded bg-white/[0.06] text-slate-300">
+              <span className="text-[10px] font-mono px-1 rounded bg-[#07141F] text-[#94A3B8] border border-[#1E3440]">
                 {incidentHistory.length}
               </span>
             </button>
@@ -374,14 +370,12 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
             <button
               onClick={() => setActiveTab('shelters')}
               className={`btn-tactile px-3 py-1.5 rounded-t-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer border-b-2 ${
-                activeTab === 'shelters'
-                  ? 'text-emerald-400 border-emerald-400 bg-[#0D202B]/80'
-                  : 'text-[#94A3B8] border-transparent hover:text-slate-200'
+                activeTab === 'shelters' ? 'text-[#34D399] border-[#10B981] bg-[#07141F]' : 'text-[#94A3B8] border-transparent hover:text-[#F1F5F9]'
               }`}
             >
               <Building2 className="w-3.5 h-3.5" />
               <span>{t('tab_shelters', language)}</span>
-              <span className="text-[10px] font-mono px-1 rounded bg-white/[0.06] text-slate-300">
+              <span className="text-[10px] font-mono px-1 rounded bg-[#07141F] text-[#94A3B8] border border-[#1E3440]">
                 {shelters.length}
               </span>
             </button>
@@ -390,14 +384,12 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
           <button
             onClick={() => setActiveTab('bulletins')}
             className={`btn-tactile px-3 py-1.5 rounded-t-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer border-b-2 ${
-              activeTab === 'bulletins'
-                ? 'text-red-400 border-red-400 bg-[#0D202B]/80'
-                : 'text-[#94A3B8] border-transparent hover:text-slate-200'
+              activeTab === 'bulletins' ? 'text-[#34D399] border-[#10B981] bg-[#07141F]' : 'text-[#94A3B8] border-transparent hover:text-[#F1F5F9]'
             }`}
           >
             <ShieldAlert className="w-3.5 h-3.5" />
             <span>{t('tab_bulletins', language)}</span>
-            <span className="text-[10px] font-mono px-1 rounded bg-white/[0.06] text-slate-300">
+            <span className="text-[10px] font-mono px-1 rounded bg-[#07141F] text-[#94A3B8] border border-[#1E3440]">
               {nationalBulletins.length}
             </span>
           </button>
@@ -409,7 +401,7 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
               value={zoneFilter}
               onChange={(e) => setZoneFilter(e.target.value)}
               aria-label="Filter scenarios by zone"
-              className="bg-[#0D202B] border border-[#1E3440] rounded text-xs text-slate-200 px-2 py-0.5 font-mono"
+              className="bg-[#0D202B] border border-[#1E3440] rounded text-xs text-[#F1F5F9] px-2 py-0.5 font-mono"
             >
               <option value="ALL">{isHi ? 'सभी 6 प्राकृतिक क्षेत्र' : 'All 6 Environmental Zones'}</option>
               <option value="HILL_MOUNTAIN">{isHi ? 'पर्वतीय एवं हिमालयी' : 'Himalayan & Mountain'}</option>
@@ -476,28 +468,28 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
                       </div>
                     </div>
 
-                    <p className="text-xs text-slate-300 my-2 leading-relaxed">
+                    <p className="text-xs text-[#94A3B8] my-2 leading-relaxed">
                       {descText}
                     </p>
 
                     {/* Meteorological Parameters */}
                     <div className="flex flex-wrap items-center gap-2 text-[10px] font-mono text-[#94A3B8] mb-2.5 bg-[#07141F] p-2 rounded border border-[#1E3440]">
                       <span className="flex items-center gap-1">
-                        <Droplets className="w-3 h-3 text-sky-400" />
+                        <Droplets className="w-3 h-3 text-[#34D399]" />
                         {isHi ? 'वर्षा:' : 'Rain:'} {sc.weather.precipitation_mm_hr}mm/h
                       </span>
                       <span>•</span>
                       <span className="flex items-center gap-1">
-                        <Wind className="w-3 h-3 text-slate-300" />
+                        <Wind className="w-3 h-3 text-[#94A3B8]" />
                         {isHi ? 'हवा:' : 'Wind:'} {sc.weather.wind_speed_kmh}km/h
                       </span>
                       <span>•</span>
                       <span className="flex items-center gap-1">
-                        <Thermometer className="w-3 h-3 text-amber-400" />
+                        <Thermometer className="w-3 h-3 text-[#34D399]" />
                         {isHi ? 'तापमान:' : 'Temp:'} {sc.weather.temperature_c}°C
                       </span>
                       <span>•</span>
-                      <span className={sc.weather.imd_alert === 'RED' ? 'text-red-400 font-bold' : sc.weather.imd_alert === 'ORANGE' ? 'text-amber-400 font-bold' : 'text-emerald-400'}>
+                      <span className={sc.weather.imd_alert === 'RED' ? 'text-red-400 font-bold' : 'text-[#34D399]'}>
                         IMD: {sc.weather.imd_alert}
                       </span>
                     </div>
@@ -506,7 +498,7 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
                       <div className="text-[10px] text-[#94A3B8] mb-2 flex items-center justify-between bg-[#07141F] px-2 py-0.5 rounded border border-[#1E3440]">
                         <span className="text-[#94A3B8]">{isHi ? 'सुरक्षा एजेंसी:' : 'Response:'} {sc.primary_agency}</span>
                         {sc.evacuation_target && (
-                          <span className="text-amber-400 font-mono">{isHi ? 'आश्रय:' : 'Shelter:'} {sc.evacuation_target}</span>
+                          <span className="text-[#34D399] font-mono">{isHi ? 'आश्रय:' : 'Shelter:'} {sc.evacuation_target}</span>
                         )}
                       </div>
                     )}
@@ -516,8 +508,8 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
                     onClick={() => onTriggerScenario(sc)}
                     className={`btn-tactile w-full py-1.5 px-3 rounded text-xs font-semibold transition-all flex items-center justify-center gap-1.5 cursor-pointer mt-1 ${
                       isActive
-                        ? 'bg-red-600 hover:bg-red-500 text-[#F1F5F9]'
-                        : 'bg-[#181b26] hover:bg-[#202434] text-slate-200 border border-[#1E3440]'
+                        ? 'bg-[#10B981] hover:bg-[#059669] text-[#07141F] font-bold shadow-sm'
+                        : 'bg-[#07141F] hover:bg-[#132A38] text-[#F1F5F9] border border-[#1E3440]'
                     }`}
                   >
                     {isActive ? (
@@ -564,11 +556,11 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 pb-1.5 border-b border-[#1E3440]">
                     <div className="flex items-center gap-2">
                       <div className="w-6 h-6 rounded flex items-center justify-center shrink-0 bg-[#07141F]">
-                        <History className="w-3.5 h-3.5 text-sky-400" />
+                        <History className="w-3.5 h-3.5 text-[#34D399]" />
                       </div>
                       <div>
                         <h4 className="text-xs font-semibold text-[#F1F5F9]">{incTitle}</h4>
-                        <div className="text-[10px] font-mono text-sky-400">{inc.year_or_date}</div>
+                        <div className="text-[10px] font-mono text-[#34D399]">{inc.year_or_date}</div>
                       </div>
                     </div>
 
@@ -588,18 +580,18 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
                     </div>
                   </div>
 
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-xs text-[#94A3B8] leading-relaxed">
                     {incDesc}
                   </p>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 text-xs">
                     <div className="bg-[#07141F] p-2 rounded border border-[#1E3440]">
                       <div className="text-slate-500 text-[9px] font-mono uppercase">{isHi ? 'सुरक्षा उपाय' : 'Mitigation Taken'}</div>
-                      <div className="text-emerald-300 text-[11px] mt-0.5">{incMitigation}</div>
+                      <div className="text-[#F1F5F9] text-[11px] mt-0.5">{incMitigation}</div>
                     </div>
                     <div className="bg-[#07141F] p-2 rounded border border-[#1E3440]">
                       <div className="text-slate-500 text-[9px] font-mono uppercase">{isHi ? 'रिपोर्टिंग एजेंसी' : 'Reporting Agency'}</div>
-                      <div className="text-slate-300 text-[11px] mt-0.5 font-mono">{inc.reporting_agency}</div>
+                      <div className="text-[#F1F5F9] text-[11px] mt-0.5 font-mono">{inc.reporting_agency}</div>
                     </div>
                   </div>
                 </div>
@@ -629,7 +621,7 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
                     </div>
                   </div>
 
-                  <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 font-medium">
+                  <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-[#10B981]/15 text-[#34D399] border border-[#10B981]/30 font-medium">
                     {isHi ? 'आश्रय स्थल' : 'SHELTER'}
                   </span>
                 </div>
@@ -637,11 +629,11 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
                 <div className="grid grid-cols-2 gap-1.5 text-xs font-mono">
                   <div className="bg-[#07141F] p-2 rounded border border-[#1E3440]">
                     <span className="text-slate-500 text-[9px]">{isHi ? 'क्षमता:' : 'Capacity:'}</span>
-                    <div className="font-semibold text-sky-400">{sh.capacity_persons || 1000} {isHi ? 'व्यक्ति' : 'Persons'}</div>
+                    <div className="font-semibold text-[#F1F5F9]">{sh.capacity_persons || 1000} {isHi ? 'व्यक्ति' : 'Persons'}</div>
                   </div>
                   <div className="bg-[#07141F] p-2 rounded border border-[#1E3440]">
                     <span className="text-slate-500 text-[9px]">{isHi ? 'फोन:' : 'Phone:'}</span>
-                    <div className="font-semibold text-amber-400">{sh.contact_phone || '112'}</div>
+                    <div className="font-semibold text-[#34D399]">{sh.contact_phone || '112'}</div>
                   </div>
                 </div>
               </div>
@@ -694,7 +686,7 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
                     <div className="flex items-center gap-1 flex-wrap">
                       <span>{isHi ? 'प्रभावित क्षेत्र:' : 'Impact:'}</span>
                       {nb.impact_regions.map((reg) => (
-                        <span key={reg} className="px-1 py-0.2 rounded bg-[#07141F] text-slate-300 border border-[#1E3440]">
+                        <span key={reg} className="px-1 py-0.2 rounded bg-[#07141F] text-[#94A3B8] border border-[#1E3440]">
                           {reg}
                         </span>
                       ))}
@@ -710,10 +702,10 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
 
       {/* Reroute Evaluation Output Card */}
       {rerouteData && (
-        <div className="glass-panel p-4 sm:p-5 rounded-xl border border-amber-500/40 bg-[#0D202B] space-y-3">
+        <div className="glass-panel p-4 sm:p-5 rounded-xl border border-[#10B981]/40 bg-[#0D202B] space-y-3">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2.5 border-b border-[#1E3440]">
             <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
+              <div className="w-7 h-7 rounded bg-[#10B981]/15 border border-[#10B981]/30 flex items-center justify-center text-[#34D399]">
                 <Navigation className="w-3.5 h-3.5" />
               </div>
               <div>
@@ -733,7 +725,7 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
               {onNavigateToMap && (
                 <button
                   onClick={onNavigateToMap}
-                  className="btn-tactile px-2.5 py-1 rounded bg-amber-600 hover:bg-amber-500 text-[#F1F5F9] font-semibold text-xs transition-all flex items-center gap-1 cursor-pointer"
+                  className="btn-tactile px-2.5 py-1 rounded bg-[#10B981] hover:bg-[#059669] text-[#07141F] font-semibold text-xs transition-all flex items-center gap-1 cursor-pointer"
                 >
                   <span>{t('view_reroute_map', language)}</span>
                   <ArrowRight className="w-3 h-3" />
@@ -742,8 +734,8 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
             </div>
           </div>
 
-          <div className="p-3 rounded-lg bg-amber-950/20 border border-amber-500/20 text-xs text-amber-200 space-y-1">
-            <div className="font-semibold flex items-center gap-1 text-amber-300">
+          <div className="p-3 rounded-lg bg-[#07141F] border border-[#1E3440] text-xs text-[#94A3B8] space-y-1">
+            <div className="font-semibold flex items-center gap-1 text-[#34D399]">
               <AlertTriangle className="w-3.5 h-3.5" />
               <span>{isHi ? 'सुरक्षा निर्देश:' : 'Safety Instructions:'}</span>
             </div>
@@ -760,11 +752,11 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
               </div>
               <div className="bg-[#07141F] p-2.5 rounded border border-[#1E3440]">
                 <div className="text-[#94A3B8] text-[10px]">{isHi ? 'दूरी' : 'Distance'}</div>
-                <div className="font-mono font-semibold text-sky-400 mt-0.5">{rerouteData.nearest_shelter.distance_m || 480}m</div>
+                <div className="font-mono font-semibold text-[#F1F5F9] mt-0.5">{rerouteData.nearest_shelter.distance_m || 480}m</div>
               </div>
               <div className="bg-[#07141F] p-2.5 rounded border border-[#1E3440]">
                 <div className="text-[#94A3B8] text-[10px]">{isHi ? 'हेल्पलाइन' : 'Helpline'}</div>
-                <div className="font-mono font-semibold text-amber-400 mt-0.5">{rerouteData.nearest_shelter.contact_phone || '112'}</div>
+                <div className="font-mono font-semibold text-[#34D399] mt-0.5">{rerouteData.nearest_shelter.contact_phone || '112'}</div>
               </div>
             </div>
           )}
