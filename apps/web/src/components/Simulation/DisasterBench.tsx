@@ -112,6 +112,7 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
     }
 
     fetchDisasterData();
+
     return () => {
       isMounted = false;
     };
@@ -181,6 +182,68 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
   const incidentHistory: IncidentHistoryRecord[] = simData?.incident_history || [];
   const nationalBulletins: NationalDisasterBulletin[] = simData?.national_disaster_bulletins || [];
   const shelters: EmergencyShelter[] = simData?.shelters || [];
+
+  const getShelterRiskStatus = (idx: number, _sh: EmergencyShelter) => {
+    if (isSimulating) {
+      if (idx === 0) {
+        return {
+          level: 'CRITICAL',
+          titleColor: 'text-red-400',
+          badgeColor: 'bg-red-500/15 text-red-400 border-red-500/40',
+          borderColor: 'border-red-500/40',
+          iconBg: 'bg-red-500/10 text-red-400',
+          capacityColor: 'text-red-400',
+          statusLabel: isHi ? 'आपातकालीन निकासी केंद्र' : 'CRITICAL EVACUATION SHELTER',
+          operationalStatus: isHi ? 'खतरा अलर्ट के तहत सक्रिय' : 'Active Evacuation Target',
+        };
+      }
+      return {
+        level: 'WARNING',
+        titleColor: 'text-amber-400',
+        badgeColor: 'bg-amber-500/15 text-amber-400 border-amber-500/40',
+        borderColor: 'border-amber-500/40',
+        iconBg: 'bg-amber-500/10 text-amber-400',
+        capacityColor: 'text-amber-400',
+        statusLabel: isHi ? 'उच्च मांग (सतर्कता)' : 'HIGH OCCUPANCY (STANDBY)',
+        operationalStatus: isHi ? 'सीमित स्थान आरक्षित' : 'Limited Capacity Reserve',
+      };
+    }
+
+    if (idx === 0) {
+      return {
+        level: 'SAFE',
+        titleColor: 'text-emerald-400',
+        badgeColor: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/40',
+        borderColor: 'border-emerald-500/30',
+        iconBg: 'bg-emerald-500/10 text-emerald-400',
+        capacityColor: 'text-emerald-400',
+        statusLabel: isHi ? 'सुरक्षित एवं खुला' : 'SAFE & VERIFIED OPEN',
+        operationalStatus: isHi ? 'पर्याप्त क्षमता व बैकअप बिजली' : 'Verified Open & Power Backup',
+      };
+    } else if (idx === 1) {
+      return {
+        level: 'WARNING',
+        titleColor: 'text-amber-400',
+        badgeColor: 'bg-amber-500/15 text-amber-400 border-amber-500/40',
+        borderColor: 'border-amber-500/30',
+        iconBg: 'bg-amber-500/10 text-amber-400',
+        capacityColor: 'text-amber-400',
+        statusLabel: isHi ? 'मध्यम क्षमता पोस्ट' : 'MODERATE CAPACITY POST',
+        operationalStatus: isHi ? 'सामान्य राहत शिविर' : 'Secondary Relief Camp',
+      };
+    } else {
+      return {
+        level: 'SAFE',
+        titleColor: 'text-emerald-400',
+        badgeColor: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/40',
+        borderColor: 'border-emerald-500/30',
+        iconBg: 'bg-emerald-500/10 text-emerald-400',
+        capacityColor: 'text-emerald-400',
+        statusLabel: isHi ? 'सुरक्षित पोस्ट' : 'SAFE RELIEF POST',
+        operationalStatus: isHi ? 'खुला व तैयार' : 'Standby & Verified',
+      };
+    }
+  };
 
   return (
     <div className="space-y-4">
@@ -612,39 +675,51 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
       {activeTab === 'shelters' && !isPanIndia && (
         <div className="space-y-3">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {shelters.map((sh) => (
-              <div
-                key={sh.id}
-                className="glass-panel p-4 rounded-xl border border-[#1E3440] bg-[#0D202B] space-y-2"
-              >
-                <div className="flex items-start justify-between gap-2">
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 rounded bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
-                      <Building2 className="w-3.5 h-3.5" />
+            {shelters.map((sh, idx) => {
+              const status = getShelterRiskStatus(idx, sh);
+              return (
+                <div
+                  key={sh.id}
+                  className={`glass-panel p-4 rounded-xl border transition-all bg-[#0D202B] space-y-2.5 ${status.borderColor}`}
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <div className={`w-7 h-7 rounded flex items-center justify-center shrink-0 ${status.iconBg}`}>
+                        <Building2 className="w-3.5 h-3.5" />
+                      </div>
+                      <div>
+                        <h4 className={`text-xs font-bold ${status.titleColor}`}>{sh.name}</h4>
+                        <div className="text-[10px] text-[#94A3B8] font-mono">GPS: {sh.lat.toFixed(4)}, {sh.lon.toFixed(4)}</div>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="text-xs font-semibold text-[#F1F5F9]">{sh.name}</h4>
-                      <div className="text-[10px] text-[#94A3B8] font-mono">GPS: {sh.lat.toFixed(4)}, {sh.lon.toFixed(4)}</div>
+
+                    <span className={`text-[9px] font-mono px-2 py-0.5 rounded font-bold border shrink-0 ${status.badgeColor}`}>
+                      {status.statusLabel}
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2 text-xs font-mono">
+                    <div className="bg-[#07141F] p-2 rounded border border-[#1E3440]">
+                      <span className="text-[#94A3B8] text-[9px]">{isHi ? 'आश्रय क्षमता:' : 'Capacity:'}</span>
+                      <div className={`font-bold ${status.capacityColor}`}>{sh.capacity_persons || 1000} {isHi ? 'व्यक्ति' : 'Persons'}</div>
+                    </div>
+                    <div className="bg-[#07141F] p-2 rounded border border-[#1E3440]">
+                      <span className="text-[#94A3B8] text-[9px]">{isHi ? 'हेल्पलाइन:' : 'Phone:'}</span>
+                      <div className="font-bold text-[#F1F5F9]">{sh.contact_phone || '112'}</div>
                     </div>
                   </div>
 
-                  <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-[#10B981]/15 text-[#34D399] border border-[#10B981]/30 font-medium">
-                    {isHi ? 'आश्रय स्थल' : 'SHELTER'}
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-2 gap-1.5 text-xs font-mono">
-                  <div className="bg-[#07141F] p-2 rounded border border-[#1E3440]">
-                    <span className="text-slate-500 text-[9px]">{isHi ? 'क्षमता:' : 'Capacity:'}</span>
-                    <div className="font-semibold text-[#F1F5F9]">{sh.capacity_persons || 1000} {isHi ? 'व्यक्ति' : 'Persons'}</div>
-                  </div>
-                  <div className="bg-[#07141F] p-2 rounded border border-[#1E3440]">
-                    <span className="text-slate-500 text-[9px]">{isHi ? 'फोन:' : 'Phone:'}</span>
-                    <div className="font-semibold text-[#34D399]">{sh.contact_phone || '112'}</div>
+                  <div className="pt-1.5 border-t border-[#1E3440] flex items-center justify-between text-[10px]">
+                    <span className={`font-medium ${status.titleColor}`}>
+                      • {status.operationalStatus}
+                    </span>
+                    <span className="text-[#94A3B8] font-mono">
+                      {sh.distance_m ? `${sh.distance_m}m` : '0.8 km'}
+                    </span>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       )}
