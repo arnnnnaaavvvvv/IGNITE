@@ -614,7 +614,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       <section id="reviews" className="relative mx-auto max-w-[100vw] overflow-hidden py-16">
         <div data-reveal="fade-up" className="max-w-[84rem] mx-auto px-6 md:px-8 mb-10 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.05] border border-white/15 text-zinc-300 text-[10px] font-mono font-semibold tracking-[0.16em] uppercase mb-3 shadow-sm">
-            <Star className="w-3.5 h-3.5 fill-white text-white" />
+            <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
             <span>TRUSTED BY 28,400+ EXPEDITIONS & PILGRIMS</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-extrabold tracking-[-0.03em] text-white font-display">
@@ -626,7 +626,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
           <div data-reveal="fade-up" data-reveal-delay="100" className="flex flex-wrap items-center justify-center gap-6 mt-6 text-xs font-mono text-neutral-400">
             <span className="flex items-center gap-1.5">
-              <span className="text-white font-bold text-sm">★ 4.96 / 5.0</span> Rating
+              <span className="text-amber-400 font-bold text-sm">★ 4.96 / 5.0</span> Rating
             </span>
             <span className="text-neutral-600">•</span>
             <span className="text-zinc-300 font-medium">100% Offline 2G Reliability</span>
@@ -682,9 +682,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               >
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-1 text-zinc-200">
+                    <div className="flex items-center gap-1 text-amber-400">
                       {[...Array(rev.stars)].map((_, s) => (
-                        <Star key={s} className="w-3.5 h-3.5 fill-zinc-200" />
+                        <Star key={s} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                       ))}
                     </div>
                     <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-neutral-300">
@@ -756,9 +756,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               >
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-1 text-zinc-200">
+                    <div className="flex items-center gap-1 text-amber-400">
                       {[...Array(rev.stars)].map((_, s) => (
-                        <Star key={s} className="w-3.5 h-3.5 fill-zinc-200" />
+                        <Star key={s} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                       ))}
                     </div>
                     <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-neutral-300">
@@ -832,9 +832,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               >
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-1 text-zinc-200">
+                    <div className="flex items-center gap-1 text-amber-400">
                       {[...Array(rev.stars)].map((_, s) => (
-                        <Star key={s} className="w-3.5 h-3.5 fill-zinc-200" />
+                        <Star key={s} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                       ))}
                     </div>
                     <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-neutral-300">
@@ -906,9 +906,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               >
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-1 text-zinc-200">
+                    <div className="flex items-center gap-1 text-amber-400">
                       {[...Array(rev.stars)].map((_, s) => (
-                        <Star key={s} className="w-3.5 h-3.5 fill-zinc-200" />
+                        <Star key={s} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                       ))}
                     </div>
                     <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-neutral-300">
