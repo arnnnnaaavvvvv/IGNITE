@@ -74,18 +74,13 @@ export const HeroBackground: React.FC<HeroBackgroundProps> = ({ className = '' }
 
     // Topographic contours configuration
     const lineCount = 12;
-    const elevationTags = [
-      '2,800m', '3,150m', '3,600m', '4,100m', '4,550m',
-      '4,920m', '5,359m KHARDUNG', '4,780m', '3,950m', '3,400m',
-      '2,900m', '2,450m'
-    ];
 
     // Beacon nodes (rescue posts, radars)
     const beacons = [
-      { xRel: 0.18, yRel: 0.28, label: 'SDRF POST 04', elev: '3,120m', type: 'base' },
-      { xRel: 0.82, yRel: 0.32, label: 'ITBP SECTOR-E', elev: '4,450m', type: 'telemetry' },
-      { xRel: 0.15, yRel: 0.72, label: 'DEOC RADAR 01', elev: '2,650m', type: 'radar' },
-      { xRel: 0.85, yRel: 0.68, label: 'AMS SENSOR 09', elev: '4,980m', type: 'sensor' },
+      { xRel: 0.18, yRel: 0.28 },
+      { xRel: 0.82, yRel: 0.32 },
+      { xRel: 0.15, yRel: 0.72 },
+      { xRel: 0.85, yRel: 0.68 },
     ];
 
     let time = 0;
@@ -114,17 +109,7 @@ export const HeroBackground: React.FC<HeroBackgroundProps> = ({ className = '' }
       const mouseX = mouseRef.current.x;
       const mouseY = mouseRef.current.y;
 
-      // 1. Draw subtle coordinate grid crosses (+)
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
-      ctx.font = '9px "JetBrains Mono", monospace';
-      const gridStep = Math.max(120, Math.floor(width / 8));
-      for (let gx = gridStep; gx < width; gx += gridStep) {
-        for (let gy = gridStep; gy < height; gy += gridStep) {
-          ctx.fillText('+', gx - 3, gy + 3);
-        }
-      }
-
-      // 2. Render Topographic Elevation Waves
+      // 1. Render Topographic Elevation Waves
       for (let i = 0; i < lineCount; i++) {
         const progress = i / (lineCount - 1);
         const baseY = height * (0.12 + progress * 0.76);
@@ -206,19 +191,9 @@ export const HeroBackground: React.FC<HeroBackgroundProps> = ({ className = '' }
           ctx.arc(pulsePos, pulseWaveY, 2.2, 0, Math.PI * 2);
           ctx.fill();
         }
-
-        // 4. Elevation tag rendered at contour breaks
-        if (i % 2 === 0 && width > 640) {
-          const tagX = (width * 0.08 + (i * 127)) % (width * 0.85);
-          const tagY = baseY + Math.sin(tagX * 0.0042 + time * 0.8 + i * 0.65) * (16 + i * 1.5);
-
-          ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
-          ctx.font = '8.5px "JetBrains Mono", monospace';
-          ctx.fillText(elevationTags[i % elevationTags.length], tagX, tagY - 6);
-        }
       }
 
-      // 5. Render Tactical Waypoint Beacons with Sonar Pulse
+      // 4. Render Waypoint Beacons with Sonar Pulse
       beacons.forEach((b, idx) => {
         const bx = width * b.xRel;
         const by = height * b.yRel;
@@ -244,30 +219,6 @@ export const HeroBackground: React.FC<HeroBackgroundProps> = ({ className = '' }
         ctx.beginPath();
         ctx.arc(bx, by, 1.2, 0, Math.PI * 2);
         ctx.fill();
-
-        // Beacon badge box (visible on screens >= 500px)
-        if (width >= 500) {
-          ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
-          ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
-          ctx.lineWidth = 0.8;
-          const boxW = 86;
-          const boxH = 22;
-          const boxX = bx + 8;
-          const boxY = by - 11;
-
-          ctx.beginPath();
-          ctx.roundRect(boxX, boxY, boxW, boxH, 4);
-          ctx.fill();
-          ctx.stroke();
-
-          ctx.fillStyle = '#f4f4f5';
-          ctx.font = 'bold 8px "JetBrains Mono", monospace';
-          ctx.fillText(b.label, boxX + 6, boxY + 10);
-
-          ctx.fillStyle = 'rgba(52, 211, 153, 0.9)';
-          ctx.font = '7.5px "JetBrains Mono", monospace';
-          ctx.fillText(b.elev, boxX + 6, boxY + 18);
-        }
       });
 
       // 6. Connect beacons with tactical dotted telemetry route lines
@@ -355,17 +306,7 @@ export const HeroBackground: React.FC<HeroBackgroundProps> = ({ className = '' }
       {/* 3. The 60FPS Interactive Topographic Waves Canvas */}
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
 
-      {/* 4. Peripheral Tactical Telemetry HUD Accents */}
-      <div className="absolute top-4 left-6 sm:left-10 text-[9px] font-mono text-neutral-500 tracking-[0.2em] uppercase hidden sm:flex items-center gap-2">
-        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-        <span>IGNITE TOPO-MESH // LAT 08°04′N - 37°06′N // SDRF-DEOC TELEMETRY ACTIVE</span>
-      </div>
 
-      <div className="absolute top-4 right-6 sm:right-10 text-[9px] font-mono text-neutral-500 tracking-[0.2em] uppercase hidden sm:flex items-center gap-3">
-        <span>RF-CARRIER: 2G/BLE MESH</span>
-        <span className="text-neutral-700">|</span>
-        <span className="text-emerald-400/80">LATENCY 450MS</span>
-      </div>
 
       {/* 5. Center Radial Vignette Mask (Keeps text ultra-crisp & readable) */}
       <div
