@@ -215,9 +215,7 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
             <div className="flex items-center gap-1.5 bg-[#0D202B] px-2.5 py-1 rounded border border-[#1E3440]">
               <span className="text-[10px] text-[#94A3B8]">{isHi ? 'स्थिति:' : 'Status:'}</span>
               <span className={`text-[10px] px-1.5 py-0.2 rounded font-mono font-semibold border ${
-                isSimulating
-                  ? 'bg-red-500/20 text-red-300 border-red-500/40'
-                  : 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30'
+                isSimulating ? 'bg-red-500/15 text-red-400 border-red-500/40 font-bold' : 'bg-emerald-500/15 text-emerald-400 border-emerald-500/40 font-bold'
               }`}>
                 {isSimulating ? (isHi ? 'खतरा अलर्ट सक्रिय' : 'HAZARD ACTIVE') : (isHi ? 'सामान्य व सुरक्षित' : 'NORMAL')}
               </span>
@@ -449,17 +447,19 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
                           {isCritical ? <CloudLightning className="w-4 h-4" /> : isHigh ? <AlertTriangle className="w-4 h-4" /> : <CheckCircle className="w-4 h-4" />}
                         </div>
                         <div>
-                          <h3 className="text-xs font-semibold text-[#F1F5F9]">{titleText}</h3>
+                          <h3 className={`text-xs font-bold ${
+                            isCritical ? 'text-red-400' : isHigh ? 'text-amber-400' : 'text-emerald-400'
+                          }`}>{titleText}</h3>
                         </div>
                       </div>
 
                       <div className="flex flex-col items-end gap-0.5 shrink-0">
-                        <span className={`text-[9px] px-1.5 py-0.2 rounded font-mono font-medium border ${
+                        <span className={`text-[9px] px-1.5 py-0.2 rounded font-mono font-bold border ${
                           isCritical
-                            ? 'bg-red-500/10 text-red-300 border-red-500/30'
+                            ? 'bg-red-500/15 text-red-400 border-red-500/40'
                             : isHigh
-                            ? 'bg-amber-500/10 text-amber-300 border-amber-500/30'
-                            : 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30'
+                            ? 'bg-amber-500/15 text-amber-400 border-amber-500/40'
+                            : 'bg-emerald-500/15 text-emerald-400 border-emerald-500/40'
                         }`}>
                           {isHi ? (isCritical ? 'गंभीर' : isHigh ? 'उच्च' : 'मध्यम') : sc.expected_risk_category}
                         </span>
@@ -488,7 +488,13 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
                         {isHi ? 'तापमान:' : 'Temp:'} {sc.weather.temperature_c}°C
                       </span>
                       <span>•</span>
-                      <span className={sc.weather.imd_alert === 'RED' ? 'text-red-400 font-bold' : 'text-[#34D399]'}>
+                      <span className={`font-bold ${
+                        sc.weather.imd_alert === 'RED'
+                          ? 'text-red-400'
+                          : sc.weather.imd_alert === 'ORANGE' || sc.weather.imd_alert === 'YELLOW'
+                          ? 'text-amber-400'
+                          : 'text-emerald-400'
+                      }`}>
                         IMD: {sc.weather.imd_alert}
                       </span>
                     </div>
@@ -558,18 +564,20 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
                         <History className="w-3.5 h-3.5 text-[#34D399]" />
                       </div>
                       <div>
-                        <h4 className="text-xs font-semibold text-[#F1F5F9]">{incTitle}</h4>
-                        <div className="text-[10px] font-mono text-[#34D399]">{inc.year_or_date}</div>
+                        <h4 className={`text-xs font-bold ${
+                          isCritical ? 'text-red-400' : isHigh ? 'text-amber-400' : 'text-emerald-400'
+                        }`}>{incTitle}</h4>
+                        <div className="text-[10px] font-mono text-[#94A3B8]">{inc.year_or_date}</div>
                       </div>
                     </div>
 
                     <div className="flex items-center gap-1.5">
-                      <span className={`text-[9px] px-1.5 py-0.2 rounded font-mono font-medium border ${
+                      <span className={`text-[9px] px-1.5 py-0.2 rounded font-mono font-bold border ${
                         isCritical
-                          ? 'bg-red-500/10 text-red-300 border-red-500/30'
+                          ? 'bg-red-500/15 text-red-400 border-red-500/40'
                           : isHigh
-                          ? 'bg-amber-500/10 text-amber-300 border-amber-500/30'
-                          : 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30'
+                          ? 'bg-amber-500/15 text-amber-400 border-amber-500/40'
+                          : 'bg-emerald-500/15 text-emerald-400 border-emerald-500/40'
                       }`}>
                         {inc.severity}
                       </span>
@@ -667,18 +675,20 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
                       <span className="text-xs font-semibold text-[#F1F5F9]">{nb.agency}</span>
                     </div>
 
-                    <span className={`text-[9px] px-1.5 py-0.2 rounded font-mono font-medium border ${
+                    <span className={`text-[9px] px-1.5 py-0.2 rounded font-mono font-bold border ${
                       isRed
-                        ? 'bg-red-500/10 text-red-300 border-red-500/30'
+                        ? 'bg-red-500/15 text-red-400 border-red-500/40'
                         : isOrange
-                        ? 'bg-amber-500/10 text-amber-300 border-amber-500/30'
-                        : 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30'
+                        ? 'bg-amber-500/15 text-amber-400 border-amber-500/40'
+                        : 'bg-emerald-500/15 text-emerald-400 border-emerald-500/40'
                     }`}>
                       {nb.severity}
                     </span>
                   </div>
 
-                  <h4 className="text-xs font-medium text-[#F1F5F9] mb-2">{headlineText}</h4>
+                  <h4 className={`text-xs font-bold mb-2 ${
+                    isRed ? 'text-red-400' : isOrange ? 'text-amber-400' : 'text-emerald-400'
+                  }`}>{headlineText}</h4>
 
                   <div className="pt-1.5 border-t border-[#1E3440] flex items-center justify-between text-[9px] font-mono text-[#94A3B8]">
                     <div className="flex items-center gap-1 flex-wrap">
@@ -715,7 +725,13 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
             <div className="flex items-center gap-2">
               <div className="flex items-center gap-1.5">
                 <span className="text-xs text-[#94A3B8]">{isHi ? 'जोखिम:' : 'Risk:'}</span>
-                <span className="font-mono text-xs font-bold text-red-400">
+                <span className={`font-mono text-xs font-bold ${
+                  rerouteData.current_risk_score >= 70
+                    ? 'text-red-400'
+                    : rerouteData.current_risk_score >= 40
+                    ? 'text-amber-400'
+                    : 'text-emerald-400'
+                }`}>
                   {rerouteData.current_risk_score}/100
                 </span>
               </div>
