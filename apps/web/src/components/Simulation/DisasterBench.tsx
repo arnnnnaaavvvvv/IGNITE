@@ -450,7 +450,6 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
                         </div>
                         <div>
                           <h3 className="text-xs font-semibold text-[#F1F5F9]">{titleText}</h3>
-                          <div className="text-[10px] text-[#94A3B8]">{isHi ? sc.title : sc.title_hi}</div>
                         </div>
                       </div>
 
@@ -679,8 +678,7 @@ export const DisasterBench: React.FC<DisasterBenchProps> = ({
                     </span>
                   </div>
 
-                  <h4 className="text-xs font-medium text-slate-100 mb-1">{headlineText}</h4>
-                  <div className="text-[10px] text-[#94A3B8] mb-2">{isHi ? nb.headline : nb.headline_hi}</div>
+                  <h4 className="text-xs font-medium text-[#F1F5F9] mb-2">{headlineText}</h4>
 
                   <div className="pt-1.5 border-t border-[#1E3440] flex items-center justify-between text-[9px] font-mono text-[#94A3B8]">
                     <div className="flex items-center gap-1 flex-wrap">

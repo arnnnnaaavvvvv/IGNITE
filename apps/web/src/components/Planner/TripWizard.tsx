@@ -495,9 +495,6 @@ export const TripWizard: React.FC<TripWizardProps> = ({
                     <div className="space-y-0.5 min-w-0">
                       <div className="text-xs font-semibold text-[#F1F5F9] group-hover:text-emerald-300 transition-colors flex items-center gap-1.5 flex-wrap">
                         <span>{isHi && item.name_hi ? item.name_hi : item.canonical_name}</span>
-                        {!isHi && item.name_hi && (
-                          <span className="text-[10px] text-[#94A3B8] font-normal">({item.name_hi})</span>
-                        )}
                         {isPilgrimage && (
                           <span className="text-[9px] px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20 font-medium">
                             {isHi ? 'तीर्थ' : 'Sacred'}
