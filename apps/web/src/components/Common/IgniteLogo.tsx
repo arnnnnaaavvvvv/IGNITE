@@ -57,7 +57,7 @@ export const IgniteLogo: React.FC<IgniteLogoProps> = ({
     >
       {/* Subtle Ambient Backlight */}
       {showGlow && (
-        <div className="absolute inset-0 bg-gradient-to-tr from-emerald-500/20 to-teal-400/10 opacity-70 blur-xs rounded-xl" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-white/15 to-white/5 opacity-70 blur-xs rounded-xl" />
       )}
 
       {/* Pristine Clean Logo Emblem (100% Inlined & Watermark-Free) */}

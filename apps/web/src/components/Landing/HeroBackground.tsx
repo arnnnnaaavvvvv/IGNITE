@@ -153,12 +153,12 @@ export const HeroBackground: React.FC<HeroBackgroundProps> = ({ className = '' }
 
         // Color & stroke styling
         if (isHighlight) {
-          // Highlight contour with emerald/cyan shimmer
+          // Highlight contour with pure silver-white shimmer
           const grad = ctx.createLinearGradient(0, baseY, width, baseY);
-          grad.addColorStop(0, 'rgba(255, 255, 255, 0.06)');
-          grad.addColorStop(0.3, 'rgba(16, 185, 129, 0.35)');
-          grad.addColorStop(0.7, 'rgba(6, 182, 212, 0.35)');
-          grad.addColorStop(1, 'rgba(255, 255, 255, 0.06)');
+          grad.addColorStop(0, 'rgba(255, 255, 255, 0.04)');
+          grad.addColorStop(0.3, 'rgba(255, 255, 255, 0.45)');
+          grad.addColorStop(0.7, 'rgba(255, 255, 255, 0.45)');
+          grad.addColorStop(1, 'rgba(255, 255, 255, 0.04)');
           ctx.strokeStyle = grad;
           ctx.lineWidth = 1.3;
         } else {
@@ -177,8 +177,8 @@ export const HeroBackground: React.FC<HeroBackgroundProps> = ({ className = '' }
 
           // Glowing pulse head
           const radGrad = ctx.createRadialGradient(pulsePos, pulseWaveY, 0, pulsePos, pulseWaveY, 24);
-          radGrad.addColorStop(0, 'rgba(255, 255, 255, 0.9)');
-          radGrad.addColorStop(0.3, 'rgba(16, 185, 129, 0.6)');
+          radGrad.addColorStop(0, 'rgba(255, 255, 255, 0.95)');
+          radGrad.addColorStop(0.3, 'rgba(255, 255, 255, 0.4)');
           radGrad.addColorStop(1, 'transparent');
 
           ctx.fillStyle = radGrad;
@@ -201,23 +201,18 @@ export const HeroBackground: React.FC<HeroBackgroundProps> = ({ className = '' }
         // Expanding sonar wave ring
         const sonarCycle = (time * 0.6 + idx * 0.25) % 1;
         const sonarRadius = sonarCycle * 32;
-        const sonarAlpha = (1 - sonarCycle) * 0.45;
+        const sonarAlpha = (1 - sonarCycle) * 0.35;
 
-        ctx.strokeStyle = `rgba(16, 185, 129, ${sonarAlpha})`;
+        ctx.strokeStyle = `rgba(255, 255, 255, ${sonarAlpha})`;
         ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.arc(bx, by, sonarRadius, 0, Math.PI * 2);
         ctx.stroke();
 
         // Core dot
-        ctx.fillStyle = '#10b981';
-        ctx.beginPath();
-        ctx.arc(bx, by, 3, 0, Math.PI * 2);
-        ctx.fill();
-
         ctx.fillStyle = '#ffffff';
         ctx.beginPath();
-        ctx.arc(bx, by, 1.2, 0, Math.PI * 2);
+        ctx.arc(bx, by, 2.5, 0, Math.PI * 2);
         ctx.fill();
       });
 
@@ -226,7 +221,7 @@ export const HeroBackground: React.FC<HeroBackgroundProps> = ({ className = '' }
         ctx.save();
         ctx.setLineDash([4, 6]);
         ctx.lineDashOffset = -time * 15;
-        ctx.strokeStyle = 'rgba(16, 185, 129, 0.22)';
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
         ctx.lineWidth = 1;
 
         ctx.beginPath();
@@ -262,23 +257,23 @@ export const HeroBackground: React.FC<HeroBackgroundProps> = ({ className = '' }
       className={`absolute inset-0 pointer-events-none overflow-hidden select-none ${className}`}
       aria-hidden="true"
     >
-      {/* 1. Deep Atmospheric Luminous Ambient Glow (Organic breathing orbs) */}
+      {/* 1. Deep Atmospheric Luminous Ambient Glow (Monochrome Titanium orbs) */}
       <div
-        className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[850px] h-[380px] sm:h-[520px] rounded-full blur-[100px] animate-hero-orb-1 opacity-45"
+        className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[850px] h-[380px] sm:h-[520px] rounded-full blur-[110px] animate-hero-orb-1 opacity-35"
         style={{
-          background: 'radial-gradient(ellipse at center, rgba(16, 185, 129, 0.38) 0%, rgba(13, 148, 136, 0.16) 45%, transparent 72%)',
+          background: 'radial-gradient(ellipse at center, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.03) 45%, transparent 72%)',
         }}
       />
       <div
-        className="absolute top-1/3 right-1/4 translate-x-1/2 -translate-y-1/2 w-[550px] sm:w-[780px] h-[360px] sm:h-[480px] rounded-full blur-[100px] animate-hero-orb-2 opacity-40"
+        className="absolute top-1/3 right-1/4 translate-x-1/2 -translate-y-1/2 w-[550px] sm:w-[780px] h-[360px] sm:h-[480px] rounded-full blur-[110px] animate-hero-orb-2 opacity-30"
         style={{
-          background: 'radial-gradient(ellipse at center, rgba(6, 182, 212, 0.32) 0%, rgba(14, 116, 144, 0.14) 45%, transparent 72%)',
+          background: 'radial-gradient(ellipse at center, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.02) 45%, transparent 72%)',
         }}
       />
       <div
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[700px] sm:w-[980px] h-[280px] sm:h-[400px] rounded-full blur-[110px] animate-hero-orb-3 opacity-35"
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[700px] sm:w-[980px] h-[280px] sm:h-[400px] rounded-full blur-[120px] animate-hero-orb-3 opacity-25"
         style={{
-          background: 'radial-gradient(ellipse at center, rgba(99, 102, 241, 0.28) 0%, rgba(255, 255, 255, 0.08) 50%, transparent 75%)',
+          background: 'radial-gradient(ellipse at center, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.02) 50%, transparent 75%)',
         }}
       />
 
@@ -287,7 +282,7 @@ export const HeroBackground: React.FC<HeroBackgroundProps> = ({ className = '' }
         <svg className="w-full h-full" viewBox="0 0 800 800" fill="none">
           <circle cx="400" cy="400" r="160" stroke="rgba(255, 255, 255, 0.15)" strokeWidth="0.8" strokeDasharray="6 6" />
           <circle cx="400" cy="400" r="280" stroke="rgba(255, 255, 255, 0.12)" strokeWidth="0.8" />
-          <circle cx="400" cy="400" r="390" stroke="rgba(16, 185, 129, 0.2)" strokeWidth="1" strokeDasharray="3 9" />
+          <circle cx="400" cy="400" r="390" stroke="rgba(255, 255, 255, 0.15)" strokeWidth="1" strokeDasharray="3 9" />
           <line x1="400" y1="20" x2="400" y2="780" stroke="rgba(255, 255, 255, 0.06)" strokeWidth="0.8" strokeDasharray="4 8" />
           <line x1="20" y1="400" x2="780" y2="400" stroke="rgba(255, 255, 255, 0.06)" strokeWidth="0.8" strokeDasharray="4 8" />
         </svg>
@@ -296,7 +291,7 @@ export const HeroBackground: React.FC<HeroBackgroundProps> = ({ className = '' }
         <div
           className="absolute inset-0 rounded-full animate-hero-radar"
           style={{
-            background: 'conic-gradient(from 0deg, transparent 0deg, transparent 290deg, rgba(255, 255, 255, 0.04) 330deg, rgba(16, 185, 129, 0.45) 360deg)',
+            background: 'conic-gradient(from 0deg, transparent 0deg, transparent 290deg, rgba(255, 255, 255, 0.03) 330deg, rgba(255, 255, 255, 0.22) 360deg)',
             maskImage: 'radial-gradient(circle at center, black 20%, transparent 68%)',
             WebkitMaskImage: 'radial-gradient(circle at center, black 20%, transparent 68%)',
           }}

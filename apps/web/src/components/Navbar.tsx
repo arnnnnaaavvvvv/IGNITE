@@ -55,7 +55,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <IgniteLogo size="md" />
 
             <div className="flex items-center gap-2.5">
-              <span className="font-bold text-base sm:text-lg tracking-tight text-white group-hover:text-emerald-300 transition-colors font-sans">
+              <span className="font-bold text-base sm:text-lg tracking-tight text-white group-hover:text-neutral-200 transition-colors font-sans">
                 IGNITE
               </span>
             </div>
@@ -138,12 +138,12 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onClick={() => setActiveTab(tab.id as any)}
                 className={`w-full flex flex-col items-center justify-center py-1.5 px-1 rounded-xl transition-all relative ${
                   isActive
-                    ? 'text-emerald-400 bg-white/[0.08] font-bold shadow-inner'
+                    ? 'text-white bg-white/[0.12] font-bold shadow-inner'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
                 <div className="relative">
-                  <Icon className={`w-5 h-5 ${isActive ? 'text-emerald-400' : 'text-slate-400'}`} />
+                  <Icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-slate-400'}`} />
                   {tab.id === 'simulation' && isSimulatingHazard && (
                     <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-red-500 animate-pulse" />
                   )}
