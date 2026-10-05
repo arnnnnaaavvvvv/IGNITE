@@ -13,6 +13,7 @@ import {
   Building2,
 } from 'lucide-react';
 import { OfflineCacheService } from '../../services/offlineCache';
+import { useAuth } from '../../context/AuthContext';
 
 interface SOSModalProps {
   isOpen: boolean;
@@ -27,27 +28,53 @@ export const SOSModal: React.FC<SOSModalProps> = ({
   userCoords = { lat: 30.6270, lon: 79.0700, altitude_m: 2550 },
   language = 'en',
 }) => {
+  const { user } = useAuth();
   const [isSending, setIsSending] = useState(false);
   const [dispatchData, setDispatchData] = useState<SOSDispatch | null>(null);
   const [copiedSMS, setCopiedSMS] = useState(false);
 
   const cachedUser = OfflineCacheService.getUserSession();
-  const [victimName, setVictimName] = useState(cachedUser?.name || 'Ramesh Kumar');
-  const [victimPhone, setVictimPhone] = useState(cachedUser?.phone || '+91 98765 43210');
+  const [victimName, setVictimName] = useState(user?.displayName || cachedUser?.name || 'Ramesh Kumar');
+  const [victimPhone, setVictimPhone] = useState(
+    user?.emergencyProfile?.emergencyContactPhone || user?.phoneNumber || cachedUser?.phone || '+91 98765 43210'
+  );
   const [medicalNote, setMedicalNote] = useState(
-    cachedUser?.bloodGroup
+    user?.emergencyProfile?.bloodGroup
+      ? `Blood: ${user.emergencyProfile.bloodGroup}. ${user.emergencyProfile.medicalConditions || 'Acute mountain fatigue'}`
+      : cachedUser?.bloodGroup
       ? `Blood: ${cachedUser.bloodGroup}. Acute mountain fatigue`
       : 'Suspected acute hypothermia & exhaustion'
   );
+
+  React.useEffect(() => {
+    if (user && isOpen) {
+      if (user.displayName) setVictimName(user.displayName);
+      if (user.emergencyProfile?.emergencyContactPhone || user.phoneNumber) {
+        setVictimPhone(user.emergencyProfile?.emergencyContactPhone || user.phoneNumber || '');
+      }
+      if (user.emergencyProfile?.bloodGroup) {
+        setMedicalNote(`Blood: ${user.emergencyProfile.bloodGroup}. ${user.emergencyProfile.medicalConditions || 'Acute mountain fatigue'}`);
+      }
+    }
+  }, [user, isOpen]);
 
   if (!isOpen) return null;
 
   const handleSendSOS = async () => {
     setIsSending(true);
     try {
+      const emergencyContacts = [
+        ...(user?.emergencyProfile?.emergencyContactPhone ? [user.emergencyProfile.emergencyContactPhone] : []),
+        '+91-9811122233',
+        '+91-9922334455',
+      ];
+
       const res = await fetch('/api/v1/emergency/sos', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(user?.idToken ? { Authorization: `Bearer ${user.idToken}` } : {}),
+        },
         body: JSON.stringify({
           user_name: victimName,
           user_phone: victimPhone,
@@ -56,7 +83,7 @@ export const SOSModal: React.FC<SOSModalProps> = ({
           altitude_m: userCoords.altitude_m,
           medical_condition: medicalNote,
           battery_level_percent: 18,
-          emergency_contacts: ['+91-9811122233', '+91-9922334455'],
+          emergency_contacts: emergencyContacts,
         }),
       });
       const data: SOSDispatch = await res.json();

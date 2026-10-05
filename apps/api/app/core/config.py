@@ -21,7 +21,7 @@ class Settings(BaseSettings):
     GEMINI_API_KEY: Optional[str] = os.getenv("GEMINI_API_KEY", None)
     
     # Auth & Security
-    FIREBASE_PROJECT_ID: Optional[str] = os.getenv("FIREBASE_PROJECT_ID", "safetrail-ai")
+    FIREBASE_PROJECT_ID: Optional[str] = os.getenv("FIREBASE_PROJECT_ID", "ignite-f7c25")
     JWT_SECRET: str = os.getenv("JWT_SECRET", "safetrail-pan-india-super-secret-key-2026")
     
     # Regional Curfews & Safety Defaults

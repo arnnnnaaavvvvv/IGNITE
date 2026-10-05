@@ -10,6 +10,9 @@ import { ExplainabilityPanel } from './components/Explainability/ExplainabilityP
 import { DisasterBench } from './components/Simulation/DisasterBench';
 import { SOSModal } from './components/Emergency/SOSModal';
 import { GroupTrackerModal } from './components/Group/GroupTrackerModal';
+import { AuthModal } from './components/Auth/AuthModal';
+import { UserProfileModal } from './components/Auth/UserProfileModal';
+import { useAuth } from './context/AuthContext';
 import { OfflineCacheService } from './services/offlineCache';
 import { IgniteWebSocketClient } from './services/websocketClient';
 import type {
@@ -23,6 +26,7 @@ import { AlertTriangle, WifiOff, MapPin } from 'lucide-react';
 import { t, getLocalizedDestinationName } from './services/i18n';
 
 export function App() {
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<'overview' | 'map' | 'itinerary' | 'explainability' | 'simulation' | 'group'>('overview');
   const [language, setLanguage] = useState<string>(() => {
     try {
@@ -120,7 +124,10 @@ export function App() {
     try {
       const res = await fetch('/api/v1/itinerary/generate', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(user?.idToken ? { Authorization: `Bearer ${user.idToken}` } : {}),
+        },
         body: JSON.stringify({
           ...params,
           language,
@@ -460,6 +467,12 @@ export function App() {
         onSelectCheckpoint={(cp) => setSelectedCheckpoint(cp)}
         onClose={() => setIsItineraryModalOpen(false)}
       />
+
+      {/* Firebase Authentication Modal */}
+      <AuthModal language={language} />
+
+      {/* Authenticated User Profile & Emergency Info Modal */}
+      <UserProfileModal language={language} />
     </div>
   );
 }

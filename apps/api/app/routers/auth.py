@@ -31,4 +31,18 @@ async def get_my_profile(current_user: Dict[str, Any] = Depends(get_current_user
     """
     Returns current authenticated user profile.
     """
-    return {"user": current_user}
+    return {
+        "status": "authenticated" if not current_user.get("is_guest") else "guest",
+        "user": current_user
+    }
+
+@router.post("/sync")
+async def sync_firebase_user(current_user: Dict[str, Any] = Depends(get_current_user)):
+    """
+    Syncs the active Firebase or guest session with the backend session store.
+    """
+    return {
+        "status": "synced",
+        "authenticated": not current_user.get("is_guest", False),
+        "user": current_user
+    }

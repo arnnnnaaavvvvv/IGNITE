@@ -285,3 +285,26 @@ export interface SOSDispatch {
   assigned_units: Array<{ unit: string; channel: string; status: string }>;
   sms_fallback_string: string;
 }
+
+export interface UserEmergencyProfile {
+  emergencyContactName: string;
+  emergencyContactPhone: string;
+  bloodGroup?: string;
+  medicalConditions?: string;
+}
+
+export interface AuthUser {
+  uid: string;
+  email: string | null;
+  displayName: string | null;
+  photoURL: string | null;
+  phoneNumber?: string | null;
+  isAnonymous: boolean;
+  emailVerified: boolean;
+  providerId?: string;
+  idToken?: string;
+  emergencyProfile?: UserEmergencyProfile;
+}
+
+export type AuthModalMode = 'signin' | 'signup' | 'forgot';
+
