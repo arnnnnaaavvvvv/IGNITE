@@ -60,7 +60,9 @@ export function getFriendlyAuthErrorMessage(error: any): string {
     case 'auth/popup-blocked':
       return 'Google popup was blocked by browser. Please allow popups for this site.';
     case 'auth/operation-not-allowed':
-      return 'This sign-in method is not enabled in Firebase Console. Please contact admin.';
+      return 'Google Sign-In is not enabled yet in Firebase Console. Go to Authentication > Sign-in method and enable Google provider.';
+    case 'auth/unauthorized-domain':
+      return 'This domain is not authorized in Firebase Console. Please add it in Firebase Console > Authentication > Settings > Authorized domains.';
     case 'auth/network-request-failed':
       return 'Network connection failed. Please check your internet connectivity.';
     case 'auth/too-many-requests':
