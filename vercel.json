@@ -34,7 +34,7 @@
       "dest": "/apps/web/assets/$1"
     },
     {
-      "src": "/(.*\\.(?:png|svg|ico|webp|json|webmanifest|txt))",
+      "src": "/(.*\\.(?:png|svg|ico|webp|json|webmanifest|txt|pdf))",
       "dest": "/apps/web/$1"
     },
     {
