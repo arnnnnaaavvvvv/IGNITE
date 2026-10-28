@@ -14,22 +14,48 @@ import {
   type Auth,
 } from 'firebase/auth';
 
-const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
+const DEFAULT_FIREBASE_CONFIG = {
+  apiKey: 'AIzaSyCDf6EKT6np-1V0h8FSElhcP2bVQT3uV1o',
+  authDomain: 'ignite-f7c25.firebaseapp.com',
+  projectId: 'ignite-f7c25',
+  storageBucket: 'ignite-f7c25.firebasestorage.app',
+  messagingSenderId: '790007897163',
+  appId: '1:790007897163:web:dcf2c44a68cbebb71481ce',
+  measurementId: 'G-0DTR1EH1PB',
 };
 
-// Initialize Firebase singleton
-export const firebaseApp: FirebaseApp = !getApps().length
-  ? initializeApp(firebaseConfig)
-  : getApp();
+const firebaseConfig = {
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || DEFAULT_FIREBASE_CONFIG.apiKey,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || DEFAULT_FIREBASE_CONFIG.authDomain,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || DEFAULT_FIREBASE_CONFIG.projectId,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || DEFAULT_FIREBASE_CONFIG.storageBucket,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || DEFAULT_FIREBASE_CONFIG.messagingSenderId,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || DEFAULT_FIREBASE_CONFIG.appId,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || DEFAULT_FIREBASE_CONFIG.measurementId,
+};
 
-export const auth: Auth = getAuth(firebaseApp);
+// Resilient initialization: do not crash the bundle if Firebase fails
+let initializedApp: FirebaseApp | null = null;
+let initializedAuth: Auth | null = null;
+let isFirebaseAvailable = false;
+
+try {
+  if (firebaseConfig.apiKey && firebaseConfig.apiKey !== 'YOUR_API_KEY') {
+    initializedApp = !getApps().length
+      ? initializeApp(firebaseConfig)
+      : getApp();
+    initializedAuth = getAuth(initializedApp);
+    isFirebaseAvailable = true;
+  } else {
+    console.warn('[Firebase] API key not found. Operating in resilient guest mode.');
+  }
+} catch (err) {
+  console.warn('[Firebase] Initialization error (falling back to guest/offline mode):', err);
+}
+
+export const firebaseApp = initializedApp as FirebaseApp;
+export const auth = initializedAuth as Auth;
+export { isFirebaseAvailable };
 
 export const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({

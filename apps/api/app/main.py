@@ -43,6 +43,8 @@ async def startup_event():
     print("[IGNITE API] Initialized successfully. All Pan-India modules active.")
 
 @app.get("/health", tags=["Health"])
+@app.get("/api/health", tags=["Health"])
+@app.get(f"{settings.API_V1_STR}/health", tags=["Health"])
 async def health_check():
     return {
         "status": "healthy",

@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import {
   auth,
+  isFirebaseAvailable,
   googleProvider,
   signInWithPopup,
   signInWithEmailAndPassword,
@@ -116,6 +117,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Listen to Firebase Auth state
   useEffect(() => {
+    if (!isFirebaseAvailable || !auth) {
+      console.info('[AuthContext] Firebase auth inactive. Resilient Guest mode active.');
+      setLoading(false);
+      return;
+    }
+
     const unsubscribe = onAuthStateChanged(auth, async (fbUser) => {
       setLoading(true);
       try {
@@ -300,25 +307,37 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Update Profile Name / Avatar
   const updateUserProfile = async (displayName: string, photoURL?: string) => {
-    if (!auth.currentUser) return;
-    try {
-      await updateProfile(auth.currentUser, {
+    if (isFirebaseAvailable && auth?.currentUser) {
+      try {
+        await updateProfile(auth.currentUser, {
+          displayName: displayName.trim(),
+          photoURL: photoURL || auth.currentUser.photoURL,
+        });
+        const updated = await mapFirebaseUser(auth.currentUser);
+        setUser(updated);
+        syncUserSession(updated);
+        return;
+      } catch (err: any) {
+        const msg = getFriendlyAuthErrorMessage(err);
+        setError(msg);
+        throw new Error(msg);
+      }
+    }
+
+    if (user) {
+      const updated: AuthUser = {
+        ...user,
         displayName: displayName.trim(),
-        photoURL: photoURL || auth.currentUser.photoURL,
-      });
-      const updated = await mapFirebaseUser(auth.currentUser);
+        photoURL: photoURL || user.photoURL,
+      };
       setUser(updated);
       syncUserSession(updated);
-    } catch (err: any) {
-      const msg = getFriendlyAuthErrorMessage(err);
-      setError(msg);
-      throw new Error(msg);
     }
   };
 
   // Get freshest ID Token
   const getIdToken = async (forceRefresh: boolean = false): Promise<string | null> => {
-    if (auth.currentUser) {
+    if (isFirebaseAvailable && auth?.currentUser) {
       return await auth.currentUser.getIdToken(forceRefresh);
     }
     return user?.idToken || null;
