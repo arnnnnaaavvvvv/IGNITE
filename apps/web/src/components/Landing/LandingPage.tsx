@@ -506,10 +506,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       {/* 4. Core Safety Capabilities Grid (High Visibility) */}
       <section id="features" className="relative mx-auto max-w-[84rem] px-6 md:px-8 py-20">
         <div data-reveal="fade-up" className="text-center max-w-3xl mx-auto mb-14">
-          <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-zinc-400 font-semibold">
-            SAFETY ARCHITECTURE
-          </span>
-          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-[-0.03em] text-white mt-1.5 font-display">
+          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-[-0.03em] text-white font-display">
             Engineered for Zero-Connectivity & Extreme Terrains
           </h2>
           <p className="mt-3 text-sm sm:text-base text-neutral-400 font-sans leading-relaxed max-w-2xl mx-auto">
