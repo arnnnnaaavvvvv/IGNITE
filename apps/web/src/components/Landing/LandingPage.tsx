@@ -14,7 +14,14 @@ import {
   Trees,
   Palmtree,
   Landmark,
-  Star,
+  Cpu,
+  Database,
+  Workflow,
+  Globe,
+  Layers,
+  ShieldCheck,
+  Check,
+  X,
 } from 'lucide-react';
 import { IgniteLogo } from '../Common/IgniteLogo';
 import { getLocalizedDestinationName } from '../../services/i18n';
@@ -607,328 +614,332 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         </div>
       </section>
 
-      {/* 5. Sliding Reviews & Social Proof Section */}
-      <section id="reviews" className="relative mx-auto max-w-[100vw] overflow-hidden py-16">
-        <div data-reveal="fade-up" className="max-w-[84rem] mx-auto px-6 md:px-8 mb-10 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.05] border border-white/15 text-zinc-300 text-[10px] font-mono font-semibold tracking-[0.16em] uppercase mb-3 shadow-sm">
-            <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-            <span>TRUSTED BY 28,400+ EXPEDITIONS & PILGRIMS</span>
+      {/* 5. Sovereign Architectural Integrity & Project Specifications */}
+      <section id="architecture" className="relative mx-auto max-w-[84rem] px-4 sm:px-6 md:px-8 py-20 border-t border-[#1E3440]/60">
+        <div data-reveal="fade-up" className="text-center max-w-3xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#10B981]/10 border border-[#10B981]/30 text-[#34D399] text-[10px] font-mono font-semibold tracking-[0.18em] uppercase mb-4 shadow-[0_0_15px_rgba(16,185,129,0.15)]">
+            <Layers className="w-3.5 h-3.5 text-[#34D399]" />
+            <span>{language === 'hi' ? 'संप्रभु वास्तुकला एवं तकनीकी विनिर्देश' : 'SOVEREIGN SYSTEM ARCHITECTURE & INTEGRITY'}</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-extrabold tracking-[-0.03em] text-white font-display">
-            Saved Lives on India's Most Extreme Corridors
+            {language === 'hi' ? 'राष्ट्रीय स्तर के लिए निर्मित। पूर्णतः गणितीय सुरक्षा।' : 'Engineered for India. Grounded in Deterministic Mathematics.'}
           </h2>
-          <p className="mt-3 text-sm text-neutral-400 max-w-2xl mx-auto leading-relaxed font-sans">
-            From Kedarnath cloudbursts and Khardung La blizzards to coastal marine squalls, hear from pilgrims, mountain guides, and SDRF rescue forces.
+          <p className="mt-3.5 text-sm sm:text-base text-neutral-400 font-sans leading-relaxed max-w-2xl mx-auto">
+            {language === 'hi'
+              ? 'सामान्य यात्रा निर्देशिकाओं के विपरीत, IGNITE संपूर्ण 28 राज्यों और 8 केंद्र शासित प्रदेशों में बहु-एजेंसी टेलीमेट्री, पोस्टजीआईएस स्थानिक जियोफेंसिंग और शून्य-इंटरनेट प्रोटोकॉल से संचालित होता है।'
+              : 'Unlike black-box commercial directories, IGNITE replaces opaque heuristics with deterministic hazard weighting, hardware-accelerated PostGIS geofencing, and zero-connectivity survival protocols.'}
           </p>
+        </div>
 
-          <div data-reveal="fade-up" data-reveal-delay="100" className="flex flex-wrap items-center justify-center gap-6 mt-6 text-xs font-mono text-neutral-400">
-            <span className="flex items-center gap-1.5">
-              <span className="text-amber-400 font-bold text-sm">★ 4.96 / 5.0</span> Rating
-            </span>
-            <span className="text-neutral-600">•</span>
-            <span className="text-zinc-300 font-medium">100% Offline 2G Reliability</span>
-            <span className="text-neutral-600">•</span>
-            <span className="text-zinc-300 font-medium">500+ Rescue Missions Supported</span>
+        {/* 5.1 Four Sovereign Architectural Pillars */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-14">
+          <div
+            data-reveal="fade-up"
+            data-reveal-delay="50"
+            className="rounded-2xl border border-[#1E3440] bg-[#0D202B]/80 backdrop-blur-xl p-6 hover:border-[#10B981]/40 transition-all flex flex-col justify-between group shadow-xl"
+          >
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-10 h-10 rounded-xl bg-[#10B981]/15 border border-[#10B981]/30 flex items-center justify-center text-[#34D399] group-hover:scale-105 transition-transform shadow-[0_0_12px_rgba(16,185,129,0.2)]">
+                  <Cpu className="w-5 h-5" />
+                </div>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-neutral-400">
+                  DETERMINISTIC
+                </span>
+              </div>
+              <div className="text-xs font-mono text-[#34D399] uppercase tracking-wider mb-1">
+                {language === 'hi' ? '6 भौगोलिक जोखिम मॉडल' : '6 Canonical Terrains'}
+              </div>
+              <h3 className="text-base font-bold text-white font-display mb-2 group-hover:text-[#34D399] transition-colors">
+                {language === 'hi' ? 'शून्य-भ्रम जोखिम मेट्रिक्स' : 'Zero-Hallucination Risk'}
+              </h3>
+              <p className="text-xs text-neutral-400 font-sans leading-relaxed">
+                {language === 'hi'
+                  ? 'पर्वतीय (भूस्खलन 30%, एएमएस 20%), तटीय (समुद्री तूफान 35%), वन, रेगिस्तान, मैदानी एवं शहरी क्षेत्रों हेतु सटीक गणितीय सूत्र।'
+                  : 'Calibrated weight vectors for Hill/Mountain (30% Landslide, 20% AMS), Coastal (35% Surge), Forest, Arid, Plains & Urban circuits.'}
+              </p>
+            </div>
+            <div className="mt-5 pt-3 border-t border-[#1E3440] flex items-center justify-between text-[11px] font-mono text-neutral-400">
+              <span>Scoring Engine</span>
+              <span className="text-[#34D399] font-semibold">0.0 – 100.0</span>
+            </div>
+          </div>
+
+          <div
+            data-reveal="fade-up"
+            data-reveal-delay="100"
+            className="rounded-2xl border border-[#1E3440] bg-[#0D202B]/80 backdrop-blur-xl p-6 hover:border-[#10B981]/40 transition-all flex flex-col justify-between group shadow-xl"
+          >
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-10 h-10 rounded-xl bg-[#10B981]/15 border border-[#10B981]/30 flex items-center justify-center text-[#34D399] group-hover:scale-105 transition-transform shadow-[0_0_12px_rgba(16,185,129,0.2)]">
+                  <Database className="w-5 h-5" />
+                </div>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-neutral-400">
+                  POSTGIS
+                </span>
+              </div>
+              <div className="text-xs font-mono text-[#34D399] uppercase tracking-wider mb-1">
+                {language === 'hi' ? 'स्थानिक प्रतिच्छेदन' : 'Spatial Geofencing'}
+              </div>
+              <h3 className="text-base font-bold text-white font-display mb-2 group-hover:text-[#34D399] transition-colors">
+                {language === 'hi' ? 'सक्रिय खतरा परिधि निकासी' : 'Hazard Boundary Escape'}
+              </h3>
+              <p className="text-xs text-neutral-400 font-sans leading-relaxed">
+                {language === 'hi'
+                  ? 'हार्डवेयर-त्वरित ST_Intersects विश्लेषण सक्रिय आपदा क्षेत्रों का पता लगाता है और सुरक्षित शेल्टरों हेतु तुरंत नया मार्ग बनाता है।'
+                  : 'Hardware-accelerated ST_Intersects polygon intersections identify active danger corridors and trigger verified bypass tracks in <450ms.'}
+              </p>
+            </div>
+            <div className="mt-5 pt-3 border-t border-[#1E3440] flex items-center justify-between text-[11px] font-mono text-neutral-400">
+              <span>Recalculation</span>
+              <span className="text-[#34D399] font-semibold">&lt; 450ms</span>
+            </div>
+          </div>
+
+          <div
+            data-reveal="fade-up"
+            data-reveal-delay="150"
+            className="rounded-2xl border border-[#1E3440] bg-[#0D202B]/80 backdrop-blur-xl p-6 hover:border-[#10B981]/40 transition-all flex flex-col justify-between group shadow-xl"
+          >
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-10 h-10 rounded-xl bg-[#10B981]/15 border border-[#10B981]/30 flex items-center justify-center text-[#34D399] group-hover:scale-105 transition-transform shadow-[0_0_12px_rgba(16,185,129,0.2)]">
+                  <Radio className="w-5 h-5" />
+                </div>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-neutral-400">
+                  OFFLINE-FIRST
+                </span>
+              </div>
+              <div className="text-xs font-mono text-[#34D399] uppercase tracking-wider mb-1">
+                {language === 'hi' ? '2G जीएसएम एवं कैश' : '2G GSM SMS & Cache'}
+              </div>
+              <h3 className="text-base font-bold text-white font-display mb-2 group-hover:text-[#34D399] transition-colors">
+                {language === 'hi' ? 'शून्य-इंटरनेट जीवन रक्षा' : 'Zero-Cell Survivability'}
+              </h3>
+              <p className="text-xs text-neutral-400 font-sans leading-relaxed">
+                {language === 'hi'
+                  ? 'संपूर्ण मार्ग डेटा ब्राउज़र IndexedDB में सुरक्षित रहता है। आपातकालीन एसओएस स्वचालित 140-वर्ण 2G एसएमएस पेलोड तैयार करता है।'
+                  : 'Full route polylines cache in browser IndexedDB. SOS triggers format a compact 140-char SMS payload for cellular dead zones.'}
+              </p>
+            </div>
+            <div className="mt-5 pt-3 border-t border-[#1E3440] flex items-center justify-between text-[11px] font-mono text-neutral-400">
+              <span>Telecom Payload</span>
+              <span className="text-[#34D399] font-semibold">140-Char GSM</span>
+            </div>
+          </div>
+
+          <div
+            data-reveal="fade-up"
+            data-reveal-delay="200"
+            className="rounded-2xl border border-[#1E3440] bg-[#0D202B]/80 backdrop-blur-xl p-6 hover:border-[#10B981]/40 transition-all flex flex-col justify-between group shadow-xl"
+          >
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-10 h-10 rounded-xl bg-[#10B981]/15 border border-[#10B981]/30 flex items-center justify-center text-[#34D399] group-hover:scale-105 transition-transform shadow-[0_0_12px_rgba(16,185,129,0.2)]">
+                  <Globe className="w-5 h-5" />
+                </div>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-neutral-400">
+                  SOVEREIGN
+                </span>
+              </div>
+              <div className="text-xs font-mono text-[#34D399] uppercase tracking-wider mb-1">
+                {language === 'hi' ? 'अखिल भारतीय दायरा' : 'Sovereign Domain'}
+              </div>
+              <h3 className="text-base font-bold text-white font-display mb-2 group-hover:text-[#34D399] transition-colors">
+                {language === 'hi' ? '28 राज्य व 8 केंद्र शासित प्रदेश' : '28 States & 8 UTs'}
+              </h3>
+              <p className="text-xs text-neutral-400 font-sans leading-relaxed">
+                {language === 'hi'
+                  ? 'भारतीय सीमाओं (6.0°N–37.6°N, 68.0°E–97.5°E) का कठोर सत्यापन एवं चार धाम व 12 ज्योतिर्लिंगों के लिए विशेष भीड़ विश्लेषण।'
+                  : 'Sovereign bounding-box validation with 21 curated sacred pilgrimage corridors, staircase exertion tiers, and curfew enforcement.'}
+              </p>
+            </div>
+            <div className="mt-5 pt-3 border-t border-[#1E3440] flex items-center justify-between text-[11px] font-mono text-neutral-400">
+              <span>National Circuits</span>
+              <span className="text-[#34D399] font-semibold">21 Pre-Seeded</span>
+            </div>
           </div>
         </div>
 
-        {/* Sliding Marquee Row 1 (Forward) */}
-        <div data-reveal="fade-left" data-reveal-delay="150" className="group relative flex overflow-hidden py-2 hover-pause">
-          <div className="flex shrink-0 gap-5 animate-marquee flex-row">
-            {[
-              {
-                name: 'Col. Vikramaditya Rawat (Retd.)',
-                role: 'Himalayan Expedition Leader, Uttarakhand',
-                avatar: 'VR',
-                stars: 5,
-                tag: 'Kedarnath & Valley',
-                review:
-                  'IGNITE’s autonomous landslide bypass redirected our 18-member group away from an active scree slide near Linchauli in Kedarnath. It literally saved lives.',
-              },
-              {
-                name: 'Sunita & Rameshwar Sharma',
-                role: 'Char Dham Senior Pilgrims, Delhi',
-                avatar: 'SS',
-                stars: 5,
-                tag: 'Badrinath Circuit',
-                review:
-                  'As senior citizens traveling to Badrinath and Kedarnath, the offline 2G health checks and AMS warnings gave our family complete peace of mind.',
-              },
-              {
-                name: 'Inspector Rajesh Negi',
-                role: 'SDRF Operations Commander, Sector 4',
-                avatar: 'RN',
-                stars: 5,
-                tag: 'Disaster Force Grid',
-                review:
-                  'The direct DEOC panic telemetry connects with zero latency. Being able to see exact GPS and medical status before dispatching rescue teams is a game-changer.',
-              },
-              {
-                name: 'Tsering Angchok',
-                role: 'Ladakh High-Altitude Mountain Guide',
-                avatar: 'TA',
-                stars: 5,
-                tag: 'Khardung La Pass (5,359m)',
-                review:
-                  'We crossed Khardung La and Pangong with zero cellular coverage. The offline topo cache and altitude acclimatization tracker worked flawlessly.',
-              },
-            ].map((rev, i) => (
-              <div
-                key={i}
-                className="w-[340px] sm:w-[420px] shrink-0 rounded-2xl border border-white/[0.08] bg-neutral-950/80 p-5 backdrop-blur-xl shadow-xl flex flex-col justify-between hover:border-[#10B981]/40 transition-all"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-1 text-amber-400">
-                      {[...Array(rev.stars)].map((_, s) => (
-                        <Star key={s} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                      ))}
-                    </div>
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-neutral-300">
-                      {rev.tag}
-                    </span>
-                  </div>
-
-                  <p className="text-xs text-neutral-300 leading-relaxed font-sans italic font-normal">
-                    "{rev.review}"
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-3 mt-4 pt-3 border-t border-[#1E3440]">
-                  <div className="w-8 h-8 rounded-full bg-[#10B981]/20 border border-[#10B981]/40 flex items-center justify-center font-bold text-xs text-[#34D399] font-display">
-                    {rev.avatar}
-                  </div>
-                  <div className="text-left">
-                    <div className="text-xs font-bold text-white font-display tracking-tight">{rev.name}</div>
-                    <div className="text-[11px] text-neutral-500 font-sans">{rev.role}</div>
-                  </div>
-                </div>
-              </div>
-            ))}
+        {/* 5.2 Architectural Comparison Matrix */}
+        <div data-reveal="fade-up" className="rounded-2xl border border-[#1E3440] bg-[#07141F]/90 backdrop-blur-xl p-6 sm:p-8 shadow-2xl mb-14">
+          <div className="text-left mb-6 border-b border-[#1E3440] pb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <div>
+              <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-[#34D399] font-semibold">
+                SYSTEM COMPARATIVE ANALYSIS
+              </span>
+              <h3 className="text-xl sm:text-2xl font-extrabold text-white font-display mt-1">
+                {language === 'hi' ? 'पारंपरिक ऐप्स बनाम IGNITE संप्रभु सुरक्षा इंजन' : 'Commercial Navigation vs. The IGNITE Sovereign Engine'}
+              </h3>
+            </div>
+            <div className="text-xs font-mono text-neutral-400">
+              {language === 'hi' ? 'प्रमाणीकृत सुरक्षा अंतर' : 'Architectural Differentiator'}
+            </div>
           </div>
 
-          {/* Duplicate loop for seamless infinite slide */}
-          <div className="flex shrink-0 gap-5 animate-marquee flex-row aria-hidden">
-            {[
-              {
-                name: 'Col. Vikramaditya Rawat (Retd.)',
-                role: 'Himalayan Expedition Leader, Uttarakhand',
-                avatar: 'VR',
-                stars: 5,
-                tag: 'Kedarnath & Valley',
-                review:
-                  'IGNITE’s autonomous landslide bypass redirected our 18-member group away from an active scree slide near Linchauli in Kedarnath. It literally saved lives.',
-              },
-              {
-                name: 'Sunita & Rameshwar Sharma',
-                role: 'Char Dham Senior Pilgrims, Delhi',
-                avatar: 'SS',
-                stars: 5,
-                tag: 'Badrinath Circuit',
-                review:
-                  'As senior citizens traveling to Badrinath and Kedarnath, the offline 2G health checks and AMS warnings gave our family complete peace of mind.',
-              },
-              {
-                name: 'Inspector Rajesh Negi',
-                role: 'SDRF Operations Commander, Sector 4',
-                avatar: 'RN',
-                stars: 5,
-                tag: 'Disaster Force Grid',
-                review:
-                  'The direct DEOC panic telemetry connects with zero latency. Being able to see exact GPS and medical status before dispatching rescue teams is a game-changer.',
-              },
-              {
-                name: 'Tsering Angchok',
-                role: 'Ladakh High-Altitude Mountain Guide',
-                avatar: 'TA',
-                stars: 5,
-                tag: 'Khardung La Pass (5,359m)',
-                review:
-                  'We crossed Khardung La and Pangong with zero cellular coverage. The offline topo cache and altitude acclimatization tracker worked flawlessly.',
-              },
-            ].map((rev, i) => (
-              <div
-                key={`dup-${i}`}
-                className="w-[340px] sm:w-[420px] shrink-0 rounded-2xl border border-white/[0.08] bg-neutral-950/80 p-5 backdrop-blur-xl shadow-xl flex flex-col justify-between hover:border-[#10B981]/40 transition-all"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-1 text-amber-400">
-                      {[...Array(rev.stars)].map((_, s) => (
-                        <Star key={s} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                      ))}
-                    </div>
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-neutral-300">
-                      {rev.tag}
-                    </span>
-                  </div>
-
-                  <p className="text-xs text-neutral-300 leading-relaxed font-sans italic font-normal">
-                    "{rev.review}"
-                  </p>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 text-left">
+            {/* Generic Commercial Apps */}
+            <div className="rounded-xl border border-white/10 bg-black/40 p-5 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-xs font-bold font-display text-neutral-300">Commercial Travel Apps</span>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-red-500/10 border border-red-500/20 text-red-400">Consumer Tier</span>
                 </div>
-
-                <div className="flex items-center gap-3 mt-4 pt-3 border-t border-[#1E3440]">
-                  <div className="w-8 h-8 rounded-full bg-[#10B981]/20 border border-[#10B981]/40 flex items-center justify-center font-bold text-xs text-[#34D399] font-display">
-                    {rev.avatar}
-                  </div>
-                  <div className="text-left">
-                    <div className="text-xs font-bold text-white font-display tracking-tight">{rev.name}</div>
-                    <div className="text-[11px] text-neutral-500 font-sans">{rev.role}</div>
-                  </div>
-                </div>
+                <p className="text-xs text-neutral-400 mb-4 font-sans leading-relaxed">
+                  Engineered exclusively for street traffic and commercial stops; completely unequipped for extreme hazards.
+                </p>
+                <ul className="space-y-2.5 text-xs text-neutral-300 font-sans">
+                  <li className="flex items-start gap-2">
+                    <X className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+                    <span>Blind to active landslides, flash floods & AMS hypoxia</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <X className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+                    <span>Fails completely when cellular 4G/5G data drops</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <X className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+                    <span>No environmental curfews or sunset trail cutoffs</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <X className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+                    <span>No emergency hospital/police dispatch telemetry</span>
+                  </li>
+                </ul>
               </div>
-            ))}
+              <div className="mt-5 pt-3 border-t border-white/5 text-[11px] font-mono text-neutral-500">
+                Data Model: Road Traffic Only
+              </div>
+            </div>
+
+            {/* Static Government Bulletins */}
+            <div className="rounded-xl border border-white/10 bg-black/40 p-5 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-xs font-bold font-display text-neutral-300">Static Disaster Bulletins</span>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/20 text-amber-400">Advisory Tier</span>
+                </div>
+                <p className="text-xs text-neutral-400 mb-4 font-sans leading-relaxed">
+                  District-level broadcast text PDFs published with high latency and zero interactive navigation.
+                </p>
+                <ul className="space-y-2.5 text-xs text-neutral-300 font-sans">
+                  <li className="flex items-start gap-2">
+                    <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                    <span>Updated manually every 12–24h without GPS coordinates</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                    <span>No dynamic rerouting or safe bypass trail calculation</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                    <span>Static web documents inaccessible in network dropouts</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                    <span>Places high cognitive burden on travelers in crisis</span>
+                  </li>
+                </ul>
+              </div>
+              <div className="mt-5 pt-3 border-t border-white/5 text-[11px] font-mono text-neutral-500">
+                Data Model: Manual PDF Bulletins
+              </div>
+            </div>
+
+            {/* IGNITE Sovereign Engine */}
+            <div className="rounded-xl border border-[#10B981]/50 bg-[#0D202B] p-5 flex flex-col justify-between shadow-[0_0_25px_rgba(16,185,129,0.12)] relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-[#10B981]/10 rounded-full blur-2xl pointer-events-none" />
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-1.5">
+                    <ShieldCheck className="w-4 h-4 text-[#34D399]" />
+                    <span className="text-xs font-bold font-display text-white">IGNITE Engine</span>
+                  </div>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#10B981]/20 border border-[#10B981]/40 text-[#34D399] font-semibold">
+                    Sovereign Standard
+                  </span>
+                </div>
+                <p className="text-xs text-neutral-300 mb-4 font-sans leading-relaxed">
+                  Real-time geospatial fusion engine with sub-second hazard evasion and zero-internet survival protocols.
+                </p>
+                <ul className="space-y-2.5 text-xs text-white font-sans">
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-[#34D399] shrink-0 mt-0.5" />
+                    <span>Live IMD alerts, ground elevation & PostGIS ST_Intersects</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-[#34D399] shrink-0 mt-0.5" />
+                    <span>Sub-450ms dynamic topological rerouting to relief shelters</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-[#34D399] shrink-0 mt-0.5" />
+                    <span>100% offline IndexedDB cache + 140-char 2G SMS SOS beacon</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-[#34D399] shrink-0 mt-0.5" />
+                    <span>Dynamic sunset curfews & enforced 15% emergency reserve</span>
+                  </li>
+                </ul>
+              </div>
+              <div className="mt-5 pt-3 border-t border-[#1E3440] text-[11px] font-mono text-[#34D399] flex items-center justify-between">
+                <span>Data Model: Real-Time Telemetry Fusion</span>
+                <span className="font-bold">Active Grid</span>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Sliding Marquee Row 2 (Reverse) */}
-        <div data-reveal="fade-right" data-reveal-delay="200" className="group relative flex overflow-hidden py-3 hover-pause">
-          <div className="flex shrink-0 gap-5 animate-marquee-reverse flex-row">
-            {[
-              {
-                name: 'Dr. Ananya Iyer',
-                role: 'Wilderness Medic & Trekker, Munnar',
-                avatar: 'AI',
-                stars: 5,
-                tag: 'Western Ghats Corridor',
-                review:
-                  'The explainable AMS and hypoxia risk scoring is scientifically spot-on. Essential for high-altitude Western Ghats and Himalayan routes.',
-              },
-              {
-                name: 'Kavita Deshmukh',
-                role: 'Solo Trekker, Maharashtra',
-                avatar: 'KD',
-                stars: 5,
-                tag: 'Spiti Valley Route',
-                review:
-                  'The one-touch SOS beacon with offline coordinate caching gave me the confidence to solo-trek through remote Himachal and Spiti passes.',
-              },
-              {
-                name: 'Arjun Nair',
-                role: 'Marine Safety Coordinator, Goa',
-                avatar: 'AN',
-                stars: 5,
-                tag: 'Arabian Sea Promenade',
-                review:
-                  'Tide prediction and sea surge alerts kept our tourist watersports groups well out of harm’s way during erratic coastal squalls.',
-              },
-              {
-                name: 'Harishchandra Joshi',
-                role: 'Katra Yatra Coordinator, J&K',
-                avatar: 'HJ',
-                stars: 5,
-                tag: 'Vaishno Devi Shrine',
-                review:
-                  'Over 500 pilgrims in our group used the offline itinerary and medical checkpoint map without a single glitch during monsoon season.',
-              },
-            ].map((rev, i) => (
-              <div
-                key={i}
-                className="w-[340px] sm:w-[420px] shrink-0 rounded-2xl border border-white/[0.08] bg-neutral-950/80 p-5 backdrop-blur-xl shadow-xl flex flex-col justify-between hover:border-[#10B981]/40 transition-all"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-1 text-amber-400">
-                      {[...Array(rev.stars)].map((_, s) => (
-                        <Star key={s} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                      ))}
-                    </div>
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-neutral-300">
-                      {rev.tag}
-                    </span>
-                  </div>
-
-                  <p className="text-xs text-neutral-300 leading-relaxed font-sans italic font-normal">
-                    "{rev.review}"
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-3 mt-4 pt-3 border-t border-[#1E3440]">
-                  <div className="w-8 h-8 rounded-full bg-[#10B981]/20 border border-[#10B981]/40 flex items-center justify-center font-bold text-xs text-[#34D399] font-display">
-                    {rev.avatar}
-                  </div>
-                  <div className="text-left">
-                    <div className="text-xs font-bold text-white font-display tracking-tight">{rev.name}</div>
-                    <div className="text-[11px] text-neutral-500 font-sans">{rev.role}</div>
-                  </div>
-                </div>
+        {/* 5.3 Live Telemetry Data Fusion Pipeline Strip */}
+        <div data-reveal="fade-up" className="rounded-2xl border border-[#1E3440] bg-[#0D202B]/60 backdrop-blur-xl p-5 sm:p-6 text-left shadow-xl">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-[#1E3440]">
+            <div>
+              <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#34D399] font-semibold">
+                END-TO-END TELEMETRY PIPELINE
               </div>
-            ))}
+              <h4 className="text-base font-bold text-white font-display mt-0.5">
+                {language === 'hi' ? 'बहु-एजेंसी डेटा अंतर्ग्रहण एवं आपातकालीन सहायता श्रृंखला' : 'Multi-Agency Data Ingestion & Live Incident Dispatch Chain'}
+              </h4>
+            </div>
+            <button
+              onClick={() => {
+                onLaunchSimulation();
+                onSelectTab('simulation');
+              }}
+              className="btn-tactile inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/15 text-xs font-mono text-white transition-all cursor-pointer self-start md:self-auto"
+            >
+              <Workflow className="w-3.5 h-3.5 text-[#34D399]" />
+              <span>{language === 'hi' ? 'घटना सिमुलेशन देखें' : 'Simulate Incident Pipeline'}</span>
+              <ArrowRight className="w-3 h-3" />
+            </button>
           </div>
 
-          {/* Duplicate loop for seamless infinite reverse slide */}
-          <div className="flex shrink-0 gap-5 animate-marquee-reverse flex-row aria-hidden">
-            {[
-              {
-                name: 'Dr. Ananya Iyer',
-                role: 'Wilderness Medic & Trekker, Munnar',
-                avatar: 'AI',
-                stars: 5,
-                tag: 'Western Ghats Corridor',
-                review:
-                  'The explainable AMS and hypoxia risk scoring is scientifically spot-on. Essential for high-altitude Western Ghats and Himalayan routes.',
-              },
-              {
-                name: 'Kavita Deshmukh',
-                role: 'Solo Trekker, Maharashtra',
-                avatar: 'KD',
-                stars: 5,
-                tag: 'Spiti Valley Route',
-                review:
-                  'The one-touch SOS beacon with offline coordinate caching gave me the confidence to solo-trek through remote Himachal and Spiti passes.',
-              },
-              {
-                name: 'Arjun Nair',
-                role: 'Marine Safety Coordinator, Goa',
-                avatar: 'AN',
-                stars: 5,
-                tag: 'Arabian Sea Promenade',
-                review:
-                  'Tide prediction and sea surge alerts kept our tourist watersports groups well out of harm’s way during erratic coastal squalls.',
-              },
-              {
-                name: 'Harishchandra Joshi',
-                role: 'Katra Yatra Coordinator, J&K',
-                avatar: 'HJ',
-                stars: 5,
-                tag: 'Vaishno Devi Shrine',
-                review:
-                  'Over 500 pilgrims in our group used the offline itinerary and medical checkpoint map without a single glitch during monsoon season.',
-              },
-            ].map((rev, i) => (
-              <div
-                key={`dup-${i}`}
-                className="w-[340px] sm:w-[420px] shrink-0 rounded-2xl border border-white/[0.08] bg-neutral-950/80 p-5 backdrop-blur-xl shadow-xl flex flex-col justify-between hover:border-[#10B981]/40 transition-all"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-1 text-amber-400">
-                      {[...Array(rev.stars)].map((_, s) => (
-                        <Star key={s} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                      ))}
-                    </div>
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-neutral-300">
-                      {rev.tag}
-                    </span>
-                  </div>
-
-                  <p className="text-xs text-neutral-300 leading-relaxed font-sans italic font-normal">
-                    "{rev.review}"
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-3 mt-4 pt-3 border-t border-[#1E3440]">
-                  <div className="w-8 h-8 rounded-full bg-[#10B981]/20 border border-[#10B981]/40 flex items-center justify-center font-bold text-xs text-[#34D399] font-display">
-                    {rev.avatar}
-                  </div>
-                  <div className="text-left">
-                    <div className="text-xs font-bold text-white font-display tracking-tight">{rev.name}</div>
-                    <div className="text-[11px] text-neutral-500 font-sans">{rev.role}</div>
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 pt-5">
+            <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+              <div className="text-[10px] font-mono text-neutral-400 uppercase">01 • INGESTION</div>
+              <div className="text-xs font-bold text-white mt-1">IMD Doppler Radar</div>
+              <div className="text-[11px] text-neutral-400 mt-0.5">Precipitation & cloudburst alerts</div>
+            </div>
+            <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+              <div className="text-[10px] font-mono text-neutral-400 uppercase">02 • TOPOGRAPHY</div>
+              <div className="text-xs font-bold text-white mt-1">Elevation Sampling</div>
+              <div className="text-[11px] text-neutral-400 mt-0.5">Open-Meteo AMS hypoxia profile</div>
+            </div>
+            <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+              <div className="text-[10px] font-mono text-neutral-400 uppercase">03 • SPATIAL GIST</div>
+              <div className="text-xs font-bold text-white mt-1">PostGIS ST_Intersects</div>
+              <div className="text-[11px] text-neutral-400 mt-0.5">Hardware hazard polygon checks</div>
+            </div>
+            <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+              <div className="text-[10px] font-mono text-neutral-400 uppercase">04 • TOPOLOGY</div>
+              <div className="text-xs font-bold text-white mt-1">OSRM Dynamic Bypass</div>
+              <div className="text-[11px] text-neutral-400 mt-0.5">Sub-450ms shelter routing</div>
+            </div>
+            <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+              <div className="text-[10px] font-mono text-neutral-400 uppercase">05 • DISPATCH</div>
+              <div className="text-xs font-bold text-white mt-1">SDRF 2G GSM Relay</div>
+              <div className="text-[11px] text-neutral-400 mt-0.5">140-char offline telemetry payload</div>
+            </div>
           </div>
         </div>
       </section>
