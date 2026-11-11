@@ -18,7 +18,6 @@ import {
   Database,
   Workflow,
   Globe,
-  Layers,
   ShieldCheck,
   Check,
   X,
@@ -617,10 +616,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       {/* 5. Sovereign Architectural Integrity & Project Specifications */}
       <section id="architecture" className="relative mx-auto max-w-[84rem] px-4 sm:px-6 md:px-8 py-20 border-t border-[#1E3440]/60">
         <div data-reveal="fade-up" className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#10B981]/10 border border-[#10B981]/30 text-[#34D399] text-[10px] font-mono font-semibold tracking-[0.18em] uppercase mb-4 shadow-[0_0_15px_rgba(16,185,129,0.15)]">
-            <Layers className="w-3.5 h-3.5 text-[#34D399]" />
-            <span>{language === 'hi' ? 'संप्रभु वास्तुकला एवं तकनीकी विनिर्देश' : 'SOVEREIGN SYSTEM ARCHITECTURE & INTEGRITY'}</span>
-          </div>
           <h2 className="text-3xl sm:text-5xl font-extrabold tracking-[-0.03em] text-white font-display">
             {language === 'hi' ? 'राष्ट्रीय स्तर के लिए निर्मित। पूर्णतः गणितीय सुरक्षा।' : 'Engineered for India. Grounded in Deterministic Mathematics.'}
           </h2>
