@@ -18,9 +18,6 @@ import {
   Database,
   Workflow,
   Globe,
-  ShieldCheck,
-  Check,
-  X,
 } from 'lucide-react';
 import { IgniteLogo } from '../Common/IgniteLogo';
 import { getLocalizedDestinationName } from '../../services/i18n';
@@ -474,7 +471,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   </h3>
 
                   <div className="flex items-center gap-3 text-xs font-mono text-neutral-400 mt-2 pb-3 border-b border-[#1E3440]">
-                    <span>🏔 {dest.elevation}</span>
+                    <span className="flex items-center gap-1.5">
+                      <Mountain className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
+                      <span>{dest.elevation}</span>
+                    </span>
                     <span className="text-neutral-600">•</span>
                     <span className="text-neutral-400 truncate">{dest.terrain}</span>
                   </div>
@@ -759,129 +759,236 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
         {/* 5.2 Architectural Comparison Matrix */}
         <div data-reveal="fade-up" className="rounded-2xl border border-[#1E3440] bg-[#07141F]/90 backdrop-blur-xl p-6 sm:p-8 shadow-2xl mb-14">
-          <div className="text-left mb-6 border-b border-[#1E3440] pb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+          <div className="text-left mb-6 border-b border-[#1E3440] pb-5 flex flex-col md:flex-row md:items-end justify-between gap-3">
             <div>
-              <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-[#34D399] font-semibold">
-                SYSTEM COMPARATIVE ANALYSIS
+              <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-[#34D399] font-medium">
+                SYSTEM ARCHITECTURE BENCHMARK
               </span>
-              <h3 className="text-xl sm:text-2xl font-extrabold text-white font-display mt-1">
-                {language === 'hi' ? 'पारंपरिक ऐप्स बनाम IGNITE संप्रभु सुरक्षा इंजन' : 'Commercial Navigation vs. The IGNITE Sovereign Engine'}
+              <h3 className="text-xl sm:text-2xl font-extrabold text-white font-display mt-1 tracking-tight">
+                {language === 'hi' ? 'प्रणाली तुलना: पारंपरिक तकनीक बनाम IGNITE संप्रभु सुरक्षा इंजन' : 'System Benchmark: Legacy Platforms vs. IGNITE'}
               </h3>
+              <p className="text-xs text-neutral-400 font-sans mt-1 max-w-2xl leading-relaxed">
+                {language === 'hi'
+                  ? 'सामान्य उपभोक्ता जीपीएस और राज्य आपदा बुलेटिनों की तुलना में संप्रभु सुरक्षा इंजन की कार्यप्रणाली का तकनीकी विश्लेषण।'
+                  : 'Rigorous engineering evaluation across multi-hazard telemetry, autonomous evasion latency, and zero-connectivity resilience.'}
+              </p>
             </div>
-            <div className="text-xs font-mono text-neutral-400">
-              {language === 'hi' ? 'प्रमाणीकृत सुरक्षा अंतर' : 'Architectural Differentiator'}
+            <div className="text-[11px] font-mono text-neutral-400 shrink-0">
+              <span className="px-2.5 py-1 rounded bg-white/[0.04] border border-white/10 text-neutral-300">
+                Deterministic Model
+              </span>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 text-left">
-            {/* Generic Commercial Apps */}
-            <div className="rounded-xl border border-white/10 bg-black/40 p-5 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-bold font-display text-neutral-300">Commercial Travel Apps</span>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-red-500/10 border border-red-500/20 text-red-400">Consumer Tier</span>
-                </div>
-                <p className="text-xs text-neutral-400 mb-4 font-sans leading-relaxed">
-                  Engineered exclusively for street traffic and commercial stops; completely unequipped for extreme hazards.
-                </p>
-                <ul className="space-y-2.5 text-xs text-neutral-300 font-sans">
-                  <li className="flex items-start gap-2">
-                    <X className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
-                    <span>Blind to active landslides, flash floods & AMS hypoxia</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <X className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
-                    <span>Fails completely when cellular 4G/5G data drops</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <X className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
-                    <span>No environmental curfews or sunset trail cutoffs</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <X className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
-                    <span>No emergency hospital/police dispatch telemetry</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="mt-5 pt-3 border-t border-white/5 text-[11px] font-mono text-neutral-500">
-                Data Model: Road Traffic Only
-              </div>
-            </div>
+          <div className="overflow-x-auto no-scrollbar -mx-2 sm:mx-0">
+            <table className="w-full text-left border-collapse min-w-[760px]">
+              <thead>
+                <tr className="border-b border-[#1E3440] text-[10px] font-mono uppercase tracking-wider text-neutral-400">
+                  <th className="py-3.5 px-4 font-semibold w-[22%]">
+                    {language === 'hi' ? 'मूल्यांकन आयाम' : 'EVALUATION VECTOR'}
+                  </th>
+                  <th className="py-3.5 px-4 font-semibold w-[26%] text-neutral-300">
+                    <div className="flex items-center justify-between">
+                      <span>{language === 'hi' ? 'उपभोक्ता जीपीएस' : 'COMMERCIAL APPS'}</span>
+                      <span className="text-[9px] px-1.5 py-0.5 rounded bg-white/[0.05] border border-white/10 text-neutral-400 font-normal">Consumer Tier</span>
+                    </div>
+                  </th>
+                  <th className="py-3.5 px-4 font-semibold w-[26%] text-neutral-300">
+                    <div className="flex items-center justify-between">
+                      <span>{language === 'hi' ? 'आपदा बुलेटिन' : 'DISASTER BULLETINS'}</span>
+                      <span className="text-[9px] px-1.5 py-0.5 rounded bg-white/[0.05] border border-white/10 text-neutral-400 font-normal">Advisory Tier</span>
+                    </div>
+                  </th>
+                  <th className="py-3.5 px-4 font-bold text-[#34D399] bg-[#10B981]/10 rounded-t-xl border-t border-x border-[#10B981]/30 w-[26%]">
+                    <div className="flex items-center justify-between">
+                      <span>IGNITE ENGINE</span>
+                      <span className="text-[9px] px-2 py-0.5 rounded bg-[#10B981]/20 border border-[#10B981]/40 text-[#34D399] font-semibold">Sovereign Standard</span>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#1E3440]/50 text-xs">
+                {/* Row 1: Hazard Telemetry */}
+                <tr className="hover:bg-white/[0.02] transition-colors">
+                  <td className="py-4 px-4 align-top">
+                    <div className="font-semibold text-white font-display">
+                      {language === 'hi' ? 'खतरा टेलीमेट्री' : 'Hazard Telemetry'}
+                    </div>
+                    <div className="text-[10px] font-mono text-neutral-500 mt-0.5">
+                      {language === 'hi' ? 'पर्यावरणीय इनपुट' : 'Environmental Inputs'}
+                    </div>
+                  </td>
+                  <td className="py-4 px-4 align-top text-neutral-400 font-sans leading-relaxed">
+                    <span className="inline-block text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-white/[0.04] text-neutral-400 mb-1.5 border border-white/5">
+                      {language === 'hi' ? 'केवल ट्रैफिक' : 'Traffic Only'}
+                    </span>
+                    <p>{language === 'hi' ? 'सड़क जाम और दूरी मात्र; भूस्खलन, बादल फटने व एएमएस से पूर्णतः अनभिज्ञ।' : 'Road traffic and travel time only; blind to active landslides, flash floods, and AMS hypoxia.'}</p>
+                  </td>
+                  <td className="py-4 px-4 align-top text-neutral-400 font-sans leading-relaxed">
+                    <span className="inline-block text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-white/[0.04] text-neutral-400 mb-1.5 border border-white/5">
+                      {language === 'hi' ? 'मैन्युअल विवरण' : 'Manual Bulletins'}
+                    </span>
+                    <p>{language === 'hi' ? 'जिलेवार विवरणात्मक पीडीएफ; 12-24 घंटे की देरी से अपडेट व जीपीएस निर्देशांकों का अभाव।' : 'Broad district text PDFs; updated manually with 12–24h latency and no waypoint GPS coordinates.'}</p>
+                  </td>
+                  <td className="py-4 px-4 align-top bg-[#10B981]/[0.04] border-x border-[#10B981]/20 font-sans leading-relaxed">
+                    <span className="inline-block text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-[#10B981]/20 border border-[#10B981]/40 text-[#34D399] font-medium mb-1.5">
+                      {language === 'hi' ? 'सक्रिय बहु-एजेंसी टेलीमेट्री' : 'Multi-Source Fusion'}
+                    </span>
+                    <p className="text-white font-medium">{language === 'hi' ? 'आईएमडी डॉपलर रडार, ओपन-मेटियो 3D ऊंचाई व पोस्टजीआईएस स्थानिक खतरे वाले बहुभुज।' : 'Real-time IMD Doppler radar, 3D ground elevation, and PostGIS active hazard polygon intersections.'}</p>
+                  </td>
+                </tr>
 
-            {/* Static Government Bulletins */}
-            <div className="rounded-xl border border-white/10 bg-black/40 p-5 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-bold font-display text-neutral-300">Static Disaster Bulletins</span>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/20 text-amber-400">Advisory Tier</span>
-                </div>
-                <p className="text-xs text-neutral-400 mb-4 font-sans leading-relaxed">
-                  District-level broadcast text PDFs published with high latency and zero interactive navigation.
-                </p>
-                <ul className="space-y-2.5 text-xs text-neutral-300 font-sans">
-                  <li className="flex items-start gap-2">
-                    <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                    <span>Updated manually every 12–24h without GPS coordinates</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                    <span>No dynamic rerouting or safe bypass trail calculation</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                    <span>Static web documents inaccessible in network dropouts</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                    <span>Places high cognitive burden on travelers in crisis</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="mt-5 pt-3 border-t border-white/5 text-[11px] font-mono text-neutral-500">
-                Data Model: Manual PDF Bulletins
-              </div>
-            </div>
+                {/* Row 2: Dynamic Rerouting */}
+                <tr className="hover:bg-white/[0.02] transition-colors">
+                  <td className="py-4 px-4 align-top">
+                    <div className="font-semibold text-white font-display">
+                      {language === 'hi' ? 'स्वायत्त मार्ग परिवर्तन' : 'Dynamic Evasion'}
+                    </div>
+                    <div className="text-[10px] font-mono text-neutral-500 mt-0.5">
+                      {language === 'hi' ? 'आपदा बचाव प्रतिक्रिया' : 'Autonomous Rerouting'}
+                    </div>
+                  </td>
+                  <td className="py-4 px-4 align-top text-neutral-400 font-sans leading-relaxed">
+                    <span className="inline-block text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-white/[0.04] text-neutral-400 mb-1.5 border border-white/5">
+                      {language === 'hi' ? 'केवल जाम बाईपास' : 'Congestion Only'}
+                    </span>
+                    <p>{language === 'hi' ? 'केवल वाहन जाम से बचाव; भूस्खलन व बाढ़ के सक्रिय क्षेत्र में भी आगे भेजता है।' : 'Reroutes exclusively around vehicle delays; directs travelers directly into active disaster zones.'}</p>
+                  </td>
+                  <td className="py-4 px-4 align-top text-neutral-400 font-sans leading-relaxed">
+                    <span className="inline-block text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-white/[0.04] text-neutral-400 mb-1.5 border border-white/5">
+                      {language === 'hi' ? 'अनुपस्थित' : 'None'}
+                    </span>
+                    <p>{language === 'hi' ? 'कोई स्वचालित मार्ग निर्धारण नहीं; आपदा के समय यात्री को स्वयं निर्णय लेना पड़ता है।' : 'No automated routing or bypass trail calculation; relies entirely on manual personal decisions.'}</p>
+                  </td>
+                  <td className="py-4 px-4 align-top bg-[#10B981]/[0.04] border-x border-[#10B981]/20 font-sans leading-relaxed">
+                    <span className="inline-block text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-[#10B981]/20 border border-[#10B981]/40 text-[#34D399] font-medium mb-1.5">
+                      {language === 'hi' ? '< 450ms विलंबता' : '< 450ms Latency'}
+                    </span>
+                    <p className="text-white font-medium">{language === 'hi' ? 'खतरा सीमा उल्लंघन पर सुरक्षित बाईपास पगडंडियों और राहत शेल्टरों हेतु सब-सेकंड पुनर्परिकलन।' : 'Sub-450ms topological recalculation around active hazard breaches to verified disaster shelters.'}</p>
+                  </td>
+                </tr>
 
-            {/* IGNITE Sovereign Engine */}
-            <div className="rounded-xl border border-[#10B981]/50 bg-[#0D202B] p-5 flex flex-col justify-between shadow-[0_0_25px_rgba(16,185,129,0.12)] relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-[#10B981]/10 rounded-full blur-2xl pointer-events-none" />
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-1.5">
-                    <ShieldCheck className="w-4 h-4 text-[#34D399]" />
-                    <span className="text-xs font-bold font-display text-white">IGNITE Engine</span>
-                  </div>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#10B981]/20 border border-[#10B981]/40 text-[#34D399] font-semibold">
-                    Sovereign Standard
-                  </span>
-                </div>
-                <p className="text-xs text-neutral-300 mb-4 font-sans leading-relaxed">
-                  Real-time geospatial fusion engine with sub-second hazard evasion and zero-internet survival protocols.
-                </p>
-                <ul className="space-y-2.5 text-xs text-white font-sans">
-                  <li className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-[#34D399] shrink-0 mt-0.5" />
-                    <span>Live IMD alerts, ground elevation & PostGIS ST_Intersects</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-[#34D399] shrink-0 mt-0.5" />
-                    <span>Sub-450ms dynamic topological rerouting to relief shelters</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-[#34D399] shrink-0 mt-0.5" />
-                    <span>100% offline IndexedDB cache + 140-char 2G SMS SOS beacon</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-[#34D399] shrink-0 mt-0.5" />
-                    <span>Dynamic sunset curfews & enforced 15% emergency reserve</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="mt-5 pt-3 border-t border-[#1E3440] text-[11px] font-mono text-[#34D399] flex items-center justify-between">
-                <span>Data Model: Real-Time Telemetry Fusion</span>
-                <span className="font-bold">Active Grid</span>
-              </div>
-            </div>
+                {/* Row 3: Zero-Connectivity Resilience */}
+                <tr className="hover:bg-white/[0.02] transition-colors">
+                  <td className="py-4 px-4 align-top">
+                    <div className="font-semibold text-white font-display">
+                      {language === 'hi' ? 'शून्य-कनेक्टिविटी' : 'Network Resilience'}
+                    </div>
+                    <div className="text-[10px] font-mono text-neutral-500 mt-0.5">
+                      {language === 'hi' ? 'ऑफ़लाइन जीवन रक्षा' : 'Telecom Dead Zones'}
+                    </div>
+                  </td>
+                  <td className="py-4 px-4 align-top text-neutral-400 font-sans leading-relaxed">
+                    <span className="inline-block text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-white/[0.04] text-neutral-400 mb-1.5 border border-white/5">
+                      {language === 'hi' ? '4G/5G आवश्यक' : 'Requires 4G/5G'}
+                    </span>
+                    <p>{language === 'hi' ? 'रिमोट पहाड़ी दर्रों व जंगलों में मोबाइल डेटा कटते ही नेविगेशन रुक जाता है।' : 'Navigation degrades or halts completely when cellular 4G/5G data drops in remote mountain terrain.'}</p>
+                  </td>
+                  <td className="py-4 px-4 align-top text-neutral-400 font-sans leading-relaxed">
+                    <span className="inline-block text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-white/[0.04] text-neutral-400 mb-1.5 border border-white/5">
+                      {language === 'hi' ? 'इंटरनेट आश्रित' : 'Web Dependent'}
+                    </span>
+                    <p>{language === 'hi' ? 'वेबसाइटें व क्लाउड पीडीएफ़ कनेक्टिविटी कटने पर काम नहीं करतीं।' : 'Static web portals and PDFs require active internet sessions and fail completely offline.'}</p>
+                  </td>
+                  <td className="py-4 px-4 align-top bg-[#10B981]/[0.04] border-x border-[#10B981]/20 font-sans leading-relaxed">
+                    <span className="inline-block text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-[#10B981]/20 border border-[#10B981]/40 text-[#34D399] font-medium mb-1.5">
+                      {language === 'hi' ? 'ऑफ़लाइन निरंतरता' : 'Offline Persistent'}
+                    </span>
+                    <p className="text-white font-medium">{language === 'hi' ? 'ब्राउज़र IndexedDB में संपूर्ण मार्ग सुरक्षित + शून्य डेटा हेतु 140-वर्ण 2G एसएमएस रिले।' : 'Browser IndexedDB persistence with compressed 140-char 2G GSM SMS emergency dispatch payload.'}</p>
+                  </td>
+                </tr>
+
+                {/* Row 4: Curfew Enforcement */}
+                <tr className="hover:bg-white/[0.02] transition-colors">
+                  <td className="py-4 px-4 align-top">
+                    <div className="font-semibold text-white font-display">
+                      {language === 'hi' ? 'पर्यावरणीय कर्फ्यू' : 'Environmental Curfews'}
+                    </div>
+                    <div className="text-[10px] font-mono text-neutral-500 mt-0.5">
+                      {language === 'hi' ? 'सूर्यास्त मार्ग कटऑफ' : 'Sunset Trail Clamps'}
+                    </div>
+                  </td>
+                  <td className="py-4 px-4 align-top text-neutral-400 font-sans leading-relaxed">
+                    <span className="inline-block text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-white/[0.04] text-neutral-400 mb-1.5 border border-white/5">
+                      {language === 'hi' ? 'अप्रतिबंधित' : 'Unrestricted'}
+                    </span>
+                    <p>{language === 'hi' ? 'रात्रि में भी हिमस्खलन व वन्यजीव गलियारों से गुजरने की अप्रतिबंधित अनुमति देता है।' : 'Directs travelers along hazardous mountain or wildlife corridors late at night without warnings.'}</p>
+                  </td>
+                  <td className="py-4 px-4 align-top text-neutral-400 font-sans leading-relaxed">
+                    <span className="inline-block text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-white/[0.04] text-neutral-400 mb-1.5 border border-white/5">
+                      {language === 'hi' ? 'केवल सलाह' : 'Advisory Text'}
+                    </span>
+                    <p>{language === 'hi' ? 'पैसिव सुझाव जिन्हें यात्रा कार्यक्रम या डिजिटल मार्ग में लागू नहीं किया जा सकता।' : 'Passive narrative mentions without automated travel cutoff enforcement in route itineraries.'}</p>
+                  </td>
+                  <td className="py-4 px-4 align-top bg-[#10B981]/[0.04] border-x border-[#10B981]/20 font-sans leading-relaxed">
+                    <span className="inline-block text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-[#10B981]/20 border border-[#10B981]/40 text-[#34D399] font-medium mb-1.5">
+                      {language === 'hi' ? 'स्वचालित रोक' : 'Automated Clamps'}
+                    </span>
+                    <p className="text-white font-medium">{language === 'hi' ? 'पारिस्थितिक क्षेत्र अनुसार सूर्यास्त कर्फ्यू (17:00-22:00 IST) का स्वतः क्रियान्वयन।' : 'Dynamic sunset curfews (17:00–22:00 IST) enforced automatically based on terrain classification.'}</p>
+                  </td>
+                </tr>
+
+                {/* Row 5: Emergency Force Telemetry */}
+                <tr className="hover:bg-white/[0.02] transition-colors">
+                  <td className="py-4 px-4 align-top">
+                    <div className="font-semibold text-white font-display">
+                      {language === 'hi' ? 'आपातकालीन बल टेलीमेट्री' : 'Emergency Force Grid'}
+                    </div>
+                    <div className="text-[10px] font-mono text-neutral-500 mt-0.5">
+                      {language === 'hi' ? 'बचाव समन्वय' : 'SDRF / DEOC Dispatch'}
+                    </div>
+                  </td>
+                  <td className="py-4 px-4 align-top text-neutral-400 font-sans leading-relaxed">
+                    <span className="inline-block text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-white/[0.04] text-neutral-400 mb-1.5 border border-white/5">
+                      {language === 'hi' ? 'अनुपस्थित' : 'Absent'}
+                    </span>
+                    <p>{language === 'hi' ? 'आपदा मोचन बलों या आपातकालीन चिकित्सा केंद्रों से कोई सीधा तकनीकी जुड़ाव नहीं।' : 'No integration with state disaster response forces, medical triage, or SOS panic beacons.'}</p>
+                  </td>
+                  <td className="py-4 px-4 align-top text-neutral-400 font-sans leading-relaxed">
+                    <span className="inline-block text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-white/[0.04] text-neutral-400 mb-1.5 border border-white/5">
+                      {language === 'hi' ? 'स्थैतिक नंबर' : 'Static Directories'}
+                    </span>
+                    <p>{language === 'hi' ? 'सामान्य फोन नंबरों की सूची जिसमें आपातकाल में त्वरित समन्वय असंभव होता है।' : 'Unmapped regional telephone directories with high friction and manual call routing.'}</p>
+                  </td>
+                  <td className="py-4 px-4 align-top bg-[#10B981]/[0.04] border-x border-[#10B981]/20 font-sans leading-relaxed">
+                    <span className="inline-block text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-[#10B981]/20 border border-[#10B981]/40 text-[#34D399] font-medium mb-1.5">
+                      {language === 'hi' ? '15km मेश + 112' : 'Overpass Mesh + 112'}
+                    </span>
+                    <p className="text-white font-medium">{language === 'hi' ? '15 किमी दायरे में अस्पतालों व पुलिस चौकियों का लाइव मेश और सीधा डीईओसी टेलीमेट्री रिले।' : 'Automated 15km Overpass QL medical/police mesh with direct DEOC panic telemetry.'}</p>
+                  </td>
+                </tr>
+
+                {/* Row 6: Financial Risk Buffer */}
+                <tr className="hover:bg-white/[0.02] transition-colors">
+                  <td className="py-4 px-4 align-top">
+                    <div className="font-semibold text-white font-display">
+                      {language === 'hi' ? 'वित्तीय सुरक्षा बफर' : 'Financial Risk Buffer'}
+                    </div>
+                    <div className="text-[10px] font-mono text-neutral-500 mt-0.5">
+                      {language === 'hi' ? 'आपातकालीन निधि' : 'Emergency Liquidity'}
+                    </div>
+                  </td>
+                  <td className="py-4 px-4 align-top text-neutral-400 font-sans leading-relaxed">
+                    <span className="inline-block text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-white/[0.04] text-neutral-400 mb-1.5 border border-white/5">
+                      {language === 'hi' ? 'अप्रतिबंधित बजट' : 'Unregulated'}
+                    </span>
+                    <p>{language === 'hi' ? 'संकट के समय आपातकालीन निकासी या चिकित्सा हेतु कोई अनिवार्य धनराशि आरक्षित नहीं रखता।' : 'Unregulated expense estimation with zero liquidity protection for crisis evacuations.'}</p>
+                  </td>
+                  <td className="py-4 px-4 align-top text-neutral-400 font-sans leading-relaxed">
+                    <span className="inline-block text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-white/[0.04] text-neutral-400 mb-1.5 border border-white/5">
+                      {language === 'hi' ? 'अनुपस्थित' : 'None'}
+                    </span>
+                    <p>{language === 'hi' ? 'यात्रा बजट या आपातकालीन वित्तीय नियोजन का कोई प्रावधान नहीं।' : 'No financial planning or emergency fund safeguarding mechanisms.'}</p>
+                  </td>
+                  <td className="py-4 px-4 align-top bg-[#10B981]/[0.04] border-x border-b border-[#10B981]/30 rounded-b-xl font-sans leading-relaxed">
+                    <span className="inline-block text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-[#10B981]/20 border border-[#10B981]/40 text-[#34D399] font-medium mb-1.5">
+                      {language === 'hi' ? '15% आरक्षित लॉक' : '15% Reserve Locked'}
+                    </span>
+                    <p className="text-white font-medium">{language === 'hi' ? 'प्रत्येक यात्रा योजना में 15% अनिवार्य आपातकालीन निकासी आरक्षित राशि का कड़ा नियम।' : 'Mandatory 15% emergency liquidity reserve locked across all generated travel itineraries.'}</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
 
