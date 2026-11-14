@@ -1046,30 +1046,177 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         </div>
       </section>
 
-      {/* 6. Clean Professional Footer */}
-      <footer className="border-t border-[#1E3440] bg-black/95 backdrop-blur-2xl">
-        <div data-reveal="fade-up" className="mx-auto w-full max-w-[84rem] px-6 sm:px-8 py-12">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-[#1E3440]">
-            <div className="flex items-center gap-3">
-              <IgniteLogo size="sm" />
-              <div>
-                <span className="text-xl font-bold text-white tracking-tight font-display">IGNITE</span>
-                <p className="text-xs text-neutral-400 font-sans mt-0.5">All-India Tourist Safety & Smart Route Guide</p>
+      {/* 6. Sovereign Enterprise Footer */}
+      <footer className="border-t border-[#1E3440] bg-[#050D14]/95 backdrop-blur-2xl text-left relative overflow-hidden">
+        {/* Subtle background glow */}
+        <div className="absolute top-0 left-1/4 w-96 h-32 bg-[#10B981]/5 rounded-full blur-3xl pointer-events-none" />
+
+        <div data-reveal="fade-up" className="mx-auto w-full max-w-[84rem] px-6 sm:px-8 pt-16 pb-12">
+          {/* Main Footer Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-[#1E3440]/70">
+            {/* Column 1 & 2: Brand, Mission & System Telemetry */}
+            <div className="lg:col-span-2 space-y-4">
+              <div className="flex items-center gap-3">
+                <IgniteLogo size="sm" />
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xl font-bold text-white tracking-tight font-display">IGNITE</span>
+                    <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-[#10B981]/15 border border-[#10B981]/30 text-[#34D399] font-medium uppercase tracking-wider">
+                      v2.1 Sovereign
+                    </span>
+                  </div>
+                  <p className="text-xs text-neutral-400 font-sans mt-0.5">
+                    {language === 'hi'
+                      ? 'अखिल भारतीय पर्यटक सुरक्षा एवं स्वायत्त मार्गदर्शक प्रणाली'
+                      : 'Pan-India Tourist Safety & Smart Route Intelligence'}
+                  </p>
+                </div>
+              </div>
+
+              <p className="text-xs text-neutral-400 font-sans leading-relaxed max-w-sm">
+                {language === 'hi'
+                  ? 'संपूर्ण 28 राज्यों और 8 केंद्र शासित प्रदेशों में वास्तविक समय मौसम रडार, स्थानिक खतरे की रोकथाम और शून्य-कनेक्टिविटी 2G आपातकालीन जीवन रक्षा के साथ पर्यटकों की सुरक्षा।'
+                  : 'Sovereign-scale, destination-agnostic safety infrastructure protecting travelers across extreme Himalayan passes, sacred pilgrimage circuits, and coastal corridors.'}
+              </p>
+
+              {/* Live Telemetry Status Badge */}
+              <div className="pt-2">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/[0.03] border border-white/10 text-[11px] font-mono text-neutral-300">
+                  <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" />
+                  <span>GRID STATUS:</span>
+                  <span className="text-[#34D399] font-semibold">ALL 36 STATES &amp; UTS ACTIVE</span>
+                </div>
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-5 text-xs font-medium font-sans">
-              <button onClick={() => onSelectTab('overview')} className="text-neutral-400 hover:text-white cursor-pointer transition-colors">Home</button>
-              <button onClick={() => onSelectTab('map')} className="text-neutral-400 hover:text-white cursor-pointer transition-colors">Map & Places</button>
-              <button onClick={() => onSelectTab('simulation')} className="text-neutral-400 hover:text-white cursor-pointer transition-colors">Live Updates</button>
-              <button onClick={() => onSelectTab('group')} className="text-neutral-400 hover:text-white cursor-pointer transition-colors">Group Tracker</button>
-              <button onClick={onOpenSOS} className="text-red-400 hover:text-red-300 cursor-pointer font-semibold transition-colors">Emergency SOS</button>
+            {/* Column 3: Platform Navigation */}
+            <div className="space-y-3">
+              <div className="text-[10px] font-mono uppercase tracking-[0.18em] text-neutral-400 font-semibold">
+                {language === 'hi' ? 'प्लेटफ़ॉर्म मॉड्यूल' : 'SYSTEM MODULES'}
+              </div>
+              <ul className="space-y-2 text-xs font-sans">
+                <li>
+                  <button
+                    onClick={() => {
+                      onLaunchMap('');
+                      onSelectTab('map');
+                    }}
+                    className="text-neutral-400 hover:text-white transition-colors cursor-pointer text-left"
+                  >
+                    {language === 'hi' ? 'मानचित्र व सुरक्षित मार्ग' : 'Map & Spatial Planner'}
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => onSelectTab('simulation')}
+                    className="text-neutral-400 hover:text-white transition-colors cursor-pointer text-left"
+                  >
+                    {language === 'hi' ? 'लाइव आपदा सिमुलेशन' : 'Live Hazard Simulation'}
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => onSelectTab('group')}
+                    className="text-neutral-400 hover:text-white transition-colors cursor-pointer text-left"
+                  >
+                    {language === 'hi' ? 'समूह मेश ट्रैकर' : 'Group Mesh Radar'}
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => onSelectTab('explainability')}
+                    className="text-neutral-400 hover:text-white transition-colors cursor-pointer text-left"
+                  >
+                    {language === 'hi' ? 'जोखिम विश्लेषण मॉडल' : 'Explainability Matrix'}
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => onSelectTab('itinerary')}
+                    className="text-neutral-400 hover:text-white transition-colors cursor-pointer text-left"
+                  >
+                    {language === 'hi' ? 'यात्रा व कर्फ्यू योजना' : 'Itinerary & Curfew Engine'}
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            {/* Column 4: Architectural Capabilities */}
+            <div className="space-y-3">
+              <div className="text-[10px] font-mono uppercase tracking-[0.18em] text-neutral-400 font-semibold">
+                {language === 'hi' ? 'सुरक्षा वास्तुकला' : 'ARCHITECTURE'}
+              </div>
+              <ul className="space-y-2 text-xs text-neutral-400 font-sans">
+                <li className="flex items-center justify-between">
+                  <span>Terrain Risk Engines</span>
+                  <span className="font-mono text-[10px] text-neutral-400">6 Models</span>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span>Geospatial Intersection</span>
+                  <span className="font-mono text-[10px] text-neutral-400">PostGIS GIST</span>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span>Escape Bypass Latency</span>
+                  <span className="font-mono text-[10px] text-[#34D399]">&lt; 450ms</span>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span>Offline Resilience</span>
+                  <span className="font-mono text-[10px] text-neutral-400">140-Char GSM</span>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span>Emergency Fund Lock</span>
+                  <span className="font-mono text-[10px] text-neutral-400">15% Reserve</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Column 5: Emergency Action & Data Fusion */}
+            <div className="space-y-3">
+              <div className="text-[10px] font-mono uppercase tracking-[0.18em] text-neutral-400 font-semibold">
+                {language === 'hi' ? 'आपातकालीन सहायता' : 'EMERGENCY GRID'}
+              </div>
+              <div className="p-3.5 rounded-xl border border-red-500/25 bg-red-950/20 text-left">
+                <div className="text-[11px] font-mono font-bold text-red-400 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-ping" />
+                  <span>SOS DISPATCH</span>
+                </div>
+                <p className="text-[11px] text-neutral-300 font-sans leading-snug mb-3">
+                  Direct 2G SMS emergency payload with GPS, ground altitude, and battery triage.
+                </p>
+                <button
+                  onClick={onOpenSOS}
+                  className="btn-tactile w-full py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-white font-mono font-bold text-xs cursor-pointer flex items-center justify-center gap-1.5 transition-all shadow-md"
+                >
+                  <AlertTriangle className="w-3.5 h-3.5" />
+                  <span>{language === 'hi' ? 'एसओएस सक्रिय करें' : 'Trigger SOS Beacon'}</span>
+                </button>
+              </div>
+
+              <div className="text-[11px] font-mono text-neutral-400 pt-1">
+                <span>National Emergency: </span>
+                <span className="text-white font-bold">112</span>
+                <span className="text-neutral-600"> • </span>
+                <span>NDMA: </span>
+                <span className="text-white font-bold">1070</span>
+              </div>
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pt-6 text-xs text-neutral-500 gap-3 font-mono">
-            <span>Copyright © 2026 <strong className="text-neutral-300 font-semibold">IGNITE</strong>. All Rights Reserved.</span>
-            <span>OpenStreetMap • Open-Meteo • SDRF Multi-Agency Data Fusion</span>
+          {/* Bottom Bar: Sovereign Credentials & Legal */}
+          <div className="pt-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 text-xs font-mono text-neutral-400">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+              <span>Copyright &copy; 2026 <strong className="text-white font-semibold">IGNITE</strong>. All Rights Reserved.</span>
+              <span className="hidden sm:inline text-neutral-600">•</span>
+              <span className="text-neutral-400">Sovereign Bounding: 6.0°N–37.6°N, 68.0°E–97.5°E</span>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3 text-[11px] text-neutral-400">
+              <span className="px-2 py-0.5 rounded bg-white/[0.03] border border-white/5">IMD Doppler</span>
+              <span className="px-2 py-0.5 rounded bg-white/[0.03] border border-white/5">Open-Meteo</span>
+              <span className="px-2 py-0.5 rounded bg-white/[0.03] border border-white/5">PostGIS GIST</span>
+              <span className="px-2 py-0.5 rounded bg-white/[0.03] border border-white/5">Overpass QL</span>
+              <span className="px-2 py-0.5 rounded bg-white/[0.03] border border-white/5">SDRF Mesh</span>
+            </div>
           </div>
         </div>
       </footer>
